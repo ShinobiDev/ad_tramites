@@ -85,13 +85,7 @@
             <footer>
             </footer>
           </div>
-          <div id="div_alert" style="display: none" class="alert " role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-
-            <strong id="stMensaje"></strong>
-          </div>
+          @include('partials.alert')
       </body>
 @endsection
 
@@ -221,23 +215,7 @@ $(document).ready(function() {
           });
         
       }
-      function mensaje(rs){
-            var evento;
-            if(rs.respuesta){
-              evento='success';
-            }else{
-              evento='danger';
-            }
-
-        document.getElementById("div_alert").style.display='';
-        document.getElementById("stMensaje").innerHTML=rs.mensaje;
-        document.getElementById("div_alert").classList.add('alert-'+evento);
-        document.getElementById("div_alert").classList.add('alert-dismissible');
-        document.getElementById("div_alert").classList.add('fade');
-        document.getElementById("div_alert").classList.add('in');
-        document.getElementById("div_alert").classList.add('text-center');
-        
-      }
+      
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjK1P7ObTN9d1kZ8LTVU-mvoY8Uc2it1w&libraries=places&callback=iniciarApp"
         async defer></script>

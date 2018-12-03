@@ -291,7 +291,7 @@ class AnuncioController extends Controller
         $ad=new Anuncio;
         
         $arr=$request->get('data');
-        //dd($arr['tipo']);
+        //dd($arr);
         switch ($arr['tipo']) {
             case 'anuncios':
                 # code...
@@ -319,8 +319,9 @@ class AnuncioController extends Controller
                         ])
                 ->whereIn('anuncios.id_tramite',$arr['datos'])
                 ->get();
-                //dd($a);
+                dd($a);
                 $arr_anuncios=$ad->ver_anuncios($a);
+                return view("anuncios.tabla_anuncios")->with('anuncios',$arr_anuncios)->with("tramites",Tramite::all());
                 break;
             case 'mis_anuncios':
                 # code...
@@ -346,6 +347,7 @@ class AnuncioController extends Controller
                 ->get();
                 
                 $arr_anuncios=$ad->ver_anuncios($a);
+                return view("anuncios.tabla_mis_anuncios")->with('anuncios',$arr_anuncios)->with("tramites",Tramite::all());
                 break;
             case 'anuncios_vistos_por_mi':
                 # code...
@@ -376,15 +378,12 @@ class AnuncioController extends Controller
                 ->get();
                 
                 $arr_anuncios=$ad->ver_anuncios($a);
+                return view("anuncios.tabla_anuncios_vistos")->with('anuncios',$arr_anuncios)->with("tramites",Tramite::all());
                 break;        
              
         }
 
-        if(count($arr_anuncios)>0){
-            return response()->json(["respuesta"=>true,"datos"=>$arr_anuncios]);            
-        }
-        
-        return response()->json(["respuesta"=>false]);        
+          
         
     }
 }

@@ -1,10 +1,7 @@
 <script type="text/javascript">
       var url_global= "{{config('app.url')}}/";
-
-
-
        /*peticion que hace cambio del campo signature*/
-       function cambiar_datos_recarga(){
+      function cambiar_datos_recarga(){
           document.getElementById("btn_recarga").style.display='none';
           var val=document.getElementById("num_valor_recarga").value;
           var ref=document.getElementById("refRecarga").value.split("-")[0];
@@ -47,7 +44,30 @@
                    }
                });
           }
-          /*Funcion tomada del sitio 
+      /*funcion que hace la peticion ajax vistas*/ 
+      function peticion_ajax_vistas(metodo,url,data,func){
+              //debe ir como core y no public la url en producccion
+             $.ajaxSetup({
+                headers: {
+                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+             });
+             //console.log(url_global+url);
+             $.ajax({
+                   type: metodo,
+                   url: url_global+url,
+                   data:{data},
+                   //dataType: "json",
+                   success: function(result){
+                         
+                         func(result);
+                   },
+                   error: function(err){
+                        console.log(err);
+                   }
+               });
+       }
+        /*Funcion tomada del sitio 
          * http://www.antisacsor.com/articulo/10_98_dar-formato-a-numeros-en-javascript
          * Para dar formato a los numeros*/
         /**
@@ -84,9 +104,7 @@
             }
             
             return numero;
-        }
-
-        
+        }      
         /**
          * Funcion para crear el hash necesario para enviar peticion payu
          * @param  {[type]} id          [description]
@@ -136,12 +154,33 @@
         function mostrar_cargando(el,width,msn){
           $('#'+el).html('<div class="loading text-green"><img src="https://k46.kn3.net/taringa/C/7/8/D/4/A/vagonettas/5C9.gif" width="'+width+'" alt="loading" /><br/>'+msn+'</div>');
         }
-
+        function mensaje(rs){
+            var evento;
+            if(rs.respuesta){
+              evento='success';
+            }else{
+              evento='danger';
+            }
+        console.log(document.getElementById("div_alert"));    
+        document.getElementById("div_alert").style.display='';
+        document.getElementById("stMensaje").innerHTML=rs.mensaje;
+        document.getElementById("div_alert").classList.add('alert-'+evento);
+        document.getElementById("div_alert").classList.add('alert-dismissible');
+        document.getElementById("div_alert").classList.add('fade');
+        document.getElementById("div_alert").classList.add('in');
+        document.getElementById("div_alert").classList.add('text-center');
+        
+      }
 </script>
 <script type="text/javascript">
+  /**
+   * Funcion para buscar anuncios
+   * @param  {[type]} tipo [description]
+   * @return {[type]}      [description]
+   */
   function buscar_anuncios(tipo){
     console.log(tipo);
-    var t= document.getElementById('tbbody');
+    
 
 
     var el=document.getElementById('formTramites').tramite;
@@ -155,19 +194,106 @@
     }
     console.log(sel);
     if(sel.length>0){
-      peticion_ajax("POST","admin/anuncios_por_tramite",{datos:sel,tipo:tipo},function(rs){
-        console.log(rs);
-        if(rs.respuesta){
-          t.innerHTML="";
-        }else{
-          alert('No existen coincidencias');
-        }
+      peticion_ajax_vistas("POST","admin/anuncios_por_tramite",{datos:sel,tipo:tipo},function(rs){
+        console.log(rs); 
+        $('#tbbody').html(rs);
+        
       });
     }
       
     
   }
-  function draw_table(){
-    
+  /**
+   * Funcion para dibujar tabla
+   * @return {[type]} [description]
+   */
+  function draw_table(rs,tipo){
+    console.log(rs.datos);
+    var tbl=document.getElementById('tbbody');
+    tbl.innerHTML="";
+    var datos=rs.datos;
+    for(var d in datos){
+      var tr=document.createElement('tr');
+      
+      var td=document.createElement('td');
+      td.className="text-green text-center";
+      var st=document.createElement('strong');
+      var h3=document.createElement('h5');
+      h3.innerHTML=datos[d].nombre_tramite;
+      st.appendChild(h3);
+      td.appendChild(st);
+      tr.appendChild(td);
+      tbl.appendChild(tr);
+
+      var td=document.createElement('td');
+      td.className="text-center";
+      var st=document.createElement('strong');
+      var h3=document.createElement('h5');
+      h3.innerHTML=datos[d].descripcion;
+      st.appendChild(h3);
+      td.appendChild(st);
+      tr.appendChild(td);
+      tbl.appendChild(tr);
+
+      var td=document.createElement('td');
+      td.className="text-center";
+      var st=document.createElement('strong');
+      var h3=document.createElement('h5');
+      h3.innerHTML=datos[d].ciudad;
+      st.appendChild(h3);
+      td.appendChild(st);
+      tr.appendChild(td);
+      tbl.appendChild(tr);
+
+      var td=document.createElement('td');
+      td.className="text-center";
+      var st=document.createElement('strong');
+      var h3=document.createElement('h5');
+      h3.innerHTML="$ "+number_format(datos[d].valor_tramite,2,",",".");
+      st.appendChild(h3);
+      td.appendChild(st);
+      tr.appendChild(td);
+      tbl.appendChild(tr);
+
+      var td=document.createElement('td');
+      td.className="text-center";
+      
+      
+      for(var i=0;i<datos[d].calificacion;i++){
+        if(i<=3){
+          var img=document.createElement('img');
+          img.className="star";
+          img.src="{{asset('img/star.png')}}";  
+        }
+        
+
+      }
+      if(datos[d].calificacion!="0.0"){
+        td.appendChild(img);  
+      }
+      tr.appendChild(td);
+      tbl.appendChild(tr);
+
+
+      var td=document.createElement('td');
+      
+      switch(tipo){
+        case "anuncios":
+          if(datos[d].visto!=""){
+            var a=document.createElement("a");
+            a.className="btn btn-primary";
+            a.href="admin/anuncios_vistos";
+            td.appendChild(a);             
+          }else{
+
+          }
+        break;
+      }
+      
+
+      tr.appendChild(td);
+      tbl.appendChild(tr);
+
+    }
   }
 </script>
