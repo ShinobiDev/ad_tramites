@@ -1,0 +1,82 @@
+Es un "Metalbit" pero de tramitadores
+
+De transito
+
+Entonces la idea es la siguiente:
+
+Los tramitadores de Transito podran colocar su anuncio
+
+Tendran que tener activa su recarga
+
+Igual que en metalbit
+
+Las personas van a poder ver la info del que publica el anunvio gratuito yvse descuenta del valor de la recarga de forma igual a metalbit
+
+Diferencias: no habria anuncio de venta y/o compra; sino simplemente el anuncio
+
+Debemos tener unos tipos de tramites predeterminados y el tramitador indica cuales hace y en que ciudades
+
+Tipos de tramites:
+
+Matricula
+Traspaso
+Levantamiento de Prenda
+Inscripcion de Prenda
+Cancelacion de Matricula
+Traslado de Cuenta
+
+(Dejar una parte administrativa en donde se puedan editar y/o agregar mas tramites)
+
+Si yo soy tramitador al crear mi anuncio debo chulear cual de esos servicios doy y el valor que cobro por cada servicio.
+
+Y debo asociar mi ciudad de prestavion de servicio de ese anuncio.
+
+De resto todo lo demas igual a la ultima version de Metalbit
+
+2:23 p.m.
+ok
+
+Miguel, 2:25 p.m.
+Entonces debes:
+
+    Crear el dominio tutramitador.com
+
+    Instalar el mismo diseño de prismaweb.co/marketing-digital en la raiz de tu tramitador y dejarla con una cuenta regresiva que termine el 14 de Diciembre.
+
+    En Core ir haciendo el desarrollo de esa, que yo estimo podriamos tener la base para 15 dias por ahi, cierto?
+
+2:26 p.m.
+es correcto
+
+Miguel, 2:26 p.m.
+Perfect!!!
+
+2:26 p.m.
+miguel le puedo marcar
+
+Miguel, 2:26 p.m.
+Si
+
+12 min 33 s
+
+Miguel, 2:43 p.m.
+Heriberto, estos son los tramites no los coloques en mayusculas sino Tipo Oracion
+
+BLINDAJE - DESMONTE DEL BLINDAJE
+CAMBIO DE COLOR
+CAMBIO DE MOTOR
+CAMBIO DE PLACA
+CAMBIO DE SERVICIO
+CANCELACIÓN DE LA MATRÍCULA
+CERTIFICADO DE LIBERTAD Y TRADICIÓN
+DUPLICADO DE PLACA
+DUPLICADO DE LICENCIA DE TRÁNSITO
+INSCRIPCIÓN, LEVANTAMIENTO O MODIFICACIÓN DE PRENDA
+RADICACIÓN DE LA MATRÍCULA
+REGRABACIÓN DE MOTOR, VIN, SERIAL O CHASIS
+REMATRÍCULA
+TRASPASO DE PROPIEDAD
+MATRÍCULA
+TRASPASO DE PROPIEDAD A PERSONA INDETERMINADA
+TRANSFORMACIÓN (Cambio de características)
+TRASLADO DE LA MATRÍCULA
