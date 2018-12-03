@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Anuncio;
 use App\User;
 use App\Tramite;
+use App\Api;
 use DB;
 use App\Events\CompartirCodigo;
 use App\Events\NotificacionAnuncio;
@@ -95,7 +96,7 @@ class AnuncioController extends Controller
 
 
          
-      return view('anuncios.create')->with("tramites",Tramite::all());
+      return view('anuncios.create')->with("tramites",Tramite::all())->with("key",Api::where('nombre','GoogleDirections')->select('key')->get());
          
            
       

@@ -5,6 +5,8 @@ use App\Anuncio;
 use App\Tramite;
 use App\User;
 use App\Payu;
+use App\Api;
+
 use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
@@ -45,10 +47,13 @@ class DatabaseSeeder extends Seeder
         $p->type='TEST';
         $p->save();
 
+        Api::truncate();
+        $a=new Api();
+        $a->nombre="GoogleDirections";
+        $a->key="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjK1P7ObTN9d1kZ8LTVU-mvoY8Uc2it1w&libraries=places&callback=iniciarApp";
+        $a->save();    
+
         User::truncate();
-
-
-
         $u = new User; 
         $u->truncar_detalle();
         $u->nombre="EDGAR";

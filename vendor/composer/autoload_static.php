@@ -364,6 +364,7 @@ class ComposerStaticInitb9b15c2b6921efc65f4e342c0d84e544
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'App\\Tramite' => __DIR__ . '/../..' . '/app/Tramite.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
+        'App\\apis' => __DIR__ . '/../..' . '/app/apis.php',
         'ArithmeticError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/ArithmeticError.php',
         'AssertionError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/AssertionError.php',
         'Carbon\\Carbon' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Carbon.php',

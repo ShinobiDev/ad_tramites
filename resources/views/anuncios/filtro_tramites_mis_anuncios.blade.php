@@ -2,6 +2,9 @@
   	<h3 class="box-title">Tramites </h3>
   	<div style="overflow-y: scroll; height: 450px;" >
   		<form id="formTramites">
+  			<div class="checkbox">	  			
+	  			<label><input type="checkbox" name="tramite" value="0" >Todos</label>	
+	  		</div>
 	  	@foreach($tramites as $t)
 	  		<div class="checkbox">
 	  			

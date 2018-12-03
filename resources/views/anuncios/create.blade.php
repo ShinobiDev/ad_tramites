@@ -217,9 +217,7 @@ $(document).ready(function() {
       }
       
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjK1P7ObTN9d1kZ8LTVU-mvoY8Uc2it1w&libraries=places&callback=iniciarApp"
-        async defer></script>
-<script src="{{asset('js/placesapi.js')}}"></script>
+@include('partials.google_directions')
 
 
 

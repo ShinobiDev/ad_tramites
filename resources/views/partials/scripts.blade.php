@@ -186,10 +186,12 @@
     var el=document.getElementById('formTramites').tramite;
     var sel=[];
     for(var f in el){
-      
-      if(el[f].checked){
-        sel.push(el[f].value);
+      if(el[0].value == 0 && el[0].checked == false){
+        if(el[f].checked){
+          sel.push(el[f].value);
+        }  
       }
+      
       
     }
     console.log(sel);
