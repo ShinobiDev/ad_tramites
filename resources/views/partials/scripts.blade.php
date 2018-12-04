@@ -190,6 +190,9 @@
         if(el[f].checked){
           sel.push(el[f].value);
         }  
+      }else{
+        sel.push(0);
+        break;
       }
       
       

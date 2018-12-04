@@ -296,88 +296,170 @@ class AnuncioController extends Controller
         switch ($arr['tipo']) {
             case 'anuncios':
                 # code...
-                $a= Anuncio::select('anuncios.id',
-                            'anuncios.codigo_anuncio',
-                            'anuncios.descripcion_anuncio',
-                            'anuncios.estado_anuncio',
-                            'anuncios.id_user',
-                            'anuncios.ciudad',
-                            'anuncios.valor_tramite',
-                            'users.nombre',
-                            'users.email',
-                            'users.telefono',
-                            'users.valor_recarga',
-                            'users.costo_clic',
-                            'users.nota',
-                            'tramites.nombre_tramite',
-                            DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
-                ->join('users','users.id','anuncios.id_user')
-                ->join('tramites','tramites.id','anuncios.id_tramite')
-                ->where([
-                            ['users.id','<>',auth()->user()->id],
-                            ['anuncios.estado_anuncio','1']
+                if($arr['datos'][0]==0){
+                    $a= Anuncio::select('anuncios.id',
+                                        'anuncios.codigo_anuncio',
+                                        'anuncios.descripcion_anuncio',
+                                        'anuncios.estado_anuncio',
+                                        'anuncios.id_user',
+                                        'anuncios.ciudad',
+                                        'anuncios.valor_tramite',
+                                        'users.nombre',
+                                        'users.email',
+                                        'users.telefono',
+                                        'users.valor_recarga',
+                                        'users.costo_clic',
+                                        'users.nota',
+                                        'tramites.nombre_tramite',
+                                        DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
+                            ->join('users','users.id','anuncios.id_user')
+                            ->join('tramites','tramites.id','anuncios.id_tramite')
+                            ->where([
+                                        ['users.id','<>',auth()->user()->id],
+                                        ['anuncios.estado_anuncio','1']
 
-                        ])
-                ->whereIn('anuncios.id_tramite',$arr['datos'])
-                ->get();
-                dd($a);
+                                    ])                            
+                            ->get();
+                }else{
+                    $a= Anuncio::select('anuncios.id',
+                                    'anuncios.codigo_anuncio',
+                                    'anuncios.descripcion_anuncio',
+                                    'anuncios.estado_anuncio',
+                                    'anuncios.id_user',
+                                    'anuncios.ciudad',
+                                    'anuncios.valor_tramite',
+                                    'users.nombre',
+                                    'users.email',
+                                    'users.telefono',
+                                    'users.valor_recarga',
+                                    'users.costo_clic',
+                                    'users.nota',
+                                    'tramites.nombre_tramite',
+                                    DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
+                        ->join('users','users.id','anuncios.id_user')
+                        ->join('tramites','tramites.id','anuncios.id_tramite')
+                        ->where([
+                                    ['users.id','<>',auth()->user()->id],
+                                    ['anuncios.estado_anuncio','1']
+
+                                ])
+                        ->whereIn('anuncios.id_tramite',$arr['datos'])
+                        ->get();
+                }
+                
+                
                 $arr_anuncios=$ad->ver_anuncios($a);
                 return view("anuncios.tabla_anuncios")->with('anuncios',$arr_anuncios)->with("tramites",Tramite::all());
                 break;
             case 'mis_anuncios':
                 # code...
-                $a= Anuncio::select('anuncios.id',
-                            'anuncios.codigo_anuncio',
-                            'anuncios.descripcion_anuncio',
-                            'anuncios.estado_anuncio',
-                            'anuncios.id_user',
-                            'anuncios.ciudad',
-                            'anuncios.valor_tramite',
-                            'users.nombre',
-                            'users.email',
-                            'users.telefono',
-                            'users.valor_recarga',
-                            'users.costo_clic',
-                            'users.nota',
-                            'tramites.nombre_tramite',
-                            DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
-                ->join('users','users.id','anuncios.id_user')
-                ->join('tramites','tramites.id','anuncios.id_tramite')
-                ->where('users.id','=',auth()->user()->id)
-                ->whereIn('anuncios.id_tramite',$arr['datos'])
-                ->get();
+                if($arr['datos'][0]==0){
+                    $a= Anuncio::select('anuncios.id',
+                                            'anuncios.codigo_anuncio',
+                                            'anuncios.descripcion_anuncio',
+                                            'anuncios.estado_anuncio',
+                                            'anuncios.id_user',
+                                            'anuncios.ciudad',
+                                            'anuncios.valor_tramite',
+                                            'users.nombre',
+                                            'users.email',
+                                            'users.telefono',
+                                            'users.valor_recarga',
+                                            'users.costo_clic',
+                                            'users.nota',
+                                            'tramites.nombre_tramite',
+                                            DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
+                                ->join('users','users.id','anuncios.id_user')
+                                ->join('tramites','tramites.id','anuncios.id_tramite')
+                                ->where('users.id','=',auth()->user()->id)
+                                ->get();
+                        
+                }else{
+                    $a= Anuncio::select('anuncios.id',
+                                            'anuncios.codigo_anuncio',
+                                            'anuncios.descripcion_anuncio',
+                                            'anuncios.estado_anuncio',
+                                            'anuncios.id_user',
+                                            'anuncios.ciudad',
+                                            'anuncios.valor_tramite',
+                                            'users.nombre',
+                                            'users.email',
+                                            'users.telefono',
+                                            'users.valor_recarga',
+                                            'users.costo_clic',
+                                            'users.nota',
+                                            'tramites.nombre_tramite',
+                                            DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
+                                ->join('users','users.id','anuncios.id_user')
+                                ->join('tramites','tramites.id','anuncios.id_tramite')
+                                ->where('users.id','=',auth()->user()->id)
+                                ->whereIn('anuncios.id_tramite',$arr['datos'])
+                                ->get();
+                                
+                }
                 
                 $arr_anuncios=$ad->ver_anuncios($a);
                 return view("anuncios.tabla_mis_anuncios")->with('anuncios',$arr_anuncios)->with("tramites",Tramite::all());
                 break;
             case 'anuncios_vistos_por_mi':
                 # code...
-                 $a= Anuncio::select('anuncios.id',
-                            'anuncios.codigo_anuncio',
-                            'anuncios.descripcion_anuncio',
-                            'anuncios.estado_anuncio',
-                            'anuncios.id_user',
-                            'anuncios.ciudad',
-                            'anuncios.valor_tramite',
-                            'users.nombre',
-                            'users.email',
-                            'users.telefono',
-                            'users.valor_recarga',
-                            'users.costo_clic',
-                            'users.nota',
-                            'tramites.nombre_tramite',
-                            DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
-                ->join('users','users.id','anuncios.id_user')
-                ->join('tramites','tramites.id','anuncios.id_tramite')
-                ->join('detalle_clic_anuncios','detalle_clic_anuncios.id_usuario','users.id')
-                ->where([
-                            ['users.id','=',auth()->user()->id],
-                            ['anuncios.estado_anuncio','1']
+                # 
+                if($arr['datos'][0]==0){
+                    $a= Anuncio::select('anuncios.id',
+                                                'anuncios.codigo_anuncio',
+                                                'anuncios.descripcion_anuncio',
+                                                'anuncios.estado_anuncio',
+                                                'anuncios.id_user',
+                                                'anuncios.ciudad',
+                                                'anuncios.valor_tramite',
+                                                'users.nombre',
+                                                'users.email',
+                                                'users.telefono',
+                                                'users.valor_recarga',
+                                                'users.costo_clic',
+                                                'users.nota',
+                                                'tramites.nombre_tramite',
+                                                DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
+                                    ->join('users','users.id','anuncios.id_user')
+                                    ->join('tramites','tramites.id','anuncios.id_tramite')
+                                    ->join('detalle_clic_anuncios','detalle_clic_anuncios.id_usuario','users.id')
+                                    ->where([
+                                                ['users.id','=',auth()->user()->id],
+                                                ['anuncios.estado_anuncio','1']
 
-                        ])
-                ->whereIn('anuncios.id_tramite',$arr['datos'])
-                ->get();
-                
+                                            ])
+                                    ->get();
+                                    
+                }else{
+                    $a= Anuncio::select('anuncios.id',
+                                            'anuncios.codigo_anuncio',
+                                            'anuncios.descripcion_anuncio',
+                                            'anuncios.estado_anuncio',
+                                            'anuncios.id_user',
+                                            'anuncios.ciudad',
+                                            'anuncios.valor_tramite',
+                                            'users.nombre',
+                                            'users.email',
+                                            'users.telefono',
+                                            'users.valor_recarga',
+                                            'users.costo_clic',
+                                            'users.nota',
+                                            'tramites.nombre_tramite',
+                                            DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
+                                ->join('users','users.id','anuncios.id_user')
+                                ->join('tramites','tramites.id','anuncios.id_tramite')
+                                ->join('detalle_clic_anuncios','detalle_clic_anuncios.id_usuario','users.id')
+                                ->where([
+                                            ['users.id','=',auth()->user()->id],
+                                            ['anuncios.estado_anuncio','1']
+
+                                        ])
+                                ->whereIn('anuncios.id_tramite',$arr['datos'])
+                                ->get();
+                                
+                }
+
+                 
                 $arr_anuncios=$ad->ver_anuncios($a);
                 return view("anuncios.tabla_anuncios_vistos")->with('anuncios',$arr_anuncios)->with("tramites",Tramite::all());
                 break;        

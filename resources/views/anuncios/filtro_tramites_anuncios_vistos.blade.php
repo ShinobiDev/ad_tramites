@@ -1,15 +1,6 @@
 <div>
   	<h3 class="box-title">Tramites </h3>
-  	<div style="overflow-y: scroll; height: 450px;" >
-  		<form id="formTramites">
-	  	@foreach($tramites as $t)
-	  		<div class="checkbox">
-	  			
-	  			<label><input type="checkbox" name="tramite" value="{{$t->id}}">{{$t->nombre_tramite}}</label>	
-	  		</div>	  		
-	  	@endforeach	
-	  	</form>
-	</div> 
+  	@include('partials.lista_tramites')
 	@guest
 	  <a href="{{route('login')}}" class="btn btn-success" >
 	      Buscar
