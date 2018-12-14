@@ -146,6 +146,21 @@
               document.getElementById("h5_estado_"+id).innerHTML=es;
            });
         }
+        /*funcion para cambiar el es estado de un anuncio administrador*/
+        function cambiar_estado_admin(id){
+          var rng=document.getElementById("rng_"+id).value;
+          mostrar_cargando("h5_estado_"+id,10,"Un momento, por favor...");
+           peticion_ajax("get","admin/cambiar_estado_anuncio/"+id+"/"+rng,{},function(rs){
+              
+              var es="";
+              if(rs.respuesta[0].validez_anuncio=='1'){
+                es='Activo';
+              }else{
+                es='Bloquedo';
+              }
+              document.getElementById("h5_estado_"+id).innerHTML=es;
+           });
+        }
         /**
          * [funcion para mostrar cargando luego de enviar la peticion a el servidor]
          * @param  {[type]} el [description]
@@ -179,37 +194,49 @@
    * @return {[type]}      [description]
    */
   function buscar_anuncios(tipo){
-    console.log(tipo);
+    
     
 
 
     var el=document.getElementById('formTramites').tramite;
     var sel=[];
     for(var f in el){
-      if(el[0].value == 0 && el[0].checked == false){
-        if(el[f].checked){
+      
+      if(el[f].checked && el[f].value != 0 && el[f].value != undefined){
+
           sel.push(el[f].value);
-        }  
-      }else{
-        sel.push(0);
-        break;
-      }
-      
-      
+      }  
     }
+
+
+
     console.log(sel);
     if(sel.length>0){
+      document.getElementById("div_alert").style.display='none';
       peticion_ajax_vistas("POST","admin/anuncios_por_tramite",{datos:sel,tipo:tipo},function(rs){
-        console.log(rs); 
-        $('#tbbody').html(rs);
+        //console.log("LO que trae del servidor"); 
+        //console.log(rs); 
+        if(rs!=""){
+          var table = $('#users-table').DataTable();
+          //table.clear();
+          console.log(table.context[0].nTableWrapper);
+          //$('#users-table_wrapper').html("");
+          $('#users-table').html("");
+          $('#users-table').html(rs);
+        }else{
+          mensaje({respuesta:false,mensaje:"No existen coincidencias con los tramites consultados"});    
+        }
+        
         
       });
+    }else{
+      mensaje({respuesta:false,mensaje:"Debes seleccionar al menos una opción"});
     }
       
     
   }
   /**
-   * Funcion para dibujar tabla
+   * Funcion para dibujar tabla sin uso :()
    * @return {[type]} [description]
    */
   function draw_table(rs,tipo){
@@ -301,4 +328,49 @@
 
     }
   }
+  //funcion que extiende Js y serializa un formulario
+  $.fn.serializarFormulario = function()
+      {
+      var o = {};
+      console.log(this);
+      
+      if(this[0]!=undefined){
+        var elementos=this[0].elements;
+        for(var e in elementos){
+          console.log(elementos[e].required);
+          if(elementos[e].required==true && elementos[e].value ==""){
+            elementos[e].style.borderColor="blue";
+            return false;
+          }else if(elementos[e].required!=undefined){
+            elementos[e].style.borderColor="";
+          }
+        }
+
+        var a = this.serializeArray();
+        
+        $.each(a, function() {
+              
+
+           if (o[this.name]) {
+              
+
+               if (!o[this.name].push) {
+                   o[this.name] = [o[this.name]];
+               }
+                console.log(this.name);
+                
+               o[this.name].push(this.value || '');
+           } else {
+                
+                o[this.name] = this.value || '';
+                
+           }
+
+          
+        });
+        return o;
+      }else{
+        return false;
+      }
+};
 </script>

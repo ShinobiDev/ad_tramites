@@ -45,8 +45,8 @@ class ResetPassword extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->line('Estas recibiendo este correo por que hemos registrado una solcitud de recuperacion de contraseña')
-            ->action('Cambiar Clave', url(config('app.url').route('password.reset', $this->token, false)))
-            ->line('Si tu no hiciste la solcitud de el cambio, por favor omite cualquier accion de este correo');
+            ->line('Estas recibiendo este correo por que hemos registrado una solicitud de recuperación de contraseña')
+            ->action('Cambiar Clave', url(config('app.url').route('password.reset', $this->token)))
+            ->line('Si tu no hiciste la solicitud del cambio, por favor omite cualquier acción de este correo');
     }
 }

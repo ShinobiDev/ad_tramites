@@ -49,12 +49,10 @@
             </fieldset>
 
             <fieldset>
-              <legend>Más información</legend>
+              <legend>Tramites</legend>
               <div class="row " id="row_id_ad-currency">
-                  <div id="div_id_ad-place" class="col-md-2 label-col form-group">
-                    <label for="id_ad-place" class="control-label requiredField"> Tramites </label>
-                  </div>
-                  <div class="col-md-10 form-group">
+                  
+                  <div class="col-md-16 form-group">
                                         
                       @include('anuncios.btns_tramites')
                      

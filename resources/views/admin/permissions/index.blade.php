@@ -33,7 +33,7 @@
                 <tr>
                   <td>{{ $permission->id }}</td>
                   <td>{{ $permission->name }}</td>
-                  <td>{{ $permission->display_name }}</td>
+                  <td>{{ $permission->name }}</td>
                   <td>
                     @can('update',$permission)
                         <a href="{{route('permissions.edit', $permission)}}" class="btn btn btn-primary"><i class="fa fa-edit"></i></a>

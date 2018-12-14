@@ -8,13 +8,13 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'AppMetalbit') }}</title>
+    <title>{{ config('app.name') }}</title>
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <link rel="stylesheet" href="{{asset('font-awesome/css/font-awesome.css')}}">
     <link rel="stylesheet" href="{{asset('admin-lte/plugins/datatables/datatables.min.css')}}">
-
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
   <!-- Styles -->
   <style>
       html, body {
@@ -60,28 +60,26 @@
                         <li>
                            <a href="{{route('anuncios.create')}}">Publicar anuncios</a>
                         </li>
+                        @role('Admin')
+                        <li>
+                           <a href="{{route('anuncios.show',['id'=>Auth::user()->id])}}">Todos los anuncios</a>
+                        </li>
+                        <li>
+                          <a href="{{route('recargas.show')}}">Recargas</a>
+                        </li>  
+                        @endrole
+                        @role('Anunciante')
                         <li>
                            <a href="{{route('anuncios.show',['id'=>Auth::user()->id])}}">Mis anuncios</a>
                         </li>
-
-
+                        @endrole
                         <input type="hidden" value="{{Auth::user()->id}}" id="user_id">
                       @endguest
                       <li>
-                        @role('Admin')
-                         
-                         @endrole
+                       
                       </li>
 
-
-
                     </ul>
-
-
-
-
-
-
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
@@ -105,9 +103,9 @@
 
                                       <li class="dropdown">
                                         @role('Admin') {{-- Laravel-permission blade helper --}}
-                                         <!--<a href="{{route('users.index')}}">Usuarios</a>
+                                         <a href="{{route('users.index')}}">Usuarios</a>
                                          <a href="{{route('permissions.index')}}">Permisos</a>
-                                         <a href="{{route('roles.index')}}">Roles</a>-->
+                                         <a href="{{route('roles.index')}}">Roles</a>
                                         @endrole
                                         <a href="{{route('users.show', auth()->user())}}">Perfil</a>
                                         <a href="{{ route('logout') }}"
@@ -131,9 +129,6 @@
             </div>
         </nav>
 
-
-        {{-- @include('errors.404') --}}
-        {{-- @include('errors.403') --}}
         @include('partials.error')
         @include('partials.success')
         @yield('content')
@@ -153,6 +148,7 @@
     <link rel="stylesheet" href="{{asset('css/notas.css')}}">
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/recargas.js') }}"></script>
+
     {{-- <script src="{{asset('admin-lte/plugins/datatables/datatables.min.js')}}">  </script> --}}
     <script src="{{asset('admin-lte/plugins/datatables/jquery.dataTables.min.js')}}">  </script>
     <script src="{{asset('admin-lte/plugins/datatables/dataTables.buttons.min.js')}}">  </script>

@@ -8,6 +8,11 @@
             <span aria-hidden="true" >&times;</span>
           </button>
         </div>
+        @if($ad->validez_anuncio=="0")  
+          <div class="modal-body">
+            <b class="text-red">Este anuncio se encuentra bloqueado y no lo podra ver la comunidad, por favor comunicate con el administrador de {{config('app.name')}} para hacer la respectiva verificación y activación</b> 
+          </div>        
+        @endif  
         <div class="modal-body">
           <b>Nombre del ofertante:</b> {{$ad->nombre}}
         </div>

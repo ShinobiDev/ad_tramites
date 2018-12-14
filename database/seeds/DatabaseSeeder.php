@@ -35,10 +35,10 @@ class DatabaseSeeder extends Seeder
         
         $p->API_KEY='4Vj8eK4rloUd272L48hsrarnUA';
         $p->merchantId='508029';
-        $p->accountId='pRRXKOl8ikMmt9u';
+        $p->accountId='512321';
         $p->urlResponse='response';
-        $p->urlConfirm='confirm';
-        $p->urlError='error';
+        $p->urlConfirm='/confirm';
+        $p->urlError='/error';
         $p->urlApi='https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu';
         $p->type_encrypt='MD5';
         $p->razon_social='MI EMPRESA';

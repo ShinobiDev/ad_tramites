@@ -15,8 +15,11 @@
                             <label for="email" class="col-md-4 control-label">E-Mail </label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
-
+                                @if(isset($_GET['id']))
+                                    <input id="email" type="email" class="form-control" name="email" value="{{ $_GET['id'] }}" required autofocus>
+                                @else
+                                    <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
+                                @endif
                                 @if ($errors->has('email'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('email') }}</strong>

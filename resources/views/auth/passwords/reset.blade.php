@@ -1,15 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container">
     <div class="row">
         
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Recordar contraseña</div>
+                <div class="panel-heading">Cambiar contraseña</div>
 
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ config('app.url').'/admin/cambio_pass' }}">
+                    <form class="form-horizontal" method="POST" action="{{ route('cambio_credenciales') }}">
                         {{ csrf_field() }}
 
                         <input type="hidden" name="token" value="{{ $token }}">

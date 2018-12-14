@@ -150,19 +150,47 @@ $(document).ready(function() {
          var e=0;
          for(var i in t){
               if(t[i].id!=undefined){
-                console.log(document.getElementById("tra_"+t[i].id.split("_")[1]).value);
-                if(document.getElementById("tra_"+t[i].id.split("_")[1]).value == "" && document.getElementById("ch_"+t[i].id.split("_")[1]).checked == true && document.getElementById("des_tra_"+t[i].id.split("_")[1]).value == ""){
-                    document.getElementById("tra_"+t[i].id.split("_")[1]).style.border="thick solid #FFFFF";
+                 var tram=document.getElementById("tra_"+t[i].id.split("_")[1]);
+                 var des=document.getElementById("des_tra_"+t[i].id.split("_")[1]);
+                 var chk=document.getElementById("ch_"+t[i].id.split("_")[1]);
+                if((chk.checked == true && tram.value == "") || 
+                    (chk.checked == true &&
+                    des.value == "") ){
+                   
+                    var msn="";
+                    if(tram.value=="" && des.value==""){
+                      msn="No ovides agregar el valor y la descripción para cada uno de tus tramites para todos tus tramites";
+                      tram.style.border="thick solid RED";
+                      des.style.border="thick solid RED";
                     
+                    }else if(tram.value==""){
+                      msn="No ovides agregar el valor para cada uno de tus tramites para todos tus tramites";
+                      tram.style.border="thick solid RED";
+                    }else{
+                      msn="No ovides agregar la descripción para cada uno de tus tramites para todos tus tramites";
+                      des.style.border="thick solid RED";
+                    
+                    }
+
+
+
                     //document.getElementById("tra_"+t[i].id.split("_")[1]).classList.add("border border-danger");
-                    console.log(document.getElementById("tra_"+t[i].id.split("_")[1]));
-                    mensaje({mensaje:"No ovides agregar el valor para todos tus tramites",respuesta:false});
+                    //console.log(document.getElementById("tra_"+t[i].id.split("_")[1]));
+                    mensaje({mensaje:msn,respuesta:false});
                     return false;
-                }else if(document.getElementById("ch_"+t[i].id.split("_")[1]).checked == true){
-                  tramites[e]=t[i].value;
+                }else if(chk.checked == true){
+                  
+                  if(v[i].value > 99999999999){
+                    mensaje({mensaje:"El valor ingresado es demasiado alto",respuesta:false});
+                    tram.style.border="thick solid RED";
+                    return false;
+                  }  
                   valores[e]=v[i].value;
+                  tramites[e]=t[i].value;
                   descripciones[e]=d[i].value;
                   e++;
+                  tram.style.border="";
+                  des.style.border="";
                 }
               }
               
@@ -171,11 +199,12 @@ $(document).ready(function() {
           }  
            
             if(document.getElementById("id_ad-place").value==""){
-               
+               document.getElementById("id_ad-place").style.border="thick solid RED";
                mensaje({mensaje:"La ubicación es obligatoría",respuesta:false});
                return false;
             }else{
               var u={
+                direccion:document.getElementById("id_ad-place").value,
                 localidad:document.getElementById("locality").value,
                 departamento:document.getElementById("administrative_area_level_1").value,
                 ciudad:document.getElementById("country").value,
@@ -197,17 +226,30 @@ $(document).ready(function() {
               return false;
             } 
           
+
+          /*
+           * Envio la peticion
+          */
           peticion_ajax("post","admin/anuncios",d,function(rs){
             mensaje(rs);
             if(rs.respuesta){
               document.getElementById("id_ad-place").value="";
-              var tr=document.getElementsByName("tramites");
-              var v=document.getElementsByName("valor");
-              for(var t in tr ){
-                if(tr[t].checked!=false){
-                  tr[t].checked=false;
-                  v[t].value="";
-                  d[t].value="";
+              var tra=document.getElementsByName("tramites");
+              var val=document.getElementsByName("valor");
+              var ter=document.getElementsByName("terminos");
+              for(var i in tra ){
+                if(tra[i].checked!=false){
+                  console.log(tra[i].value);
+                  tra[i].checked=false;
+                  ter[i].value="";
+                  val[i].value="";
+                  var el=document.getElementById('div_tra_'+tra[i].value);
+                  document.getElementById("id_ad-place").style.border="";
+                  if(el!=null){
+                    el.style.display="none";    
+                  }
+                  
+                  
                 }
 
               }
@@ -217,9 +259,5 @@ $(document).ready(function() {
       }
       
 </script>
-@include('partials.google_directions')
-
-
-
-
+  @include('partials.google_directions')
 @endsection

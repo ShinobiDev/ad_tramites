@@ -7,11 +7,11 @@ INSERT INTO `tramites` (`id`, `nombre_tramite`, `descripcion`, `created_at`, `up
 (5, 'Cambio de placa', '', '2018-11-27 09:51:53', '2018-11-27 09:51:53'),
 (6, 'Cambio de servicio', '', '2018-11-27 09:51:53', '2018-11-27 09:51:53'),
 (7, 'Cancelación de servicio', '', '2018-11-27 09:51:53', '2018-11-27 09:51:53'),
-(8, 'Cancelación de la matricula', '', '2018-11-27 09:51:53', '2018-11-27 09:51:53'),
+(8, 'Cancelación de la matrícula', '', '2018-11-27 09:51:53', '2018-11-27 09:51:53'),
 (9, 'Cerfificado de libertad y tradición', '', '2018-11-27 09:51:53', '2018-11-27 09:51:53'),
 (10, 'Duplicado de placa', '', '2018-11-27 09:51:53', '2018-11-27 09:51:53'),
-(11, 'Duplicado de licencía de tránsito\r\n', '', '2018-11-27 09:51:53', '2018-11-27 09:51:53'),
-(12, 'Inscripcion,levantamiento o modificación', '', '2018-11-27 09:51:53', '2018-11-27 09:51:53'),
+(11, 'Duplicado de licencía de tránsito', '', '2018-11-27 09:51:53', '2018-11-27 09:51:53'),
+(12, 'Inscripción,levantamiento o modificación', '', '2018-11-27 09:51:53', '2018-11-27 09:51:53'),
 (13, 'Radicación de matrícula', '', '2018-11-27 09:51:53', '2018-11-27 09:51:53'),
 (14, 'Regrabación de motor', '', '2018-11-27 09:51:53', '2018-11-27 09:51:53'),
 (15, 'Regrabación de VIN', '', '2018-11-27 09:51:53', '2018-11-27 09:51:53'),
@@ -21,6 +21,20 @@ INSERT INTO `tramites` (`id`, `nombre_tramite`, `descripcion`, `created_at`, `up
 (19, 'Traspaso propiedad', '', '2018-11-27 09:51:53', '2018-11-27 09:51:53'),
 (20, 'Matrícula', '', '2018-11-27 09:51:53', '2018-11-27 09:51:53'),
 (21, 'Traspaso propiedad persona inter', '', '2018-11-27 09:51:53', '2018-11-27 09:51:53'),
-(22, 'Transformación (Cambio de caraC)', '', '2018-11-27 09:51:53', '2018-11-27 09:51:53'),
+(22, 'Transformación (Cambio de carac)', '', '2018-11-27 09:51:53', '2018-11-27 09:51:53'),
 (23, 'Traslado matrícula', '', '2018-11-27 09:51:53', '2018-11-27 09:51:53'),
 (24, 'Pago de impuestos', '', '2018-11-27 09:51:53', '2018-11-27 09:51:53');
+
+
+
+INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at`)
+ VALUES (1, 'Ver Usuarios', 'web', '2018-08-09 04:02:48', '2018-08-09 04:02:48'), 
+ (2, 'Crear Usuarios', 'web', '2018-08-09 04:02:48', '2018-08-09 04:02:48'), 
+ (3, 'Editar Usuarios', 'web', '2018-08-09 04:02:48', '2018-08-09 04:02:48'), 
+ (4, 'Eliminar Usuarios', 'web', '2018-08-09 04:02:48', '2018-08-09 04:02:48'),
+ (5, 'Ver Roles', 'web', '2018-08-09 04:02:48', '2018-08-09 04:02:48'),
+ (6, 'Crear Roles', 'web', '2018-08-09 04:02:48', '2018-08-09 04:02:48'), 
+ (7, 'Editar Roles', 'web', '2018-08-09 04:02:48', '2018-08-09 04:02:48'), 
+ (8, 'Eliminar Roles', 'web', '2018-08-09 04:02:48', '2018-08-09 04:02:48'),
+ (9, 'Ver Permisos', 'web', '2018-08-09 04:02:48', '2018-08-09 04:02:48'), 
+ (10, 'Editar Permisos', 'web', '2018-08-09 04:02:48', '2018-08-09 04:02:48')

@@ -9,7 +9,7 @@ use DB;
 
 class Anuncio extends Model
 {
-    protected $fillable = ['codigo_anuncio','descripcion_anuncio','id_user','ciudad','estado_anuncio'];
+    protected $fillable = ['codigo_anuncio','descripcion_anuncio','id_user','ciudad','estado_anuncio','validez_anuncio'];
   	
 
   /**
@@ -147,6 +147,7 @@ class Anuncio extends Model
                                     "id_detalle_clic"=>$id_detalle_clic,
                                     "comentarios"=>$comentarios,
                                     "estado_anuncio"=>$value->estado_anuncio,
+                                    "validez_anuncio"=>$value->validez_anuncio,
                                     "ciudad"=>$value->ciudad,
                                     "estado_dia"=>$horarios["respuesta"],
 
@@ -181,4 +182,11 @@ class Anuncio extends Model
               ->where("detalle_tramites.id_anuncio",$id)->get();
 
   }
+  public function propietario(){
+    return $this->belongsTo(User::class,'id_user');
+  }
+  public function tramite(){
+   return $this->belongsTo(Tramite::class,'id_tramite'); 
+  }
+
 }

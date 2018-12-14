@@ -31,14 +31,13 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {  
        $users = User::allowed()->get();
-       $horarios=DB::table('detalle_horario_usuario')->where('id_user',auth()->user()->id)->get();
+       $horarios=DB::table('detalle_horarios')->where('id_user',auth()->user()->id)->get();
        return view('admin.user.index')
                         ->with('users', $users)
                         ->with('horarios',$horarios)
-                        ->with("recarga",Recargas::where("user_id",auth()->user()->id)->select("valor")
-                        ->first());
+                        ->with("recarga",auth()->user()->valor_recarga);
     }
 
     /**
@@ -139,10 +138,10 @@ class UsersController extends Controller
     {
 
         //$this->authorize('update', $user);
-
+        //dd($user->nombre);
         $roles = Role::with('permissions')->get();
         $permissions = Permission::pluck('name','id');
-        $horarios=DB::table('detalle_horarios')->where('id_user',Auth()->user()->id)->get();
+        $horarios=DB::table('detalle_horarios')->where('id_user',$user->id)->get();
           
         return view('admin.user.edit',compact('user', 'roles','permissions'))->with("horarios",$horarios);
     }
@@ -173,13 +172,7 @@ class UsersController extends Controller
 
     public function update(UpdateUserRequest $request, User $user)
     {
-
-        
-
-        //$this->authorize('Update', $user);
-        //dd($request->validated());
-        //dd($request);
-        //dd($user);
+  
         $uo=User::where("id",$user->id)->get();
         //dd($uo[0]->email);
         if($uo[0]->email!=$request["email"]){
@@ -193,7 +186,7 @@ class UsersController extends Controller
             $arr["nombre"]=$data["nombre"];
             $arr["telefono"]=$data["telefono"];;
             if(array_key_exists("password", $data)){
-                $arr["password"]=Hash::make($data["password"]);    
+                $arr["password"]=bcrypt($data["password"]);    
             }
             //dd($arr);
             if(filter_var($request["email"], FILTER_VALIDATE_EMAIL)){
@@ -303,24 +296,24 @@ class UsersController extends Controller
         return response()->json(["respuesta"=>false]);
     }
 
-    public function cambio_clave(Request $request){
-      //dd(bcrypt($request['password']));
-      //dd($request);
-      User::where("email",$request['email'])->update(['password'=>bcrypt($request['password'])]);
-     return back()->with('success', 'Cambio realizado correctamente');
+        public function cambio_pass(Request $request){
+          
+         User::where("email",$request['email'])->update(['password'=>bcrypt($request['password'])]);
+         return redirect()->route('login',["id"=>$request['email']])->with('success', 'Se ha cambiado tu contraseña correctamente, debes ingresar con tu nueva contraseña');
 
-    }
+        }
     /*
      * Funcion que realiza consulta de los anuncios que ha clickeado el usuario
      * @return [type] [description]
      */
     public function anuncios_vistos_por_mi(){
-
+        //dd(auth()->user()->id);
        $ad_saw=DB::table('detalle_clic_anuncios')
                 ->select('anuncios.id',
                              'anuncios.codigo_anuncio',
                              'anuncios.descripcion_anuncio',
                              'anuncios.estado_anuncio',
+                             'anuncios.validez_anuncio',
                              'anuncios.id_user',
                              'anuncios.ciudad',
                              'anuncios.valor_tramite',
@@ -340,20 +333,31 @@ class UsersController extends Controller
                 ->join('users','users.id','anuncios.id_user')                
                 ->join('tramites','tramites.id','anuncios.id_tramite')                
                 ->where([
-                        ['detalle_clic_anuncios.id_usuario',Auth()->user()->id],
+                        ['detalle_clic_anuncios.id_usuario',auth()->user()->id],
                         ['anuncios.estado_anuncio','1']
                         ])
                 ->get();
-
+        //dd($ad_saw);        
        $ad_arr=new Anuncio();
        $arr_anuncios = $ad_arr->ver_anuncios($ad_saw);
-       
+       $tramites=Tramite::select('tramites.id','tramites.nombre_tramite')
+                                ->join('anuncios','tramites.id','anuncios.id_tramite')
+                                ->join('detalle_clic_anuncios','anuncios.id','detalle_clic_anuncios.id_anuncio') 
+                                ->where([
+                                    ['detalle_clic_anuncios.id_usuario',auth()->user()->id],
+                                    ['anuncios.estado_anuncio','1']
+                                ])
+                                ->groupby("tramites.id")
+                                ->get();
       //dd($arr_anuncios);
       return view('anuncios.mis_anuncios_vistos')
                 ->with('anuncios',$arr_anuncios)
-                ->with("tramites",Tramite::all())
-                ->with('success', 'Aqui esta el listado de los clic que haz visto');         
+                ->with("tramites",$tramites)
+                ->with('success', 'Aquí está el listado de los anuncios que haz visto');         
     }
+
+
+
 
 
    public function cambiar_horario( $id,$horarios){
@@ -510,5 +514,50 @@ class UsersController extends Controller
                                                                    ]);
         //dd($estado2);
         return response()->json(["respuesta"=>true,"estado"=>$estado2]);   
+    }
+
+    public function ver_recargas(){
+        $recargas = User::select('users.id',
+                                    'users.nombre',
+                                    'users.fecha_ultima_recarga',
+                                    'users.status_recarga',
+                                    'users.valor_recarga',
+              //                      'detalle_recargas.updated_at',
+                                    'users.costo_clic')
+            //->join('detalle_recargas','detalle_recargas.id_usuario','users.id')
+            //->groupBy('users.id')
+            //->orderBy('detalle_recargas.updated_at','users.id')           
+            ->get();     
+        $mi_lista=User::select('users.id',
+                                'users.nombre',
+                                'users.fecha_ultima_recarga',
+                                'detalle_recargas.tipo_recarga',
+                                'detalle_recargas.estado_detalle_recarga',
+                                'detalle_recargas.valor_recarga',
+                                'detalle_recargas.referencia_pago',
+                                'detalle_recargas.referencia_pago_pay_u',
+                                'detalle_recargas.created_at')
+                            ->join('detalle_recargas','detalle_recargas.id_usuario','users.id')
+                              ->orderBy('users.id')       
+                            ->where("users.id",$recargas[0]->id)    
+                            ->get();   
+                        
+        return view('recargas.index')->with('recargas' , $recargas)->with("mi_lista_recarga",$mi_lista);
+
+    }
+
+    public function cambiar_costo_clic(Request $request){
+
+        User::where("id",">",0)->update([
+                    'costo_clic' => $request["valor"]
+                ]);
+
+
+        return redirect()->route('recargas.show', auth()->user())->with('success', 'Se ha cambiado el costo del clic para todos los usuarios');
+    }
+
+    public function mostrar_cambiar_costo_clic(){
+        return view('recargas.create');
+        
     }
 }

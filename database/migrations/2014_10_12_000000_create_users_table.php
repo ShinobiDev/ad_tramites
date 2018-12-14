@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->integer('nota');
             $table->integer('num_calificaciones')->default(0);
             $table->string('password');
+            $table->date("fecha_ultima_recarga")->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

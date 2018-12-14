@@ -20,11 +20,11 @@
   <div class="box box-primary">
     <div class="box-header">
         <h3 class="box-title">Listados De Usuarios</h3>
-        @can ('create', $users->first())
+        {{--@can ('create', $users->first())
             <a href="{{route('users.create')}}" class="btn btn-primary pull-right" >
                 <i class="fa fa-user-plus"> Crear Usuario</i>
             </a>
-        @endcan
+        @endcan--}}
 
     </div>
     <div class="box-body">
@@ -42,7 +42,7 @@
             @foreach ($users as $user)
                 <tr>
                   <td>{{ $user->id }}</td>
-                  <td>{{ $user->name }}</td>
+                  <td>{{ $user->nombre }}</td>
                   <td>{{ $user->email }}</td>
                   <td>{{ $user->getRoleNames()->implode(', ')}}</td>
                   <td>

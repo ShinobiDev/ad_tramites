@@ -18,7 +18,7 @@
 
               <div class="box-body">
 
-                  <form method="POST" action="{{route('recargas.store')}}">
+                  <form method="POST" action="{{route('cambiar.store')}}">
                     {{csrf_field()}}
 
                         <div class="form-group">
@@ -26,7 +26,7 @@
                             <input type="number" name="valor" value="{{old('valor')}}" class="form-control">
                         </div>
                          <div class="form-group">
-                            <label for="valor">Ingresa el costo del cli que tendran todos los clientes</label>
+                            <label for="valor">Ingresa el costo del clic que tendran todos los clientes</label>
                             
                         </div>  
                         <div class="form-group">

@@ -7,7 +7,7 @@
 
     <ol class="breadcrumb">
       <li><a href="{{route('welcome')}}"><i class="fa fa-dashboard">  Inicio</i></a></li>
-      <li class="active">Usuaios</li>
+      <li class="active">Usuarios</li>
     </0l>
 
 @endsection
@@ -30,28 +30,28 @@
             <tr>
               <th>ID</th>
               <th>Identificador</th>
-              <th>Nombre</th>
               <th>Permisos</th>
               <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
             @foreach ($roles as $role)
+                {{--var_dump($role->permissions->pluck('name')->implode(', '))--}}
                 <tr>
                   <td>{{ $role->id }}</td>
                   <td>{{ $role->name }}</td>
-                  <td>{{ $role->display_name}}</td>
+                  
                   <td>{{ $role->permissions->pluck('name')->implode(', ')}}</td>
                   <td>
-                  @can ('update', $role)
+                  @can ('update', new Spatie\Permission\Models\Role)
                       <a href="{{route('roles.edit', $role)}}" class="btn btn btn-primary"><i class="fa fa-edit"></i></a>
                   @endcan
 
                    @if ($role->id !==1)
-                     @can ('delete', $role)
+                     @can ('delete', new Spatie\Permission\Models\Role)
                        <form method="POST" action="{{route('roles.destroy', $role)}}" style="display: inline">
                          {{csrf_field()}} {{method_field('DELETE')}}
-                         <button class="btn btn-danger" name="button" onclick="return confirm('¿Esta seguro de querer Eliminar  este usuraio?')">
+                         <button class="btn btn-danger" name="button" onclick="return confirm('¿Está seguro de querer eliminar este rol?')">
                              <i class="fa fa-trash"></i>
                          </button>
                        </form>

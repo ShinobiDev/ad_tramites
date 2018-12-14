@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-
+{{--dd($user->nombre)--}}
     <div class="row">
 
       <div class="col-md-6">
@@ -146,7 +146,8 @@
                 </form>
               @else
                 <ul class="list-group">
-                    @forelse ($user->permissions as $permission)
+                  
+                    @forelse ($user->getPermissionsViaRoles() as $permission)
 
                       <li class="list-group-item">{{$permission->name}}</li>
 

@@ -25,45 +25,48 @@
       </div>      
        <div class="modal-body">
 
-            <form method="POST" action="{{url('admin/calificar')}}">
+            <!--<form method="POST" action="{{url('admin/calificar')}}">-->
+                    <form id="formCalificar">
                      <h3 style="text-align: center;" class="modal-title" id="exampleModalLabel"><b>¿Cómo calificarias a este anunciante?</b></h3>
                     {{csrf_field()}}
                     <input type="hidden" name="id_anuncio_calificar" value="{{$ad->id_detalle_clic}}">
-                    <section class="clasificacion" style="text-align: center;" value="{{old('nota')}}"  required>
+                    <section class="clasificacion"style="text-align: center;" value="{{old('nota')}}"  required>
                         <input id="rd1" class="" type="radio" name="nota" value="1">
                         <label for="rd1">1</label>
                         <input id="rd2" class="" type="radio" name="nota" value="2">
                         <label for="rd2">2</label>
                         <input id="rd3" class="" type="radio" name="nota" value="3">
                         <label for="rd3">3</label>
-                        <input id="rd4" class="" type="radio" name="nota" value="4">
+                        <!--<input id="rd4" class="" type="radio" name="nota" value="4">
                         <label for="rd4">4</label>
                         <input id="rd5" class="" type="radio" name="nota" value="5">
-                        <label for="rd5">5</label>
+                        <label for="rd5">5</label>-->
                         
                     </section>  
                     <section style="text-align: center;" >
                         <h3><b>Opinión</b></h3>
-                        <select id="sel_opt_calificacion" name="sel_opt_calificacion" class="select form-control" value="{{old('sel_opt_calificacion')}}" onchange="validar_opcion()">
-                            <option value="Recomendadísimo" name="opinion">Recomendadísimo</option>
-                            <option value="Excelente atención" name="opinion">Excelente atención</option>
-                            <option value="Transacción Efectiva y segura" name="opinion">Transacción Efectiva y segura</option>
-                            <option value="Usuario no fue puntual con transacción" name="opinion">Usuario no fue puntual con transacción</option>
-                            <option value="Nunca contestó" name="opinion"> Nunca contestó</option>
-                            <option value="Posible fraude" name="opinion">Posible fraude</option>
-                            <option value="La atención no fue tan buena" name="opinion">La atención no fue tan buena</option>                            
-                            <option value="Otros" name="opinion">Otros</option>
+                        <select id="sel_opt_calificacion{{$ad->id}}" name="opinion" class="select form-control" value="{{old('sel_opt_calificacion')}}" onchange="validar_opcion({{$ad->id}})" required>
+                            <option value="0">--selecciona una opcion--</option>  
+                            <option value="Recomendadísimo" >Recomendadísimo</option>
+                            <option value="Excelente atención" >Excelente atención</option>
+                            <option value="Transacción Efectiva y segura" >Transacción Efectiva y segura</option>
+                            <option value="Usuario no fue puntual con transacción" >Usuario no fue puntual con transacción</option>
+                            <option value="Nunca contestó" > Nunca contestó</option>
+                            <option value="Posible fraude" >Posible fraude</option>
+                            <option value="La atención no fue tan buena" >La atención no fue tan buena</option>                            
+                            <option value="Otros" >Otros</option>
                         </select>
-                        <input type="text" id="opinion_otro" name="opinion_otro" class="textinput textInput form-control" placeholder="Dejanos conocer tu opinión" style="display: none;">
+                        <!--<input type="text" id="opinion_otro" name="opinion_otro" class="textinput textInput form-control" placeholder="Dejanos conocer tu opinión" style="display: none;">-->
                     </section>     
                     <div class="modal-body">
-                    <textarea maxlength="110" id="txt_opinion" class="textarea form-control" name="opinion" value="{{old('opinion')}}" placeholder="Dejanos conocer tu opinión" onkeypress="validar_tam_txt(this)">
+                    <textarea  style="display: none" maxlength="110" id="txt_opinion{{$ad->id}}" class="textarea form-control" name="opinion_txt" value="{{old('opinion')}}" placeholder="Dejanos conocer tu opinión" onkeypress="validar_tam_txt(this)">
                     </textarea >
                     <h6>Por favor trata de ser breve y claro con tu opinión para ayudar a otros usuarios a conocer y hacer mejor uso de {{config('app.name')}}</h6>
                     <h6 ><span id="lb_limit_txt">0</span> de 110 caracteres permitidos</h6>                 
                     
                     </div>  
-                    <button id="btn_calificar" type="submit" class="btn btn-primary">Calificar</button>
+                    <!--<button id="btn_calificar" type="submit" class="btn btn-primary">Calificar</button>-->
+                    <input type="button" value="Calificar" class="btn btn-primary" onclick="calificar_anunciante('{{$ad->id}}')">
             </form>
            
             
@@ -92,15 +95,49 @@
                         
                    } 
 
-                   function validar_opcion(){
-                      var sel=document.getElementById("sel_opt_calificacion").value;
-                     
+                   function validar_opcion(e){
+                      var sel=document.getElementById("sel_opt_calificacion"+e).value;
+                     //alert(sel);
                       if(sel=="Otros"){
-                        document.getElementById("opinion_otro").style.display='';
+                        document.getElementById("txt_opinion"+e).style.display='';
 
                       }else{
-                        document.getElementById("opinion_otro").style.display='none';                        
+                        document.getElementById("txt_opinion"+e).style.display='none';                        
                       }
                    }
+
+                  function calificar_anunciante(id_modal){  
+                      form=$("#formCalificar").serializarFormulario();
+                      /*
+                       * Envio la peticion
+                      */
+                     console.log(form);
+                     if(form==false){
+                        mensaje({mensaje:"Debe diligenciar todos los campos ",respuesta:false});
+                        salir_modal('infocalificar'+id_modal);
+                        return false;
+                     }else if(form.nota==undefined){
+                        mensaje({mensaje:"Debes seleccionar una nota",respuesta:false});
+                        salir_modal('infocalificar'+id_modal);
+                        return false;
+                     }
+                     if(form.opinion=="0" || form.opinion==""){
+                        mensaje({mensaje:"Debes seleccionar una opción",respuesta:false});
+                        salir_modal('infocalificar'+id_modal);
+                        return false;
+                     }
+
+                     if(form.opinion=="Otros"){
+                        form.opinion=form.opinion_txt;
+                     }
+
+                     //console.log(form);
+                      peticion_ajax("post","admin/calificar",form,function(rs){
+                        mensaje(rs);
+                        salir_modal('infocalificar'+id_modal);
+                        document.getElementById("btn_cal_"+id_modal).style.display='none';
+                      });
+                    
+                  }
 
 </script>

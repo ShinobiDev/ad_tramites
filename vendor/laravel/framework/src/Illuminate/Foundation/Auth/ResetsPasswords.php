@@ -102,6 +102,7 @@ trait ResetsPasswords
      */
     protected function resetPassword($user, $password)
     {
+        //dd($password);    
         $user->password = Hash::make($password);
 
         $user->setRememberToken(Str::random(60));

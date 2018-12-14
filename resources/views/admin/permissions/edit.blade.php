@@ -26,10 +26,10 @@
                             </div>
                             <div class="form-group">
                                 <label for="display_name">Nombre:</label>
-                                <input type="text" name="display_name" value="{{old('display_name', $permissions->display_name)}}" class="form-control">
+                                <input type="text" name="name" value="{{old('display_name', $permissions->name)}}" class="form-control">
                             </div>
 
-                            <button class="btn btn-primary btn-block"><i class="fa fa-refresh"></i> Actulizar Permisos</button>
+                            <button class="btn btn-primary btn-block"><i class="fa fa-refresh"></i> Actualizar Permisos</button>
                     </form>
 
                  </div>

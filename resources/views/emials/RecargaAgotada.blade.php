@@ -3,7 +3,7 @@
 
 ![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)
 
-Estimad@ {{$user->name}}, Tu saldo de recarga se ha agotado.
+Estimad@ {{$user->nombre}}, Tu saldo de recarga se ha agotado.
 
 
 Recuerda que debes tener saldo en la cuenta de recargas para que los usuarios puedan

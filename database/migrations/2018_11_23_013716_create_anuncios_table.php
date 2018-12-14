@@ -19,9 +19,10 @@ class CreateAnunciosTable extends Migration
             $table->string("descripcion_anuncio");
             $table->integer('id_user');
             $table->integer('id_tramite');
-            $table->decimal('valor_tramite');
+            $table->decimal('valor_tramite',12,2);
             $table->enum("estado_anuncio",['0','1'])->default('1');
             $table->string("ciudad");
+            $table->enum("validez_anuncio",['0','1'])->default('1');;
             $table->timestamps();
         });
     }

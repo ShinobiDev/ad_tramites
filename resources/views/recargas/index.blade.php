@@ -22,7 +22,7 @@
       <div class="box-header">
           <h3 class="box-title">Listado de usuarios</h3>
             
-              <a href="{{route('recargas.create')}}" class="btn btn-primary pull-right" >
+              <a href="{{route('cambiar.costo')}}" class="btn btn-primary pull-right" >
                   <i class="fa fa-car"> Cambiar costo del clic</i>
               </a>
 
@@ -46,10 +46,10 @@
               @foreach ($recargas as $recarga)
                   <tr>
                     <td>{{ $recarga->id }}</td>
-                    <td>{{ $recarga->name }}</td>
-                    <td>{{ $recarga->status }}</td>
-                    <td>{{ $recarga->valor}}</td>
-                    <td>{{ $recarga->updated_at }}</td>
+                    <td>{{ $recarga->nombre }}</td>
+                    <td>{{ $recarga->status_recarga }}</td>
+                    <td>{{ $recarga->valor_recarga}}</td>
+                    <td>{{ $recarga->fecha_ultima_recarga }}</td>
                     <td><input id="rec_{{$recarga->id}}" type="number" value="{{ $recarga->costo_clic }}" onchange='cambiar_valor_clic({{$recarga->id}})  ' /></td>
                     <td><input id="ver_{{$recarga->id}}" type="button" value="Ver recargas" onclick='ver_recargas({{$recarga->id}})' class="btn btn-primary pull-right" /></td>
 

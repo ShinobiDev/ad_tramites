@@ -12,6 +12,11 @@
             <div class="modal-header">
               <h4 style="text-align: center;" class="modal-title" id="exampleModalLabel"><b>Realiza tu tramite</b></h4>
             </div>
+            @if($ad->validez_anuncio=="0")  
+              <div class="modal-body">
+                <b class="text-red">Este anuncio se encuentra bloqueado y no lo podra ver la comunidad, por favor comunicate con el administrador de {{config('app.name')}} para hacer la respectiva verificación y activación</b> 
+              </div>        
+            @endif  
             <div class="modal-body">
               <h5 class="modal-title" id="exampleModalLabel"></h5>
                 <form method="POST" id="ad-form" action="{{$ad->url_api}}">

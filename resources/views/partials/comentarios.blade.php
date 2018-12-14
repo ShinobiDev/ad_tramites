@@ -2,7 +2,6 @@
 	<div id="div_comentarios_{{$ad->id}}" class="comentarios">
 		@foreach($ad->comentarios as $c)
 			<h5><b>{{$c->opinion}}</b></h5>
-			<h6>{{$c->comentario}}</h6>
 			<h6>Hecho por: {{$c->nombre}}</h6>
 			<h6>El día: {{DateTime::createFromFormat('Y-m-d H:i:s', $c->updated_at)->format('M d, Y h:i A')}}</h6>
 	 	@endforeach	    
@@ -40,9 +39,6 @@
 			b_opinion.innerHTML=datos[d].opinion;
 			h5_opinion.appendChild(b_opinion);
 			div.appendChild(h5_opinion);
-			var h6_comentario=document.createElement("h6");
-			h6_comentario.innerHTML=datos[d].comentario;
-			div.appendChild(h6_comentario);
 			var h6_name=document.createElement("h6");
 			h6_name.innerHTML="Hecho por: "+datos[d].nombre;
 			div.appendChild(h6_name);

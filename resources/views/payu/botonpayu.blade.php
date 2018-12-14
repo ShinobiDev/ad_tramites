@@ -13,8 +13,8 @@
   <input name="taxReturnBase" type="hidden"   value="0" >
   <input id="hd_signature_{{$ad->id}}" name="signature"     type="hidden"   value="{{trim($ad->hash)}}"  >
   <input name="buyerEmail"    type="hidden"   value="{{trim(Auth::user()->email)}}" >
-  <input name="responseUrl"    type="hidden"   value="{{trim($ad->resp)}}" >
-  <input name="confirmationUrl"    type="hidden"   value="{{trim($ad->conf)}}" >
+  <input name="responseUrl"    type="hidden"   value="{{config('app.url').trim($ad->resp)}}" >
+  <input name="confirmationUrl"    type="hidden"   value="{{config('app.url').trim($ad->conf)}}" >
   <input id="btn_comprar_{{$ad->id}}" type="submit" name="submit" value="COMPRAR" class="btn btn-default">
 </div>
                                                                 

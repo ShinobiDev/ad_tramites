@@ -86,7 +86,7 @@ class RegisterController extends Controller
         $data['password'] = str_random(8);
         $cod=User::select("codigo_referido")->orderBy("codigo_referido","DESC")->limit(1)->get();
         ////dd($cod[0]->codigo_referido);
-        ////dd(((int)$cod[0]->codigo_referido+1));
+        //dd(((int)$cod[0]->codigo_referido+1));
         //echo "1";
         $u = User::create([
             'nombre' => $data['name'],
@@ -100,6 +100,8 @@ class RegisterController extends Controller
             'nota'=>0
 
         ]);
+        //asigno el rol
+        $u->assignRole('Anunciante');
         //echo "2";
          DB::table('detalle_horarios')->insert([
                                         [

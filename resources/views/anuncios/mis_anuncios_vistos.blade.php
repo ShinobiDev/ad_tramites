@@ -29,22 +29,7 @@
              </div>
              <div class="box-body col-sm-10">
                       @include('partials.alert')
-                      <table id="vistos-table" class="table table-striped table-codensed table-hover table-resposive">
-                            <thead>
-                              <tr>
-                                <th>Tramite</th>
-                                <th>Descripción</th>
-                                <th>Ciudad</th>
-                                <th>Valor</th>
-                                <th>Nombre usuario</th>
-                                <th>Acciones</th>
-                              </tr>
-                            </thead>
-                           
-                            <tbody id="tbbody">
-                              @include('anuncios.tabla_anuncios_vistos')
-                            </tbody>
-                      </table>
+                      @include('anuncios.tabla_anuncios_vistos')
              </div>
           </div>
             

@@ -84,9 +84,9 @@
     </div>
     <footer class="">
         <div class="container">
-          <center style="height:50px;"> 
-              <a href="http://prismaweb.co/paginas-web/" target="_blank" >Implementado por: </a>
-              <a href="http://prismaweb.co/paginas-web/" target="_blank" ><img src="http://www.prismaweb.net/img/prismaweb-footer-webs.png" alt="WWW.PRISMAWEB.CO - Skype: prismaweb22" /></a>
+          <center style="height:50px;">
+              <a href="http://prismaweb.co/diseno-a-la-medida/" target="_blank" >Desarollado por: </a>
+              <a href="http://prismaweb.co/diseno-a-la-medida/" target="_blank" ><img src="http://metalbit.co/core/img/PrimaGris.png" alt="WWW.PRISMAWEB.CO - Skype: prismaweb22" /></a>
           <center/>
         </div>
     </footer>

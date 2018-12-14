@@ -15,7 +15,7 @@ Estado: PENDIENTE DE APROBACION
 Recuerda que debes tener saldo en la cuenta de recargas para que los usuarios puedan
 ver tus datos de contacto.
 
-## BALANCE DE RECARGA {{$recarga[0]->valor}} ##
+## BALANCE DE RECARGA {{$recarga[0]->valor_recarga}} ##
 
 #[Recargar][1]
 [1]:{{$url}}#
