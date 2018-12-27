@@ -17,14 +17,12 @@
               @endguest 
 
       </div>
-      <div class="row"> 
-         <div class="box-body col-sm-2">
-            @include('anuncios.filtro_tramites')
-         </div>
-         <div class="box-body col-sm-10">
+      <div class="box-body"> 
+         
+      
               @include('partials.alert')
               @include('anuncios.tabla_anuncios')              
-         </div>
+      
       </div>
 
 

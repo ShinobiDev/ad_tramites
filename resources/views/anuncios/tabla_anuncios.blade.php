@@ -1,12 +1,12 @@
 <table id="users-table" class="table table-striped table-codensed table-hover table-resposive">
                 <thead>
                   <tr>
-                    <th>Tramite</th>
-                    <th>Descripción</th>
-                    <th>Ciudad</th>
-                    <th>Valor</th>
-                    <th>Calificación</th>
-                    <th>Acciones</th>
+                    <th class="text-center">Tramite</th>
+                    <th class="text-center">Descripción</th>
+                    <th class="text-center">Ciudad</th>
+                    <th class="text-center">Valor</th>
+                    <th class="text-center">Calificación</th>
+                    <th class="text-center">Acciones</th>
                   </tr>
                 </thead>
                 <tbody id="tbbody">

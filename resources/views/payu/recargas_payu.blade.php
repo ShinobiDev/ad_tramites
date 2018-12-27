@@ -28,6 +28,7 @@
 
                                 <div class="form-group">
                                      <label for="valor">¿Estás, seguro de realizar la recarga?</label>
+                                     <label id="msnEspera"></label>
                                 </div>
                                 <div>
                                    <button onclick="acepta_recargar()" type="button" class="btn btn-secondary" >SI</button>
@@ -49,10 +50,11 @@
       function acepta_recargar(){
 
         
-        
+        mostrar_cargando("msnEspera",10,"Cargando ...");
         peticion_ajax("GET","admin/registrar_recarga/"+document.getElementById("hd_id_user").value+"/"+document.getElementById("num_valor_recarga").value+"/"+document.getElementById("refRecarga").value,{},function(rs){
             if(rs.respuesta){
               document.getElementById("btn_payu").style.display='block';
+              document.getElementById("msnEspera").innerHTML="";
             }
         });
         ////AQUI SE DEBE REGISTRAR LA RECARGA 

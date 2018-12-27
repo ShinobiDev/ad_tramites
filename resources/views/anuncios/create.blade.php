@@ -13,41 +13,15 @@
 
           <h3>Normas y requisitos de anuncios</h2>
 
-            <p>
-              <ul>
-                    {{--
-                    <li>Determinados métodos de pago requieren tener la identificación verificada antes de hacer visibles los anuncios.</li>
-                    <li>Cada operación completada cuesta a los anunciantes un 1% del importe total de la operación.
-                      <!--<a href="/fees">Vea la lista de todas las comisiones en la página Comisiones</a>.-->
-                    </li>
-                    <li>
-                        Una vez abierta una operación, el precio no se puede cambiar, excepto los casos en los que hay un error evidente en el precio.
-                    </li>
-                    <li>
-                          No se permite comprar ni vender criptomendas en nombre de otras personas (correduría).
-                    </li>
-                    <li>
-                          Solo puede usar cuentas de pago registradas a su propio nombre (¡no se aceptan pagos de terceros!).</li> <li>Debe especificar sus datos de pago en el anuncio o en el chat de la operación.
-                     </li>
-                     <li>
-                            Todas las comunicaciones se deben llevar a cabo en <a href="/">MetalBit</a>.
-                     </li>
-                      <li>
-                              Los métodos de pago marcados con la etiqueta <strong>Alto riesgo</strong> suponen un <strong>riesgo significante de fraude</strong>. Tenga cuidado y siempre verifique la identidad de sus socios en las operaciones al utilizar los métodos de pago de alto riesgo.
-                      </li>--}}
-              </ul>
-            </p>
-              <br>
-
-              <noscript>
-          <div class="row">
-              <div class="col-md-12">
-                  <div class="alert alert-danger">
-                      Debe activar JavaScript para poder completar este formulario.
-                  </div>
-              </div>
-          </div>
-              </noscript>
+            <noscript>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="alert alert-danger">
+                            Debe activar JavaScript para poder completar este formulario.
+                        </div>
+                    </div>
+                </div>
+            </noscript>
 
             <div class="row container">
                 <h3>
@@ -65,11 +39,18 @@
                       <i class="fa fa-info-circle"></i>
                       ¿Quiere aumentar su visibilidad?, los anuncios son ordenados orgánicamente situando primero a los usuarios que tengan un mayor valor de recarga total
                     </h3>
+
+                </div>
+                <div class="alert alert-warning">
+                    <h3>
+                      <i class="fa fa-info-circle"></i>
+                      Si tu servicio es comprado directamente en <a href="{{config('app.url')}}">{{config('app.name')}}</a>, el costo de este servicio es del x% 
+                    </h3>
                 </div>
 
               </div>
             </div>
-
+              @include('partials.alert')
             <legend>Crea tu anuncio</legend>
             <div class="row " id="">
                 <div id="" class="col-md-2 label-col form-group">
@@ -85,7 +66,7 @@
             <footer>
             </footer>
           </div>
-          @include('partials.alert')
+        
       </body>
 @endsection
 

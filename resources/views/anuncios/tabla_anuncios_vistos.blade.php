@@ -1,12 +1,12 @@
 <table id="users-table" class="table table-striped table-codensed table-hover table-resposive">
                             <thead>
                               <tr>
-                                <th>Tramite</th>
-                                <th>Descripción</th>
-                                <th>Ciudad</th>
-                                <th>Valor</th>
-                                <th>Nombre usuario</th>
-                                <th>Acciones</th>
+                                <th class="text-center">Tramite</th>
+                                <th class="text-center">Descripción</th>
+                                <th class="text-center">Ciudad</th>
+                                <th class="text-center">Valor</th>
+                                <th class="text-center">Nombre usuario</th>
+                                <th class="text-center">Acciones</th>
                               </tr>
                             </thead>
                            
@@ -16,9 +16,9 @@
                                   @if($ad->validez_anuncio==1)
                                       <tr>
                                       <td class="text-green text-center"><strong><h4>{{$ad->nombre_tramite}}</h4></strong></td>
-                                      <td class=" text-center"><strong><h5>{{$ad->descripcion}}</h5></strong></td>
-                                      <td class=" text-center"><strong><h5>{{$ad->ciudad}}</h5></strong></td>
-                                      <td class=" text-center"><strong><h5>$ {{number_format($ad->valor_tramite,2,',','.')}}</h5></strong></td>
+                                      <td class="text-center"><strong><h5>{{$ad->descripcion}}</h5></strong></td>
+                                      <td class="text-center"><strong><h5>{{$ad->ciudad}}</h5></strong></td>
+                                      <td class="text-center"><strong><h5>$ {{number_format($ad->valor_tramite,2,',','.')}}</h5></strong></td>
                                       <td>
                                        <strong><h5>{{$ad->nombre}}</h5></strong>
                                       </td>

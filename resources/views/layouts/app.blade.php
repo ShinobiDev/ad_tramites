@@ -65,12 +65,18 @@
                            <a href="{{route('anuncios.show',['id'=>Auth::user()->id])}}">Todos los anuncios</a>
                         </li>
                         <li>
-                          <a href="{{route('recargas.show')}}">Recargas</a>
-                        </li>  
+                          <a href="{{route('recargas.show')}}"> Estadistica recargas</a>
+                        </li> 
+                        <li>
+                          <a href="{{route('users.show', auth()->user())}}">Recargar</a>
+                        </li> 
                         @endrole
                         @role('Anunciante')
                         <li>
                            <a href="{{route('anuncios.show',['id'=>Auth::user()->id])}}">Mis anuncios</a>
+                        </li>
+                        <li>
+                          <a href="{{route('users.show', auth()->user())}}">Recargar</a>
                         </li>
                         @endrole
                         <input type="hidden" value="{{Auth::user()->id}}" id="user_id">

@@ -3,8 +3,10 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Events\NotificacionAnuncio;
 use Carbon\Carbon;
 use App\Tramite;
+use App\User;
 use DB;
 
 class Anuncio extends Model
@@ -87,7 +89,7 @@ class Anuncio extends Model
 
                         $mostrar_info=false;
 
-                        //$mostrar_payu=false;
+                        $mostrar_payu=false;
                     
                 }               
 
@@ -175,18 +177,226 @@ class Anuncio extends Model
 
      return $comentarios;
   }
-
+ 
   public function ver_tramites_anuncio($id){
       return DB::table('detalle_anuncios_tramites')
               ->join('tramites','detalle_anuncios_tramites.id_anuncio','tramites.id')
               ->where("detalle_tramites.id_anuncio",$id)->get();
 
   }
-  public function propietario(){
-    return $this->belongsTo(User::class,'id_user');
-  }
-  public function tramite(){
-   return $this->belongsTo(Tramite::class,'id_tramite'); 
-  }
+  
+  /**
+   * Funcion para registrar una venta de un anuncio
+   * @param  [type] $req [description]
+   * @return [type]      [description]
+   */
+  public function registro_venta($req){
+    switch ($req['transactionState']) {
+            case 4:
+                //aprobada
+                $comprador=User::where("email",$req['buyerEmail'])->get();
+                
+                $p=DB::table("pagos")->where("transactionId",$req['reference_pol'])->get();
+                $empresa=Payu::all();
+                //dd([$p,$comprador[0]->id]);
+                $id_ad=explode("-",$req['referenceCode'])[1];  
+                if(count($p)>0){
+                    if($p[0]->transactionId==$req['reference_pol']){
+                      //el pago ya se habia registrado con otro estado
+                      if($p[0]->estado_pago=="APROBADA"){
+                        $msn="Ya habías registrado esta referencia de pago";
 
+                        return view('payu.error_payu')->with("mensaje",$msn); 
+                        
+                      }else{    
+                        $msn="Hemos registrado tu compra";
+
+                        DB::table("pagos")->where("id",$p[0]->id)->update(["estado_pago"=>"APROBADA"]);
+
+                      $anuncio=Anuncios::where("id",$id_ad)->get();
+                      //dd($anuncio);
+                      $anunciante=User::where("id",$anuncio[0]->user_id)->get();
+
+                        //aqui debo enviar los datos de confirmación a la cuenta de correo
+                        NotificacionAnuncio::dispatch($comprador[0], $anunciante[0],[],"CompraExitosa");
+                        NotificacionAnuncio::dispatch($anunciante[0], [$comprador[0],$anuncio[0]],$p[0]->transation_value,"CompraExitosaAnunciante");
+                        return view('payu.confirmar_payu')->with("respuesta",$req)
+                            ->with("empresa",$empresa)
+                            ->with("cliente",$comprador)
+                            ->with("estado","Aprobada")
+                            ->with("entidad",$req['lapPaymentMethod']);  
+                      }
+
+                      
+                    }
+                }else{
+
+                  if(count($comprador)==0){
+                    $msn="Los datos de este usuario no corresponde a ninguno que este registrado en MetalBit ";
+
+                    return view('payu.error_payu')->with("mensaje",$msn);
+                  }else{
+                     $pg=DB::table("pagos")
+                          ->where([
+                              ["id_anuncio",$id_ad],
+                              ['id_user_compra',$comprador[0]->id],
+                              ["metodo_pago","PENDIENTE"]
+                            ])->get();
+                    if(count($pg)>0){
+                          $empresa=Payu::all();
+                          //dd($empresa);
+                          $id_ad=explode("-",$req['referenceCode'])[1];
+                          //dd([$id_ad,$comprador[0]->id]);
+                          //dd($comprador[0]->id);
+                          DB::table("pagos")
+                              ->where([
+                                  ["id_anuncio",$id_ad],
+                                  ['id_user_compra',$comprador[0]->id],
+                                  ["metodo_pago","PENDIENTE"]
+                                ])
+                              ->update([
+                             'transactionId' => $req['reference_pol'],
+                             'transactionState'=>$req['transactionState'],
+                             'transation_value' => $req['TX_VALUE'],
+                              "metodo_pago"=>$req['lapPaymentMethod'],
+                              "estado_pago"=>"APROBADA",
+                              "updated_at"=>Carbon::now('America/Bogota')
+                           ]);
+
+                            $anuncio=Anuncios::where("id",$id_ad)->get();
+                            //dd($anuncio);
+                            $anunciante=User::where("id",$anuncio[0]->user_id)->get();
+
+                                  //aqui debo enviar los datos de confirmación a la cuenta de correo
+                            NotificacionAnuncio::dispatch($comprador[0], $anunciante[0],[],"CompraExitosa");
+                            NotificacionAnuncio::dispatch($anunciante[0], [$comprador[0],$anuncio[0]],$req['TX_VALUE'],"CompraExitosaAnunciante");   
+                    }else{
+
+                        $msn="Esta referencia de pago no corresponde a ningna registrada en nuestro sistema, por favor verifica con tu plataforma de pagos ";  
+                      
+                        
+                        return view('payu.error_payu')->with("mensaje",$msn);
+                    }
+        
+                  }
+                  
+
+                  return view('payu.confirmar_payu')->with("respuesta",$req)
+                            ->with("empresa",$empresa)
+                            ->with("cliente",$comprador)
+                            ->with("estado","Aprobada")
+                            ->with("entidad",$req['lapPaymentMethod']);    
+                }
+              break;
+            case 7:
+                //dd($req);
+                //pendiente de confirmacion efecty
+                $comprador=User::where("email",$req['buyerEmail'])->get();
+                $p=DB::table("pagos")->where("transactionId",$req['reference_pol'])->get();
+                $id_ad=explode("-",$req['referenceCode'])[1];  
+                //dd([$p,$comprador[0],$id_ad]);
+                //dd($comprador);
+                if(count($p)>0){
+                    if($p[0]->transactionId==$req['reference_pol']){
+                      $msn="Ya habías registrado esta referencia de pago, su estado actual es: ".$p[0]->estado_pago;
+                      return view('payu.error_payu')->with("mensaje",$msn);
+                    }
+                      
+                }else{
+                  if(count($comprador)==0){
+                    $msn="Los datos de este usuario no corresponde a ninguno que este registrado en MetalBit ";
+
+                    return view('payu.error_payu')->with("mensaje",$msn);
+                  }else{
+                      $empresa=Payu::all();
+                      //dd($empresa);
+                      $id_ad=explode("-",$req['referenceCode'])[1];
+                      //dd([$comprador[0]->id,$id_ad]);  
+                      DB::table("pagos")
+                          ->where([
+                              ["id_anuncio",$id_ad],
+                              ['id_user_compra',$comprador[0]->id],
+                              ["metodo_pago","PENDIENTE"]
+                            ])
+                          ->update([
+                         'transactionId' => $req['reference_pol'],
+                         'transactionState'=>$req['transactionState'],
+                         'transation_value' => $req['TX_VALUE'],
+                          "metodo_pago"=>$req['lapPaymentMethod'],
+                          "estado_pago"=>"PENDIENTE",
+                          "updated_at"=>Carbon::now('America/Bogota')
+                       ]);
+
+                  }
+                  
+                  $anuncio=Anuncios::where("id",$id_ad)->get();
+                  $anunciante=User::where(".id",$anuncio[0]->user_id)->get();
+                  //aqui debo enviar los datos de confirmación a la cuenta de correo
+                  NotificacionAnuncio::dispatch($comprador[0], [],[],"CompraPendiente");
+                  
+                  //dd($anunciante[0]);
+                  NotificacionAnuncio::dispatch($anunciante[0],[$comprador[0],$anuncio[0]],$req['TX_VALUE'],"CompraPendienteAnunciante");
+
+                  return view('payu.confirmar_payu')->with("respuesta",$req)
+                            ->with("empresa",$empresa)
+                            ->with("cliente",$comprador)
+                            ->with("estado","Pendiente aprobación")
+                            ->with("entidad",$req['lapPaymentMethod']);
+                }
+                //dd(count($cliente));
+                break;
+            case 6:
+              //dd($req);
+                $id_ad=explode("-",$req['referenceCode'])[1];
+                $comprador=User::where("email",$req['buyerEmail'])->get();  
+                $pg=DB::table("pagos")
+                          ->where([
+                              ["id_anuncio",$id_ad],
+                              ['id_user_compra',$comprador[0]->id],
+                              ["metodo_pago","PENDIENTE"]
+                            ])->get();
+
+                if(count($pg)>0){
+                    
+                    
+                    
+                    //rechazada
+                    DB::table("pagos")
+                       ->where([
+                                ["id_anuncio",$id_ad],
+                                ["id_user_compra",$comprador[0]->id]
+                              ])
+                       ->update([
+                          'transactionId' => $req['reference_pol'],
+                          'transactionState'=>$req['transactionState'],              
+                          'transation_value' => $req['TX_VALUE'],
+                          'metodo_pago'=>$req['lapPaymentMethod'],
+                          'estado_pago'=>"RECHAZADA" ]);        
+                    NotificacionAnuncio::dispatch($comprador[0], [],[],"CompraRechazada");
+                      
+                    $msn="Tu pago ha sido rechazado, intentalo nuevamente o comunícate con tu banco o entidad de pagos para verificar, que esta sucediendo";  
+                }else{
+                  $pg=DB::table("pagos")
+                          ->where([
+                              ["id_anuncio",$id_ad],
+                              ['id_user_compra',$comprador[0]->id],
+                              ["transactionId",$req['reference_pol']]
+                            ])->get();
+                    if(count($pg)>0){
+                      $msn="Esta referencia de pago fue rechaza anteriormente, por favor intenta de nuevo para validar que se registre el pago";  
+                    }else{
+                      $msn="Esta referencia de pago no corresponde a ninguna registrada en nuestro sistema, por favor verifica con tu plataforma de pagos ";    
+                    }
+                    
+                }
+                
+                return view('payu.error_payu')->with("mensaje",$msn);
+                
+              break;  
+            default:
+                $msn="No Se ha registrado exitosamente tu compra ";
+                return view('payu.error_payu')->with("mensaje",$msn);
+                break;
+    }
+  }
 }

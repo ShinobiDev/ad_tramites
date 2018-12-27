@@ -1,4 +1,4 @@
-<?php
+  <?php
 
 /*
 |--------------------------------------------------------------------------
@@ -42,10 +42,12 @@ Route::group(["prefix"=>"admin","middleware"=>"auth"],function(){
   Route::get('cambiar_costo','UsersController@mostrar_cambiar_costo_clic')->name('cambiar.costo');
   Route::post('cambiar_costo','UsersController@cambiar_costo_clic')->name('cambiar.store');
   
-  Route::get("response_recarga","UsersController@registro_recargas");
+  
 
   //Route::get("confirm_recarga","");
 });
+Route::get("response_recarga","UsersController@registro_recargas");
+Route::get("response","AnuncioController@registro_venta");
 Route::get('/clearcache', function(){
       Artisan::call('cache:clear');
       Artisan::call('config:clear');

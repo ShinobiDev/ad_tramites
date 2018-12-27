@@ -23,14 +23,11 @@
           <div class="box-header">
               <h3 class="box-title">Listado de anuncios vistos por mi</h3>
           </div>
-          <div class="row"> 
-             <div class="box-body col-sm-2">
-                @include('anuncios.filtro_tramites_anuncios_vistos')
-             </div>
-             <div class="box-body col-sm-10">
+          <div class="box-body"> 
+            
+        
                       @include('partials.alert')
                       @include('anuncios.tabla_anuncios_vistos')
-             </div>
           </div>
             
      

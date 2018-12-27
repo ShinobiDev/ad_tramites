@@ -17,14 +17,12 @@
 
       </div>
 
-      <div class="row">
-          <div class="box-body col-sm-2">
-            @include('anuncios.filtro_tramites_mis_anuncios')
-          </div>  
-          <div class="box-body col-sm-10">
-            @include('partials.alert')
+      <div class="box-body">
+          
+          
+           @include('partials.alert')
            @include('anuncios.tabla_mis_anuncios')
-          </div>
+          
       </div>
 
 

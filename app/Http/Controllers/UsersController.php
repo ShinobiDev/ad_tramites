@@ -560,4 +560,11 @@ class UsersController extends Controller
         return view('recargas.create');
         
     }
+
+    public function registro_recargas(){
+        //dd($_REQUEST);
+        $u = new User;
+        return $u->registro_recargas($_REQUEST);
+
+    }
 }

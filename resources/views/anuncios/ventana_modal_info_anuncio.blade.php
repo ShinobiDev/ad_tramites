@@ -21,9 +21,7 @@
               <h5 class="modal-title" id="exampleModalLabel"></h5>
                 <form method="POST" id="ad-form" action="{{$ad->url_api}}">
                           
-                        <div class="modal-body">
-
-                          
+                        <div class="modal-body">                          
                           @if(Auth::user()->id!=$ad->id_anunciante)
                             @include('payu.botonpayu')
                           @endif

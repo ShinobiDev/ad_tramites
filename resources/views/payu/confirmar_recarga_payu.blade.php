@@ -7,19 +7,17 @@
     <div class="marco">
 
         <div class="contenedor">
-            <h2>METALBIT</h2>
+            <h2><img class="logo" src="{{asset('img/logo.png')}}"></h2>
             <div class="left">
                 <h4 class="rj">{{$respuesta['referenceCode']}}</h4>
                 <h4 class="rj">Estado de la transacción: {{$estado}}</h4>
                 <h4 class="rj">Entidad: {{$entidad}}</h4>
-                <h5>{{$empresa[0]->razon_social}}</h5>
-                <h5>Nit {{$empresa[0]->nit}}</h5>
-                <h5>Telefono: {{$empresa[0]->tel_contacto}}</h5>
-
+                <!--<h5>{{$respuesta['merchant_name']}}</h5>
+                <h5>Telefono: {{$respuesta['telephone']}}</h5>-->   
             </div>
             <div class="rigth">
                 <h4 class="rj">Cliente</h4>
-                <h5>{{$cliente[0]->name}}</h5>
+                <h5>{{$cliente[0]->nombre}}</h5>
 
             </div>
         </div>
@@ -36,7 +34,7 @@
             </div>
         </div>
         <div class="contenedor">
-            <p>Nota de Información adicional que se deseé mostrar</p>
+            <!--<p>Nota de Información adicional que se deseé mostrar</p>-->
 
             <a href="{{route('anuncios.index')}}" class="btn btn-default">Volver</a>
             <input type="button" value="Imprimir" class="btn" onclick="imprimir()">

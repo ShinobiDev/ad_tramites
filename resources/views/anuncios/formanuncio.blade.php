@@ -49,26 +49,30 @@
             </fieldset>
 
             <fieldset>
-              <legend>Tramites</legend>
-              <div class="row " id="row_id_ad-currency">
-                  
-                  <div class="col-md-16 form-group">
-                                        
-                      @include('anuncios.btns_tramites')
+              
+              <div class="row">
+                 <div id="div_id_ad-place" class="col-md-4 label-col form-group">
+                    <label for="id_ad-place" class="control-label requiredField"> Ciudad donde se realizan los tramites </label>
                      
-                  </div>
-                 <div id="div_id_ad-place" class="col-md-2 label-col form-group">
-                    <label for="id_ad-place" class="control-label requiredField"> Ubicación </label>
                  </div>
                  <div class="col-md-3">
                    <div class="controls">
-                     <input class="textinput textInput form-control" id="id_ad-place" name="ubicacion" type="text" required/>
+                    <input class="textinput textInput form-control" id="id_ad-place" name="ubicacion" type="text" required/>
                      <input type="hidden" id="locality" name="localidad">
                      <input type="hidden" id="administrative_area_level_1" name="departamento">
                      <input type="hidden" id="country" name="ciudad">
                      <input type="hidden" id="postal_code" name="cod_postal" >
                    </div>
                  </div>
+              </div>
+              <div class="row " id="row_id_ad-currency">
+                  <legend>Tramites</legend>
+                  <div class="col-md-16 form-group">
+                                        
+                      @include('anuncios.btns_tramites')
+                     
+                  </div>
+                 
                  
                  
               </div>

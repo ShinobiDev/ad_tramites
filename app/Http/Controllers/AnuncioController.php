@@ -485,4 +485,9 @@ class AnuncioController extends Controller
           
         
     }
+
+    public function registro_venta(){
+        $ad= new Anuncio;
+        $ad->registro_venta($_REQUEST);
+    }
 }

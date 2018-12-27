@@ -22,7 +22,7 @@ class DetalleRecargas extends Migration
             $table->string('referencia_pago');
             $table->string('referencia_pago_pay_u')->nullable();
             $table->string('metodo_pago')->nullable();
-            $table->enum('estado_detalle_recarga',['APROVADA','PENDIENTE','RECHAZADA','REGISTRADA']);
+            $table->enum('estado_detalle_recarga',['APROBADA','PENDIENTE','RECHAZADA','REGISTRADA']);
             $table->timestamps();
         });
     }

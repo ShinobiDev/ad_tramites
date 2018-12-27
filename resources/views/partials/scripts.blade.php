@@ -188,53 +188,7 @@
       }
 </script>
 <script type="text/javascript">
-  /**
-   * Funcion para buscar anuncios
-   * @param  {[type]} tipo [description]
-   * @return {[type]}      [description]
-   */
-  function buscar_anuncios(tipo){
-    
-    
-
-
-    var el=document.getElementById('formTramites').tramite;
-    var sel=[];
-    for(var f in el){
-      
-      if(el[f].checked && el[f].value != 0 && el[f].value != undefined){
-
-          sel.push(el[f].value);
-      }  
-    }
-
-
-
-    console.log(sel);
-    if(sel.length>0){
-      document.getElementById("div_alert").style.display='none';
-      peticion_ajax_vistas("POST","admin/anuncios_por_tramite",{datos:sel,tipo:tipo},function(rs){
-        //console.log("LO que trae del servidor"); 
-        //console.log(rs); 
-        if(rs!=""){
-          var table = $('#users-table').DataTable();
-          //table.clear();
-          console.log(table.context[0].nTableWrapper);
-          //$('#users-table_wrapper').html("");
-          $('#users-table').html("");
-          $('#users-table').html(rs);
-        }else{
-          mensaje({respuesta:false,mensaje:"No existen coincidencias con los tramites consultados"});    
-        }
-        
-        
-      });
-    }else{
-      mensaje({respuesta:false,mensaje:"Debes seleccionar al menos una opción"});
-    }
-      
-    
-  }
+  
   /**
    * Funcion para dibujar tabla sin uso :()
    * @return {[type]} [description]

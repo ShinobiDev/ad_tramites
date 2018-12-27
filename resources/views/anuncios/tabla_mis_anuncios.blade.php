@@ -51,8 +51,7 @@
                             @endif  
                           </td>
                         @endrole
-                       <td>
-                        
+                       <td>                        
                           @guest
                                  <!--AQUI SE MUESTRA LOS BOTONES PARA LOGIN -->
 
