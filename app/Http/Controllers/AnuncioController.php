@@ -7,6 +7,7 @@ use App\Anuncio;
 use App\User;
 use App\Tramite;
 use App\Api;
+use App\Variable;
 use DB;
 use App\Events\CompartirCodigo;
 use App\Events\NotificacionAnuncio;
@@ -21,6 +22,7 @@ class AnuncioController extends Controller
      */
     public function index()
     {   
+        
 
 
         $u=auth()->user();
@@ -54,7 +56,36 @@ class AnuncioController extends Controller
 
         //dd($arr);
         if(count($arr)>0){
-           $anuncios_consultados= Anuncio::select('anuncios.id',
+            if(count($_REQUEST)>0){
+                //dd($_REQUEST);
+                $anuncios_consultados= Anuncio::select('anuncios.id',
+                                                   'anuncios.codigo_anuncio',
+                                                   'anuncios.descripcion_anuncio',
+                                                   'anuncios.estado_anuncio',
+                                                   'anuncios.validez_anuncio',
+                                                   'anuncios.id_user',
+                                                   'anuncios.ciudad',
+                                                   'anuncios.valor_tramite',
+                                                   'users.nombre',
+                                                   'users.email',
+                                                   'users.telefono',
+                                                   'users.valor_recarga',
+                                                   'users.costo_clic',
+                                                   'tramites.nombre_tramite',
+                                                   DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
+                ->join('users','users.id','anuncios.id_user')
+                ->join('tramites','tramites.id','anuncios.id_tramite')
+                ->where([
+                            ['anuncios.estado_anuncio','1'],
+                            ['validez_anuncio','1'],
+                            ['ciudad','LIKE','%'.$_REQUEST['ciudad']."%"],
+                            ['tramites.nombre_tramite','LIKE','%'.$_REQUEST['tramite'].'%']
+                        ])
+                ->whereIn('users.id',$arr)
+                ->orderBy('users.valor_recarga','DESC')
+                ->get();
+            }else{
+                $anuncios_consultados= Anuncio::select('anuncios.id',
                                                    'anuncios.codigo_anuncio',
                                                    'anuncios.descripcion_anuncio',
                                                    'anuncios.estado_anuncio',
@@ -74,7 +105,9 @@ class AnuncioController extends Controller
                 ->where([['anuncios.estado_anuncio','1'],['validez_anuncio','1']])
                 ->whereIn('users.id',$arr)
                 ->orderBy('users.valor_recarga','DESC')
-                ->get();
+                ->get();    
+            }    
+            
            //dd($anuncios_consultados);
            $ad_arr=new Anuncio();
            $arr_anuncios = $ad_arr->ver_anuncios($anuncios_consultados);
@@ -84,8 +117,9 @@ class AnuncioController extends Controller
                                 ->where('anuncios.estado_anuncio','1')
                                 ->whereIn('anuncios.id_user',$arr)
                                 ->get();
-           //   dd(count($tramites));
-           return view('welcome')->with('anuncios',$arr_anuncios)->with("mis_anuncios",false)->with("tramites",$tramites);
+            //dd($arr_anuncios);
+           return view('welcome')->with('anuncios',$arr_anuncios)
+                                 ->with("mis_anuncios",false)->with("tramites",$tramites);
         } 
         
     }
@@ -101,7 +135,9 @@ class AnuncioController extends Controller
         
       
       
-      return view('anuncios.create')->with("tramites",Tramite::all())->with("key",Api::where('nombre','GoogleDirections')->select('key')->get());
+      return view('anuncios.create')->with("tramites",Tramite::all())
+                                    ->with("key",Api::where('nombre','GoogleDirections')->select('key')->get())
+                                    ->with('porcentaje',Variable::where('nombre','porcentaje_tramite')->get());
          
            
       
@@ -117,7 +153,7 @@ class AnuncioController extends Controller
     {
         //
         //dd($request->get('data'));
-        $this->authorize('create',new Anuncio);          
+        $this->authorize('create',new Anuncio);         
         
         $dt=$request->get('data');
         $can_ad=0;
@@ -128,6 +164,8 @@ class AnuncioController extends Controller
                              "id_tramite"=>$value,
                              "valor_tramite"=>$dt["valores"][$key],
                              "ciudad"=>$dt["ubicacion"]['direccion'],
+                             "validez_anuncio"=>0,
+
                         ]);
             $can_ad++;
         }
@@ -204,8 +242,7 @@ class AnuncioController extends Controller
                                 ->get();
         
         }
-        //dd($a->anuncios);    
-        
+               
         $arr_anuncios=$ad->ver_anuncios($a);
         
         return view('welcome')->with('anuncios',$arr_anuncios)->with("mis_anuncios",true)->with("tramites",$tramites);
@@ -489,5 +526,11 @@ class AnuncioController extends Controller
     public function registro_venta(){
         $ad= new Anuncio;
         $ad->registro_venta($_REQUEST);
+    }
+
+
+    public function datos_filtro(){
+        return response()->json(["tramites"=>Tramite::all(),"ciudades"=>Anuncio::select('ciudad')->get()]);
+        
     }
 }

@@ -14,6 +14,7 @@ use Illuminate\Routing\Redirector;
 use App\Payu;
 use App\Anuncio;
 use App\Tramite;
+use App\Variable;
 use App\DetalleClicAnuncio;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -125,7 +126,8 @@ class UsersController extends Controller
                     ->with("py",$py[0])
                     ->with("ref_code","rec_".$ref)
                     ->with("hash",$pp->hashear("rec_".$ref,20000,"COP"))
-                    ->with('horarios',$horarios);                        
+                    ->with('horarios',$horarios)
+                    ->with('variables',Variable::all());                        
     }
 
     /**
@@ -566,5 +568,15 @@ class UsersController extends Controller
         $u = new User;
         return $u->registro_recargas($_REQUEST);
 
+    }
+
+    public function editar_variables(Request $request){
+        //dd($request);
+        Variable::where('nombre',$request['nombre'])
+                 ->update([
+                            'valor'=>$request['valor']
+                          ]);
+
+        return back()->with('success', 'Se ha cambiado el valor de la variable correctamente');         
     }
 }

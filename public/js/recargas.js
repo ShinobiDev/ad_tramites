@@ -49,7 +49,5 @@ function salir_modal(id){
   	$("#"+id).css({"display": "none"});	
 }
 $( "#btn_sin_recarga, #sp_salir_sin_recarga" ).click(function(){
-  // Holds the product ID of the clicked element
-  
-  
+  // Holds the product ID of the clicked element  
 });

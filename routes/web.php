@@ -41,7 +41,7 @@ Route::group(["prefix"=>"admin","middleware"=>"auth"],function(){
   Route::get('recargas','UsersController@ver_recargas')->name('recargas.show');
   Route::get('cambiar_costo','UsersController@mostrar_cambiar_costo_clic')->name('cambiar.costo');
   Route::post('cambiar_costo','UsersController@cambiar_costo_clic')->name('cambiar.store');
-  
+  Route::post("editar_variables","UsersController@editar_variables");
   
 
   //Route::get("confirm_recarga","");
@@ -57,3 +57,7 @@ Route::get('/clearcache', function(){
       // Artisan::call('key:generate');
       return '<h1>se ha borrado el cache</h1>';
 });
+/**
+ * Ruta para consultar datos que se cargaran desde el formulario principal
+ */
+Route::get('datos_filtro','AnuncioController@datos_filtro');

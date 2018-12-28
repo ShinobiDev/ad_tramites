@@ -29,7 +29,7 @@
 
                               <input id="rng_{{$ad->id}}" type="range" min="0" max="1" value="1" onchange="cambiar_estado_admin('{{$ad->id}}')" style="width: 50%; margin-left:25%; ">
                             @else
-                              <h5 id="h5_estado_{{$ad->id}}" style="margin-left:25%;">Bloquedo</h5>
+                              <h5 id="h5_estado_{{$ad->id}}" style="margin-left:25%;" class="text-danger">Bloquedo</h5>
                               <input id="rng_{{$ad->id}}" type="range" min="0" max="1" value="0" onchange="cambiar_estado_admin('{{$ad->id}}')" style="width: 50%; margin-left:25%; ">
                             @endif
                             </td>
@@ -47,7 +47,7 @@
                                   <input id="rng_{{$ad->id}}" type="range" min="0" max="1" value="0" onchange="cambiar_estado('{{$ad->id}}')" style="width: 50%; margin-left:25%; ">
                                 @endif
                             @else
-                              <h5 id="h5_estado_{{$ad->id}}" style="margin-left:25%;">BLOQUEADO</h5>
+                              <h5 id="h5_estado_{{$ad->id}}" style="margin-left:25%;" class="text-danger">BLOQUEADO</h5>
                             @endif  
                           </td>
                         @endrole

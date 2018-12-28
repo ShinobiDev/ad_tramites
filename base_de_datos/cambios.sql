@@ -1,0 +1,1 @@
+INSERT INTO `variables` (`id`, `nombre`, `valor`, `created_at`, `updated_at`) VALUES (NULL, 'porcentaje_tramite', '4', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);

@@ -1,6 +1,6 @@
 
 INSERT INTO `tramites` (`id`, `nombre_tramite`, `descripcion`, `created_at`, `updated_at`) VALUES
-(1, 'Blindaje', 'Una breve descripcion del tramite', '2018-11-27 09:51:53', '2018-11-27 09:51:53'),
+(1, 'Blindaje', 'Una breve descripción del tramite', '2018-11-27 09:51:53', '2018-11-27 09:51:53'),
 (2, 'Desmonte de blindaje', 'Una breve descripcion del tramite', '2018-11-27 09:51:53', '2018-11-27 09:51:53'),
 (3, 'Cambio de color', '', '2018-11-27 09:51:53'	, '2018-11-27 09:51:53'),
 (4, 'Cambio de motor', '', '2018-11-27 09:51:53', '2018-11-27 09:51:53'),

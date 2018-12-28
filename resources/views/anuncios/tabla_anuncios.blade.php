@@ -30,16 +30,30 @@
                         @guest
                                <!--AQUI SE MUESTRA LOS BOTONES PARA LOGIN -->
 
-                                <button id="{{'btn_'.$ad->cod_anuncio}}" type="button" class="btn btn-success" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_login'.$ad->id}}','{{$ad->id}}','0','info')">
+                                {{--<button id="{{'btn_'.$ad->cod_anuncio}}" type="button" class="btn btn-success" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_login'.$ad->id}}','{{$ad->id}}','0','info')">
                                   Ver info
                                   </button>
                                                         
                                 <button id="{{'btn_'.$ad->cod_anuncio}}" type="button" class="btn btn-default" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_login'.$ad->id}}','{{$ad->id}}','0','venta')">
                                   Comprar
+                                </button>--}}
+
+                                <button id="{{'btn_'.$ad->id}}" type="button" class="btn btn-success" data-toggle="modal" onclick="descontar_recargar('{{ 'infogen'.$ad->id}}','{{$ad->id}}','{{$ad->costo_clic}}','info')">
+                                  Ver info
+                                  </button>
+                                 <!--<a id="an_{{$ad->id}}" href="admin/anuncios_vistos" class="btn btn-primary" style="display: none">Ya lo Viste</a>-->
+                                 <button id="{{'an_'.$ad->id}}" type="button" class="btn btn-primary" data-toggle="modal" onclick="descontar_recargar('{{ 'infogen'.$ad->id}}','{{$ad->id}}','0','info')" style="display: none">
+                                  Ya lo Viste
+                                  </button>
+                                @include('anuncios.ventana_modal_info_general_sin_login')
+                                
+                                
+                                <button id="{{'btn_'.$ad->cod_anuncio}}" type="button" class="btn btn-default" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_login'.$ad->id}}','{{$ad->id}}','0','venta')">
+                                  Comprar
                                 </button>
-                               
+                                @include('anuncios.ventana_modal_login')  
                             
-                            @include('anuncios.ventana_modal_login')  
+                            
                         @else
                           
                            
