@@ -2,7 +2,7 @@ var nuevo_valor_recarga=50;
 
 function descontar_recargar(id_ventana,id_anuncio,costo,tipo){
 	
- 
+
 	console.log(document.getElementById(id_ventana));
 	   $("#"+id_ventana).addClass( "in" );
 	 	console.log(document.getElementById(id_ventana));
@@ -12,31 +12,34 @@ function descontar_recargar(id_ventana,id_anuncio,costo,tipo){
 	            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 	        }
 	    });
-       if(tipo!=false){
+        if(user_id!=0){
+       		if(tipo!=false){
 
-       		$.ajax({
-		         type: "GET",
-		         url: url_global+"admin/descontar_recargas/"+id_anuncio+"/"+costo+"/"+user_id.value+"/"+tipo,
-		         dataType: "json",
-		         success: function(result){
-		          console.log(result);
-		         if(result.ad_visible==false){
-		         	
-		         	$("#btn_"+id_anuncio).css({"display":"none"});	
-		         }
+		       		$.ajax({
+				         type: "GET",
+				         url: url_global+"admin/descontar_recargas/"+id_anuncio+"/"+costo+"/"+user_id.value+"/"+tipo,
+				         dataType: "json",
+				         success: function(result){
+				          console.log(result);
+				         if(result.ad_visible==false){
+				         	
+				         	$("#btn_"+id_anuncio).css({"display":"none"});	
+				         }
 
-		         if(document.getElementById("an_"+id_anuncio)!=null && tipo=="info"){
-		         		$("#btn_"+id_anuncio).css({"display":"none"});	
-		         		$("#an_"+id_anuncio).css({"display":""});	
-		         	}
-		          
-		             
-		         },
-		     error: function(err){
-		         console.log(err);
-		     }
-		     });
-       }
+				         if(document.getElementById("an_"+id_anuncio)!=null && tipo=="info"){
+				         		$("#btn_"+id_anuncio).css({"display":"none"});	
+				         		$("#an_"+id_anuncio).css({"display":""});	
+				         	}
+				          
+				             
+				         },
+				     error: function(err){
+				         console.log(err);
+				     }
+				     });
+		       }	 	
+        }
+       
 		 	  	
 }
 

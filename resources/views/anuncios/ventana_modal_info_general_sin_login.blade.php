@@ -16,6 +16,11 @@
         <div class="modal-body">
           <b>Nombre del ofertante:</b> {{$ad->nombre}}
         </div>
+         @if(auth()->user()==null)  
+              <div class="modal-body">
+                <b class="text-red">Quieres conocer mas acerca de este anunciante te invitamos a registrarte</b> 
+              </div>        
+         @endif  
          {{--<div class="modal-body">
           <b>Teléfono del ofertante:</b> {{$ad->telefono}}
         </div>
@@ -60,6 +65,9 @@
           @include('partials.comentarios')
         </div>
         <div class="modal-footer">
+          <a  class="btn btn-success" href="{{ route('register') }}">
+             Registrarme
+          </a>
           <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="salir_modal('{{'infogen'.$ad->id}}')">SEGUIR VIENDO ANUNCIOS</button>                                              
         </div>
       </div>

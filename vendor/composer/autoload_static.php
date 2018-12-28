@@ -326,6 +326,7 @@ class ComposerStaticInitb9b15c2b6921efc65f4e342c0d84e544
         'App\\Anuncio' => __DIR__ . '/../..' . '/app/Anuncio.php',
         'App\\Api' => __DIR__ . '/../..' . '/app/Api.php',
         'App\\Bonificacion' => __DIR__ . '/../..' . '/app/Bonificacion.php',
+        'App\\Ciudad' => __DIR__ . '/../..' . '/app/Ciudad.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\DetalleClicAnuncio' => __DIR__ . '/../..' . '/app/DetalleClicAnuncio.php',
         'App\\Events\\ActualizacionDatos' => __DIR__ . '/../..' . '/app/Events/ActualizacionDatos.php',

@@ -3,21 +3,21 @@
       <div class="modal-content">
         
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Debes registrarte o inicar sesión para conocer mas información de este anuncio</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Te inivitamos a registrarte o iniciar sesión para conocer mas información de este anuncio</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="salir_modal('{{'ventana_login'.$ad->id}}')">
             <span aria-hidden="true" >&times;</span>
           </button>
         </div>
         
         <div class="modal-body">
-          <form class="form-horizontal" method="POST" action="{{ route('login') }}">
+            <form class="form-horizontal" method="POST" action="{{ route('login') }}">
                 {{ csrf_field() }}
 
                 <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                     <label for="email" class="col-md-4 control-label">E-Mail </label>
 
                     <div class="col-md-6">
-                        <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
+                        <input id="email{{$ad->id}}" type="email" class="form-control" name="email" value="{{ old('email') }}" onchange="agregar_correo(this,'{{$ad->id}}')" required autofocus>
 
                         @if ($errors->has('email'))
                             <span class="help-block">
@@ -27,10 +27,10 @@
                     </div>
                 </div>
 
-                <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                <div class="form-group {{ $errors->has('password') ? ' has-error' : '' }}">
                     <label for="password" class="col-md-4 control-label">Clave</label>
                     <div class="col-md-6">
-                        <input id="password" type="password" class="form-control" name="password" required>
+                        <input id="password{{$ad->id}}" type="password" class="form-control" name="password" required>
 
                         @if ($errors->has('password'))
                             <span class="help-block">
@@ -45,28 +45,30 @@
                         <div class="checkbox">
                             <label>
                                 <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Recordarme
-                            </label>
+                            </label>          
+                            <button type="submit" class="btn btn-primary">
+                                Ingresar
+                            </button>                  
                         </div>
+                        
                     </div>
+                    
                 </div>
-
-                <div class="form-group">
-                    <div class="col-md-8 col-md-offset-4">
-                        <button type="submit" class="btn btn-primary">
-                            Ingresar
-                        </button>
-
-                         <a class="btn btn-primary" href="{{ route('register') }}">
-                            Registrarse
-                        </a>
-                        <a class="btn btn-link" href="{{ route('password.request') }}">
-                            Olvide mi clave
-                        </a>
-
-                    </div>
+            </form>
+            <!--FORMULARIO PARA ENVIAR EMAIL-->
+            <div class="modal-body">
+                <div class="form-group col-md-6 col-md-offset-4">
+                     
+                        <form method="GET" action="{{route('register')}}">
+                            <input type="hidden" name="e" id="email_enviar_{{$ad->id}}">
+                            <button type="submit" class="btn btn-primary">Registrarse</button>
+                            <a id="anOlvide{{$ad->id}}" class="btn btn-link" href="{{ route('password.request').'/?' }}">
+                              Olvide mi clave
+                            </a>
+                        </form>
+                     
                 </div>
-        </form>
-
+            </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="salir_modal('{{'ventana_login'.$ad->id}}')">SALIR</button>
@@ -74,3 +76,9 @@
       </div>
     </div>
 </div>
+<script type="text/javascript">
+    function agregar_correo(e,id){
+        document.getElementById('anOlvide'+id).href+="e="+document.getElementById(e.id).value;        
+        document.getElementById('email_enviar_'+id).value=document.getElementById(e.id).value;        
+    }
+</script>

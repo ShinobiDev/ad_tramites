@@ -55,6 +55,7 @@
                         <li>
                            <a href="{{route('login')}}">Comprar</a>
                         </li>-->
+                        <input type="hidden" value="{0" id="user_id">
                       @else
                         
                         <li>

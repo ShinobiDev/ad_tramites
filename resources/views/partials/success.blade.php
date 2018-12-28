@@ -1,3 +1,4 @@
+
 @if (session()->has('success'))
     <div id="div_success" class="alert alert-success alert-dismissible fade in text-center" role="alert">
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">

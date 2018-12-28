@@ -9,6 +9,7 @@ return array(
     'App\\Anuncio' => $baseDir . '/app/Anuncio.php',
     'App\\Api' => $baseDir . '/app/Api.php',
     'App\\Bonificacion' => $baseDir . '/app/Bonificacion.php',
+    'App\\Ciudad' => $baseDir . '/app/Ciudad.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\DetalleClicAnuncio' => $baseDir . '/app/DetalleClicAnuncio.php',
     'App\\Events\\ActualizacionDatos' => $baseDir . '/app/Events/ActualizacionDatos.php',

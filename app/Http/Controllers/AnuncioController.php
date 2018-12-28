@@ -8,6 +8,7 @@ use App\User;
 use App\Tramite;
 use App\Api;
 use App\Variable;
+use App\Ciudad;
 use DB;
 use App\Events\CompartirCodigo;
 use App\Events\NotificacionAnuncio;
@@ -24,7 +25,7 @@ class AnuncioController extends Controller
     {   
         
 
-
+        $no_tiene=false;
         $u=auth()->user();
         //dd($u);
         $anuncios_consultados=array();
@@ -84,6 +85,35 @@ class AnuncioController extends Controller
                 ->whereIn('users.id',$arr)
                 ->orderBy('users.valor_recarga','DESC')
                 ->get();
+                //dd($anuncios_consultados);
+                if(count($anuncios_consultados)==0){
+                    $msn="No existen anuncios para este tramite y ciudad, te invitamos a que veas nuestros anuncios actuales";
+                    $no_tiene=true;
+                    $anuncios_consultados=Anuncio::select('anuncios.id',
+                                                   'anuncios.codigo_anuncio',
+                                                   'anuncios.descripcion_anuncio',
+                                                   'anuncios.estado_anuncio',
+                                                   'anuncios.validez_anuncio',
+                                                   'anuncios.id_user',
+                                                   'anuncios.ciudad',
+                                                   'anuncios.valor_tramite',
+                                                   'users.nombre',
+                                                   'users.email',
+                                                   'users.telefono',
+                                                   'users.valor_recarga',
+                                                   'users.costo_clic',
+                                                   'tramites.nombre_tramite',
+                                                   DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
+                    ->join('users','users.id','anuncios.id_user')
+                    ->join('tramites','tramites.id','anuncios.id_tramite')
+                    ->where([['anuncios.estado_anuncio','1'],['validez_anuncio','1']])
+                    ->whereIn('users.id',$arr)
+                    ->orderBy('users.valor_recarga','DESC')
+                    ->get();
+                }else{
+                    $msn="Anuncios consultados";
+                }
+                
             }else{
                 $anuncios_consultados= Anuncio::select('anuncios.id',
                                                    'anuncios.codigo_anuncio',
@@ -106,9 +136,10 @@ class AnuncioController extends Controller
                 ->whereIn('users.id',$arr)
                 ->orderBy('users.valor_recarga','DESC')
                 ->get();    
+                $msn="Anuncios consultados";
             }    
             
-           //dd($anuncios_consultados);
+           //dd([$anuncios_consultados]);
            $ad_arr=new Anuncio();
            $arr_anuncios = $ad_arr->ver_anuncios($anuncios_consultados);
            $tramites=Tramite::select('tramites.id','tramites.nombre_tramite')
@@ -117,9 +148,22 @@ class AnuncioController extends Controller
                                 ->where('anuncios.estado_anuncio','1')
                                 ->whereIn('anuncios.id_user',$arr)
                                 ->get();
-            //dd($arr_anuncios);
-           return view('welcome')->with('anuncios',$arr_anuncios)
-                                 ->with("mis_anuncios",false)->with("tramites",$tramites);
+           //dd($no_tiene);
+           if($no_tiene){
+                 //dd($msn);
+                 return view('welcome')->with('anuncios',$arr_anuncios)
+                                 ->with("mis_anuncios",false)->with("tramites",$tramites)
+                                 //->with('error',$msn)
+                                 ->with('success', $msn);    
+           }else{
+                //dd($msn);
+                return view('welcome')->with('anuncios',$arr_anuncios)
+                                 ->with("mis_anuncios",false)
+                                 ->with("tramites",$tramites)
+                                 ->with('success', $msn);    ;
+           }
+           
+            
         } 
         
     }
@@ -530,7 +574,7 @@ class AnuncioController extends Controller
 
 
     public function datos_filtro(){
-        return response()->json(["tramites"=>Tramite::all(),"ciudades"=>Anuncio::select('ciudad')->get()]);
+        return response()->json(["tramites"=>Tramite::all(),"ciudades"=>Ciudad::all()]);
         
     }
 }
