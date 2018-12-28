@@ -4,7 +4,7 @@
 
 {{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
 
-Estimad@ {{$user->name}}, $ad[0]
+Estimad@ {{$user->name}}, {{$ad[0]}}
 
 
 

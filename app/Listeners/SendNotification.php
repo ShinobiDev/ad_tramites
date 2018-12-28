@@ -22,7 +22,7 @@ class SendNotification
         $url = "";
         
             if(auth()->user()!=null){
-                $url.=config('app.url')."admin/user/".trim($event->user->id);
+                $url.=config('app.url')."/admin/users/".trim($event->user->id);
             }else{
                 $url.=config('app.url')."login/";
 
