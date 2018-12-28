@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('telefono')->unique();
             $table->integer('codigo_referido')->nullable();
-            $table->decimal('valor_recarga');
+            $table->decimal('valor_recarga',10,2);
             $table->string('status_recarga');
             $table->decimal('costo_clic');
             $table->integer('nota');

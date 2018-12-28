@@ -25,7 +25,7 @@ function descontar_recargar(id_ventana,id_anuncio,costo,tipo){
 		         	$("#btn_"+id_anuncio).css({"display":"none"});	
 		         }
 
-		         if(document.getElementById("an_"+id_anuncio)!=null){
+		         if(document.getElementById("an_"+id_anuncio)!=null && tipo=="info"){
 		         		$("#btn_"+id_anuncio).css({"display":"none"});	
 		         		$("#an_"+id_anuncio).css({"display":""});	
 		         	}

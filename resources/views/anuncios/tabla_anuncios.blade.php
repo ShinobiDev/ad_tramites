@@ -47,8 +47,11 @@
                               @if($ad->btn_info) 
                                 @if($ad->visto!="") 
                                
-                                 <a href="admin/anuncios_vistos" class="btn btn-primary">Ya lo Viste</a>
-                                                      
+                                 <!--<a href="admin/anuncios_vistos" class="btn btn-primary">Ya lo Viste</a>-->
+                                  <button id="{{'btn_'.$ad->id}}" type="button" class="btn btn-primary" data-toggle="modal" onclick="descontar_recargar('{{ 'infogen'.$ad->id}}','{{$ad->id}}','0','info')">
+                                  Ya lo Viste
+                                  </button>
+                                   @include('anuncios.ventana_modal_info_general')                   
                                   
                                 @else
                                   <button id="{{'btn_'.$ad->id}}" type="button" class="btn btn-success" data-toggle="modal" onclick="descontar_recargar('{{ 'infogen'.$ad->id}}','{{$ad->id}}','{{$ad->costo_clic}}','info')">
