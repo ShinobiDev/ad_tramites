@@ -1,7 +1,7 @@
 @component('mail::message')
+# {{ config('app.name')}} #
 
-
-![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)
+{{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
 
 Estimad@ {{$user->name}}, Tus clic se esta agotando
 

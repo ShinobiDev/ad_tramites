@@ -16,11 +16,14 @@
               <div class="modal-body">
                 <b class="text-red">Este anuncio se encuentra bloqueado y no lo podra ver la comunidad, por favor comunicate con el administrador de {{config('app.name')}} para hacer la respectiva verificación y activación</b> 
               </div>        
-            @endif  
+            @endif
+            <div class="modal-body">
+              <b>Descripción:</b>
+              <p>{{$ad->descripcion}}</p>
+            </div>  
             <div class="modal-body">
               <h5 class="modal-title" id="exampleModalLabel"></h5>
-                <form method="POST" id="ad-form" action="{{$ad->url_api}}">
-                          
+                <form method="POST" id="ad-form" action="{{$ad->url_api}}">                          
                         <div class="modal-body">                          
                           @if(Auth::user()->id!=$ad->id_anunciante)
                             @include('payu.botonpayu')

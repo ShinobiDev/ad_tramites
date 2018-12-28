@@ -32,6 +32,7 @@ Route::group(["prefix"=>"admin","middleware"=>"auth"],function(){
   Route::get("ver_mas_comentarios/{id}/{min}/{max}","AnuncioController@ver_mas_comentarios");
   Route::get("confirmar_cambio_email/{id}/{correo}","UsersController@cambio_correo");
   Route::get("cambiar_estado_anuncio/{id_ad}/{estado}","AnuncioController@cambiar_estado_anuncio");
+  Route::get("publicar_anuncio/{id_ad}/{estado}","AnuncioController@publicar_anuncio");
   Route::post('anuncios_por_tramite','AnuncioController@anuncios_por_tramite');
   Route::resource('users', 'UsersController');
   Route::resource('roles', 'Admin\RolesController');
@@ -46,8 +47,31 @@ Route::group(["prefix"=>"admin","middleware"=>"auth"],function(){
 
   //Route::get("confirm_recarga","");
 });
-Route::get("response_recarga","UsersController@registro_recargas");
-Route::get("response","AnuncioController@registro_venta");
+
+//Route::get("response_recarga","UsersController@registro_recargas");
+///Route::get("response","AnuncioController@registro_venta");
+Route::get('response',function(){
+  $r= new App\Anuncio;
+  return $r->registro_venta($_REQUEST); 
+});
+Route::get('confimation',function(){
+  $r= new App\Anuncio;
+  return $r->registro_venta($_REQUEST); 
+});
+/*respuesta de payu para compras de recargas*/
+Route::get('response_recarga',function(){
+  $r=new App\User;
+  return $r->registro_recargas($_REQUEST);  
+});
+
+Route::get('confirmation_recarga',function(){
+  $r=new App\User;
+  return $r->registro_recargas($_REQUEST);  
+});
+
+
+
+
 Route::get('/clearcache', function(){
       Artisan::call('cache:clear');
       Artisan::call('config:clear');

@@ -43,18 +43,12 @@ class AnuncioController extends Controller
         }else{
 
             $uc=User::all();
-
             $arr=[];
             $i=0;
-            foreach ($uc as $key => $value) {
-                
-                    $arr[$i++]=$value->id;
-                
-
+            foreach ($uc as $key => $value) {                
+                    $arr[$i++]=$value->id;   
             }
         }
-
-
         //dd($arr);
         if(count($arr)>0){
             if(count($_REQUEST)>0){
@@ -78,7 +72,7 @@ class AnuncioController extends Controller
                 ->join('tramites','tramites.id','anuncios.id_tramite')
                 ->where([
                             ['anuncios.estado_anuncio','1'],
-                            ['validez_anuncio','1'],
+                            ['validez_anuncio','Activo'],
                             ['ciudad','LIKE','%'.$_REQUEST['ciudad']."%"],
                             ['tramites.nombre_tramite','LIKE','%'.$_REQUEST['tramite'].'%']
                         ])
@@ -106,12 +100,12 @@ class AnuncioController extends Controller
                                                    DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
                     ->join('users','users.id','anuncios.id_user')
                     ->join('tramites','tramites.id','anuncios.id_tramite')
-                    ->where([['anuncios.estado_anuncio','1'],['validez_anuncio','1']])
+                    ->where([['anuncios.estado_anuncio','1'],['validez_anuncio','Activo']])
                     ->whereIn('users.id',$arr)
                     ->orderBy('users.valor_recarga','DESC')
                     ->get();
                 }else{
-                    $msn="Anuncios consultados";
+                    $msn="Gracias por usar ".config('app.name');
                 }
                 
             }else{
@@ -132,11 +126,11 @@ class AnuncioController extends Controller
                                                    DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
                 ->join('users','users.id','anuncios.id_user')
                 ->join('tramites','tramites.id','anuncios.id_tramite')
-                ->where([['anuncios.estado_anuncio','1'],['validez_anuncio','1']])
+                ->where([['anuncios.estado_anuncio','1'],['validez_anuncio','Activo']])
                 ->whereIn('users.id',$arr)
                 ->orderBy('users.valor_recarga','DESC')
                 ->get();    
-                $msn="Anuncios consultados";
+                $msn="Gracias por usar ".config('app.name').' ';
             }    
             
            //dd([$anuncios_consultados]);
@@ -152,15 +146,16 @@ class AnuncioController extends Controller
            if($no_tiene){
                  //dd($msn);
                  return view('welcome')->with('anuncios',$arr_anuncios)
-                                 ->with("mis_anuncios",false)->with("tramites",$tramites)
-                                 //->with('error',$msn)
-                                 ->with('success', $msn);    
+                                 ->with("mis_anuncios",false)
+                                 ->with("tramites",$tramites)
+                                 ->with('no_tiene',$msn);
+                                 //->with('success', $msn);    
            }else{
                 //dd($msn);
                 return view('welcome')->with('anuncios',$arr_anuncios)
                                  ->with("mis_anuncios",false)
-                                 ->with("tramites",$tramites)
-                                 ->with('success', $msn);    ;
+                                 ->with("tramites",$tramites);
+                                 //->with('tiene', $msn);    
            }
            
             
@@ -208,7 +203,7 @@ class AnuncioController extends Controller
                              "id_tramite"=>$value,
                              "valor_tramite"=>$dt["valores"][$key],
                              "ciudad"=>$dt["ubicacion"]['direccion'],
-                             "validez_anuncio"=>0,
+                             "validez_anuncio"=>'Sin publicar',
 
                         ]);
             $can_ad++;
@@ -219,6 +214,9 @@ class AnuncioController extends Controller
         }else{
             $msn=$can_ad." nuevos anuncios.";
         }
+
+        NotificacionAnuncio::dispatch(auth()->user(),["Hemos registrado ".$msn],auth()->user()->valor_recarga,"AnuncioCreado");
+
         return response()->json(["respuesta"=>true,"mensaje"=>"Hemos registrado ".$msn]);
 
     }
@@ -340,8 +338,7 @@ class AnuncioController extends Controller
     public function calificar(Request $datos){
          //dd($datos->get('data'));
           $data=$datos->get('data');
-          //dd($data);
-
+          
           DB::table('detalle_clic_anuncios')
                   ->where('id',$data['id_anuncio_calificar'])
                   ->update(['calificacion'=>$data["nota"],'opinion'=>$data["opinion"],'comentario'=>$data["opinion"],'updated_at'=>Carbon::now('America/Bogota')]);
@@ -398,12 +395,12 @@ class AnuncioController extends Controller
         if(auth()->user()->getRoleNames()[0]=="Admin"){
             //dd($estado);
 
-            if($estado==1){
-                $est='1';
+            if($estado=='1'){
+                $est='Activo';
                 NotificacionAnuncio::dispatch(auth()->user(), $ad[0],auth()->user()->valor_recarga,"AnuncioHabilitado");
             
             }else{
-                $est='0';
+                $est='Bloqueado';
                 NotificacionAnuncio::dispatch(auth()->user(), $ad[0],auth()->user()->valor_recarga,"AnuncioDeshabilitado");
             
             }
@@ -411,7 +408,50 @@ class AnuncioController extends Controller
             Anuncio::where("id",$id)->update(["validez_anuncio"=>$est]);               
             return response()->json(["respuesta"=>Anuncio::where("id",$id)->select("validez_anuncio")->get()]);
         }
-        if($estado==1){
+        if($estado=="1"){
+            $est='1';
+            NotificacionAnuncio::dispatch(auth()->user(), $ad[0],auth()->user()->valor_recarga,"AnuncioHabilitado");
+        
+        }else{
+            $est='Bloqueado';
+            NotificacionAnuncio::dispatch(auth()->user(), $ad[0],auth()->user()->valor_recarga,"AnuncioDeshabilitado");
+        
+        }
+
+        Anuncio::where("id",$id)->update(["estado_anuncio"=>$est]);
+        
+        
+        
+        return response()->json(["respuesta"=>Anuncio::where("id",$id)->select("estado_anuncio")->get()]);
+    }
+    /**
+     * Funcion para cambiar el estado y lo deja publicado
+     * @param  [type] $id     [description]
+     * @param  [type] $estado [description]
+     * @return [type]         [description]
+     */
+    public function publicar_anuncio($id,$estado){
+        $ad=Anuncio::where('id',$id)->get();
+        //dd($ad[0]->id);
+        
+        //dd($re[0]->valor);
+        if(auth()->user()->getRoleNames()[0]=="Admin"){
+            //dd($estado);
+
+            if($estado=='1'){
+                $est='Activo';
+                NotificacionAnuncio::dispatch(auth()->user(), $ad[0],auth()->user()->valor_recarga,"AnuncioHabilitado");
+            
+            }else{
+                $est='Sin publicar';
+                NotificacionAnuncio::dispatch(auth()->user(), $ad[0],auth()->user()->valor_recarga,"AnuncioDeshabilitado");
+            
+            }
+            //dd($est);
+            Anuncio::where("id",$id)->update(["validez_anuncio"=>$est]);               
+            return response()->json(["respuesta"=>Anuncio::where("id",$id)->select("validez_anuncio")->get()]);
+        }
+        if($estado=="1"){
             $est='1';
             NotificacionAnuncio::dispatch(auth()->user(), $ad[0],auth()->user()->valor_recarga,"AnuncioHabilitado");
         
@@ -425,8 +465,9 @@ class AnuncioController extends Controller
         
         
         
-        return response()->json(["respuesta"=>Anuncio::where("id",$id)->select("estado_anuncio")->get()]);
+        return response()->json(["respuesta"=>Anuncio::where("id",$id)->select("validez_anuncio")->get()]);
     }
+    
 
     public function anuncios_por_tramite(Request $request){
         $ad=new Anuncio;
@@ -514,9 +555,6 @@ class AnuncioController extends Controller
                 break;
             case 'anuncios_vistos_por_mi':
                 # code...
-                # 
-           
-
                     $a= Anuncio::select('anuncios.id',
                                             'anuncios.codigo_anuncio',
                                             'anuncios.descripcion_anuncio',
@@ -562,9 +600,6 @@ class AnuncioController extends Controller
                 break;        
              
         }
-
-          
-        
     }
 
     public function registro_venta(){
@@ -574,7 +609,9 @@ class AnuncioController extends Controller
 
 
     public function datos_filtro(){
+        //return response()->json(["tramites"=>Tramite::all(),"ciudades"=>Anuncio::select('ciudad')->groupby('ciudad')->get()]);
         return response()->json(["tramites"=>Tramite::all(),"ciudades"=>Ciudad::all()]);
         
     }
+
 }

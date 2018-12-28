@@ -1,13 +1,13 @@
 @component('mail::message')
 
 
-![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)
+{{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
 
 Estimad(@) {{$user->name}}, se ha presentado un error en la App por favor verifica los sucedido
 
 Recuerda comunicarte con nosotros para bridarte más información, visita nuesto sitio web 
 
-@component('mail::button', ['url' => url('http://metalbit.co/')])
+@component('mail::button', ['url' => url(config('app.url'))])
  Ir a la web
 @endcomponent
 

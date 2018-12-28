@@ -2,7 +2,7 @@
 
 
 @section('content')
-
+ 
 <div class="container">
     <div class="marco">
 
@@ -13,7 +13,7 @@
                 <h4 class="rj">Estado de la transacción: {{$estado}}</h4>
                 <h4 class="rj">Entidad: {{$entidad}}</h4>
                 <h5>{{$respuesta['merchant_name']}}</h5>
-                <h5>Telefono: {{$respuesta['telephone']}}</h5>
+                <h5>Teléfono: {{$respuesta['telephone']}}</h5>
             </div>
             <div class="rigth">
                 <h4 class="rj">Cliente</h4>

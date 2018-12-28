@@ -20,7 +20,9 @@ class RegistroPagosAnuncios extends Migration
             $table->string('transactionState');
             $table->string('transation_value');
             $table->integer('id_anuncio');
-            $table->integer('id_user_compra');
+            $table->integer('id_user_compra');  
+            $table->string('metodo_pago');  
+            $table->enum('estado_pago',['APROBADA', 'PENDIENTE', 'RECHAZADA'])->default('PENDIENTE');
             //$table->foreign('id_anuncio')->references('id')->on('anuncios');
             $table->timestamps();    
         });

@@ -1,7 +1,7 @@
 @component('mail::message')
 
 
-![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)
+{{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
 
 Estimad(@) {{$user->name}}, hemos registrado una compra falta que la confirmes.
 

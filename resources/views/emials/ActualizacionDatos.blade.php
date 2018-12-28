@@ -1,8 +1,8 @@
 @component('mail::message')
+# {{ config('app.name')}} #
 
 
-
-![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)
+{{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
 
 
 #Solo te falta un paso, para cambiar tu correo electrónico de contacto#

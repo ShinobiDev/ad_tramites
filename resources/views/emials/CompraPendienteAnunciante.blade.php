@@ -1,9 +1,9 @@
 @component('mail::message')
 
 
-![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)
+{{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
 
-Estimad@ {{$user->name}}, Hemos registrado una nueva venta de un anuncio en METALBIT, sin  embargo aun esta pendiente por el pago de el comprador
+Estimad@ {{$user->name}}, Hemos registrado una nueva venta de un anuncio en # {{ config('app.name')}} #, sin  embargo aún esta pendiente por el pago de el comprador
 
 ##COMPRADOR##
 Usuario : {{$ad[0]->name}}
@@ -15,9 +15,9 @@ Email: {{$ad[0]->email}},
 Anuncio:
 
 @component('mail::table')
-    | tipo | cripto moneda | divisa | 
+    | tramite | valor tramite | divisa | 
     |:--------|:----------|
-    | {{$ad[1]->tipo_anuncio}} | {{$ad[1]->nombre_cripto_moneda}} | {{$ad[1]->nombre_moneda}} | 
+    | {{--$ad[1]->tipo_anuncio--}} | {{--$ad[1]->nombre_cripto_moneda--}} | {{--$ad[1]->nombre_moneda--}} | 
 @endcomponent
 
 Recuerda que debes tener saldo en la cuenta de recargas para que los usuarios puedan

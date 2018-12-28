@@ -1,11 +1,11 @@
 @component('mail::message')
+# {{ config('app.name')}} #
 
 
+{{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
 
-![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)
 
-
-##Utiliza estas credenciales para acceder a METALBIT##
+##Utiliza estas credenciales para acceder a {{config('app.name')}}##
 
 @component('mail::table')
     | Usuario | Contraseña |

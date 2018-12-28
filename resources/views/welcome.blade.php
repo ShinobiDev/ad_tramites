@@ -15,31 +15,24 @@
             </0l>
 
         @endsection
-        <!--SECCION DE CONSULTA DE ANUNCIOS-->
-        
+        <!--SECCION DE CONSULTA DE ANUNCIOS-->      
 
-        
         @if($mis_anuncios==true)
             @section('content')
-             
-              
+                       
                
                <!--se incluye seccion de tabla con anuncios de ventas-->
                @include('anuncios.consulta_mis_anuncios')
-               <!--FIN se incluye seccion de tabla con anuncios de ventas-->
-               
+               <!--FIN se incluye seccion de tabla con anuncios de ventas-->             
 
                
             @endsection
         @else
           @section('content')
              
-             
-             
              <!--se incluye seccion de tabla con anuncios de ventas-->
              @include('anuncios.consulta_anuncios')
-             <!--FIN se incluye seccion de tabla con anuncios de ventas-->
-             
+             <!--FIN se incluye seccion de tabla con anuncios de ventas-->             
     
           @endsection
         @endif

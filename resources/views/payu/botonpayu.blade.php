@@ -5,7 +5,7 @@
   <input name="referenceCode" type="hidden"   value="{{$ad->cod_anuncio}}" >
 
   
-    <input id="hd_valor_venta_{{$ad->id}}" name="amount"        type="hidden"   value="0" >
+    <input id="hd_valor_venta_{{$ad->id}}" name="amount"        type="hidden"   value="{{$ad->valor_tramite}}" >
     <input id="currency_{{$ad->id}}" name="currency"     type="hidden"   value="COP" >
   
   

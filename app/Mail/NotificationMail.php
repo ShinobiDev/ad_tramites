@@ -96,7 +96,7 @@ class NotificationMail extends Mailable
             case 'CompraExitosaAnunciante':
                //dd($this->tipo);
                 return $this->markdown('emials.CompraExitosaAnunciante')
-                            ->subject('Hemos registrado una nueva compra para tu anuncio'. config('app.name'));
+                            ->subject('Hemos registrado una nueva compra para tu anuncio '. config('app.name'));
                 # code...
                 break;    
             case 'CompraPendiente':

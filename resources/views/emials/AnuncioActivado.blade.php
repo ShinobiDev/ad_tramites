@@ -1,18 +1,18 @@
 @component('mail::message')
+# {{ config('app.name')}} #
 
+{{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
 
-![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)
-
-Estimad@ {{$user->name}}, Has Activado este anuncio en METALBIT.
+Estimad@ {{$user->name}}, Has Activado este anuncio en {{ config('app.name')}} .
 
 
 ## Resumen Oferta ##
 Anuncio:
 
 @component('mail::table')
-    | tipo | cripto moneda | divisa |
+    | tramite | valor tramite | divisa | 
     |:--------|:----------|
-    | {{$ad->tipo_anuncio}} | {{$ad->nombre_cripto_moneda}} | {{$ad->nombre_moneda}} |
+    | {{--$ad[1]->tipo_anuncio--}} | {{--$ad[1]->nombre_cripto_moneda--}} | {{--$ad[1]->nombre_moneda--}} | 
 @endcomponent
 
 Estado: ACTIVADO

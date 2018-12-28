@@ -27,4 +27,12 @@
 
 @endif
 
+@if(empty($no_tiene)==false )
+   <div class="alert alert-danger alert-dismissible fade in text-center" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
 
+      <strong>{{$no_tiene}}</strong>
+    </div>
+@endif

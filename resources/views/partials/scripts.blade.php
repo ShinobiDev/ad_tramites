@@ -153,10 +153,25 @@
            peticion_ajax("get","admin/cambiar_estado_anuncio/"+id+"/"+rng,{},function(rs){
               
               var es="";
-              if(rs.respuesta[0].validez_anuncio=='1'){
+              if(rs.respuesta[0].validez_anuncio=='Activo'){
                 es='Activo';
               }else{
                 es='Bloquedo';
+              }
+              document.getElementById("h5_estado_"+id).innerHTML=es;
+           });
+        }
+        /*funcion para cambiar el es estado de un anuncio administrador y activarlo luego de su creacion*/
+        function activar_anuncio_admin(id){
+          var rng=document.getElementById("rng_"+id).value;
+          mostrar_cargando("h5_estado_"+id,10,"Un momento, por favor...");
+           peticion_ajax("get","admin/publicar_anuncio/"+id+"/"+rng,{},function(rs){
+              
+              var es="";
+              if(rs.respuesta[0].validez_anuncio=='Activo'){
+                es='Activo';
+              }else{
+                es='Sin publicar';
               }
               document.getElementById("h5_estado_"+id).innerHTML=es;
            });

@@ -1,7 +1,7 @@
 @component('mail::message')
 
 
-![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)
+{{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
 
 Estimad@ {{$user->nombre}}, Se ha realizado una nueva recarga exitosa.
 

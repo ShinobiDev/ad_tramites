@@ -1,9 +1,9 @@
 @component('mail::message')
 
 
-![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)
+{{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
 
-Estimad@ {{$user->name}}, Hemos registrado una compra exitosa en METALBIT.
+Estimad@ {{$user->name}}, Hemos registrado una compra exitosa en # {{ config('app.name')}} #.
 
 
 Por favor comunicate con tu comprador, para que se complete la transacción.

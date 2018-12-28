@@ -22,7 +22,7 @@ class CreateAnunciosTable extends Migration
             $table->decimal('valor_tramite',12,2);
             $table->enum("estado_anuncio",['0','1'])->default('1');
             $table->string("ciudad");
-            $table->enum("validez_anuncio",['0','1'])->default('1');;
+            $table->enum("validez_anuncio",['Activo','Bloqueado','Sin publicar'])->default('Sin publicar');
             $table->timestamps();
         });
     }

@@ -30,14 +30,19 @@
                         @guest
                                <!--AQUI SE MUESTRA LOS BOTONES PARA LOGIN -->
 
-                                {{--<button id="{{'btn_'.$ad->cod_anuncio}}" type="button" class="btn btn-success" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_login'.$ad->id}}','{{$ad->id}}','0','info')">
+                                <button id="{{'btn_'.$ad->cod_anuncio}}" type="button" class="btn btn-success" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_login'.$ad->id}}','{{$ad->id}}','0','info')">
                                   Ver info
                                   </button>
                                                         
                                 <button id="{{'btn_'.$ad->cod_anuncio}}" type="button" class="btn btn-default" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_login'.$ad->id}}','{{$ad->id}}','0','venta')">
                                   Comprar
-                                </button>--}}
+                                </button>
 
+                                @include('anuncios.ventana_modal_login')  
+
+                                {{--
+
+                                <!--SE COMENTA ESTA SECCION LUEGO DE SOLUCITD DE HERIBERTO SIN EMBARGO AQUI SE DEJA FUNCIONAL Y SE MUESTRA LA INFORMACION PARCIAL DEL ANUNCIO-->  
                                 <button id="{{'btn_'.$ad->id}}" type="button" class="btn btn-success" data-toggle="modal" onclick="descontar_recargar('{{ 'infogen'.$ad->id}}','{{$ad->id}}','{{$ad->costo_clic}}','info')">
                                   Ver info
                                   </button>
@@ -52,6 +57,8 @@
                                   Comprar
                                 </button>
                                 @include('anuncios.ventana_modal_login')  
+                                
+                                --}}
                             
                             
                         @else

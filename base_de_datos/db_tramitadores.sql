@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 28, 2018 at 12:59 AM
+-- Generation Time: Dec 28, 2018 at 04:15 PM
 -- Server version: 5.7.24-0ubuntu0.18.04.1
 -- PHP Version: 7.2.10-0ubuntu0.18.04.1
 
@@ -35,7 +35,7 @@ CREATE TABLE `anuncios` (
   `valor_tramite` decimal(12,2) NOT NULL,
   `estado_anuncio` enum('0','1') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '1',
   `ciudad` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `validez_anuncio` enum('0','1') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '1',
+  `validez_anuncio` enum('Activo','Bloqueado','Sin publicar') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Sin publicar',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -45,16 +45,44 @@ CREATE TABLE `anuncios` (
 --
 
 INSERT INTO `anuncios` (`id`, `codigo_anuncio`, `descripcion_anuncio`, `id_user`, `id_tramite`, `valor_tramite`, `estado_anuncio`, `ciudad`, `validez_anuncio`, `created_at`, `updated_at`) VALUES
-(1, 'c1', 'descripcion c1', 1, 1, '2000.00', '1', 'BOGOTA, D.C.', '1', '2018-12-13 15:12:03', '2018-12-28 01:06:37'),
-(2, 'c2', 'descripion c1', 1, 2, '2000.00', '1', 'BOGOTA, D.C.', '1', '2018-12-13 15:12:03', '2018-12-13 15:12:03'),
-(3, 'c3', 'descripion c3', 2, 1, '2000.00', '1', 'BOGOTA, D.C.', '1', '2018-12-13 15:12:04', '2018-12-28 01:06:34'),
-(4, 'c4', 'descripion c4', 2, 2, '2000.00', '1', 'SOACHA', '1', '2018-12-13 15:12:04', '2018-12-13 15:12:04'),
-(5, 't1545230479', 'prueba', 1, 1, '32000.00', '1', 'BOGOTA, D.C.', '1', NULL, '2018-12-28 01:06:38'),
-(6, 't1545230479', 'prueba', 1, 2, '56000.00', '1', 'CALI', '1', NULL, NULL),
-(7, 't1545231381', 'prueba', 1, 1, '2000.00', '1', 'CAICEDO', '1', NULL, NULL),
-(8, 't1545958384', 'prueba', 1, 1, '1000.00', '1', 'CAICEDO', '1', NULL, NULL),
-(9, 't1545958488', 'prueba maliciosa', 1, 10, '2300.00', '1', 'BOGOTA, D.C.', '1', NULL, NULL),
-(10, 't1545972179', 'ddd', 1, 21, '2300.00', '1', 'MEDELLIN', '1', NULL, NULL);
+(1, 'c1', 'descripcion c1', 1, 1, '2000.00', '1', 'BOGOTA, D.C.', 'Activo', '2018-12-13 15:12:03', '2018-12-28 01:06:37'),
+(2, 'c2', 'descripion c1', 1, 2, '2000.00', '1', 'Bogotá, Bogota, Colombia', 'Activo', '2018-12-13 15:12:03', '2018-12-13 15:12:03'),
+(3, 'c3', 'descripion c3', 2, 1, '2000.00', '1', 'BOGOTA, D.C.', 'Activo', '2018-12-13 15:12:04', '2018-12-28 01:06:34'),
+(4, 'c4', 'descripion c4', 2, 2, '2000.00', '1', 'SOACHA', 'Activo', '2018-12-13 15:12:04', '2018-12-13 15:12:04'),
+(5, 't1545230479', 'prueba', 1, 1, '32000.00', '1', 'BOGOTA, D.C.', 'Activo', NULL, '2018-12-28 01:06:38'),
+(6, 't1545230479', 'prueba', 1, 2, '56000.00', '1', 'CALI', 'Activo', NULL, NULL),
+(7, 't1545231381', 'prueba', 1, 1, '2000.00', '1', 'CAICEDO', 'Activo', NULL, NULL),
+(8, 't1545958384', 'prueba', 1, 1, '1000.00', '1', 'CAICEDO', 'Activo', NULL, '2018-12-28 14:44:38'),
+(9, 't1545958488', 'prueba maliciosa', 1, 10, '2300.00', '1', 'Bogotá, Bogota, Colombia', 'Bloqueado', NULL, '2018-12-28 14:14:27'),
+(10, 't1545972179', 'ddd', 1, 21, '2300.00', '1', 'MEDELLIN', 'Activo', NULL, NULL),
+(11, 't1546008771', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 1, '2000.00', '1', 'Bogotá, Bogota, Colombia', 'Activo', NULL, '2018-12-28 14:53:27'),
+(12, 't1546008771', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 2, '2000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
+(13, 't1546008771', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 3, '300000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
+(14, 't1546008771', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 4, '50000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
+(15, 't1546008771', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 5, '5200000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
+(16, 't1546008771', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 6, '96500.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
+(17, 't1546008771', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 7, '3200.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
+(18, 't1546008771', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 8, '320000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
+(19, 't1546008771', 'v', 1, 9, '95000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
+(20, 't1546008771', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 10, '98000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
+(21, 't1546008771', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 11, '65000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
+(22, 't1546008771', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 12, '98500.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
+(23, 't1546008771', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 13, '9800.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
+(24, 't1546008771', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 14, '32000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
+(25, 't1546008772', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 15, '7800.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
+(26, 't1546008772', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 16, '900000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
+(27, 't1546008772', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 17, '1000000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
+(28, 't1546008772', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 18, '125000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
+(29, 't1546008772', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 19, '25000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
+(30, 't1546008772', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 20, '125600.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
+(31, 't1546008772', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 21, '89000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
+(32, 't1546008772', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'', 1, 22, '87000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
+(33, 't1546008772', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 23, '98000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
+(34, 't1546008772', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 24, '108000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
+(35, 't1546025617', 'here are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in so', 2, 1, '2300.00', '1', 'Edson Queiroz, Fortaleza - State of Ceará, Brazil', 'Sin publicar', NULL, NULL),
+(36, 't1546025617', 'here are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in so', 2, 2, '2300.00', '1', 'Edson Queiroz, Fortaleza - State of Ceará, Brazil', 'Sin publicar', NULL, NULL),
+(37, 't1546025617', 'here are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in so', 2, 3, '2300.00', '1', 'Edson Queiroz, Fortaleza - State of Ceará, Brazil', 'Sin publicar', NULL, NULL),
+(38, 't1546025617', 'here are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in so', 2, 4, '77.00', '1', 'Edson Queiroz, Fortaleza - State of Ceará, Brazil', 'Sin publicar', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1256,15 +1284,22 @@ CREATE TABLE `detalle_clic_anuncios` (
 --
 
 INSERT INTO `detalle_clic_anuncios` (`id`, `id_anuncio`, `id_usuario`, `costo`, `num_visitas`, `opinion`, `calificacion`, `comentario`, `created_at`, `updated_at`) VALUES
-(1, 3, 1, '0.00', 3, NULL, 0, NULL, '2018-12-19 20:54:08', '2018-12-28 03:29:23'),
-(2, 4, 1, '5200.00', 1, NULL, 0, NULL, '2018-12-19 20:54:22', '2018-12-19 20:54:22'),
-(3, 7, 3, '50.00', 3, NULL, 0, NULL, '2018-12-27 23:52:55', '2018-12-27 23:58:16'),
-(4, 5, 3, '50.00', 3, NULL, 0, NULL, '2018-12-27 23:53:02', '2018-12-27 23:53:04'),
-(5, 1, 3, '0.00', 9, NULL, 0, NULL, '2018-12-27 23:53:06', '2018-12-27 23:57:34'),
+(1, 3, 1, '0.00', 13, NULL, 0, NULL, '2018-12-19 20:54:08', '2018-12-28 14:13:41'),
+(2, 4, 1, '5200.00', 3, NULL, 0, NULL, '2018-12-19 20:54:22', '2018-12-28 14:13:58'),
+(3, 7, 3, '50.00', 5, NULL, 0, NULL, '2018-12-27 23:52:55', '2018-12-28 16:33:21'),
+(4, 5, 3, '50.00', 5, NULL, 0, NULL, '2018-12-27 23:53:02', '2018-12-28 16:30:34'),
+(5, 1, 3, '0.00', 11, NULL, 0, NULL, '2018-12-27 23:53:06', '2018-12-28 16:30:43'),
 (6, 6, 3, '0.00', 1, NULL, 0, NULL, '2018-12-27 23:54:04', '2018-12-27 23:54:04'),
 (7, 2, 3, '0.00', 1, NULL, 0, NULL, '2018-12-27 23:55:52', '2018-12-27 23:55:52'),
 (8, 4, 3, '0.00', 9, NULL, 0, NULL, '2018-12-27 23:55:58', '2018-12-27 23:58:10'),
-(9, 3, 3, '0.00', 1, NULL, 0, NULL, '2018-12-27 23:57:27', '2018-12-27 23:57:27');
+(9, 3, 3, '0.00', 1, NULL, 0, NULL, '2018-12-27 23:57:27', '2018-12-27 23:57:27'),
+(10, 1, 2, '50.00', 3, NULL, 0, NULL, '2018-12-28 16:30:30', '2018-12-28 17:02:34'),
+(11, 8, 3, '50.00', 1, NULL, 0, NULL, '2018-12-28 16:30:37', '2018-12-28 16:30:37'),
+(12, 11, 3, '0.00', 3, NULL, 0, NULL, '2018-12-28 16:32:25', '2018-12-28 16:33:30'),
+(13, 11, 2, '0.00', 3, NULL, 0, NULL, '2018-12-28 16:51:15', '2018-12-28 19:25:27'),
+(14, 5, 2, '0.00', 9, NULL, 0, NULL, '2018-12-28 17:02:16', '2018-12-28 17:11:15'),
+(15, 7, 2, '0.00', 5, NULL, 0, NULL, '2018-12-28 17:03:37', '2018-12-28 17:06:45'),
+(16, 8, 2, '0.00', 5, NULL, 0, NULL, '2018-12-28 17:04:40', '2018-12-28 17:06:15');
 
 -- --------------------------------------------------------
 
@@ -1291,16 +1326,16 @@ INSERT INTO `detalle_horarios` (`id`, `id_user`, `dia`, `horario`, `estado`, `cr
 (2, 1, 'MARTES', '08:00|12:00', 'Abierto', NULL, NULL),
 (3, 1, 'MIERCOLES', '08:00|23:00', 'Abierto', NULL, NULL),
 (4, 1, 'JUEVES', '08:00|23:00', 'Abierto', NULL, NULL),
-(5, 1, 'VIERNES', '08:00|12:00', 'Abierto', NULL, NULL),
+(5, 1, 'VIERNES', '08:00|22:00', 'Abierto', NULL, NULL),
 (6, 1, 'SABADO', '08:00|12:00', 'Abierto', NULL, NULL),
 (7, 1, 'DOMINGO', '08:00|12:00', 'Abierto', NULL, NULL),
 (8, 2, 'LUNES', '08:00|00:00', 'Abierto', NULL, NULL),
 (9, 2, 'MARTES', '08:00|00:00', 'Abierto', NULL, NULL),
 (10, 2, 'MIERCOLES', '08:00|00:00', 'Abierto', NULL, NULL),
 (11, 2, 'JUEVES', '08:00|23:00', 'Abierto', NULL, NULL),
-(12, 2, 'VIERNES', '08:00|00:00', 'Abierto', NULL, NULL),
-(13, 2, 'SABADO', '08:00|00:00', 'Abierto', NULL, NULL),
-(14, 2, 'DOMINGO', '08:00|00:00', 'Abierto', NULL, NULL),
+(12, 2, 'VIERNES', '08:00|23:00', 'Abierto', NULL, NULL),
+(13, 2, 'SABADO', '08:00|22:00', 'Abierto', NULL, NULL),
+(14, 2, 'DOMINGO', '08:00|22:00', 'Abierto', NULL, NULL),
 (15, 3, 'LUNES', '08:00|00:00', 'Abierto', NULL, NULL),
 (16, 3, 'MARTES', '08:00|00:00', 'Abierto', NULL, NULL),
 (17, 3, 'MIERCOLES', '08:00|00:00', 'Abierto', NULL, NULL),
@@ -1517,6 +1552,8 @@ CREATE TABLE `registro_pagos_anuncios` (
   `transation_value` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `id_anuncio` int(11) NOT NULL,
   `id_user_compra` int(11) NOT NULL,
+  `metodo_pago` varchar(256) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `estado_pago` enum('APROBADA','PENDIENTE','RECHAZADA') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'PENDIENTE',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1627,8 +1664,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `nombre`, `email`, `telefono`, `codigo_referido`, `valor_recarga`, `status_recarga`, `costo_clic`, `nota`, `num_calificaciones`, `password`, `fecha_ultima_recarga`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'EDGAR', 'edgar.guzman21@gmail.com', '3158790445', 1, '499900.00', 'ACTIVA', '50.00', 5, 3, '$2y$10$1we.y5.YzHbOzSZAkL6Y5u.HotbSu3RJiWufpPsBwrqIfNVqqKeh6', '2018-12-13', 'nmXKrhiVrJ1hMWunIUithyVWvFypsq3aShO9WqzJZaR10aigy98ibAnby5JJ', '2018-12-13 15:12:01', '2018-12-27 23:58:15'),
-(2, 'ADRIAN', 'arian.vargas.2018@outlook.com', '311458956', 2, '479950.00', 'ACTIVA', '50.00', 0, 30, '$2y$10$7AtcXLmT9jJH61O0.szLs.xu8618kZPVq6rUAdI.5nWhc7GB8SdOu', NULL, 'LNGeKTHYQm3yIYYhqpTTmrRQqEOJFCVyN3WlM9wgBLzlJ8RlqpVPoBlAMdrJ', '2018-12-13 15:12:01', '2018-12-28 03:29:23'),
+(1, 'EDGAR', 'edgar.guzman21@gmail.com', '3158790445', 1, '499800.00', 'ACTIVA', '50.00', 5, 3, '$2y$10$1we.y5.YzHbOzSZAkL6Y5u.HotbSu3RJiWufpPsBwrqIfNVqqKeh6', '2018-12-13', 'LuxPdx0G3fH4TKoCEXZSFJtEq3ZzpzEsIob9uD6ixIkljnpi56nWBhhDlt8I', '2018-12-13 15:12:01', '2018-12-28 19:25:27'),
+(2, 'ADRIAN', 'arian.vargas.2018@outlook.com', '311458956', 2, '479950.00', 'ACTIVA', '50.00', 0, 30, '$2y$10$7AtcXLmT9jJH61O0.szLs.xu8618kZPVq6rUAdI.5nWhc7GB8SdOu', NULL, 'aaosaNwu3L2KEhL5hUCHtn41f1Tkdkzj5BEjErfqLxaYtXe55BG21cGiYldA', '2018-12-13 15:12:01', '2018-12-28 14:13:58'),
 (3, 'Heriberto', 'hvh3valencia@gmail.com', '3148790445', 3, '250000.00', 'ACTIVA', '50.00', 3, 15, '$2y$10$lcKQlMalKBAHYdmwVgrf3eRWBBIXmRWg0cHmW1PZz/odruILu/QVO', NULL, 'UnT81OfbKOo3rmkxe5VYXkdkICYrSXxjxWAg59WXJbcEX69ao2V5qMPV9hWg', '2018-12-13 15:12:02', '2018-12-13 15:19:57');
 
 -- --------------------------------------------------------
@@ -1650,7 +1687,7 @@ CREATE TABLE `variables` (
 --
 
 INSERT INTO `variables` (`id`, `nombre`, `valor`, `created_at`, `updated_at`) VALUES
-(1, 'porcentaje_tramite', '6', '2018-12-28 01:27:27', '2018-12-28 01:47:26');
+(1, 'porcentaje_tramite', '10', '2018-12-28 01:27:27', '2018-12-28 14:17:21');
 
 --
 -- Indexes for dumped tables
@@ -1789,7 +1826,7 @@ ALTER TABLE `variables`
 -- AUTO_INCREMENT for table `anuncios`
 --
 ALTER TABLE `anuncios`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 --
 -- AUTO_INCREMENT for table `apis`
 --
@@ -1809,7 +1846,7 @@ ALTER TABLE `ciudads`
 -- AUTO_INCREMENT for table `detalle_clic_anuncios`
 --
 ALTER TABLE `detalle_clic_anuncios`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `detalle_horarios`
 --

@@ -1,14 +1,14 @@
 @component('mail::message')
+# {{ config('app.name')}} #
 
-
-![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)
+{{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
 
 Estimad@ {{$user->name}}, Se ha registrado un cambio en tu criptomoneda,
 actualmente no se encuentra activa, te sugerimos que cambies el estado de tu anuncio.
 
 Recuerda comunicarte con nosotros para bridarte más información, visita nuesto sitio web
 
-@component('mail::button', ['url' => url('http://metalbit.co/')])
+@component('mail::button', ['url' => url('config('app.url')')])
  Ir a la web
 @endcomponent
 
@@ -16,9 +16,9 @@ Recuerda comunicarte con nosotros para bridarte más información, visita nuesto
 Anuncio:
 
 @component('mail::table')
-    | tipo | cripto moneda | divisa |
+    | tramite | valor tramite | divisa | 
     |:--------|:----------|
-    | {{$ad->tipo_anuncio}} | {{$ad->nombre_cripto_moneda}} | {{$ad->nombre_moneda}} |
+    | {{--$ad[1]->tipo_anuncio--}} | {{--$ad[1]->nombre_cripto_moneda--}} | {{--$ad[1]->nombre_moneda--}} | 
 @endcomponent
 
 Estado: ACTIVADO

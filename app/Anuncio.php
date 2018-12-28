@@ -92,8 +92,8 @@ class Anuncio extends Model
                         $mostrar_payu=false;
                     
                 }               
-
-                $hs=$pu[0]->hashear($value->codigo_anuncio.'-'.time().'-'.$key,10000,"COP");
+                $cod=$value->codigo_anuncio.'-'.$key;
+                $hs=$pu[0]->hashear($cod,$value->valor_tramite,"COP");
 
                 if(Auth()->user()!=null){
 
@@ -124,7 +124,7 @@ class Anuncio extends Model
                 $arr_anuncios[$v++]=(object)[
                                     "id"=>$value->id,
                                     "id_anunciante"=>$value->id_user,
-                                    "cod_anuncio"=>$value->codigo_anuncio,
+                                    "cod_anuncio"=>$cod,
                                     "descripcion"=>$value->descripcion_anuncio,
                                     "nombre_tramite"=>$value->nombre_tramite,
                                     "valor_tramite"=>$value->valor_tramite,
@@ -191,12 +191,13 @@ class Anuncio extends Model
    * @return [type]      [description]
    */
   public function registro_venta($req){
+    //dd($req);
     switch ($req['transactionState']) {
             case 4:
                 //aprobada
                 $comprador=User::where("email",$req['buyerEmail'])->get();
                 
-                $p=DB::table("pagos")->where("transactionId",$req['reference_pol'])->get();
+                $p=DB::table("registro_pagos_anuncios")->where("transactionId",$req['reference_pol'])->get();
                 $empresa=Payu::all();
                 //dd([$p,$comprador[0]->id]);
                 $id_ad=explode("-",$req['referenceCode'])[1];  
@@ -211,11 +212,11 @@ class Anuncio extends Model
                       }else{    
                         $msn="Hemos registrado tu compra";
 
-                        DB::table("pagos")->where("id",$p[0]->id)->update(["estado_pago"=>"APROBADA"]);
+                        DB::table("registro_pagos_anuncios")->where("id",$p[0]->id)->update(["estado_pago"=>"APROBADA"]);
 
-                      $anuncio=Anuncios::where("id",$id_ad)->get();
+                      $anuncio=Anuncio::where("id",$id_ad)->get();
                       //dd($anuncio);
-                      $anunciante=User::where("id",$anuncio[0]->user_id)->get();
+                      $anunciante=User::where("id",$anuncio[0]->id_user)->get();
 
                         //aqui debo enviar los datos de confirmación a la cuenta de correo
                         NotificacionAnuncio::dispatch($comprador[0], $anunciante[0],[],"CompraExitosa");
@@ -236,7 +237,7 @@ class Anuncio extends Model
 
                     return view('payu.error_payu')->with("mensaje",$msn);
                   }else{
-                     $pg=DB::table("pagos")
+                     $pg=DB::table("registro_pagos_anuncios")
                           ->where([
                               ["id_anuncio",$id_ad],
                               ['id_user_compra',$comprador[0]->id],
@@ -248,7 +249,7 @@ class Anuncio extends Model
                           $id_ad=explode("-",$req['referenceCode'])[1];
                           //dd([$id_ad,$comprador[0]->id]);
                           //dd($comprador[0]->id);
-                          DB::table("pagos")
+                          DB::table("registro_pagos_anuncios")
                               ->where([
                                   ["id_anuncio",$id_ad],
                                   ['id_user_compra',$comprador[0]->id],
@@ -263,9 +264,9 @@ class Anuncio extends Model
                               "updated_at"=>Carbon::now('America/Bogota')
                            ]);
 
-                            $anuncio=Anuncios::where("id",$id_ad)->get();
+                            $anuncio=Anuncio::where("id",$id_ad)->get();
                             //dd($anuncio);
-                            $anunciante=User::where("id",$anuncio[0]->user_id)->get();
+                            $anunciante=User::where("id",$anuncio[0]->id_user)->get();
 
                                   //aqui debo enviar los datos de confirmación a la cuenta de correo
                             NotificacionAnuncio::dispatch($comprador[0], $anunciante[0],[],"CompraExitosa");
@@ -292,7 +293,7 @@ class Anuncio extends Model
                 //dd($req);
                 //pendiente de confirmacion efecty
                 $comprador=User::where("email",$req['buyerEmail'])->get();
-                $p=DB::table("pagos")->where("transactionId",$req['reference_pol'])->get();
+                $p=DB::table("registro_pagos_anuncios")->where("transactionId",$req['reference_pol'])->get();
                 $id_ad=explode("-",$req['referenceCode'])[1];  
                 //dd([$p,$comprador[0],$id_ad]);
                 //dd($comprador);
@@ -312,7 +313,7 @@ class Anuncio extends Model
                       //dd($empresa);
                       $id_ad=explode("-",$req['referenceCode'])[1];
                       //dd([$comprador[0]->id,$id_ad]);  
-                      DB::table("pagos")
+                      DB::table("registro_pagos_anuncios")
                           ->where([
                               ["id_anuncio",$id_ad],
                               ['id_user_compra',$comprador[0]->id],
@@ -329,16 +330,22 @@ class Anuncio extends Model
 
                   }
                   
-                  $anuncio=Anuncios::where("id",$id_ad)->get();
-                  $anunciante=User::where(".id",$anuncio[0]->user_id)->get();
+                  $anuncio=Anuncio::where("id",$id_ad)->get();
+                  $anunciante=User::where(".id",$anuncio[0]->id_user)->get();
+                  //dd($anuncio[0]);
                   //aqui debo enviar los datos de confirmación a la cuenta de correo
-                  NotificacionAnuncio::dispatch($comprador[0], [],[],"CompraPendiente");
+                  //NotificacionAnuncio::dispatch($comprador[0], [],[],"CompraPendiente");
                   
-                  //dd($anunciante[0]);
-                  NotificacionAnuncio::dispatch($anunciante[0],[$comprador[0],$anuncio[0]],$req['TX_VALUE'],"CompraPendienteAnunciante");
-
-                  return view('payu.confirmar_payu')->with("respuesta",$req)
+                  //dd([$anunciante[0],[$comprador[0],$anuncio[0]],$req['TX_VALUE'],"CompraPendienteAnunciante"]);
+                  //NotificacionAnuncio::dispatch($anunciante[0],[$comprador[0],$anuncio[0]],$req['TX_VALUE'],"CompraPendienteAnunciante");
+                  /*return redirect()->route('confirmar_payu')                  
                             ->with("empresa",$empresa)
+                            ->with("cliente",$comprador)
+                            ->with("estado","Pendiente aprobación")
+                            ->with("entidad",$req['lapPaymentMethod']);*/
+
+                  return view('payu.confirmar_payu')
+                            ->with("respuesta",$req) ->with("empresa",$empresa)
                             ->with("cliente",$comprador)
                             ->with("estado","Pendiente aprobación")
                             ->with("entidad",$req['lapPaymentMethod']);
@@ -349,7 +356,7 @@ class Anuncio extends Model
               //dd($req);
                 $id_ad=explode("-",$req['referenceCode'])[1];
                 $comprador=User::where("email",$req['buyerEmail'])->get();  
-                $pg=DB::table("pagos")
+                $pg=DB::table("registro_pagos_anuncios")
                           ->where([
                               ["id_anuncio",$id_ad],
                               ['id_user_compra',$comprador[0]->id],
@@ -361,7 +368,7 @@ class Anuncio extends Model
                     
                     
                     //rechazada
-                    DB::table("pagos")
+                    DB::table("registro_pagos_anuncios")
                        ->where([
                                 ["id_anuncio",$id_ad],
                                 ["id_user_compra",$comprador[0]->id]
@@ -376,7 +383,7 @@ class Anuncio extends Model
                       
                     $msn="Tu pago ha sido rechazado, intentalo nuevamente o comunícate con tu banco o entidad de pagos para verificar, que esta sucediendo";  
                 }else{
-                  $pg=DB::table("pagos")
+                  $pg=DB::table("registro_pagos_anuncios")
                           ->where([
                               ["id_anuncio",$id_ad],
                               ['id_user_compra',$comprador[0]->id],
@@ -396,7 +403,7 @@ class Anuncio extends Model
             default:
                 $msn="No Se ha registrado exitosamente tu compra ";
                 return view('payu.error_payu')->with("mensaje",$msn);
-                break;
+            break;
     }
   }
 }

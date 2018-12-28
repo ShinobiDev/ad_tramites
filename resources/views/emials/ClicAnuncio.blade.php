@@ -1,9 +1,9 @@
 @component('mail::message')
 
 
-![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)
+{{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
 
-Estimad@ {{$user->name}}, Han visto tu anuncio en METALBIT
+Estimad@ {{$user->name}}, Han visto tu anuncio en  {{ config('app.name')}} 
 
 Usuario : {{$ad[1]->name}}
 Telefono: {{$ad[1]->phone}},
@@ -13,9 +13,9 @@ Email: {{$ad[1]->email}},
 Anuncio:
 
 @component('mail::table')
-    | tipo | cripto moneda | divisa | estado |
+    | tramite | valor tramite | divisa | 
     |:--------|:----------|
-    | {{$ad[0]->tipo_anuncio}} | {{$ad[0]->nombre_cripto_moneda}} | {{$ad[0]->nombre_moneda}} | {{$ad[0]->estado_anuncio}} |
+    | {{--$ad[1]->tipo_anuncio--}} | {{--$ad[1]->nombre_cripto_moneda--}} | {{--$ad[1]->nombre_moneda--}} | 
 @endcomponent
 
 ## BALANCE DE RECARGA {{$recarga}} ##
