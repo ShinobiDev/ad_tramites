@@ -6,6 +6,7 @@ use App\Tramite;
 use App\User;
 use App\Payu;
 use App\Api;
+use App\Variable;
 
 use Spatie\Permission\Models\Role;
 
@@ -19,12 +20,14 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call(UsersTableSeeder::class);
-        // 
-        // 
+        //
+        //
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Role::truncate();
+        Variable::truncate();
+        Variable::create(["nombre"=>"porcentaje_tramite","valor"=>6]);
 
-    	
+
         $admin=Role::create(['name'=>'Admin']);
         $anunciante=Role::create(['name'=>'Anunciante']);
 
@@ -32,7 +35,7 @@ class DatabaseSeeder extends Seeder
 
         Payu::truncate();
         $p= new Payu;
-        
+
         $p->API_KEY='4Vj8eK4rloUd272L48hsrarnUA';
         $p->merchantId='508029';
         $p->accountId='512321';
@@ -51,10 +54,10 @@ class DatabaseSeeder extends Seeder
         $a=new Api();
         $a->nombre="GoogleDirections";
         $a->key="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjK1P7ObTN9d1kZ8LTVU-mvoY8Uc2it1w&libraries=places&callback=iniciarApp";
-        $a->save();    
+        $a->save();
 
         User::truncate();
-        $u = new User; 
+        $u = new User;
         $u->truncar_detalle();
         $u->nombre="EDGAR";
         $u->email="edgar.guzman21@gmail.com";
@@ -68,7 +71,7 @@ class DatabaseSeeder extends Seeder
         $u->password=bcrypt('123456');
         $u->save();
         $u->assignRole($anunciante);
-        
+
         $u->agregar_horario(1,"LUNES","08:00|20:00","ABIERTO");
         $u->agregar_horario(1,"MARTES","08:00|20:00","ABIERTO");
         $u->agregar_horario(1,"MIERCOLES","08:00|20:00","ABIERTO");
@@ -76,9 +79,9 @@ class DatabaseSeeder extends Seeder
         $u->agregar_horario(1,"VIERNES","08:00|20:00","ABIERTO");
         $u->agregar_horario(1,"SABADO","08:00|20:00","ABIERTO");
         $u->agregar_horario(1,"DOMINGO","08:00|20:00","ABIERTO");
-        
-        
-        $u = new User; 
+
+
+        $u = new User;
         $u->nombre="ADRIAN";
         $u->email="arian.vargas.2018@outlook.com";
         $u->telefono="311458956";
@@ -99,9 +102,9 @@ class DatabaseSeeder extends Seeder
         $u->agregar_horario(2,"VIERNES","08:00|20:00","ABIERTO");
         $u->agregar_horario(2,"SABADO","08:00|20:00","ABIERTO");
         $u->agregar_horario(2,"DOMINGO","08:00|20:00","ABIERTO");
-        
 
-        $u = new User; 
+
+        $u = new User;
         $u->nombre="Heriberto";
         $u->email="hvh3valencia@gmail.com";
         $u->telefono="3148790445";
@@ -114,7 +117,7 @@ class DatabaseSeeder extends Seeder
         $u->password=bcrypt('123456');
         $u->save();
         $u->assignRole($admin);
-        
+
         $u->agregar_horario(3,"LUNES","08:00|20:00","ABIERTO");
         $u->agregar_horario(3,"MARTES","08:00|20:00","ABIERTO");
         $u->agregar_horario(3,"MIERCOLES","08:00|20:00","ABIERTO");
@@ -122,7 +125,7 @@ class DatabaseSeeder extends Seeder
         $u->agregar_horario(3,"VIERNES","08:00|20:00","ABIERTO");
         $u->agregar_horario(3,"SABADO","08:00|20:00","ABIERTO");
         $u->agregar_horario(3,"DOMINGO","08:00|20:00","ABIERTO");
-        
+
 
 
         Tramite::truncate();
@@ -134,7 +137,7 @@ class DatabaseSeeder extends Seeder
         $t->nombre_tramite="PRUEBA 2";
         $t->descripcion="Una breve descripcion del tramite";
         $t->save();
-        
+
         Anuncio::truncate();
         $ad = new Anuncio;
         $ad->codigo_anuncio="c1";
@@ -173,7 +176,7 @@ class DatabaseSeeder extends Seeder
         $ad->ciudad="BOgota";
         $ad->save();
 
-        
+
         /*
         $t=new Tramite;
         $t->truncar_detalle();
