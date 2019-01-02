@@ -172,14 +172,9 @@ class AnuncioController extends Controller
     {
         //
 
-
-      //dd([Tramite::all(),Api::where('nombre','GoogleDirections')->select('key')->get(),Variable::where('nombre','porcentaje_tramite')->get()]);
       return view('anuncios.create')->with("tramites",Tramite::all())
                                     ->with("key",Api::where('nombre','GoogleDirections')->select('key')->get())
                                     ->with('porcentaje',Variable::where('nombre','porcentaje_tramite')->get());
-
-
-
     }
 
     /**
@@ -609,8 +604,8 @@ class AnuncioController extends Controller
 
 
     public function datos_filtro(){
-        //return response()->json(["tramites"=>Tramite::all(),"ciudades"=>Anuncio::select('ciudad')->groupby('ciudad')->get()]);
-        return response()->json(["tramites"=>Tramite::all(),"ciudades"=>Ciudad::all()]);
+        return response()->json(["tramites"=>Tramite::all(),"ciudades"=>Anuncio::select('ciudad')->groupby('ciudad')->get()]);
+        //return response()->json(["tramites"=>Tramite::all(),"ciudades"=>Ciudad::all()]);
 
     }
 

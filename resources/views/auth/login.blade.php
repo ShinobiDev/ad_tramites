@@ -16,9 +16,9 @@
 
                             <div class="col-md-6">
                                 @if(isset($_GET['id']))
-                                    <input id="email" type="email" class="form-control" name="email" value="{{ $_GET['id'] }}" required autofocus>
+                                    <input id="email" type="email" class="form-control" name="email" value="{{ $_GET['id'] }}" onchange="agregar_correo(this)" required autofocus>
                                 @else
-                                    <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
+                                    <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" onchange="agregar_correo(this)" required autofocus>
                                 @endif
                                 @if ($errors->has('email'))
                                     <span class="help-block">
@@ -57,8 +57,10 @@
                                 <button type="submit" class="btn btn-primary">
                                     Ingresar
                                 </button>
-
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
+                                <a id="ancRegistro" class="btn btn-primary" href="{{ route('register').'/?'}}e={{old('email')}}">
+                                  Registrarse
+                                </a>
+                                <a id="ancOlvideClave" class="btn btn-link" href="{{ route('password.request').'/?'}}e={{old('email')}}">
                                     Olvide mi clave
                                 </a>
                             </div>
@@ -69,4 +71,10 @@
         </div>
     </div>
 </div>
+<script>
+  function agregar_correo(e){
+    document.getElementById('ancRegistro').href="{{route('register')}}?e="+document.getElementById(e.id).value;
+    document.getElementById('ancOlvideClave').href="{{route('password.request')}}?e="+document.getElementById(e.id).value;
+  }
+</script>
 @endsection

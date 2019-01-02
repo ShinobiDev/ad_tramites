@@ -49,7 +49,7 @@ class RegisterController extends Controller
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
-    {     
+    {
         /*//dd(Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -74,13 +74,13 @@ class RegisterController extends Controller
      * @return \App\User
      */
     protected function create(array $data)
-    {   
-          
+    {
+
         //dd($data);
         //
         $referente=[];
         if($data['codigo_referido']!=""){
-            $referente=User::where('codigo_referido',$data['codigo_referido'])->get();        
+            $referente=User::where('codigo_referido',$data['codigo_referido'])->get();
         }
         //echo "0";
         $data['password'] = str_random(8);
@@ -97,7 +97,7 @@ class RegisterController extends Controller
             'codigo_referido'=>((int)$cod[0]->codigo_referido+1),
             'valor_recarga'=>'0',
             'status_recarga'=>'ACTIVA',
-            'nota'=>0
+            'nota'=>3
 
         ]);
         //asigno el rol
@@ -143,12 +143,12 @@ class RegisterController extends Controller
 
                                         ]
                                     ]);
-         
+
         if(count($referente)>0){
             ////echo "3";
             ////dd($referente[0]);
             ////dd([$referente[0]->id,$u->id]);
-          //Enviar Emial            
+          //Enviar Emial
             //echo "4";
             DB::table("detalle_recargas")->insert([
                                                 'id_usuario' => $referente[0]->id,
@@ -163,9 +163,9 @@ class RegisterController extends Controller
             DB::table("detalle_referidos")->insert([
                                                 'id_cabeza' => $referente[0]->id,
                                                 'id_referido'=>$u->id
-                                                    ]);  
+                                                    ]);
             //echo "6";
-            $dt_r=DB::table('detalle_referidos')->where([['id_cabeza',$referente[0]->id],['id_referido',$u->id]])->get();    
+            $dt_r=DB::table('detalle_referidos')->where([['id_cabeza',$referente[0]->id],['id_referido',$u->id]])->get();
             ////dd($);
             //echo "7";
             DB::table('bonificaciones')->insert(
@@ -182,7 +182,7 @@ class RegisterController extends Controller
 
         UserWasCreated::dispatch($u, $data['password']);
 
-        
+
     }
 
       public function create_landing($codigo_referido){
@@ -193,8 +193,8 @@ class RegisterController extends Controller
                 ->with("user",$u[0]);
         }else{
             return view("home");
-                
+
         }
-        
+
     }
 }
