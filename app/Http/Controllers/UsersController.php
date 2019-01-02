@@ -32,7 +32,7 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {  
+    {
        $users = User::allowed()->get();
        $horarios=DB::table('detalle_horarios')->where('id_user',auth()->user()->id)->get();
        return view('admin.user.index')
@@ -60,7 +60,7 @@ class UsersController extends Controller
         return view('admin.user.create',compact('user', 'roles','permissions'));
     }
 
-   
+
     /**
      * Store a newly created resource in storage.
      *
@@ -70,7 +70,7 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         //Validar usuario
-        
+
         $this->authorize('create', new User);
 
 
@@ -94,7 +94,7 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
    public function show(User $user)
-    {   
+    {
           //dd($user);
 
           //$this->authorize('view', $user);
@@ -115,19 +115,19 @@ class UsersController extends Controller
           $ad=[];
 
 
-           
-         
-          $horarios=DB::table('detalle_horarios')->where('id_user',Auth()->user()->id)->get();
-                                       
 
-           //dd($transacciones);                     
+
+          $horarios=DB::table('detalle_horarios')->where('id_user',Auth()->user()->id)->get();
+
+
+           //dd($transacciones);
           return view('admin.user.show')->with('user', $user)
                     ->with('recargas', $user)
                     ->with("py",$py[0])
                     ->with("ref_code","rec_".$ref)
                     ->with("hash",$pp->hashear("rec_".$ref,20000,"COP"))
                     ->with('horarios',$horarios)
-                    ->with('variables',Variable::all());                        
+                    ->with('variables',Variable::all());
     }
 
     /**
@@ -144,7 +144,7 @@ class UsersController extends Controller
         $roles = Role::with('permissions')->get();
         $permissions = Permission::pluck('name','id');
         $horarios=DB::table('detalle_horarios')->where('id_user',$user->id)->get();
-          
+
         return view('admin.user.edit',compact('user', 'roles','permissions'))->with("horarios",$horarios);
     }
 
@@ -174,55 +174,55 @@ class UsersController extends Controller
 
     public function update(UpdateUserRequest $request, User $user)
     {
-  
+
         $uo=User::where("id",$user->id)->get();
         //dd($uo[0]->email);
         if($uo[0]->email!=$request["email"]){
             $msn="Hemos enviado un correo electrónico, a tu cuenta ".$request["email"].", por favor confirmalo para realizar los cambios de tu correo";
             $data=$request->validated();
-            
+
             if(strlen($data['telefono']) < 7 ||  strlen($data['telefono']) > 13){
                 $msn="Ingresa un número de télefono valido";
-                return back()->with('error',$msn);                
-            }   
+                return back()->with('error',$msn);
+            }
             $arr["nombre"]=$data["nombre"];
             $arr["telefono"]=$data["telefono"];;
             if(array_key_exists("password", $data)){
-                $arr["password"]=bcrypt($data["password"]);    
+                $arr["password"]=bcrypt($data["password"]);
             }
             //dd($arr);
             if(filter_var($request["email"], FILTER_VALIDATE_EMAIL)){
                 $uu=User::where("email",$request["email"])->get();
                 if(count($uu)==0){
                     //dd($request["email"]);
-                    ActualizacionDatos::dispatch($user,$request["email"]);    
+                    ActualizacionDatos::dispatch($user,$request["email"]);
                 }else{
-                    $msn="No se ha podido registrar la cuenta de correo ".$request["email"].", está cuenta de correo, ya se encuentra registrada en nuestro sistema ";    
+                    $msn="No se ha podido registrar la cuenta de correo ".$request["email"].", está cuenta de correo, ya se encuentra registrada en nuestro sistema ";
                 }
-                
+
             }else{
                 $msn="Ingresa una cuenta de correo valida";
             }
-            
+
 
 
             $user->update($arr);
-            
+
         }else{
             $dt=$request->validated();
             if(strlen($dt['telefono']) < 7 ||  strlen($dt['telefono']) > 13){
                 $msn="Ingresa un número de télefono valido";
-                return back()->with('error',$msn);                
+                return back()->with('error',$msn);
             }
             if(array_key_exists("password", $dt)){
-                $dt["password"]=bcrypt($dt["password"]);    
-            }    
+                $dt["password"]=bcrypt($dt["password"]);
+            }
             $user->update($dt);
             $msn='Se ha actualizado el usuario correctamente';
 
         }
 
-        
+
 
         return back()->with('success',$msn);
     }
@@ -248,20 +248,20 @@ class UsersController extends Controller
                     $ot_u=User::where("email",$nuevo_correo)->get();
                     if(count($ot_u)==0){
                         User::where("id",$id)->update(["email"=>$nuevo_correo]);
-                        return redirect()->route('users.show',$id)->with('success', 'Hemos registrado este nuevo correo');  
+                        return redirect()->route('users.show',$id)->with('success', 'Hemos registrado este nuevo correo');
                     }else{
-                        return redirect()->route('users.show',$id)->with('error', 'Verifica tu código de cambio para el correo, esta cuenta de correo ya existe'); 
+                        return redirect()->route('users.show',$id)->with('error', 'Verifica tu código de cambio para el correo, esta cuenta de correo ya existe');
                     }
-                      
+
                 }else{
-                    return redirect()->route('users.show',$id)->with('error', 'Verifica tu código de cambio para el correo');        
-                }    
+                    return redirect()->route('users.show',$id)->with('error', 'Verifica tu código de cambio para el correo');
+                }
         }else{
             return redirect()->route('users.show',$id)->with('error', 'Verifica tu correo electrónico');
         }
-        
-    
-        
+
+
+
     }
 
     public function mis_bonificaciones(){
@@ -283,27 +283,25 @@ class UsersController extends Controller
                                ->where("detalle_referidos.id_referido",Auth()->user()->id)->get();
         return view('recargas.mis_bonificaciones')
                 ->with('bonificaciones',$bonificaciones)
-                ->with('success', 'Estas son tus bonificaciones');                        
-                               
+                ->with('success', 'Estas son tus bonificaciones');
+
     }
 
-    public function validar_codigo($cod){
-        if($cod=="-"){
-             return response()->json(["respuesta"=>true]);
-        }
+    public function validar_codigo(Request $request){
+        //dd($request['data']['datos']);
+        $cod=$request['data']['datos'];
         $us=User::where("codigo_referido",$cod)->get();
         if(count($us)>0){
             return response()->json(["respuesta"=>true]);
         }
         return response()->json(["respuesta"=>false]);
     }
-
-        public function cambio_pass(Request $request){
-          
+    /*Funcion para cambiar la clave
+    */
+    public function cambio_pass(Request $request){
          User::where("email",$request['email'])->update(['password'=>bcrypt($request['password'])]);
          return redirect()->route('login',["id"=>$request['email']])->with('success', 'Se ha cambiado tu contraseña correctamente, debes ingresar con tu nueva contraseña');
-
-        }
+    }
     /*
      * Funcion que realiza consulta de los anuncios que ha clickeado el usuario
      * @return [type] [description]
@@ -330,21 +328,21 @@ class UsersController extends Controller
                              "users.costo_clic",
                              "users.valor_recarga",
                              "tramites.nombre_tramite",
-                             DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion") )   
-                ->join('anuncios','anuncios.id','detalle_clic_anuncios.id_anuncio') 
-                ->join('users','users.id','anuncios.id_user')                
-                ->join('tramites','tramites.id','anuncios.id_tramite')                
+                             DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion") )
+                ->join('anuncios','anuncios.id','detalle_clic_anuncios.id_anuncio')
+                ->join('users','users.id','anuncios.id_user')
+                ->join('tramites','tramites.id','anuncios.id_tramite')
                 ->where([
                         ['detalle_clic_anuncios.id_usuario',auth()->user()->id],
                         ['anuncios.estado_anuncio','1']
                         ])
                 ->get();
-        //dd($ad_saw);        
+        //dd($ad_saw);
        $ad_arr=new Anuncio();
        $arr_anuncios = $ad_arr->ver_anuncios($ad_saw);
        $tramites=Tramite::select('tramites.id','tramites.nombre_tramite')
                                 ->join('anuncios','tramites.id','anuncios.id_tramite')
-                                ->join('detalle_clic_anuncios','anuncios.id','detalle_clic_anuncios.id_anuncio') 
+                                ->join('detalle_clic_anuncios','anuncios.id','detalle_clic_anuncios.id_anuncio')
                                 ->where([
                                     ['detalle_clic_anuncios.id_usuario',auth()->user()->id],
                                     ['anuncios.estado_anuncio','1']
@@ -355,7 +353,7 @@ class UsersController extends Controller
       return view('anuncios.mis_anuncios_vistos')
                 ->with('anuncios',$arr_anuncios)
                 ->with("tramites",$tramites)
-                ->with('success', 'Aquí está el listado de los anuncios que haz visto');         
+                ->with('success', 'Aquí está el listado de los anuncios que haz visto');
     }
 
 
@@ -365,14 +363,14 @@ class UsersController extends Controller
    public function cambiar_horario( $id,$horarios){
         //dd($horarios);
         DB::table('detalle_horarios')->where('id',$id)->update([
-                                                                    'horario'=>$horarios                  
+                                                                    'horario'=>$horarios
                                                                 ]);
         return response()->json(["respuesta"=>true]);
     }
 
     /*
     aqui se registra el clic dado a un anuncio
-     
+
     $anuncio = id anuncio
     $costo = valor de el clic
     $user_id = id quien da clic
@@ -419,29 +417,29 @@ class UsersController extends Controller
 
                 DetalleClicAnuncio::where([["id_usuario",$user_id],["id_anuncio",$ad[0]->id]])
                                     ->update(["id_usuario"=>$user_id,
-                                                
+
                                                 "updated_at"=>Carbon::now('America/Bogota')
 
                                             ]);
                  DetalleClicAnuncio::where([
                                             ["id_usuario",$user_id],
                                             ["id_anuncio",$ad[0]->id]
-                                            
-                                        ])->increment("num_visitas",1);                   
 
-                
+                                        ])->increment("num_visitas",1);
+
+
             }else{
 
                 DetalleClicAnuncio::create([
                                 "id_anuncio"=>$ad[0]->id,
                                 "id_usuario"=>$user_id,
-                                "costo"=>$costo,    
-                                "num_visitas"=>1,                            
+                                "costo"=>$costo,
+                                "num_visitas"=>1,
                                 "created_at"=>Carbon::now('America/Bogota')
                             ]);
             }
 
-            
+
             //dd($ad);
             //NotificacionAnuncio::dispatch($uu[0], [$ad[0],$uc[0]],$rc[0]->valor,"AnuncioClickeado");
         }
@@ -492,11 +490,11 @@ class UsersController extends Controller
                     'referencia_pago'=>$referencia_pago,
                     'id_usuario'=>$id
                 ]);
-    
+
         }
         //dd($dt);
         return response()->json(["respuesta"=>true]);
-        
+
     }
     /**
      * Funcion para cambiar el estado del dia
@@ -505,17 +503,17 @@ class UsersController extends Controller
      * @return [type]         [description]
      */
     public function cambiar_estado_dia($id,$estado){
-        
+
         if($estado=="false"){
             $estado2='Cerrado';
         }else{
             $estado2='Abierto';
         }
         DB::table('detalle_horarios')->where('id',$id)->update([
-                                                                    'estado'=>$estado2                  
+                                                                    'estado'=>$estado2
                                                                    ]);
         //dd($estado2);
-        return response()->json(["respuesta"=>true,"estado"=>$estado2]);   
+        return response()->json(["respuesta"=>true,"estado"=>$estado2]);
     }
 
     public function ver_recargas(){
@@ -528,8 +526,8 @@ class UsersController extends Controller
                                     'users.costo_clic')
             //->join('detalle_recargas','detalle_recargas.id_usuario','users.id')
             //->groupBy('users.id')
-            //->orderBy('detalle_recargas.updated_at','users.id')           
-            ->get();     
+            //->orderBy('detalle_recargas.updated_at','users.id')
+            ->get();
         $mi_lista=User::select('users.id',
                                 'users.nombre',
                                 'users.fecha_ultima_recarga',
@@ -540,10 +538,10 @@ class UsersController extends Controller
                                 'detalle_recargas.referencia_pago_pay_u',
                                 'detalle_recargas.created_at')
                             ->join('detalle_recargas','detalle_recargas.id_usuario','users.id')
-                              ->orderBy('users.id')       
-                            ->where("users.id",$recargas[0]->id)    
-                            ->get();   
-                        
+                              ->orderBy('users.id')
+                            ->where("users.id",$recargas[0]->id)
+                            ->get();
+
         return view('recargas.index')->with('recargas' , $recargas)->with("mi_lista_recarga",$mi_lista);
 
     }
@@ -560,7 +558,7 @@ class UsersController extends Controller
 
     public function mostrar_cambiar_costo_clic(){
         return view('recargas.create');
-        
+
     }
 
     public function registro_recargas(){
@@ -577,6 +575,6 @@ class UsersController extends Controller
                             'valor'=>$request['valor']
                           ]);
 
-        return back()->with('success', 'Se ha cambiado el valor de la variable correctamente');         
+        return back()->with('success', 'Se ha cambiado el valor de la variable correctamente');
     }
 }

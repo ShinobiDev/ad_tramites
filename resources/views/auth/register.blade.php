@@ -23,8 +23,8 @@
                                     </span>
                                 @endif
                             </div>
-                        </div>  
-                        
+                        </div>
+
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">E-Mail</label>
 
@@ -56,7 +56,7 @@
                             <label for="phone" class="col-md-4 control-label">Código referido (opcional)</label>
 
                             <div class="col-md-6">
-                                <input id="codigo_referido" type="text" class="form-control" name="codigo_referido" onchange="validar_codigo()" onkeypress="validar_codigo()" value="{{ old('codigo_referido') }}" max="15">
+                                <input id="codigo_referido" type="text" class="form-control" name="codigo_referido" onchange="validar_codigo(this)" value="{{ old('codigo_referido') }}" max="15">
 
                                 @if ($errors->has('codigo_referido'))
                                     <span class="help-block">
@@ -69,7 +69,7 @@
                             <div class="col-md-6 col-md-offset-4">
                             <span class="text-red">
                                 <p>
-                                  Las credenciales de acceso seran  enviadas al correo
+                                  Las credenciales de acceso serán  enviadas al correo
                                 </p>
                                 <p id="p_error_cod" style="display: none">Este código no es valido</p>
                             </span>
@@ -91,25 +91,18 @@
 </div>
 @endsection
 <script type="text/javascript">
-    function validar_codigo(){
-
-        var cod=document.getElementById('codigo_referido');
+    function validar_codigo(e){
         var p_error_cod=document.getElementById("p_error_cod");
-        var dato="-";
-            if(cod.value!=""){
-                dato=cod.value;
+            console.log(e);
+            console.log(e.value);
+            if(e.value!=""){
+              peticion_ajax("POST","validar_codigo",{datos:e.value},function(rs){
+                    if(rs.respuesta){
+                          p_error_cod.style.display='none';
+                    }else{
+                          p_error_cod.style.display='block';
+                    }
+              });
             }
-            peticion_ajax("GET","admin/validar_codigo/"+dato,function(rs){
-                  if(rs.respuesta){
-                       
-                        p_error_cod.style.display='none';
-                  }else{
-                        p_error_cod.style.display='block';
-                  }  
-                  
-            });    
-        
-        
-
     }
 </script>
