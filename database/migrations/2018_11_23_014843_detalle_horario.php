@@ -18,8 +18,8 @@ class DetalleHorario extends Migration
             $table->increments('id');
             $table->integer('id_user')->unsigned();
             $table->enum("dia",['LUNES','MARTES','MIERCOLES','JUEVES','VIERNES','SABADO','DOMINGO']);
-            $table->string('horario')->default('08:00|20:00');
-            $table->enum('estado',['Abierto','Cerrado']);
+            $table->string('horario')->default('08:00|17:00');
+            $table->enum('estado',['Abierto','Cerrado'])->default('Abierto');
             $table->timestamps();
         });
     }

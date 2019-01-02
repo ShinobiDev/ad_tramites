@@ -441,7 +441,7 @@ class UsersController extends Controller
 
 
             //dd($ad);
-            //NotificacionAnuncio::dispatch($uu[0], [$ad[0],$uc[0]],$rc[0]->valor,"AnuncioClickeado");
+            NotificacionAnuncio::dispatch($uu[0], [$ad[0],$uc[0]],$rc[0]->valor,"AnuncioClickeado");
         }
         //valido valor de recarga
 

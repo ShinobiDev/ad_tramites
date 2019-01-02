@@ -5,7 +5,7 @@
 
 <div class="row">
         <!--DIVISION USUARIO-->
-        <div class="col-md-3">
+        <div class="col-md-4">
           <div class="box-body box-profile">
             <img class="profile-user-img img-responsive img-circle" src="{{asset('admin-lte/dist/img/user4-128x128.jpg')}}" alt="{{$user->name}}">
 
@@ -25,13 +25,13 @@
               </li>
               <li class="list-group-item" style="text-align: center;">
                 <b>Horarios de atención</b>
-              </li>  
+              </li>
               @foreach($horarios as $h)
                 <li class="list-group-item" style="margin-left:  20px;"><b >{{$h->dia}} </b> <a style=" margin-right: 20px;" class="pull-right">{{explode("|",$h->horario)[0] }} a {{explode("|",$h->horario)[1] }} {{$h->estado}}</a></li>
               @endforeach
-                
 
-              
+
+
             </ul>
 
             <a href="{{route('users.edit', $user)}}" class="btn btn-primary btn-block"><b>Editar</b></a>
@@ -45,8 +45,8 @@
                   <h3 class="box-title">Realizar Recarga</h3>
               </div>
               <div class="box-body">
-                
-                  
+
+
 
                       @if ($recargas->valor_recarga <= '0')
                           <h4>Actualmente No tienes saldo</h4>
@@ -54,7 +54,7 @@
                         <h4>Su saldo actual es: $ {{$recargas->valor_recarga}} <small> {{$recargas->status_recarga}}</small></h4>
                       @endif
 
-                  
+
 
 
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
@@ -87,7 +87,7 @@
               </div>
               <div class="box-body">
                 @include('partials.btn_facebook')
-              </div> 
+              </div>
 
           </div>
 
@@ -117,15 +117,15 @@
                                     <input id="txt_mis_correos" name="correos"  type="text" class="form-control" required>
                                     <h5>Escriba separado de ',' cada uno de los correos con los que quiere compartir su código de referido.</h5>
                                     <input type="submit" class="btn btn-primary" value="Enviar correo">
-                                    
-                             </form> 
 
-                            
+                             </form>
+
+
                         </div>
                       </div>
                       </div>
                     </div>
-              </div> 
+              </div>
 
           </div>
 
@@ -159,36 +159,36 @@
                                       <input name="nombre" value="{{$variables[0]->nombre}}"  type="hidden" >
                                       <h5>Escriba aqui el valor que quieres asignar a tu porcentaje de ganancia por transacción</h5>
                                       <input type="submit" class="btn btn-primary" value="Editar  ">
-                                      
-                               </form> 
 
-                              
+                               </form>
+
+
                           </div>
                         </div>
                         </div>
                       </div>
-                </div> 
+                </div>
 
               </div>
             </div>
         @endrole
-        
-        
+
+
         <!--DIVISION MIS BONIFICACIONES-->
-          
+
         <div class="col-md-3">
          <div class="box box-primary">
               <div class="box-header with-border">
                   <h3 class="box-title">Mis bonificaciones</h3>
               </div>
               <div class="box-body"><h4 class="box-title"></h4>
-                        
+
                         <a class="btn btn-primary" href="{{route('mis_bonificaciones')}}">VER</a>
-              </div> 
+              </div>
 
           </div>
         </div>
-        <!--DIVISION ANUCIOS VISTOS POR MI-->  
+        <!--DIVISION ANUCIOS VISTOS POR MI-->
         <div class="col-md-3">
           <div class="box box-primary">
               <div class="box-header with-border">
@@ -196,30 +196,30 @@
               </div>
               <div class="box-body"><h4 class="box-title"></h4>
                         <a class="btn btn-primary" href="{{route('anuncios_vistos')}}">VER</a>
-                        
-              </div> 
+
+              </div>
 
           </div>
         </div>
         @role('Admin')
-        
+
        @endrole
         <!--DIVISION MIS TRANSACCIONES-->
-        <!--  
+        <!--
         <div class="col-md-3">
-          
+
           <div class="box box-primary">
               <div class="box-header with-border">
                   <h3 class="box-title">Mis transacciones</h3>
               </div>
               <div class="box-body">
-                
-               
+
+
               </div>
           </div>
         </div>-->
-        
-        
+
+
 </div>
 
 

@@ -6,9 +6,9 @@
             <fieldset>
 
              <div class="row " id="row_id_ad-place">
-               
+
                <div class="col-md-7 two-col-help-text">
-                
+
                </div>
              </div>
              <div class="row " id="row_id_ad-online_provider">
@@ -21,7 +21,7 @@
                        <option value="NATIONAL_BANK">Transferencia bancaria nacional</option>
                     </select>
                   </div>
-                </div> 
+                </div>
                   <div class="col-md-7 two-col-help-text">
                      <div id="online-payment-method-description" style="display: none">
                               <strong id="payment-method-name"></strong>
@@ -49,11 +49,11 @@
             </fieldset>
 
             <fieldset>
-              
+
               <div class="row">
                  <div id="div_id_ad-place" class="col-md-4 label-col form-group">
                     <label for="id_ad-place" class="control-label requiredField"> Ciudad donde se realizan los tramites </label>
-                     
+
                  </div>
                  <div class="col-md-3">
                    <div class="controls">
@@ -68,28 +68,30 @@
               <div class="row " id="row_id_ad-currency">
                   <legend>Tramites</legend>
                   <div class="col-md-16 form-group">
-                                        
+
                       @include('anuncios.btns_tramites')
-                     
+
                   </div>
-                 
-                 
-                 
+
+
+
               </div>
-              
-                                
+
+
             </fieldset>
 
 
 
                  <hr>
                     <input type="hidden" name="user_id" value="{{Auth::user()->id }}" class="form-control">
-                    <div class="form-group col-sm-4"> <div class="controls ">
-                       <input type="button" name="submit" value="Publicar anuncio" class="btn btn-success" id="btn_crear_anuncio" onclick="crear_anuncio()" />
-                       <!--<button class="btn btn-success" id="btn_crear_anuncio">
-                          Publicar anuncio
-                       </button> -->
-                    </div>
+                    <div class="form-group col-sm-4">
+                      <div class="controls">
+                         <input type="button" name="submit" value="Publicar anuncio" class="btn btn-success" id="btn_crear_anuncio" onclick="crear_anuncio()" />
+                         <h5 id="h5Espera" ></h5>
+                         <!--<button class="btn btn-success" id="btn_crear_anuncio">
+                            Publicar anuncio
+                         </button> -->
+                     </div>
                     </div>
 
   </form>

@@ -20,7 +20,7 @@
                     {{csrf_field()}}
 
                         <div class="form-group">
-                            <label for="name">Nombre:</label>
+                            <label for="name">Nombre completo:</label>
                             <input type="text" name="name" value="{{old('name')}}" class="form-control">
                             <input type="hidden" name="costo_clic" value="0" class="form-control">
                         </div>
@@ -32,10 +32,10 @@
 
                         <div class="form-group col-md-6" >
                           <label for=""><h4><i class="fa fa-lock">  Roles</i></h4></label>
-                           
+
                         </div>
 
-                        
+
 
                           <button class="btn btn-primary btn-block"><i class="fa fa-plus"></i> Crear Usuario</button>
 

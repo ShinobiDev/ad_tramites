@@ -12,7 +12,7 @@
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Nombre de usuario</label>
+                            <label for="name" class="col-md-4 control-label">Nombre completo</label>
 
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
@@ -25,7 +25,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                        <div class="form-group {{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">E-Mail</label>
 
                             <div class="col-md-6">
@@ -39,7 +39,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
+                        <div class="form-group {{ $errors->has('phone') ? ' has-error' : '' }}">
                             <label for="phone" class="col-md-4 control-label">Teléfono</label>
 
                             <div class="col-md-6">
@@ -47,7 +47,7 @@
 
                                 @if ($errors->has('telefono'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('telefono') }}</strong>
+                                        <strong class="text-red" >{{ $errors->first('telefono') }}</strong>
                                     </span>
                                 @endif
                             </div>

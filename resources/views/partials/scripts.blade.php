@@ -8,20 +8,20 @@
 
           var add_ref=Date.now().toString().substr(-2,2);
           var hs=ref+"-"+add_ref+"/"+val+"/COP";
-          
+
           document.getElementById("refRecarga").value=ref+"-"+add_ref;
 
 
           document.getElementById("hd_val_recarga").value=val;
           peticion_ajax("get","hash/"+hs,function(rs){
-                   
-             
+
+
              document.getElementById("hd_signature_recarga").value=rs.valor;
              document.getElementById("btn_recarga").style.display='';
-             
-          });  
+
+          });
         }
-       /*funcion que hace la peticion ajax */ 
+       /*funcion que hace la peticion ajax */
       function peticion_ajax(metodo,url,data,func){
               //debe ir como core y no public la url en producccion
              $.ajaxSetup({
@@ -36,7 +36,7 @@
                    data:{data},
                    dataType: "json",
                    success: function(result){
-                         
+
                          func(result);
                    },
                    error: function(err){
@@ -44,7 +44,7 @@
                    }
                });
           }
-      /*funcion que hace la peticion ajax vistas*/ 
+      /*funcion que hace la peticion ajax vistas*/
       function peticion_ajax_vistas(metodo,url,data,func){
               //debe ir como core y no public la url en producccion
              $.ajaxSetup({
@@ -59,7 +59,7 @@
                    data:{data},
                    //dataType: "json",
                    success: function(result){
-                         
+
                          func(result);
                    },
                    error: function(err){
@@ -67,7 +67,7 @@
                    }
                });
        }
-        /*Funcion tomada del sitio 
+        /*Funcion tomada del sitio
          * http://www.antisacsor.com/articulo/10_98_dar-formato-a-numeros-en-javascript
          * Para dar formato a los numeros*/
         /**
@@ -102,9 +102,9 @@
                     numero=numero.replace(miles, "$1" + separador_miles + "$2");
                 }
             }
-            
+
             return numero;
-        }      
+        }
         /**
          * Funcion para crear el hash necesario para enviar peticion payu
          * @param  {[type]} id          [description]
@@ -116,19 +116,19 @@
           var val =document.getElementById("num_val_crip_moneda_"+id).value;
           var cant=document.getElementById("num_cantidad_moneda_"+id).value;
           var t=parseFloat(cant)/parseFloat(val);
-          
+
           document.getElementById("h5Total_"+id).value=t;
           document.getElementById("h5Total_"+id).innerHTML=number_format(t,2,",",".")+" ";
-          
+
           var hs="admin/hash/"+cod_anuncio+"/"+cant+"/"+moneda;
-          
+
           document.getElementById("hd_valor_venta_"+id).value=cant;
-          document.getElementById("btn_comprar_"+id).style.display='none'; 
+          document.getElementById("btn_comprar_"+id).style.display='none';
 
           peticion_ajax("get",hs,function(rs){
             document.getElementById("hd_signature_"+id).value=rs.valor;
             document.getElementById("hd_description_"+id).value=document.getElementById("hd_description_"+id).value.split(" cant # " )[0]+" cant # " +number_format(t,2,",",".");
-            document.getElementById("btn_comprar_"+id).style.display=''; 
+            document.getElementById("btn_comprar_"+id).style.display='';
           });
         }
         /*funcion para cambiar el es estado de un anuncio*/
@@ -136,7 +136,7 @@
           var rng=document.getElementById("rng_"+id).value;
           mostrar_cargando("h5_estado_"+id,10,"Un momento, por favor...");
            peticion_ajax("get","admin/cambiar_estado_anuncio/"+id+"/"+rng,{},function(rs){
-              
+
               var es="";
               if(rs.respuesta[0].estado_anuncio=='1'){
                 es='Activo';
@@ -151,7 +151,7 @@
           var rng=document.getElementById("rng_"+id).value;
           mostrar_cargando("h5_estado_"+id,10,"Un momento, por favor...");
            peticion_ajax("get","admin/cambiar_estado_anuncio/"+id+"/"+rng,{},function(rs){
-              
+
               var es="";
               if(rs.respuesta[0].validez_anuncio=='Activo'){
                 es='Activo';
@@ -166,7 +166,7 @@
           var rng=document.getElementById("rng_"+id).value;
           mostrar_cargando("h5_estado_"+id,10,"Un momento, por favor...");
            peticion_ajax("get","admin/publicar_anuncio/"+id+"/"+rng,{},function(rs){
-              
+
               var es="";
               if(rs.respuesta[0].validez_anuncio=='Activo'){
                 es='Activo';
@@ -184,26 +184,28 @@
         function mostrar_cargando(el,width,msn){
           $('#'+el).html('<div class="loading text-green"><img src="https://k46.kn3.net/taringa/C/7/8/D/4/A/vagonettas/5C9.gif" width="'+width+'" alt="loading" /><br/>'+msn+'</div>');
         }
-        function mensaje(rs){
+        function mensaje(rs,tipo){
             var evento;
             if(rs.respuesta){
               evento='success';
+              document.getElementById("div_Alert").style.display='none';
             }else{
               evento='danger';
+              document.getElementById("div_Success").style.display='none';
             }
-        console.log(document.getElementById("div_alert"));    
-        document.getElementById("div_alert").style.display='';
-        document.getElementById("stMensaje").innerHTML=rs.mensaje;
-        document.getElementById("div_alert").classList.add('alert-'+evento);
-        document.getElementById("div_alert").classList.add('alert-dismissible');
-        document.getElementById("div_alert").classList.add('fade');
-        document.getElementById("div_alert").classList.add('in');
-        document.getElementById("div_alert").classList.add('text-center');
-        
+
+        document.getElementById("div_"+tipo).style.display='';
+        document.getElementById("stMensaje"+tipo).innerHTML=rs.mensaje;
+        /*document.getElementById("div_"+tipo).classList.add('alert-'+evento);
+        document.getElementById("div_"+tipo).classList.add('alert-dismissible');
+        document.getElementById("div_"+tipo).classList.add('fade');
+        document.getElementById("div_"+tipo).classList.add('in');
+        document.getElementById("div_"+tipo).classList.add('text-center');*/
+
       }
 </script>
 <script type="text/javascript">
-  
+
   /**
    * Funcion para dibujar tabla sin uso :()
    * @return {[type]} [description]
@@ -215,7 +217,7 @@
     var datos=rs.datos;
     for(var d in datos){
       var tr=document.createElement('tr');
-      
+
       var td=document.createElement('td');
       td.className="text-green text-center";
       var st=document.createElement('strong');
@@ -258,39 +260,39 @@
 
       var td=document.createElement('td');
       td.className="text-center";
-      
-      
+
+
       for(var i=0;i<datos[d].calificacion;i++){
         if(i<=3){
           var img=document.createElement('img');
           img.className="star";
-          img.src="{{asset('img/star.png')}}";  
+          img.src="{{asset('img/star.png')}}";
         }
-        
+
 
       }
       if(datos[d].calificacion!="0.0"){
-        td.appendChild(img);  
+        td.appendChild(img);
       }
       tr.appendChild(td);
       tbl.appendChild(tr);
 
 
       var td=document.createElement('td');
-      
+
       switch(tipo){
         case "anuncios":
           if(datos[d].visto!=""){
             var a=document.createElement("a");
             a.className="btn btn-primary";
             a.href="admin/anuncios_vistos";
-            td.appendChild(a);             
+            td.appendChild(a);
           }else{
 
           }
         break;
       }
-      
+
 
       tr.appendChild(td);
       tbl.appendChild(tr);
@@ -302,7 +304,7 @@
       {
       var o = {};
       console.log(this);
-      
+
       if(this[0]!=undefined){
         var elementos=this[0].elements;
         for(var e in elementos){
@@ -316,26 +318,26 @@
         }
 
         var a = this.serializeArray();
-        
+
         $.each(a, function() {
-              
+
 
            if (o[this.name]) {
-              
+
 
                if (!o[this.name].push) {
                    o[this.name] = [o[this.name]];
                }
                 console.log(this.name);
-                
+
                o[this.name].push(this.value || '');
            } else {
-                
+
                 o[this.name] = this.value || '';
-                
+
            }
 
-          
+
         });
         return o;
       }else{

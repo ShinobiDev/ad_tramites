@@ -22,7 +22,7 @@
                     {{csrf_field()}}
 
                         <div class="form-group">
-                            <label for="name">Nombre:</label>
+                            <label for="name">Nombre completo:</label>
                             <input type="text" name="name" value="{{old('name')}}" class="form-control">
                             <input type="hidden" name="costo_clic" value="0" class="form-control">
                         </div>

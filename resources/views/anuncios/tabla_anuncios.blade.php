@@ -22,7 +22,7 @@
 
                       <td class="text-center" style="width:25% padding: 0px">
 
-                        <strong style="margin: 0px;padding: 0px"><h5 style="margin: 0px;padding: 0px">$ {{number_format($ad->valor_tramite,2,',','.')}}</h5></strong>
+                        <strong style="margin: 0px;padding: 0px"><h5 style="margin: 0px;padding: 0px">$ {{number_format($ad->valor_tramite,0,',','.')}}</h5></strong>
 
                       </td>
 

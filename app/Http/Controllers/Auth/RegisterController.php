@@ -93,7 +93,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'telefono'=>$data['telefono'],
-            'costo_clic'=>"50",
+            'costo_clic'=>"500",
             'codigo_referido'=>((int)$cod[0]->codigo_referido+1),
             'valor_recarga'=>'0',
             'status_recarga'=>'ACTIVA',
@@ -106,40 +106,55 @@ class RegisterController extends Controller
          DB::table('detalle_horarios')->insert([
                                         [
                                             'id_user'=>$u->id,
-                                            'dia'=>'LUNES'
+                                            'dia'=>'LUNES',
+                                            'horario'=>'08:00|17:00',
+                                            'estado'=>'Abierto'
 
 
                                         ],
                                         [
                                             'id_user'=>$u->id,
-                                            'dia'=>'MARTES'
+                                            'dia'=>'MARTES',
+                                            'horario'=>'08:00|17:00',
+                                            'estado'=>'Abierto'
 
                                         ],
                                         [
                                             'id_user'=>$u->id,
-                                            'dia'=>'MIERCOLES'
+                                            'dia'=>'MIERCOLES',
+                                            'horario'=>'08:00|17:00',
+                                            'estado'=>'Abierto'
 
                                         ]
                                         ,
                                         [
                                             'id_user'=>$u->id,
-                                            'dia'=>'JUEVES'
+                                            'dia'=>'JUEVES',
+                                            'horario'=>'08:00|17:00',
+                                            'estado'=>'Abierto'
 
 
                                         ],
                                         [
                                             'id_user'=>$u->id,
-                                            'dia'=>'VIERNES'
+                                            'dia'=>'VIERNES',
+                                            'horario'=>'08:00|17:00',
+                                            'estado'=>'Abierto'
 
                                         ],
                                         [
                                             'id_user'=>$u->id,
-                                            'dia'=>'SABADO'
+                                            'dia'=>'SABADO',
+                                            'horario'=>'08:00|17:00',
+                                            'estado'=>'Cerrado'
+
 
                                         ],
                                         [
                                             'id_user'=>$u->id,
-                                            'dia'=>'DOMINGO'
+                                            'dia'=>'DOMINGO',
+                                            'horario'=>'08:00|17:00',
+                                            'estado'=>'Cerrado'
 
                                         ]
                                     ]);

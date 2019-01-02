@@ -1,9 +1,12 @@
-<div id="div_alert" style="display: none" class="alert" role="alert">
-	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-	  <!--<span aria-hidden="true">&times;</span>-->
-
-	</button>
-	<i class="fa fa-info-circle"></i>
-	<strong id="stMensaje"></strong>
-	
+<div id="div_Success" style="display: none" class="alert alert-success">
+		<h3>
+			<i class="fa fa-info-circle"></i>
+			<strong id="stMensajeSuccess"></strong>
+		</h3>
+</div>
+<div id="div_Alert" style="display: none" class="alert alert-danger">
+		<h3 class="text-center">
+			<i class="fa fa-info-circle"></i>
+			<strong id="stMensajeAlert"></strong>
+		</h3>
 </div>
