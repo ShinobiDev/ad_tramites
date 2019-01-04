@@ -48,6 +48,11 @@ class NotificationMail extends Mailable
                             ->subject('Has creado un nuevo anuncio '. config('app.name'));
                 # code...
                 break;
+            case 'AnuncioCreadoAdministrador':
+                return $this->markdown('emials.AnuncioCreadoAdministrador')
+                            ->subject('Se ha creado un nuevo anuncio '. config('app.name'));
+                # code...
+                break;    
             case 'AnuncioClickeado':
                 return $this->markdown('emials.ClicAnuncio')
                             ->subject( 'Tu anuncio ha sido clickeado '. config('app.name'));
@@ -65,7 +70,7 @@ class NotificationMail extends Mailable
                 break;
             case 'RecargaAgotada':
                 return $this->markdown('emials.RecargaAgotada')
-                            ->subject('Tu recarga se esta agotando '. config('app.name'));
+                            ->subject('Tu recarga se agoto '. config('app.name'));
                 # code...
                 break;
             case 'RecargaCasiAgotada':
@@ -75,7 +80,7 @@ class NotificationMail extends Mailable
                 break;
             case 'RecargaExitosa':
                 return $this->markdown('emials.RecargaExitosa')
-                            ->subject($this->user->name.', hemos registrado una nueva recarga '. config('app.name'));
+                            ->subject('hemos registrado una nueva recarga '. config('app.name'));
                 # code...
                 break;
             case 'RecargaPendiente':
@@ -110,6 +115,7 @@ class NotificationMail extends Mailable
                 # code...
                 break;    
             case 'CompraPendienteAnunciante':
+            //dd($this);
                 return $this->markdown('emials.CompraPendienteAnunciante')
                             ->subject('Hemos registrado una nueva compra en uno de tus anuncios '. config('app.name'));
                 # code...

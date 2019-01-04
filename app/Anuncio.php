@@ -243,7 +243,7 @@ class Anuncio extends Model
                               ['id_user_compra',$comprador[0]->id],
                               ["metodo_pago","PENDIENTE"]
                             ])->get();
-                    if(count($pg)>0){
+                    if(count($pg)==0){
                           $empresa=Payu::all();
                           //dd($empresa);
                           $id_ad=explode("-",$req['referenceCode'])[1];
@@ -255,7 +255,7 @@ class Anuncio extends Model
                                   ['id_user_compra',$comprador[0]->id],
                                   ["metodo_pago","PENDIENTE"]
                                 ])
-                              ->update([
+                              ->insert([
                              'transactionId' => $req['reference_pol'],
                              'transactionState'=>$req['transactionState'],
                              'transation_value' => $req['TX_VALUE'],
@@ -269,7 +269,7 @@ class Anuncio extends Model
                             $anunciante=User::where("id",$anuncio[0]->id_user)->get();
 
                                   //aqui debo enviar los datos de confirmación a la cuenta de correo
-                            NotificacionAnuncio::dispatch($comprador[0], $anunciante[0],[],"CompraExitosa");
+                            NotificacionAnuncio::dispatch($comprador[0], [$anunciante[0],$anuncio[0]],[],"CompraExitosa");
                             NotificacionAnuncio::dispatch($anunciante[0], [$comprador[0],$anuncio[0]],$req['TX_VALUE'],"CompraExitosaAnunciante");   
                     }else{
 
@@ -319,7 +319,7 @@ class Anuncio extends Model
                               ['id_user_compra',$comprador[0]->id],
                               ["metodo_pago","PENDIENTE"]
                             ])
-                          ->update([
+                          ->insert([
                          'transactionId' => $req['reference_pol'],
                          'transactionState'=>$req['transactionState'],
                          'transation_value' => $req['TX_VALUE'],
@@ -330,14 +330,23 @@ class Anuncio extends Model
 
                   }
                   
-                  $anuncio=Anuncio::where("id",$id_ad)->get();
+                  $anuncio=Anuncio::select('anuncios.id',
+                                        'anuncios.ciudad',
+                                        'anuncios.valor_tramite',
+                                        'anuncios.descripcion_anuncio',
+                                        'tramites.nombre_tramite',
+                                        'anuncios.id_user'                           
+                                    )
+                                    ->where("anuncios.id",$id_ad)
+                                    ->join('tramites','anuncios.id_tramite','tramites.id')
+                                    ->get();
                   $anunciante=User::where(".id",$anuncio[0]->id_user)->get();
                   //dd($anuncio[0]);
                   //aqui debo enviar los datos de confirmación a la cuenta de correo
-                  //NotificacionAnuncio::dispatch($comprador[0], [],[],"CompraPendiente");
+                  NotificacionAnuncio::dispatch($comprador[0], [$anuncio[0]],[],"CompraPendiente");
                   
-                  //dd([$anunciante[0],[$comprador[0],$anuncio[0]],$req['TX_VALUE'],"CompraPendienteAnunciante"]);
-                  //NotificacionAnuncio::dispatch($anunciante[0],[$comprador[0],$anuncio[0]],$req['TX_VALUE'],"CompraPendienteAnunciante");
+                  //dd([$anunciante[0],$comprador,$anuncio]);
+                  NotificacionAnuncio::dispatch($anunciante[0],[$comprador[0],$anuncio[0]],$req['TX_VALUE'],"CompraPendienteAnunciante");
                   /*return redirect()->route('confirmar_payu')                  
                             ->with("empresa",$empresa)
                             ->with("cliente",$comprador)

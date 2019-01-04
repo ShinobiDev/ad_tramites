@@ -379,7 +379,16 @@ class UsersController extends Controller
     public function  registro_consulta_ad($anuncio,$costo,$user_id,$tipo)
     {
 
-        $ad=Anuncio::where("id",$anuncio)->get();
+        $ad=Anuncio::select('anuncios.id',
+                            'anuncios.valor_tramite',
+                            'descripcion_anuncio',
+                            'ciudad',
+                            'tramites.nombre_tramite',
+                            'anuncios.id_user'
+                            )
+                    ->where("anuncios.id",$anuncio)
+                    ->join('tramites','tramites.id','anuncios.id_tramite')
+                    ->get();
         //dd($ad);
         //descuento al cliente solo si no es el anunciante
         if($ad[0]->id_user!=$user_id){
@@ -389,12 +398,12 @@ class UsersController extends Controller
                     ])->decrement('valor_recarga',floatval($costo));
             $uu=User::where("id",$ad[0]->id_user)->get();
             $uc=User::where("id",$user_id)->get();
-
+            //dd($uc);
            /*Registro la consulta realizada*/
             $rc=User::select("valor_recarga")
                 ->where("id",$ad[0]->id_user)
                 ->get();
-
+            
 
             $us_clic=DetalleClicAnuncio::where([
                                             ["id_usuario",$user_id],
@@ -440,25 +449,25 @@ class UsersController extends Controller
             }
 
 
-            //dd($ad);
-            NotificacionAnuncio::dispatch($uu[0], [$ad[0],$uc[0]],$rc[0]->valor,"AnuncioClickeado");
+            //dd($ad,$uc,$rc);
+            NotificacionAnuncio::dispatch($uu[0], [$ad[0],$uc[0]],$rc[0]->valor_recarga,"AnuncioClickeado");
         }
         //valido valor de recarga
 
         //dd($rc);
         if($uu[0]->costo_clic>0){
-            if(($rc[0]->valor_recarga/$uu[0]->costo_clic)<20){
+            if(($rc[0]->valor_recarga/$uu[0]->costo_clic)< 20 && ($rc[0]->valor_recarga/$uu[0]->costo_clic) > 0 ){
                 //aqui envie el mail
-                //NotificacionAnuncio::dispatch($uu[0], $ad,$rc[0]->valor,"RecargaCasiAgotada");
+                NotificacionAnuncio::dispatch($uu[0], $ad,$rc[0]->valor_recarga,"RecargaCasiAgotada");
             }
         }
 
 
         $vi=true;
-        if($costo > $rc[0]->valor_recarga){
+        if(($rc[0]->valor_recarga/$uu[0]->costo_clic)< 0){
             $vi=false;
             User::where("id",$ad[0]->user_id)->update(["status_recarga"=>"AGOTADA"]);
-            //NotificacionAnuncio::dispatch($uu[0], $ad,$rc[0]->valor,"RecargaAgotada");
+            NotificacionAnuncio::dispatch($uu[0], $ad,$rc[0]->valor,"RecargaAgotada");
         }
 
         if(floatval($rc[0]->valor_recarga)>0){

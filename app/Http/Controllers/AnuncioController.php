@@ -212,6 +212,8 @@ class AnuncioController extends Controller
 
         NotificacionAnuncio::dispatch(auth()->user(),["Hemos registrado ".$msn],auth()->user()->valor_recarga,"AnuncioCreado");
 
+        /*NotificacionAnuncio::dispatch(auth()->user(),["Hemos registrado ".$msn],auth()->user()->valor_recarga,"AnuncioCreadoAdmin");*/
+
         return response()->json(["respuesta"=>true,"mensaje"=>"Hemos registrado ".$msn]);
 
     }
