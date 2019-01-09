@@ -3,9 +3,9 @@
 
 {{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
 
-Estimad@ {{$user->name}}, Tus clic se esta agotando
+Estimad@ {{$user->nombre}}, Tus clic se esta agotando
 
-## BALANCE DE RECARGA{{$recarga}} ##
+## BALANCE DE RECARGA $ {{$recarga}} ##
 
 #[Recarga][1]
 [1]:{{$url}}#

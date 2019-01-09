@@ -3,22 +3,32 @@
 
 {{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
 
-Estimad@ {{$user->name}}, Hemos registrado una compra exitosa en # {{ config('app.name')}} #.
+Estimad@ {{$user->nombre}}, Hemos registrado una compra exitosa en  {{ config('app.name')}}.
 
 
 Por favor comunicate con tu comprador, para que se complete la transacción.
 
-## Datos comprador##
+##VENDEDOR##
 
-Nombre:{{$ad->name}}
-Télefono:{{$ad->phone}}
-Correo electrónico:{{$ad->email}}
-
-
+Nombre: {{$ad[0]->nombre}}
+Télefono: {{$ad[0]->telefono}}
+Correo electrónico: {{$ad[0]->email}}
 
 ## Resumen Oferta ##
+
 Anuncio:
-Estado: APROVADA
+
+# Tramite 
+ {{$ad[1]->nombre_tramite}}
+# Ciudad 
+ {{$ad[1]->ciudad}} 
+# Valor tramite 
+ $ {{number_format($ad[1]->valor_tramite,0,'.','.')}}
+# Descripción del anuncio
+ {{$ad[1]->descripcion_anuncio}}
+
+
+Estado transacción: APROBADA
 
 
 

@@ -3,31 +3,27 @@
 
 {{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
 
-Estimad@ {{$user->name}}, Hemos registrado una nueva venta de un anuncio en # {{ config('app.name')}} #, sin  embargo aún esta pendiente por el pago de el comprador
+Estimad@ {{$user->nombre}}, hemos registrado una compra pendiente falta que la confirmes.
 
-##COMPRADOR##
-Usuario : {{$ad[0]->name}}
-Telefono: {{$ad[0]->phone}},
-Email: {{$ad[0]->email}},
+## Resumen Oferta ##
+
+Anuncio:
+
+# Tramite 
+ {{$ad[1]->nombre_tramite}}
+# Ciudad 
+ {{$ad[1]->ciudad}} 
+# Valor tramite 
+ $ {{number_format($ad[1]->valor_tramite,0,'.','.')}}
+# Descripción del anuncio
+ {{$ad[1]->descripcion_anuncio}}
+
 
 
 ## Resumen Oferta ##
 Anuncio:
+Estado: PENDIENTE
 
-@component('mail::table')
-    | tramite | valor tramite | divisa | 
-    |:--------|:----------|
-    | {{--$ad[1]->tipo_anuncio--}} | {{--$ad[1]->nombre_cripto_moneda--}} | {{--$ad[1]->nombre_moneda--}} | 
-@endcomponent
-
-Recuerda que debes tener saldo en la cuenta de recargas para que los usuarios puedan
-ver tus datos de contacto.
-
-## BALANCE DE COMPRA {{$recarga}} ##
-
-
-#[Sitio web][1]
-[1]:{{$url}}#
 
 
 

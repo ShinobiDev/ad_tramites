@@ -1,26 +1,19 @@
 @component('mail::message')
-
+# {{ config('app.name')}} #
 
 {{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
 
-Estimad@ {{$user->nombre}}, se ha realizado una nueva recarga exitosa.
+Estimad@ {{$user->nombre}}, tu saldo de recarga se esta agotando.
 
-Recarga Exitosa por valor: $ {{$recarga[1]['valor']}}  {{$recarga[1]['fecha']}}
-
-
-## Resumen Oferta ##
-Anuncio:
-Estado: APROBADA
 
 Recuerda que debes tener saldo en la cuenta de recargas para que los usuarios puedan
 ver tus datos de contacto.
 
-##NUEVO BALANCE DE RECARGA $ {{$recarga[0]->valor_recarga}} ##
+## BALANCE DE RECARGA $ {{$recarga}} ##
 
-#[Recargar][1]
+#[Recarga][1]
 [1]:{{$url}}#
-
-
+  No dejes agotar tu recarga, para que puedan seguir viendo tu anuncio.
 
 
 Gracias, por seguir confiando en nosotros<br>

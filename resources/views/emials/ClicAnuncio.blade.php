@@ -3,22 +3,30 @@
 
 {{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
 
-Estimad@ {{$user->name}}, Han visto tu anuncio en  {{ config('app.name')}} 
+Estimad@ {{$user->nombre}}, Han visto tu anuncio en  {{ config('app.name')}} 
 
-Usuario : {{$ad[1]->name}}
-Telefono: {{$ad[1]->phone}},
-Email: {{$ad[1]->email}},
+## Usuario que ha visto tu anuncio ##
+
+## Nombre : {{$ad[1]->nombre}}
+## Teléfono: {{$ad[1]->telefono}}
+## Email: {{$ad[1]->email}}
 
 ## Resumen Oferta ##
+
 Anuncio:
 
-@component('mail::table')
-    | tramite | valor tramite | divisa | 
-    |:--------|:----------|
-    | {{--$ad[1]->tipo_anuncio--}} | {{--$ad[1]->nombre_cripto_moneda--}} | {{--$ad[1]->nombre_moneda--}} | 
-@endcomponent
+# Tramite 
+ {{$ad[0]->nombre_tramite}}
+# Ciudad 
+ {{$ad[0]->ciudad}} 
+# Valor tramite 
+ $ {{number_format($ad[0]->valor_tramite,0,'.','.')}}
+# Descripción del anuncio
+ {{$ad[0]->descripcion_anuncio}}
 
-## BALANCE DE RECARGA {{$recarga}} ##
+Estado: ACTIVO
+
+## BALANCE DE RECARGA $ {{number_format($recarga,0,'.','.')}} ##
 
 #[Recarga][1]
 [1]:{{$url}}#

@@ -3,7 +3,7 @@
 
 {{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
 
-Estimad@ {{$user->name}}, algo esta sucediendo con la app.
+Estimad@ {{$user->nombre}}, algo esta sucediendo con la app.
 
 
 

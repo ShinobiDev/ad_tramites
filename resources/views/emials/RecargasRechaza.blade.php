@@ -5,7 +5,7 @@
 
 Estimad@ {{$user->name}}, Se ha realizado una nueva recarga Pendiente.
 
-Recarga rechazada por valor: {{$recarga[1]['valor']}}  {{$recarga[1]['fecha']}}, solo falta que realices el pago
+Recarga rechazada por valor: $ {{$recarga[1]['valor']}}  {{$recarga[1]['fecha']}}, solo falta que realices el pago
 
 
 ## Resumen Oferta ##
@@ -15,7 +15,7 @@ Estado: RECHAZADA
 Recuerda que debes tener saldo en la cuenta de recargas para que los usuarios puedan
 ver tus datos de contacto.
 
-## BALANCE DE RECARGA {{$recarga[0]->valor}} ##
+## BALANCE DE RECARGA $ {{$recarga[0]->valor_recarga}} ##
 
 #[Recargar][1]
 [1]:{{$url}}#

@@ -4,24 +4,28 @@
 
 {{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
 
-Estimad@ {{$user->name}}, Has desactivado este anuncio en METALBIT
+Estimad@ {{$user->nombre}}, has desactivado este anuncio en {{config('app.name')}}
 
 
 ## Resumen Oferta ##
+
 Anuncio:
 
-@component('mail::table')
-    | tramite | valor tramite | divisa | 
-    |:--------|:----------|
-    | {{--$ad[1]->tipo_anuncio--}} | {{--$ad[1]->nombre_cripto_moneda--}} | {{--$ad[1]->nombre_moneda--}} | 
-@endcomponent
+# Tramite 
+ {{$ad[0]->nombre_tramite}}
+# Ciudad 
+ {{$ad[0]->ciudad}} 
+# Valor tramite 
+ $ {{number_format($ad[0]->valor_tramite,0,'.','.')}}
+# Descripción del anuncio
+ {{$ad[0]->descripcion_anuncio}}
 
 Estado: INACTIVO
 
 Recuerda que debes tener saldo en la cuenta de recargas para que los usuarios puedan
 ver tus datos de contacto.
 
-## BALANCE DE RECARGA {{$recarga}} ##
+## BALANCE DE RECARGA $ {{$recarga}} ##
 
 #[Recarga][1]
 [1]:{{$url}}#

@@ -3,7 +3,7 @@
 
 {{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
 
-Estimad(@) {{$user->name}}, se ha presentado un error en la App por favor verifica los sucedido
+Estimad(@) {{$user->nombre}}, se ha presentado un error en la App por favor verifica los sucedido
 
 Recuerda comunicarte con nosotros para bridarte más información, visita nuesto sitio web 
 
@@ -25,7 +25,7 @@ Estado: ACTIVADO
 Recuerda que debes tener saldo en la cuenta de recargas para que los usuarios puedan
 ver tus datos de contacto.
 
-## BALANCE DE RECARGA {{$recarga}} ##
+## BALANCE DE RECARGA $ {{$recarga}} ##
 
 #[Recarga][1]
 [1]:{{$url}}#
