@@ -98,7 +98,7 @@ class NotificationMail extends Mailable
                 return $this->markdown('emials.CompraExitosaAnunciante')
                             ->subject('Hemos registrado una nueva compra para tu anuncio '. config('app.name'));
                 # code...
-                break;    
+                break;
             case 'CompraPendiente':
                 return $this->markdown('emials.CompraPend')
                             ->subject('Hemos registrado una nueva compra, solo falta que la confirmes '. config('app.name'));
@@ -108,12 +108,12 @@ class NotificationMail extends Mailable
                 return $this->markdown('emials.CompraRechazada')
                             ->subject('Hemos registrado una nueva compra, solo falta que la confirmes '. config('app.name'));
                 # code...
-                break;    
+                break;
             case 'CompraPendienteAnunciante':
                 return $this->markdown('emials.CompraPendienteAnunciante')
                             ->subject('Hemos registrado una nueva compra en uno de tus anuncios '. config('app.name'));
                 # code...
-                break;    
+                break;
             case 'CriptoMonedaInhabilitada':
                 return $this->markdown('emials.AlertAdNoHabilitada')
                             ->subject('Algo pasa con tu anuncio '. config('app.name'));
