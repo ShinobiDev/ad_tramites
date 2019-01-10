@@ -1,8 +1,8 @@
 @component('mail::message')
-# {{ config('app.name')}} #
 
 
-{{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
+
+![logo](http://tutramitador.com/core/img/logo.png)
 
 
 ##Utiliza estas credenciales para acceder a {{config('app.name')}}##

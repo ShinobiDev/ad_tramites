@@ -1,7 +1,7 @@
 @component('mail::message')
 
 
-{{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
+![logo](http://tutramitador.com/core/img/logo.png)
 
 Estimad@ {{$user->nombre}}, Se ha realizado una nueva recarga Pendiente.
 

@@ -7,9 +7,9 @@
     <div class="marco">
 
         <div class="contenedor">
-            <h2><img class="logo" src="{{asset('img/logo.png')}}"></h2>
+            <h2><img class="logo" style="height: 38px;margin-bottom: 5px" src="{{asset('img/logo.png')}}"></h2>
             <div class="left">
-                <h4 class="rj">{{$respuesta['referenceCode']}}</h4>
+                <h4 class="rj">{{$respuesta['reference_pol']}}</h4>
                 <h4 class="rj">Estado de la transacción: {{$estado}}</h4>
                 <h4 class="rj">Entidad: {{$entidad}}</h4>
                 <h5>{{$respuesta['merchant_name']}}</h5>

@@ -1,7 +1,7 @@
 @component('mail::message')
 
 
-{{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
+![logo](http://tutramitador.com/core/img/logo.png)
 
 Estimad@ {{$user->nombre}}, Hemos registrado una compra sin embargo ha sido rechazada, te solictamos verifiques con la entidad para que se verifique que esta sucediendo, si tienes alguna duda, puedes contactarnos en nuestro sitio web.
 

@@ -41,7 +41,7 @@ class NotificationMail extends Mailable
      */
     public function build()
     {
-        //dd($this->tipo);
+        //dd($this);
         switch ($this->tipo) {
             case 'AnuncioCreado':
                 return $this->markdown('emials.AnuncioCreado')
@@ -55,6 +55,7 @@ class NotificationMail extends Mailable
                 # code...
                 break;
             case 'AnuncioClickeado':
+                //dd($this);
                 return $this->markdown('emials.ClicAnuncio')
                             ->subject( 'Tu anuncio ha sido clickeado '. config('app.name'));
                 # code...
@@ -80,6 +81,7 @@ class NotificationMail extends Mailable
                 # code...
                 break;
             case 'RecargaExitosa':
+
                 return $this->markdown('emials.RecargaExitosa')
                             ->subject('hemos registrado una nueva recarga '. config('app.name'));
                 # code...
@@ -95,6 +97,7 @@ class NotificationMail extends Mailable
                 # code...
                 break;
             case 'CompraExitosa':
+                //dd($this);
                 return $this->markdown('emials.CompraExitosa')
                             ->subject('Hemos registrado una nueva compra '. config('app.name'));
                 # code...
@@ -106,6 +109,7 @@ class NotificationMail extends Mailable
                 # code...
                 break;
             case 'CompraPendiente':
+                //dd($this);
                 return $this->markdown('emials.CompraPend')
                             ->subject('Hemos registrado una nueva compra, solo falta que la confirmes '. config('app.name'));
                 # code...
@@ -129,7 +133,7 @@ class NotificationMail extends Mailable
             case "AnuncioPublicado":
                     //dd($this);
                     return $this->markdown('emials.AnuncioPublicado')
-                                ->subject('Hemos publicado un nuevo anuncio tuyo  '. config('app.name'));
+                                ->subject('Hemos publicado un nuevo anuncio tuyo en '. config('app.name'));
                     # code...
                     break;
             default:

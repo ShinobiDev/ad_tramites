@@ -207,9 +207,9 @@ class AnuncioController extends Controller
         }
         //
         if($can_ad==1){
-            $msn=" un nuevo anuncio, una vez sea verificado que cumpla con nuestra política, seras notificado y tu anuncio publicado";
+            $msn=" un nuevo anuncio, una vez sea verificado que cumpla con nuestra política, seras notificado y el anuncio publicado";
         }else{
-            $msn=$can_ad." nuevos anuncios, una vez sean verificados que cumplan con nuestra política, seras notificado y tus anuncios publicado";
+            $msn=$can_ad." nuevos anuncios, una vez sean verificados que cumplan con nuestra política, seras notificado y los anuncios publicados";
         }
 
         NotificacionAnuncio::dispatch(auth()->user(),["Hemos registrado ".$msn],auth()->user()->valor_recarga,"AnuncioCreado");
@@ -351,6 +351,29 @@ class AnuncioController extends Controller
           //return redirect()->route('users.show', auth()->user())->with('success', 'Se ha registardo tu calificación ');
     }
 
+        /**
+     * Funcion para calificar al anunciante y la venta realizada
+     * @param  Request $datos [description]
+     * @return [type]         [description]
+     */
+    public function calificar_venta(Request $datos){
+         //dd($datos->get('data'));
+          $data=$datos->get('data');
+
+          DB::table('registro_pagos_anuncios')
+                  ->where('id',$data['id_anuncio_calificar'])
+                  ->update(['calificacion'=>$data["nota"],'opinion'=>$data["opinion"],'comentario'=>$data["opinion"],'updated_at'=>Carbon::now('America/Bogota')]);
+          $dtc=DB::table('registro_pagos_anuncios')
+              ->where('id',$data['id_anuncio_calificar'])
+              ->get();
+          $an=Anuncio::where("id",$dtc[0]->id_anuncio)->get();
+          User::where("id",$an[0]->user_id)->increment("nota",$data['nota']);
+          User::where("id",$an[0]->user_id)->increment("num_calificaciones",1);
+        
+          return response()->json(["respuesta"=>true,'mensaje' => 'Se ha registrado tu calificación, gracias por confiar en '.config('app.name')]);
+          //return redirect()->route('users.show', auth()->user())->with('success', 'Se ha registardo tu calificación ');
+    }
+
 
     /**
      * Funcion para consultar mas comentarios
@@ -418,16 +441,19 @@ class AnuncioController extends Controller
             //dd($est);
             Anuncio::where("id",$id)->update(["validez_anuncio"=>$est]);
             return response()->json(["respuesta"=>Anuncio::where("id",$id)->select("validez_anuncio")->get()]);
-        }
-        if($estado=="1"){
-            $est='1';
-            NotificacionAnuncio::dispatch(auth()->user(), [$ad[0]],auth()->user()->valor_recarga,"AnuncioHabilitado");
-
         }else{
-            $est='0';
-            NotificacionAnuncio::dispatch(auth()->user(), [$ad[0]],auth()->user()->valor_recarga,"AnuncioBloqueado");
+            if($estado=="1"){
+                $est='1';
+                NotificacionAnuncio::dispatch(auth()->user(), [$ad[0]],auth()->user()->valor_recarga,"AnuncioHabilitado");
 
+            }else{
+                $est='0';
+                NotificacionAnuncio::dispatch(auth()->user(), [$ad[0]],auth()->user()->valor_recarga,"AnuncioDeshabilitado");
+
+            }
         }
+
+        
 
         Anuncio::where("id",$id)->update(["estado_anuncio"=>$est]);
 

@@ -85,7 +85,7 @@ class RegisterController extends Controller
         //echo "0";
         $data['password'] = str_random(8);
         $cod=User::select("codigo_referido")->orderBy("codigo_referido","DESC")->limit(1)->get();
-        ////dd($cod[0]->codigo_referido);
+        //dd($cod[0]->codigo_referido);
         //dd(((int)$cod[0]->codigo_referido+1));
         //echo "1";
         $u = User::create([

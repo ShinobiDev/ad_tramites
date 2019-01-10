@@ -31,6 +31,7 @@ Route::group(["prefix"=>"admin","middleware"=>"auth"],function(){
   Route::get("cambiar_horario/{id}/{hor}","UsersController@cambiar_horario");
 
   Route::post("calificar","AnuncioController@calificar");
+  Route::post("calificar_venta","AnuncioController@calificar_venta");
   Route::get("ver_mas_comentarios/{id}/{min}/{max}","AnuncioController@ver_mas_comentarios");
   Route::get("confirmar_cambio_email/{id}/{correo}","UsersController@cambio_correo");
   Route::get("cambiar_estado_anuncio/{id_ad}/{estado}","AnuncioController@cambiar_estado_anuncio");
@@ -46,7 +47,8 @@ Route::group(["prefix"=>"admin","middleware"=>"auth"],function(){
   Route::post("editar_variables","UsersController@editar_variables");
   Route::get("hash/{cod_ad}/{monto}/{moneda}","AnuncioController@hash");
   Route::get("ver_recargas_mis_recargas/{id}","UsersController@ver_recargas_mis_recargas");
-
+  Route::get('ver_mis_compras/{id}',"UsersController@ver_mis_compras")->name('mis_compras');
+  Route::get('ver_mis_ventas/{id}',"UsersController@ver_mis_ventas")->name('mis_ventas');
   //Route::get("confirm_recarga","");
 });
 Route::post("validar_codigo","UsersController@validar_codigo");

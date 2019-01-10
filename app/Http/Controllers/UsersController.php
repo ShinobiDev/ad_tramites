@@ -178,7 +178,7 @@ class UsersController extends Controller
         $uo=User::where("id",$user->id)->get();
         //dd($uo[0]->email);
         if($uo[0]->email!=$request["email"]){
-            $msn="Hemos enviado un correo electrónico, a tu cuenta ".$request["email"].", por favor confirmalo para realizar los cambios de tu correo";
+            $msn="Hemos enviado un correo electrónico, a tu cuenta ".$request["email"].", por favor confirmalo para realizar el cambio de tu correo";
             $data=$request->validated();
 
             if(strlen($data['telefono']) < 7 ||  strlen($data['telefono']) > 13){
@@ -618,4 +618,84 @@ class UsersController extends Controller
                                     "datos"=>$mi_lista,
                                     "mensaje"=>"Se ha consultado los datos"]);                    
     }
+
+     /**
+     * Funcion para consultar las compras que ha realizado un usuario
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
+    public function ver_mis_compras($id){
+        
+        $pag=DB::table('registro_pagos_anuncios')->select('registro_pagos_anuncios.id as id_pago',
+                           'registro_pagos_anuncios.transactionId',
+                           'registro_pagos_anuncios.transactionState',
+                           'registro_pagos_anuncios.transation_value',
+                           'registro_pagos_anuncios.id_anuncio',
+                           'registro_pagos_anuncios.id_user_compra',
+                           'registro_pagos_anuncios.metodo_pago',
+                           'registro_pagos_anuncios.estado_pago',
+                           'registro_pagos_anuncios.opinion',
+                           'registro_pagos_anuncios.calificacion',
+                           'registro_pagos_anuncios.created_at',
+                           'registro_pagos_anuncios.updated_at',
+                           'tramites.nombre_tramite',
+                           'anuncios.id', 
+                           'anuncios.codigo_anuncio',
+                           'anuncios.ciudad',
+                           'users.id as id_anunciante ',
+                           'users.nombre',
+                           'users.email',
+                           'users.telefono')
+                    ->join('anuncios','anuncios.id','registro_pagos_anuncios.id_anuncio')
+                    ->join('users','users.id','anuncios.id_user')
+                    ->join('tramites','anuncios.id_tramite','tramites.id')
+                    ->where([
+                                ['id_user_compra',$id],
+                                ['registro_pagos_anuncios.transactionId','!=',null]
+                            ])
+                    ->get();
+        //dd([$pag,auth()->user()->name]);
+        return view('anuncios.mis_compras')
+                ->with('mis_compras',$pag);
+                   
+
+    }
+    /**
+     * Funcion para rconsultar las ventas que ha realizado
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
+    public function ver_mis_ventas($id){
+        $pag=DB::table('registro_pagos_anuncios')->select('registro_pagos_anuncios.id as id_pago',
+                           'registro_pagos_anuncios.transactionId',
+                           'registro_pagos_anuncios.transactionState',
+                           'registro_pagos_anuncios.transation_value',
+                           'registro_pagos_anuncios.id_anuncio',
+                           'registro_pagos_anuncios.id_user_compra',
+                           'registro_pagos_anuncios.metodo_pago',
+                           'registro_pagos_anuncios.estado_pago',
+                           'registro_pagos_anuncios.created_at',
+                           'registro_pagos_anuncios.updated_at',
+                           'registro_pagos_anuncios.opinion',
+                           'registro_pagos_anuncios.calificacion',
+                           'tramites.nombre_tramite',
+                           'anuncios.codigo_anuncio',
+                           'anuncios.ciudad',
+                           'users.id as id_anunciante ',
+                           'users.nombre',
+                           'users.email',
+                           'users.telefono')
+                    ->join('anuncios','anuncios.id','registro_pagos_anuncios.id_anuncio')
+                    ->join('users','users.id','registro_pagos_anuncios.id_user_compra')
+                    ->join('tramites','anuncios.id_tramite','tramites.id')
+                    ->where([
+                                ['anuncios.id_user',$id],
+                                ['registro_pagos_anuncios.transactionId','!=',null]
+                            ])
+                    ->get();
+        
+        return view('anuncios.mis_ventas')
+                ->with('mis_ventas',$pag);
+    }
+
 }

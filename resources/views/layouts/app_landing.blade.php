@@ -30,7 +30,7 @@
       }
 
   </style>
-
+   <link rel="icon" type="image/png" sizes="16x16" href="favicon.ico">   
 </head>
 <body>
     <div id="app">
@@ -48,7 +48,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        <img class="logo" src="{{asset('img/AzulMetalicoHor_logo.png')}}">
+                        <img class="logo" style="height: 38px;margin-bottom: 5px" src="{{asset('img/logo.png')}}">
                     </a>
                 </div>
 

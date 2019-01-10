@@ -17,7 +17,7 @@
 
 
               <div id="identification_hint" class="col-md-12 display-none">
-                <h4>Normas y requisitos de anuncios</h4>
+                <h2 class="text-center">Normas y requisitos de anuncios</h2>
 
                   <noscript>
                       <div class="row">
@@ -45,14 +45,14 @@
                 <div class="alert alert-warning">
                     <h3>
                       <i class="fa fa-info-circle"></i>
-                      Si tu servicio es comprado directamente en <a href="{{config('app.url')}}">{{config('app.name')}}</a>, el costo de este servicio es del {{$porcentaje[0]->valor}}%
+                      Si su servicio es comprado directamente en <a href="{{config('app.url')}}">{{config('app.name')}}</a>, el costo de este servicio es del {{$porcentaje[0]->valor}}%
                     </h3>
                 </div>
                 @include('partials.alert')
               </div>
             </div>
 
-            <legend class="text-center">Crea tu anuncio</legend>
+            <legend class="text-center">Crea un anuncio</legend>
             <div class="row " id="">
                 <div id="" class="col-md-2 label-col form-group">
                   <!--<label for= "" class="control-label requiredField">Deseo...</label>-->

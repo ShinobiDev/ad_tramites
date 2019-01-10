@@ -17,10 +17,15 @@
                 <b class="text-red">Este anuncio se encuentra bloqueado y no lo podra ver la comunidad, por favor comunicate con el administrador de {{config('app.name')}} para hacer la respectiva verificación y activación</b> 
               </div>        
             @endif
-            <div class="modal-body">
+             <div class="modal-body">
+              <b>Tramite: </b>
+              <p>{{$ad->nombre_tramite}}</p>
               <b>Descripción:</b>
               <p>{{$ad->descripcion}}</p>
-            </div>  
+              <b>Valor:</b>
+              <p>$ {{number_format($ad->valor_tramite,0)}} </p>
+            </div>
+        
             <div class="modal-body">
               <h5 class="modal-title" id="exampleModalLabel"></h5>
                 <form method="POST" id="ad-form" action="{{$ad->url_api}}">                          
@@ -32,7 +37,6 @@
                 </form>    
             </div> 
             <div class="modal-body">
-              {{--dd($ad->horarios)--}}
               <b>horarios de atención:  </b> Desde {{explode("|",$ad->horarios->horario)[0]}} hasta  {{explode("|",$ad->horarios->horario)[1]}}
               <b>Estado: </b> 
               @if($ad->estado_dia)

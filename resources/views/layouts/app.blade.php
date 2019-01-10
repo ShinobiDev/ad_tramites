@@ -22,6 +22,7 @@
       }
 
   </style>
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon.ico">  
     @yield('head')
 </head>
 <body>
@@ -41,8 +42,8 @@
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
 
-                        {{--<img class="logo" src="{{asset('img/logo.png')}}">--}}
-                        <h4 class="box-tittle">{{config('app.name')}}</h4>
+                        <img class="logo" style="height: 38px;margin-bottom: 5px" src="{{asset('img/logo.png')}}">
+                        {{--<h4 class="box-tittle">{{config('app.name')}}</h4>--}}
                     </a>
                 </div>
 
@@ -75,14 +76,20 @@
                         </li> 
                         @endrole
                         @role('Anunciante')
-                        <li>
-                           <a href="{{route('anuncios.show',['id'=>Auth::user()->id])}}">Mis anuncios</a>
-                        </li>
-                        <li>
-                          <a href="{{route('users.show', auth()->user())}}">Recargar</a>
-                        </li>
-                        @endrole
-                        <input type="hidden" value="{{Auth::user()->id}}" id="user_id">
+                          <li>
+                             <a href="{{route('anuncios.show',['id'=>Auth::user()->id])}}">Mis anuncios</a>
+                          </li>
+                          <li>
+                            <a href="{{route('mis_ventas', auth()->user())}}">Mis ventas</a>
+                          </li>
+                           <li>
+                            <a href="{{route('mis_compras', auth()->user())}}">Mis compras</a>
+                          </li>
+                           <li>
+                            <a href="{{route('users.show', auth()->user())}}">Recargar</a>
+                          </li>
+                          @endrole
+                      <input type="hidden" value="{{Auth::user()->id}}" id="user_id">
                       @endguest
                       <li>
                        
@@ -140,6 +147,7 @@
 
         @include('partials.error')
         @include('partials.success')
+        @include('partials.alert')
         @yield('content')
 
     </div>

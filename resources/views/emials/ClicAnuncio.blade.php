@@ -1,7 +1,7 @@
 @component('mail::message')
 
 
-{{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
+![logo]({{config('app.url')}}/img/logo.png)
 
 Estimad@ {{$user->nombre}}, han visto tu anuncio en  {{ config('app.name')}}
 

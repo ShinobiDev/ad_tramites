@@ -1,9 +1,9 @@
 @component('mail::message')
 
 
-{{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
+![logo](http://tutramitador.com/core/img/logo.png)
 
-Hola, soy {{$user->nombre}}, quiero invitarte a que te inscribas en ##{{ config('app.name')}} ##
+Hola, soy {{$user->nombre}}, quiero invitarte a que te inscribas en {{ config('app.name')}} 
 
 debes seguir las instrucciones para registarte.
 

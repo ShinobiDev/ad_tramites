@@ -1,9 +1,9 @@
 @component('mail::message')
 
 
-{{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
+![logo](http://tutramitador.com/core/img/logo.png)
 
-Estimad@ {{$user->nombre}}, hemos registrado una compra pendiente falta que la confirmes.
+Estimad@ {{$user->nombre}}, hemos registrado una compra pendiente falta que la confirme el comprador.
 
 ## Resumen Oferta ##
 
@@ -24,7 +24,8 @@ Anuncio:
 Anuncio:
 Estado: PENDIENTE
 
-
+#[Ver mis ventas][1]
+[1]:{{$ad[2]['url']}}
 
 
 Gracias, por seguir confiando en nosotros<br>

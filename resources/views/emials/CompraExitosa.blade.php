@@ -1,7 +1,7 @@
 @component('mail::message')
 
 
-{{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
+![logo](http://tutramitador.com/core/img/logo.png)
 
 Estimad@ {{$user->nombre}}, Hemos registrado una compra exitosa en  {{ config('app.name')}}.
 
@@ -10,9 +10,12 @@ Por favor comunicate con tu comprador, para que se complete la transacción.
 
 ##VENDEDOR##
 
-Nombre: {{$ad[0]->nombre}}
-Télefono: {{$ad[0]->telefono}}
-Correo electrónico: {{$ad[0]->email}}
+# Nombre: 
+{{$ad[0]->nombre}}
+# Télefono:
+ {{$ad[0]->telefono}}
+# Correo electrónico:
+ {{$ad[0]->email}}
 
 ## Resumen Oferta ##
 
@@ -30,7 +33,8 @@ Anuncio:
 
 Estado transacción: APROBADA
 
-
+#[Sitio Web][1]
+[1]:{{$ad[2]['url']}}
 
 
 Gracias, por seguir confiando en nosotros<br>

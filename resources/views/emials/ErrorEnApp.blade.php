@@ -1,7 +1,7 @@
 @component('mail::message')
 
 
-{{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
+![logo](http://tutramitador.com/core/img/logo.png)
 
 Estimad(@) {{$user->nombre}}, se ha presentado un error en la App por favor verifica los sucedido
 

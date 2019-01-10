@@ -1,7 +1,7 @@
 @component('mail::message')
 
 
-{{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
+![logo](http://tutramitador.com/core/img/logo.png)
 
 Estimad@ {{$user->nombre}}, hemos registardo una nueva venta de un anuncio en  {{ config('app.name')}}
 
@@ -32,7 +32,7 @@ $ {{number_format($recarga,0,'.','.')}}
 
 
 #[Sitio Web][1]
-[1]:{{$url}}#
+[1]:{{$ad[2]['url']}}
 
 
 
