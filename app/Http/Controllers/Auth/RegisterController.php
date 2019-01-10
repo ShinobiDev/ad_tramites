@@ -161,7 +161,7 @@ class RegisterController extends Controller
 
         if(count($referente)>0){
             ////echo "3";
-            ////dd($referente[0]);
+            //dd($referente[0]);
             ////dd([$referente[0]->id,$u->id]);
           //Enviar Emial
             //echo "4";
@@ -202,12 +202,13 @@ class RegisterController extends Controller
 
       public function create_landing($codigo_referido){
         $u=User::where("codigo_referido",$codigo_referido)->limit(1)->get();
+
         if(count($u)>0){
             return view("admin.user.create_landing")
                 ->with("codigo_referido",$codigo_referido)
                 ->with("user",$u[0]);
         }else{
-            return view("home");
+            return redirect()->route("register")->with('error','Este código de referido no esta registrado, te invitamos a que te registres aquí');
 
         }
 

@@ -3,7 +3,7 @@
 
 {{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
 
-Hola, soy {{$user->nombre}}, quiero invitarte a que te inscribas en # {{ config('app.name')}} #
+Hola, soy {{$user->nombre}}, quiero invitarte a que te inscribas en ##{{ config('app.name')}} ##
 
 debes seguir las instrucciones para registarte.
 

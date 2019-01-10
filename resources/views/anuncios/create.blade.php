@@ -142,17 +142,17 @@ $(document).ready(function() {
 
                     var msn="";
                     if(tram.value=="" && des.value==""){
-                      msn="No ovides agregar el valor y la descripción para cada uno de tus tramites para todos tus tramites";
+                      msn="No olvides agregar el valor y la descripción para cada uno de tus tramites";
                       tram.style.border="thick solid RED";
                       des.style.border="thick solid RED";
                       window.scrollTo(0, 400);
 
                     }else if(tram.value==""){
-                      msn="No ovides agregar el valor para cada uno de tus tramites para todos tus tramites";
+                      msn="No ovides agregar el valor para cada uno de tus tramites";
                       tram.style.border="thick solid RED";
                       window.scrollTo(0, 400);
                     }else{
-                      msn="No ovides agregar la descripción para cada uno de tus tramites para todos tus tramites";
+                      msn="No ovides agregar la descripción para cada uno de tus tramites";
                       des.style.border="thick solid RED";
                       window.scrollTo(0, 400);
 

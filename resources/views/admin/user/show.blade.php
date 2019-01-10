@@ -51,7 +51,7 @@
                       @if ($recargas->valor_recarga <= '0')
                           <h4>Actualmente No tienes saldo</h4>
                       @else
-                        <h4>Su saldo actual es: $ {{$recargas->valor_recarga}} <small> {{$recargas->status_recarga}}</small></h4>
+                        <h4>Su saldo actual es: $ {{number_format($recargas->valor_recarga,0,',','.')}} <small> {{$recargas->status_recarga}}</small></h4>
                       @endif
 
 
@@ -79,19 +79,7 @@
                     </div>
               </div>
           </div>
-          <!--DIVISION MIS TRANSACIIONES-->
-
-           <div class="box box-primary">
-              <div class="box-header with-border">
-                  <h3 class="box-title">Compartir en facebook</h3>
-              </div>
-              <div class="box-body">
-                @include('partials.btn_facebook')
-              </div>
-
-          </div>
-
-           <!--DIVISION COMPARTIR EMAIL-->
+          <!--DIVISION COMPARTIR EMAIL-->
            <div class="box box-primary">
               <div class="box-header with-border">
                   <h3 class="box-title">Compartir por correo electrónico</h3>
@@ -128,7 +116,16 @@
               </div>
 
           </div>
+           <!--DIVISION COMPARTIR CON FB-->
 
+           <div class="box box-primary">
+              <div class="box-header with-border">
+                  <h3 class="box-title">Compartir en facebook</h3>
+              </div>
+              <div class="box-body">
+                @include('partials.btn_facebook')
+              </div>
+          </div>
         </div>
         @role('Admin')
           <!--DIVISION PARA PORCENTAJE-->
@@ -225,3 +222,4 @@
 
 @endsection
 @include('partials.scripts')
+

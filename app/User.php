@@ -140,7 +140,6 @@ class User extends Authenticatable
                                                         "estado_detalle_recarga"=>"APROBADA"
                                                     ]);
 
-                                        //dd($cliente[0]);
                                         /*
                                           incremento la recarga al usuario que hace el pago
                                          */
@@ -152,7 +151,7 @@ class User extends Authenticatable
                                             Aqui le doy el valor de premio al referido
                                          */
                                         //buscar referido
-                                        $id_ref=DetalleReferido::where("id_quien_refiere",$cliente[0]->id)->get();  
+                                        $id_ref=DB::table('detalle_referidos')->where("id_referido",$cliente[0]->id)->get();  
                                         /*
                                         REGISTRO LAS BONIFICACIONES
                                          */
@@ -168,7 +167,8 @@ class User extends Authenticatable
                                                         "referencia_pago"=>time().$cliente[0]->id,
                                                          "referencia_pago_pay_u"=>time().$cliente[0]->id,
                                                          "metodo_pago"=>"BONIFICACION RECARGA 10%  ".$cliente[0]->name,
-                                                         "tipo_recarga"=>"BONIFICACION" 
+                                                         "tipo_recarga"=>"BONIFICACION" ,
+                                                         'create_at'=>Carbon::now('America/Bogota')
                                                             ]
                                                     );
                                                     
@@ -192,7 +192,8 @@ class User extends Authenticatable
                                                         "referencia_pago"=>time().$cliente[0]->id,
                                                          "referencia_pago_pay_u"=>time().$cliente[0]->id,
                                                          "metodo_pago"=>"BONIFICACION RECARGA 1%  ".$cliente[0]->name,
-                                                         "tipo_recarga"=>"BONIFICACION"
+                                                         "tipo_recarga"=>"BONIFICACION",
+                                                         'create_at'=>Carbon::now('America/Bogota')
                                                             ]
                                                     );
                                                 DB::table("bonificaciones")->insert(

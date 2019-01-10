@@ -3,7 +3,7 @@
 
 {{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
 
-Estimad@ {{$user->nombre}}, Han visto tu anuncio en  {{ config('app.name')}} 
+Estimad@ {{$user->nombre}}, han visto tu anuncio en  {{ config('app.name')}}
 
 ## Usuario que ha visto tu anuncio ##
 
@@ -15,18 +15,19 @@ Estimad@ {{$user->nombre}}, Han visto tu anuncio en  {{ config('app.name')}}
 
 Anuncio:
 
-# Tramite 
+# Tramite
  {{$ad[0]->nombre_tramite}}
-# Ciudad 
- {{$ad[0]->ciudad}} 
-# Valor tramite 
+# Ciudad
+ {{$ad[0]->ciudad}}
+# Valor tramite
  $ {{number_format($ad[0]->valor_tramite,0,'.','.')}}
 # Descripción del anuncio
  {{$ad[0]->descripcion_anuncio}}
 
 Estado: ACTIVO
 
-## BALANCE DE RECARGA $ {{number_format($recarga,0,'.','.')}} ##
+## BALANCE DE RECARGA ##
+$ {{number_format($recarga,0,'.','.')}} 
 
 #[Recarga][1]
 [1]:{{$url}}#

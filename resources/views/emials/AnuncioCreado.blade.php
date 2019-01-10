@@ -4,7 +4,7 @@
 
 {{--![logo](http://metalbit.co/core/img/AzulMetalicoHor.png)--}}
 
-Estimad@ {{$user->nombre}} 
+Estimad@ {{$user->nombre}}
 
 {{$ad[0]}}
 
@@ -14,7 +14,8 @@ Tus anuncios seran verificados para garantizar que cumplas nuestras politicas de
 Recuerda que debes tener saldo en la cuenta de recargas para que los usuarios puedan
 ver tus datos de contacto.
 
-## BALANCE DE RECARGA $ {{$recarga}} ##
+## BALANCE DE RECARGA ##
+$ {{number_format($recarga,0,'.','.')}} 
 
 
 #[Recarga][1]

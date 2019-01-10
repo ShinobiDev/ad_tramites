@@ -48,11 +48,12 @@ class NotificationMail extends Mailable
                             ->subject('Has creado un nuevo anuncio '. config('app.name'));
                 # code...
                 break;
-            case 'AnuncioCreadoAdministrador':
+            case 'AnuncioCreadoAdmin':
+                //dd($this);
                 return $this->markdown('emials.AnuncioCreadoAdministrador')
                             ->subject('Se ha creado un nuevo anuncio '. config('app.name'));
                 # code...
-                break;    
+                break;
             case 'AnuncioClickeado':
                 return $this->markdown('emials.ClicAnuncio')
                             ->subject( 'Tu anuncio ha sido clickeado '. config('app.name'));
@@ -120,13 +121,19 @@ class NotificationMail extends Mailable
                             ->subject('Hemos registrado una nueva compra en uno de tus anuncios '. config('app.name'));
                 # code...
                 break;
-            case 'CriptoMonedaInhabilitada':
-                return $this->markdown('emials.AlertAdNoHabilitada')
-                            ->subject('Algo pasa con tu anuncio '. config('app.name'));
-                # code...
-                break;
+            case 'AnuncioBloqueado':
+                    return $this->markdown('emials.AnuncioBloqueado')
+                                ->subject('Algo pasa con tu anuncio  '. config('app.name'));
+                    # code...
+                    break;
+            case "AnuncioPublicado":
+                    //dd($this);
+                    return $this->markdown('emials.AnuncioPublicado')
+                                ->subject('Hemos publicado un nuevo anuncio tuyo  '. config('app.name'));
+                    # code...
+                    break;
             default:
-                //dd($this->tipo);
+                dd(["sin case=>",$this->tipo]);
                 # code...
                 break;
         }

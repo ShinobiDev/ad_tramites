@@ -6,7 +6,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-5 col-md-offset-3">
-            <p><b>¡Hola Bienvenido!</b> mi nombre es <b>{{$user->name}}</b>, soy tu referente.</p>
+            <p><b>¡Hola Bienvenido!</b> mi nombre es <b>{{$user->nombre}}</b>, soy tu referente.</p>
             <br>
         </div>
     </div>
@@ -51,17 +51,17 @@
                             <label for="phone" class="col-md-4 control-label">Teléfono</label>
 
                             <div class="col-md-6">
-                                <input id="phone" type="text" class="form-control" name="phone" value="{{ old('phone') }}" minlength="7" maxlength="13"  required autofocus>
+                                <input id="phone" type="text" class="form-control" name="telefono" value="{{ old('phone') }}" minlength="7" maxlength="13"  required autofocus>
 
-                                @if ($errors->has('phone'))
+                                @if ($errors->has('telefono'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('phone') }}</strong>
+                                        <strong>{{ $errors->first('telefono') }}</strong>
                                     </span>
                                 @endif
                             </div>
                         </div>
-                        <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
-                            <label for="phone" class="col-md-4 control-label">Código referido (opcional)</label>
+                        <div class="form-group{{ $errors->has('telefono') ? ' has-error' : '' }}">
+                            <label for="phone" class="col-md-4 control-label">Código referido</label>
 
                             <div class="col-md-6">
                                 <input id="codigo_referido" type="text" class="form-control" name="codigo_referido" value="{{ $codigo_referido }}" max="15" readonly>

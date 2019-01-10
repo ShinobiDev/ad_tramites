@@ -280,7 +280,8 @@ class UsersController extends Controller
                                ->join("detalle_referidos","detalle_referidos.id","bonificaciones.fk_id_detalle_referido")
                                ->join("users","users.id","detalle_referidos.id_referido")
 
-                               ->where("detalle_referidos.id_referido",Auth()->user()->id)->get();
+                               ->where("detalle_referidos.id_cabeza",auth()->user()->id)->get();
+        //dd($bonificaciones,auth()->user()->id);                       
         return view('recargas.mis_bonificaciones')
                 ->with('bonificaciones',$bonificaciones)
                 ->with('success', 'Estas son tus bonificaciones');
@@ -378,113 +379,124 @@ class UsersController extends Controller
     */
     public function  registro_consulta_ad($anuncio,$costo,$user_id,$tipo)
     {
+      $ad=Anuncio::select('anuncios.id',
+                          'anuncios.valor_tramite',
+                          'descripcion_anuncio',
+                          'ciudad',
+                          'tramites.nombre_tramite',
+                          'anuncios.id_user'
+                          )
+                  ->where("anuncios.id",$anuncio)
+                  ->join('tramites','tramites.id','anuncios.id_tramite')
+                  ->get();
 
-        $ad=Anuncio::select('anuncios.id',
-                            'anuncios.valor_tramite',
-                            'descripcion_anuncio',
-                            'ciudad',
-                            'tramites.nombre_tramite',
-                            'anuncios.id_user'
-                            )
-                    ->where("anuncios.id",$anuncio)
-                    ->join('tramites','tramites.id','anuncios.id_tramite')
-                    ->get();
-        //dd($ad);
-        //descuento al cliente solo si no es el anunciante
-        if($ad[0]->id_user!=$user_id){
-            User::where([
-                    ["id","=",$ad[0]->id_user],
-                    ["valor_recarga",">",0]
-                    ])->decrement('valor_recarga',floatval($costo));
-            $uu=User::where("id",$ad[0]->id_user)->get();
-            $uc=User::where("id",$user_id)->get();
-            //dd($uc);
-           /*Registro la consulta realizada*/
-            $rc=User::select("valor_recarga")
-                ->where("id",$ad[0]->id_user)
-                ->get();
-            
+        if(auth()->user()->hasRole('Anunciante')){
 
-            $us_clic=DetalleClicAnuncio::where([
-                                            ["id_usuario",$user_id],
-                                            ["id_anuncio",$ad[0]->id]
-                                        ])
-                                    ->get();
+          //dd($ad);
+          //descuento al cliente solo si no es el anunciante
+          if($ad[0]->id_user!=$user_id){
+              User::where([
+                      ["id","=",$ad[0]->id_user],
+                      ["valor_recarga",">",0]
+                      ])->decrement('valor_recarga',floatval($costo));
+              $uu=User::where("id",$ad[0]->id_user)->get();
+              $uc=User::where("id",$user_id)->get();
+              //dd($uc);
+             /*Registro la consulta realizada*/
+              $rc=User::select("valor_recarga")
+                  ->where("id",$ad[0]->id_user)
+                  ->get();
 
 
-            /*
-            aqui valido si el registr ya existe y en ese caso le agrego el numero de visitas y le actualizo la fecha
-             */
-            //echo Carbon::now('America/Bogota');
-            //echo count($us_clic);
-            if(count($us_clic)>0){
-                //dd($us_clic);
-                DetalleClicAnuncio::where([
-                                            ["id_usuario",$user_id],
-                                            ["id_anuncio",$ad[0]->id]
+              $us_clic=DetalleClicAnuncio::where([
+                                              ["id_usuario",$user_id],
+                                              ["id_anuncio",$ad[0]->id]
+                                          ])
+                                      ->get();
+
+
+              /*
+              aqui valido si el registr ya existe y en ese caso le agrego el numero de visitas y le actualizo la fecha
+               */
+              //echo Carbon::now('America/Bogota');
+              //echo count($us_clic);
+              if(count($us_clic)>0){
+                  //dd($us_clic);
+                  DetalleClicAnuncio::where([
+                                              ["id_usuario",$user_id],
+                                              ["id_anuncio",$ad[0]->id]
+                                            ])->increment("num_visitas",1);
+
+                  DetalleClicAnuncio::where([["id_usuario",$user_id],["id_anuncio",$ad[0]->id]])
+                                      ->update(["id_usuario"=>$user_id,
+
+                                                  "updated_at"=>Carbon::now('America/Bogota')
+
+                                              ]);
+                   DetalleClicAnuncio::where([
+                                              ["id_usuario",$user_id],
+                                              ["id_anuncio",$ad[0]->id]
+
                                           ])->increment("num_visitas",1);
 
-                DetalleClicAnuncio::where([["id_usuario",$user_id],["id_anuncio",$ad[0]->id]])
-                                    ->update(["id_usuario"=>$user_id,
 
-                                                "updated_at"=>Carbon::now('America/Bogota')
+              }else{
 
-                                            ]);
-                 DetalleClicAnuncio::where([
-                                            ["id_usuario",$user_id],
-                                            ["id_anuncio",$ad[0]->id]
-
-                                        ])->increment("num_visitas",1);
-
-
-            }else{
-
-                DetalleClicAnuncio::create([
-                                "id_anuncio"=>$ad[0]->id,
-                                "id_usuario"=>$user_id,
-                                "costo"=>$costo,
-                                "num_visitas"=>1,
-                                "created_at"=>Carbon::now('America/Bogota')
-                            ]);
-            }
+                  DetalleClicAnuncio::create([
+                                  "id_anuncio"=>$ad[0]->id,
+                                  "id_usuario"=>$user_id,
+                                  "costo"=>$costo,
+                                  "num_visitas"=>1,
+                                  "created_at"=>Carbon::now('America/Bogota')
+                              ]);
+              }
 
 
-            //dd($ad,$uc,$rc);
-            NotificacionAnuncio::dispatch($uu[0], [$ad[0],$uc[0]],$rc[0]->valor_recarga,"AnuncioClickeado");
-        }
-        //valido valor de recarga
+              //dd($ad,$uc,$rc);
+              NotificacionAnuncio::dispatch($uu[0], [$ad[0],$uc[0]],$rc[0]->valor_recarga,"AnuncioClickeado");
+          }
+          //valido valor de recarga
 
-        //dd($rc);
-        if($uu[0]->costo_clic>0){
-            if(($rc[0]->valor_recarga/$uu[0]->costo_clic)< 20 && ($rc[0]->valor_recarga/$uu[0]->costo_clic) > 0 ){
-                //aqui envie el mail
-                NotificacionAnuncio::dispatch($uu[0], $ad,$rc[0]->valor_recarga,"RecargaCasiAgotada");
-            }
-        }
+          //dd($rc);
+          if($uu[0]->costo_clic>0){
+              if(($rc[0]->valor_recarga/$uu[0]->costo_clic)< 20 && ($rc[0]->valor_recarga/$uu[0]->costo_clic) > 0 ){
+                  //aqui envie el mail
+                  NotificacionAnuncio::dispatch($uu[0], $ad,$rc[0]->valor_recarga,"RecargaCasiAgotada");
+              }
+          }
 
 
-        $vi=true;
-        if(($rc[0]->valor_recarga/$uu[0]->costo_clic)< 0){
-            $vi=false;
-            User::where("id",$ad[0]->user_id)->update(["status_recarga"=>"AGOTADA"]);
-            NotificacionAnuncio::dispatch($uu[0], $ad,$rc[0]->valor,"RecargaAgotada");
-        }
+          $vi=true;
+          if(($rc[0]->valor_recarga/$uu[0]->costo_clic)< 0){
+              $vi=false;
+              User::where("id",$ad[0]->user_id)->update(["status_recarga"=>"AGOTADA"]);
+              NotificacionAnuncio::dispatch($uu[0], $ad,$rc[0]->valor,"RecargaAgotada");
+          }
 
-        if(floatval($rc[0]->valor_recarga)>0){
-            return response()->json(["respuesta"=>true,
-                                    "ad_visible"=>$vi,
-                                    "limite_clic"=>$rc[0]->valor_recarga]);
+          if(floatval($rc[0]->valor_recarga)>0){
+              return response()->json(["respuesta"=>true,
+                                      "ad_visible"=>$vi,
+                                      "limite_clic"=>$rc[0]->valor_recarga]);
+          }else{
+               return response()->json(["respuesta"=>false,
+                                      "ad_visible"=>$vi,
+                                      "limite_clic"=>$rc[0]->valor_recarga]);
+          }
         }else{
-             return response()->json(["respuesta"=>false,
-                                    "ad_visible"=>$vi,
-                                    "limite_clic"=>$rc[0]->valor_recarga]);
+          //dd($ad[0]);
+          $rc=User::select("valor_recarga")
+              ->where("id",$ad[0]->id_user)
+              ->get();
+          return response()->json(["respuesta"=>true,
+                                  "ad_visible"=>true,
+                                  "limite_clic"=>$rc[0]->valor_recarga]);
         }
 
 
     }
 
      /**
-     * Funcion para registrar los pagos de las recarags previos al el envio a payu
+     * Funcion para registrar los pagos de las recargas previos al el envio a payu
      * @param  [type] $id              [description]
      * @param  [type] $valor_recarga   [description]
      * @param  [type] $referencia_pago [description]
@@ -501,8 +513,10 @@ class UsersController extends Controller
                 ]);
 
         }
+        $pp=new Payu;
+        $hs=$pp->hashear($referencia_pago,$valor_recarga,"COP");
         //dd($dt);
-        return response()->json(["respuesta"=>true]);
+        return response()->json(["respuesta"=>true,"valor"=>$hs]);
 
     }
     /**
@@ -585,5 +599,23 @@ class UsersController extends Controller
                           ]);
 
         return back()->with('success', 'Se ha cambiado el valor de la variable correctamente');
+    }
+     public function ver_recargas_mis_recargas($id){
+        $mi_lista=User::select('users.id',
+                                    'users.nombre',
+                                    'detalle_recargas.tipo_recarga',
+                                    'detalle_recargas.estado_detalle_recarga',
+                                    'detalle_recargas.valor_recarga',
+                                    'detalle_recargas.referencia_pago',
+                                    'detalle_recargas.referencia_pago_pay_u',
+                                    'detalle_recargas.created_at')
+                            ->join('detalle_recargas','detalle_recargas.id_usuario','users.id')
+                            ->orderBy('users.id')       
+                            ->where("users.id",$id)    
+                            ->get();   
+         //dd($mi_lista);                   
+         return response()->json(["respuesta"=>true,
+                                    "datos"=>$mi_lista,
+                                    "mensaje"=>"Se ha consultado los datos"]);                    
     }
 }

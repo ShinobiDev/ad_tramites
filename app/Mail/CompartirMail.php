@@ -39,7 +39,7 @@ class CompartirMail extends Mailable
     {
        //dd($this->error);
        return $this->markdown('emials.CompartirCodigoReferido')
-                            ->subject('Quiero invitarte a participar en MetalBit ');
+                            ->subject('Quiero invitarte a participar en '.config('app.name'));
 
     }
 }

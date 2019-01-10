@@ -13,7 +13,7 @@
 
 
           document.getElementById("hd_val_recarga").value=val;
-          peticion_ajax("get","hash/"+hs,function(rs){
+          peticion_ajax("get","admin/hash/"+hs,{},function(rs){
 
 
              document.getElementById("hd_signature_recarga").value=rs.valor;
@@ -189,18 +189,17 @@
             if(rs.respuesta){
               evento='success';
               document.getElementById("div_Alert").style.display='none';
+              document.getElementById("div_Success").style.display='';
+              document.getElementById("stMensajeSuccess").innerHTML=rs.mensaje;
             }else{
               evento='danger';
               document.getElementById("div_Success").style.display='none';
+              document.getElementById("div_Alert").style.display='';
+              document.getElementById("stMensajeAlert").innerHTML=rs.mensaje;
             }
 
-        document.getElementById("div_"+tipo).style.display='';
-        document.getElementById("stMensaje"+tipo).innerHTML=rs.mensaje;
-        /*document.getElementById("div_"+tipo).classList.add('alert-'+evento);
-        document.getElementById("div_"+tipo).classList.add('alert-dismissible');
-        document.getElementById("div_"+tipo).classList.add('fade');
-        document.getElementById("div_"+tipo).classList.add('in');
-        document.getElementById("div_"+tipo).classList.add('text-center');*/
+
+        
 
       }
 </script>

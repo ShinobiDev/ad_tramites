@@ -14,7 +14,7 @@
         <span aria-hidden="true">&times;</span>
       </button>
 
-      <strong>{!!session()->get('success')!!}</strong>
+      <strong>{!!session()->get('danger')!!}</strong>
     </div>
 
 

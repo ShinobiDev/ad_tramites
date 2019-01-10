@@ -42,9 +42,9 @@
               @foreach ($bonificaciones as $bonificacion)
                   <tr>
                     <td>{{ $bonificacion->id }}</td>
-                    <td>{{ $bonificacion->name }}</td>
+                    <td>{{ $bonificacion->nombre }}</td>
                     <td>{{ $bonificacion->tipo_bonificacion }}</td>
-                    <td>{{ $bonificacion->valor}}</td>
+                    <td>{{ $bonificacion->valor_bonificacion}}</td>
                     <td>{{ $bonificacion->created_at }}</td>
                     
 
@@ -140,7 +140,7 @@
 @include('partials.scripts')
 <script type="text/javascript">
   function cambiar_valor_clic(id){
-     peticion_ajax("get","cambiar_valor_clic/"+id+"/"+document.getElementById("rec_"+id).value,function(rs){
+     peticion_ajax("get","cambiar_valor_clic/"+id+"/"+document.getElementById("rec_"+id).value,{},function(rs){
         console.log(rs);
      });
   }
@@ -148,7 +148,7 @@
 
 <script type="text/javascript">
   function ver_bonificaciones(id){
-     peticion_ajax("get","ver_bonificaciones_mis_bonificaciones/"+id,function(rs){
+     peticion_ajax("get","admin/ver_bonificaciones_mis_bonificaciones/"+id,{},function(rs){
         console.log(rs);
         var ls=document.getElementById("tbl_mis_lista");
         ls.innerHTML="";
@@ -160,7 +160,7 @@
 
           
           var td=document.createElement("td");
-          td.innerHTML=rs.datos[f].name;
+          td.innerHTML=rs.datos[f].nombre;
           tr.appendChild(td);
 
           

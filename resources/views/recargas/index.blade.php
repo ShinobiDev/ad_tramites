@@ -174,7 +174,7 @@
 @include('partials.scripts')
 <script type="text/javascript">
   function cambiar_valor_clic(id){
-     peticion_ajax("get","cambiar_valor_clic/"+id+"/"+document.getElementById("rec_"+id).value,function(rs){
+     peticion_ajax("get","cambiar_valor_clic/"+id+"/"+document.getElementById("rec_"+id).value,{},function(rs){
         console.log(rs);
      });
   }
@@ -182,7 +182,7 @@
 
 <script type="text/javascript">
   function ver_recargas(id){
-     peticion_ajax("get","ver_recargas_mis_recargas/"+id,function(rs){
+     peticion_ajax("get","admin/ver_recargas_mis_recargas/"+id,{},function(rs){
         console.log(rs);
         var ls=document.getElementById("tbl_mis_lista");
         ls.innerHTML="";
@@ -194,7 +194,7 @@
 
           
           var td=document.createElement("td");
-          td.innerHTML=rs.datos[f].name;
+          td.innerHTML=rs.datos[f].nombre;
           tr.appendChild(td);
 
           

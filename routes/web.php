@@ -12,6 +12,8 @@
 */
 Auth::routes();
 
+
+Route::get('register_landing/{codigo_referido}',"Auth\RegisterController@create_landing");
 Route::get('/','AnuncioController@index' )->name('anuncios.index');
 Route::get('/home', 'AnuncioController@index')->name('home');
 Route::post("cambio_clave","UsersController@cambio_pass")->name('cambio_credenciales');
@@ -24,7 +26,7 @@ Route::group(["prefix"=>"admin","middleware"=>"auth"],function(){
 	Route::get("mis_bonificaciones","UsersController@mis_bonificaciones")->name('mis_bonificaciones');
   Route::get("registrar_recarga/{id}/{val_recarga}/{ref_pago}","UsersController@registrar_recarga");
   Route::post("compartir_mail","AnuncioController@compartir_mail");
-  Route::get('register_landing/{codigo_referido}',"Auth\RegisterController@create_landing");
+  
   Route::get("cambiar_estado_dia/{id}/{estado}","UsersController@cambiar_estado_dia");
   Route::get("cambiar_horario/{id}/{hor}","UsersController@cambiar_horario");
 
@@ -33,7 +35,6 @@ Route::group(["prefix"=>"admin","middleware"=>"auth"],function(){
   Route::get("confirmar_cambio_email/{id}/{correo}","UsersController@cambio_correo");
   Route::get("cambiar_estado_anuncio/{id_ad}/{estado}","AnuncioController@cambiar_estado_anuncio");
   Route::get("publicar_anuncio/{id_ad}/{estado}","AnuncioController@publicar_anuncio");
-  Route::post('anuncios_por_tramite','AnuncioController@anuncios_por_tramite');
   Route::resource('users', 'UsersController');
   Route::resource('roles', 'Admin\RolesController');
   Route::resource('permissions', 'Admin\PermissionsController');
@@ -43,7 +44,8 @@ Route::group(["prefix"=>"admin","middleware"=>"auth"],function(){
   Route::get('cambiar_costo','UsersController@mostrar_cambiar_costo_clic')->name('cambiar.costo');
   Route::post('cambiar_costo','UsersController@cambiar_costo_clic')->name('cambiar.store');
   Route::post("editar_variables","UsersController@editar_variables");
-
+  Route::get("hash/{cod_ad}/{monto}/{moneda}","AnuncioController@hash");
+  Route::get("ver_recargas_mis_recargas/{id}","UsersController@ver_recargas_mis_recargas");
 
   //Route::get("confirm_recarga","");
 });

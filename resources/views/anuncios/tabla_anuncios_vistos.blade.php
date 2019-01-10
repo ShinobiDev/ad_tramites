@@ -13,7 +13,8 @@
                             <tbody id="tbbody">
                               {{--se crean las tablas de ventas--}}
                               @foreach ($anuncios as $ad)
-                                  @if($ad->validez_anuncio==1)
+                                  {{--dd($ad)--}}
+                                  @if($ad->validez_anuncio=='Activo')
                                       <tr>
                                       <td class="text-green text-center"><strong><h4>{{$ad->nombre_tramite}}</h4></strong></td>
                                       <td class="text-center"><strong><h5>{{$ad->descripcion}}</h5></strong></td>
