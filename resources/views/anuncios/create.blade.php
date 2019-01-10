@@ -47,8 +47,7 @@
                       <i class="fa fa-info-circle"></i>
                       Si su servicio es comprado directamente en <a href="{{config('app.url')}}">{{config('app.name')}}</a>, el costo de este servicio es del {{$porcentaje[0]->valor}}%
                     </h3>
-                </div>
-                @include('partials.alert')
+               </div>           
               </div>
             </div>
 
@@ -145,16 +144,16 @@ $(document).ready(function() {
                       msn="No olvides agregar el valor y la descripción para cada uno de tus tramites";
                       tram.style.border="thick solid RED";
                       des.style.border="thick solid RED";
-                      window.scrollTo(0, 400);
+                      window.scrollTo(0, 0);
 
                     }else if(tram.value==""){
                       msn="No ovides agregar el valor para cada uno de tus tramites";
                       tram.style.border="thick solid RED";
-                      window.scrollTo(0, 400);
+                      window.scrollTo(0, 0);
                     }else{
                       msn="No ovides agregar la descripción para cada uno de tus tramites";
                       des.style.border="thick solid RED";
-                      window.scrollTo(0, 400);
+                      window.scrollTo(0, 0);
 
                     }
 
@@ -169,7 +168,7 @@ $(document).ready(function() {
                   if(v[i].value > 99999999999){
                     mensaje({mensaje:"El valor ingresado es demasiado alto",respuesta:false});
                     tram.style.border="thick solid RED";
-                    window.scrollTo(0, 400);
+                    window.scrollTo(0, 0);
                     return false;
                   }
                   valores[e]=v[i].value;
@@ -188,7 +187,7 @@ $(document).ready(function() {
             if(document.getElementById("id_ad-place").value==""){
                document.getElementById("id_ad-place").style.border="thick solid RED";
                mensaje({mensaje:"La ubicación es obligatoría",respuesta:false},'Alert');
-               window.scrollTo(0, 400);
+               window.scrollTo(0, 0);
                return false;
             }else{
               var u={
@@ -211,7 +210,7 @@ $(document).ready(function() {
             }else{
 
               mensaje({mensaje:"Debes seleccionar un tramite al menos",respuesta:false},'Alert');
-              window.scrollTo(0, 400);
+              window.scrollTo(0, 0);
               return false;
             }
 
@@ -228,7 +227,7 @@ $(document).ready(function() {
 
               document.getElementById('h5Espera').style.display='none';
               document.getElementById('btn_crear_anuncio').disabled=false;
-              window.scrollTo(0, 400);
+              window.scrollTo(0, 0);
               document.getElementById("id_ad-place").value="";
               var tra=document.getElementsByName("tramites");
               var val=document.getElementsByName("valor");

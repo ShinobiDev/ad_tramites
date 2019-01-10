@@ -2,8 +2,8 @@
     <div class="modal-dialog" role="document" >
       <div class="modal-content">
 
-        <div class="modal-header">
-          <h4 style="text-align: center;" class="modal-title" id="exampleModalLabel"><b>Información del ofertante</b></h4>
+        <div class="modal-header bg-primary">
+          <h3 style="text-align: center;" class="modal-title" id="exampleModalLabel"><b>Información del ofertante</b></h3>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="salir_modal('{{'infogen'.$ad->id}}')">
             <span aria-hidden="true" >&times;</span>
           </button>

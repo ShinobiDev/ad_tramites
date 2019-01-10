@@ -42,7 +42,7 @@
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
 
-                        <img class="logo" style="height: 38px;margin-bottom: 5px" src="{{asset('img/logo.png')}}">
+                        <img class="logo"  src="{{asset('img/logo.png')}}">
                         {{--<h4 class="box-tittle">{{config('app.name')}}</h4>--}}
                     </a>
                 </div>

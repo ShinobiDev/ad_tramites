@@ -7,7 +7,7 @@
         <!--DIVISION USUARIO-->
         <div class="col-md-4">
           <div class="box-body box-profile">
-            <img class="profile-user-img img-responsive img-circle" src="{{asset('img/logo310x310.png')}}" alt="{{$user->name}}" style="background-color: #3097d1">
+            <img class="profile-user-img img-responsive img-circle"  src="{{asset('img/logo310x310.png')}}" alt="{{$user->name}}" style="background-color: #3097d1; border-radius:100%" >
 
             <h3 class="profile-username text-center">{{$user->nombre}}</h3>
 
