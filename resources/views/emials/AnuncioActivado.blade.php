@@ -4,7 +4,7 @@
 
 ![logo](http://tutramitador.com/core/img/logo.png)
 
-Estimad@ {{$user->nombre}}, has activado este anuncio en {{config('app.name')}}
+Estimad@ {{$user->nombre}}, se ha activado un anuncio en {{config('app.name')}}
 
 
 ## Resumen Oferta ##

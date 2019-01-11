@@ -491,11 +491,11 @@ class AnuncioController extends Controller
 
             if($estado=='1'){
                 $est='Activo';
-                NotificacionAnuncio::dispatch(auth()->user(), [$ad[0]],auth()->user()->valor_recarga,"AnuncioHabilitado");
+                NotificacionAnuncio::dispatch(User::where('id',$ad[0]->id_user)->first(), [$ad[0]],auth()->user()->valor_recarga,"AnuncioHabilitado");
 
             }else{
                 $est='Bloqueado';
-                NotificacionAnuncio::dispatch(auth()->user(), [$ad[0]],auth()->user()->valor_recarga,"AnuncioBloqueado");
+                NotificacionAnuncio::dispatch(User::where('id',$ad[0]->id_user)->first(), [$ad[0]],auth()->user()->valor_recarga,"AnuncioBloqueado");
 
             }
             //dd($est);
@@ -504,11 +504,11 @@ class AnuncioController extends Controller
         }else{
             if($estado=="1"){
                 $est='1';
-                NotificacionAnuncio::dispatch(auth()->user(), [$ad[0]],auth()->user()->valor_recarga,"AnuncioHabilitado");
+                NotificacionAnuncio::dispatch(User::where('id',$ad[0]->id_user)->first(), [$ad[0]],auth()->user()->valor_recarga,"AnuncioHabilitado");
 
             }else{
                 $est='0';
-                NotificacionAnuncio::dispatch(auth()->user(), [$ad[0]],auth()->user()->valor_recarga,"AnuncioDeshabilitado");
+                NotificacionAnuncio::dispatch(User::where('id',$ad[0]->id_user)->first(), [$ad[0]],auth()->user()->valor_recarga,"AnuncioDeshabilitado");
 
             }
         }

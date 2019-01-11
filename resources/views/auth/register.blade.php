@@ -29,10 +29,12 @@
                             <label for="email" class="col-md-4 control-label">E-Mail</label>
 
                             <div class="col-md-6">
-                                @if($_GET['e']=="")
+                                @if(isset($_GET['e'])==false)
+                                    <input max="30" id="email" type="email" class="form-control" name="email" value="{{ old('email') }}"  required>
+                                @elseif($_GET['e']=="")
                                     <input max="30" id="email" type="email" class="form-control" name="email" value="{{ old('email') }}"  required>
                                 @else
-                                    <input max="30" id="email" type="email" class="form-control" name="email" value="{{ $_GET['e'] }}"  required>
+                                    <input max="30" id="email" type="email" class="form-control" name="email" value="{{ $_GET['e'] }}"  required>    
                                 @endif
                                 @if ($errors->has('email'))
                                     <span class="help-block">
