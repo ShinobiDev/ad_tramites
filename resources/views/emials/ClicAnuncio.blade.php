@@ -15,11 +15,11 @@ Estimad@ {{$user->nombre}}, han visto tu anuncio en  {{ config('app.name')}}
 
 Anuncio:
 
-# Tramite
+# Trámite
  {{$ad[0]->nombre_tramite}}
 # Ciudad
  {{$ad[0]->ciudad}}
-# Valor tramite
+# Valor trámite
  $ {{number_format($ad[0]->valor_tramite,0,'.','.')}}
 # Descripción del anuncio
  {{$ad[0]->descripcion_anuncio}}

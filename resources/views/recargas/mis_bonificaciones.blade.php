@@ -31,9 +31,9 @@
               <tr>
                 <th>Items</th>
                 <th>Referido</th>
-                <th>Tipo bonificacion</th>
-                <th>Valor bonificacion</th>
-                <th>Fecha última bonificacion</th>
+                <th>Tipo bonificación</th>
+                <th>Valor bonificación</th>
+                <th>Fecha última bonificación</th>
                 
               </tr>
             </thead>

@@ -52,7 +52,7 @@
 
               <div class="row">
                  <div id="div_id_ad-place" class="col-md-4 label-col form-group">
-                    <label for="id_ad-place" class="control-label requiredField"> Ciudad donde se realizan los tramites </label>
+                    <label for="id_ad-place" class="control-label requiredField"> Ciudad donde se realizan los trámites </label>
 
                  </div>
                  <div class="col-md-3">
@@ -66,7 +66,7 @@
                  </div>
               </div>
               <div class="row " id="row_id_ad-currency">
-                  <legend>Tramites</legend>
+                  <legend>Trámites</legend>
                   <div class="col-md-16 form-group">
 
                       @include('anuncios.btns_tramites')

@@ -1,7 +1,7 @@
  <table id="users-table" class="table table-striped table-codensed table-hover table-resposive">
   <thead>
     <tr>
-      <th>Tramite</th>
+      <th>Trámite</th>
       <th>Descripción   </th>
       <th>Ciudad</th>
       <th>Valor    </th>

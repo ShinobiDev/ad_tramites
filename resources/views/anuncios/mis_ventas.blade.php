@@ -25,7 +25,7 @@
             <thead>
               <tr>
                 <th>Tipo</th>    
-                <th>Tramite</th>      
+                <th>Trámite</th>      
                 <th>Comprador</th>
                 <th>Estado venta</th>
                 <th>Valor vendido</th>

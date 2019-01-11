@@ -15,11 +15,11 @@ Email: {{$ad[0]->email}},
 
 Anuncio:
 
-# Tramite
+# Trámite
  {{$ad[1]->nombre_tramite}}
 # Ciudad
  {{$ad[1]->ciudad}}
-# Valor tramite
+# Valor trámite
  $ {{number_format($ad[1]->valor_tramite,0,'.','.')}}
 # Descripción del anuncio
  {{$ad[1]->descripcion_anuncio}}

@@ -5,7 +5,7 @@
 
 Hola, soy {{$user->nombre}}, quiero invitarte a que te inscribas en {{ config('app.name')}} 
 
-debes seguir las instrucciones para registarte.
+debes seguir las instrucciones para registrarte.
 
 
 #[Registrate aquí][1]

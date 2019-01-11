@@ -11,11 +11,11 @@ Estimad@ {{$user->nombre}}, se ha publicado uno de tus anuncios en {{config('app
 
 Anuncio:
 
-# Tramite
+# Trámite
  {{$ad[0]->nombre_tramite}}
 # Ciudad
  {{$ad[0]->ciudad}}
-# Valor tramite
+# Valor trámite
  $ {{number_format($ad[0]->valor_tramite,0,'.','.')}}
 # Descripción del anuncio
  {{$ad[0]->descripcion_anuncio}}

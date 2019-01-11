@@ -41,7 +41,7 @@
           <p>{{$ad->descripcion}}</p>
         </div>
         <div class="modal-body">
-            <h4>Tramite: </h4>
+            <h4>Trámite: </h4>
             <h6><b>{{$ad->nombre_tramite}}</b> $ {{number_format($ad->valor_tramite,0)}}  </h6>
         </div>
         <div class="modal-body">

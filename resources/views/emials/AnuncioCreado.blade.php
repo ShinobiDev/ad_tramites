@@ -7,7 +7,7 @@ Estimad@ {{$user->nombre}}
 
 {{$ad[0]}}
 
-Tus anuncios seran verificados para garantizar que cumplas nuestras politicas de uso, una vez termine este proceso te informaremos la activación o bloqueo del anuncio
+Tus anuncios seran verificados para garantizar que cumplas nuestras politicas de uso, una vez termine este proceso se publicara dicho anuncio
 
 
 Recuerda que debes tener saldo en la cuenta de recargas para que los usuarios puedan
