@@ -3,7 +3,7 @@
           <div class="modal-content">
 
             <div class="modal-header bg-primary">
-              <h5 class="modal-title" id="exampleModalLabel">Te inivitamos a registrarte o iniciar sesión para conocer mas información de este anuncio</h5>
+              <h5 class="modal-title text-center" id="exampleModalLabel">Ingresa tus datos. Debes estar Registrado. Registrarse es Gratis.</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="salir_modal('{{'ventana_login'.$ad->id}}')">
                 <span aria-hidden="true" >&times;</span>
               </button>

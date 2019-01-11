@@ -3,14 +3,14 @@
       <div class="modal-content">
 
         <div class="modal-header bg-primary">
-          <h4 style="text-align: center;" class="modal-title" id="exampleModalLabel"><b>Información del ofertante</b></h4>
+            <h3 style="text-align: center;" class="modal-title" id="exampleModalLabel"><b>Información de tu Tramitador</b></h3>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="salir_modal('{{'infogen'.$ad->id}}')">
             <span aria-hidden="true" >&times;</span>
           </button>
         </div>
         @if($ad->validez_anuncio=="0")
           <div class="modal-body">
-            <b class="text-red">Este anuncio se encuentra bloqueado y no lo podra ver la comunidad, por favor comunicate con el administrador de {{config('app.name')}} para hacer la respectiva verificación y activación</b>
+            <b class="text-red">Este anuncio se encuentra bloqueado y no lo podra ver la comunidad, por favor comunicate con el administrador de {{config('app.name')}} para hacer la respectiva verificación y activación.</b>
           </div>
         @endif
         <div class="modal-body">

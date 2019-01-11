@@ -10,7 +10,7 @@
             <small>Listado</small>
 
             <ol class="breadcrumb">
-              <li><a href="#"><i class="fa fa-dashboard">  Inicio</i></a></li>
+              <li><a href="#"><i class="fa fa-dashboard">Inicio</i></a></li>
               <li class="active">Anuncios</li>
             </0l>
 
@@ -58,8 +58,8 @@
                             "sLengthMenu":     "Mostrar _MENU_ registros",
                             "sZeroRecords":    "No se encontraron resultados",
                             "sEmptyTable":     "Ningún dato disponible en esta tabla",
-                            "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                            "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                            "sInfo":           "Mostrando anuncios del _START_ al _END_ de un total de _TOTAL_ filtrados.",
+                            "sInfoEmpty":       "Mostrando anuncios del 0 al 0 de un total de 0 filtrados.",
                             "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
                             "sInfoPostFix":    "",
                             "sSearch":         "Buscar:",
@@ -91,8 +91,8 @@
                             "sLengthMenu":     "Mostrar _MENU_ registros",
                             "sZeroRecords":    "No se encontraron resultados",
                             "sEmptyTable":     "Ningún dato disponible en esta tabla",
-                            "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                            "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                            "sInfo":           "Mostrando anuncios del  _START_ al _END_ de un total de _TOTAL_ filtrados",
+                            "sInfoEmpty":       "Mostrando anuncios del 0 al 0 de un total de 0 filtrados.",
                             "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
                             "sInfoPostFix":    "",
                             "sSearch":         "Buscar:",

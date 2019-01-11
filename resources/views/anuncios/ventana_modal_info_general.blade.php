@@ -3,7 +3,7 @@
       <div class="modal-content">
 
         <div class="modal-header bg-primary">
-          <h3 style="text-align: center;" class="modal-title" id="exampleModalLabel"><b>Información del ofertante</b></h3>
+          <h3 style="text-align: center;" class="modal-title" id="exampleModalLabel"><b>Información de tu Tramitador</b></h3>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="salir_modal('{{'infogen'.$ad->id}}')">
             <span aria-hidden="true" >&times;</span>
           </button>
@@ -41,7 +41,7 @@
           <p>{{$ad->descripcion}}</p>
         </div>
         <div class="modal-body">
-            <h4>Trámite: </h4>
+            <b>Trámite: </b>
             <h6><b>{{$ad->nombre_tramite}}</b> $ {{number_format($ad->valor_tramite,0)}}  </h6>
         </div>
         <div class="modal-body">

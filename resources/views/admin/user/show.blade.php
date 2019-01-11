@@ -21,7 +21,7 @@
                 <b>Teléfono</b> <a class="pull-right" style="margin-right: 20px;">{{$user->telefono}}</a>
               </li>
               <li class="list-group-item" style="margin-left:  20px;">
-                <b>Código referido</b> <a class="pull-right" style="margin-right:  20px;">{{$user->codigo_referido}}</a>
+                <b>Código para referir</b> <a class="pull-right" style="margin-right:  20px;">{{$user->codigo_referido}}</a>
               </li>
               <li class="list-group-item" style="text-align: center;">
                 <b>Horarios de atención</b>
@@ -40,45 +40,47 @@
         <!--DIVISION RECARGAS Y CALIFICACIONES-->
         <div class="col-md-3">
           <!--DIVISION RECARAGS-->
-          <div class="box box-primary">
-              <div class="box-header with-border">
-                  <h3 class="box-title">Realizar Recarga</h3>
-              </div>
-              <div class="box-body">
+          @role('Anunciante')
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Realizar Recarga</h3>
+                </div>
+                <div class="box-body">
 
 
 
-                      @if ($recargas->valor_recarga <= '0')
-                          <h4>Actualmente No tienes saldo</h4>
-                      @else
-                        <h4>Su saldo actual es: $ {{number_format($recargas->valor_recarga,0,',','.')}} <small> {{$recargas->status_recarga}}</small></h4>
-                      @endif
+                        @if ($recargas->valor_recarga <= '0')
+                            <h4>Actualmente No tienes saldo</h4>
+                        @else
+                          <h4>Su saldo actual es: $ {{number_format($recargas->valor_recarga,0,',','.')}} <small> {{$recargas->status_recarga}}</small></h4>
+                        @endif
 
 
 
 
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
-                      Recargar
-                    </button>
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+                        Recargar
+                      </button>
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                      <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">Realizar Recargas</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
+                      <!-- Modal -->
+                      <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLongTitle">Realizar Recargas</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              @include('payu.recargas_payu')
                           </div>
-                          <div class="modal-body">
-                            @include('payu.recargas_payu')
+                        </div>
                         </div>
                       </div>
-                      </div>
-                    </div>
-              </div>
-          </div>
+                </div>
+            </div>
+            @endrole
           <!--DIVISION COMPARTIR EMAIL-->
            <div class="box box-primary">
               <div class="box-header with-border">
@@ -94,7 +96,7 @@
                       <div class="modal-dialog" role="document">
                         <div class="modal-content">
                           <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">Comparte tu código de referido</h5>
+                            <h5 class="modal-title" id="exampleModalLongTitle">Sugiere {{config('app.name')}} a tus amigos y gana bonificaciones.</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                               <span aria-hidden="true">&times;</span>
                             </button>
@@ -103,7 +105,7 @@
                             <form method="POST" action="{{url('admin/compartir_mail')}}">
                                   {{ csrf_field() }}
                                     <input id="txt_mis_correos" name="correos"  type="text" class="form-control" required>
-                                    <h5>Escriba separado de ',' cada uno de los correos con los que quiere compartir su código de referido.</h5>
+                                    <h5>Escribe los correos de tus amigos a los que quieras sugerir {{config('app.name')} separados por una coma ','. </h5>
                                     <input type="submit" class="btn btn-primary" value="Enviar correo">
 
                              </form>

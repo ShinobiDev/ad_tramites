@@ -4,7 +4,7 @@
  <div class="col-md-12 col-lg-offset-0">
     <div class="box box-primary">
       <div class="box-header">
-          <h3 class="box-title">Listados de mis anuncios </h3>
+          <h3 class="box-title">Mis anuncios</h3>
             @guest
               <a href="{{route('login')}}" class="btn btn-primary pull-right btn-lg" >
                   <i class="fa fa-user-plus"> Crear Anuncio</i>

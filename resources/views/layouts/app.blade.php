@@ -104,8 +104,9 @@
 
                              <li>
                         @guest
-                            <li><a href="{{ route('login') }}">Iniciar</a></li>
+                            <li><a href="{{ route('login') }}">Ingresar</a></li>
                             <li><a href="{{ route('register') }}">Registrarse</a></li>
+                            <li><a href="/ayuda">Ayuda</a></li>
                         @else
 
                             <li class="dropdown">

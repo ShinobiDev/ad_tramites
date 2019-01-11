@@ -3,14 +3,14 @@
           <div class="modal-content">
             
             <div class="modal-header bg-primary">
-               <h3 style="text-align: center;" class="modal-title" id="exampleModalLabel"><b>Trámite garantizado</b></h3>
-              <h4 class="modal-title" id="exampleModalLabel">{{config('app.name','') }}, te sirve de intermediario para garantizar que que puedas realizar trámites de manera segura </h4>
+               <h3 style="text-align: center;" class="modal-title" id="exampleModalLabel"><b>Trámite Garantizado</b></h3>
+              <h4 class="modal-title" id="exampleModalLabel">{{config('app.name','') }}, te sirve de intermediario para garantizar que puedas realizar trámites de manera segura </h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="salir_modal('{{'infoventa'.$ad->id}}')">
                 <span aria-hidden="true" >&times;</span>
               </button>
             </div>
             <div class="modal-header">
-              <h4 style="text-align: center;" class="modal-title" id="exampleModalLabel"><b>Realiza tu trámite</b></h4>
+              <h4 style="text-align: center;" class="modal-title" id="exampleModalLabel"><b>Información de trámite</b></h4>
             </div>
             @if($ad->validez_anuncio=="0")  
               <div class="modal-body">
@@ -53,9 +53,13 @@
                     @endif
                 @endfor
            </div>
-      <div class="modal-body">
-        <h6>Visto por última vez {{$ad->visto}}</h6>
-      </div>
+          <div class="modal-body" >
+              <h4>Comentarios de otros usuarios: </h4>
+              @include('partials.comentarios')
+          </div>
+          <div class="modal-body">
+            <h6>Visto por última vez {{$ad->visto}}</h6>
+          </div>
           <div class="modal-footer">
               
               <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="salir_modal('{{'infoventa'.$ad->id}}')">SEGUIR VIENDO ANUNCIOS</button>

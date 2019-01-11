@@ -4,7 +4,7 @@
 @endsection
 @section('header')
     <h1>
-        Anuncios vistos por mi
+        Tramitadores vistos por mi
     </h1>
     <small>Listado</small>
 
@@ -21,7 +21,8 @@
       <div class="col-md-12 col-lg-offset-0">
         <div class="box box-primary">
           <div class="box-header">
-              <h3 class="box-title">Listado de anuncios vistos por mi</h3>
+              <h3 class="box-title">Tramitadores vistos por mi
+</h3>
           </div>
           <div class="box-body"> 
             

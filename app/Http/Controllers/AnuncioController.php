@@ -76,7 +76,7 @@ class AnuncioController extends Controller
                               ['anuncios.estado_anuncio','1'],
                               ['validez_anuncio','Activo'],
                               ['ciudad','LIKE','%'.$_REQUEST['ciudad']."%"],
-                              ['tramites.nombre_tramite','LIKE','%'.$_REQUEST['tramite'].'%']
+                              ['tramites.nombre_tramite','LIKE',$_REQUEST['tramite']]
                           ])
                   ->whereIn('users.id',$arr)
                   ->orderBy('users.valor_recarga','DESC')
@@ -130,7 +130,7 @@ class AnuncioController extends Controller
                   ->where([
                               ['anuncios.estado_anuncio','1'],
                               ['validez_anuncio','Activo'],
-                              ['tramites.nombre_tramite','LIKE','%'.$_REQUEST['tramite'].'%']
+                              ['tramites.nombre_tramite','LIKE',$_REQUEST['tramite']]
                           ])
                   ->whereIn('users.id',$arr)
                   ->orderBy('users.valor_recarga','DESC')
@@ -143,7 +143,7 @@ class AnuncioController extends Controller
                 
                 //dd($anuncios_consultados);
                 if(count($anuncios_consultados)==0){
-                    $msn="No existen anuncios para este tramite y ciudad, te invitamos a que veas nuestros anuncios actuales";
+                    $msn="Error en Búsqueda. Filtra en la casilla Buscar.";
                     $no_tiene=true;
                     $anuncios_consultados=Anuncio::select('anuncios.id',
                                                    'anuncios.codigo_anuncio',
@@ -385,7 +385,7 @@ class AnuncioController extends Controller
     public function compartir_mail(Request $re){
         //dd($re["correos"]);
 
-            CompartirCodigo::dispatch(Auth()->user(),$re["correos"]);
+            CompartirCodigo::dispatch(auth()->user(),$re["correos"]);
 
             return redirect()->route('users.show', auth()->user())->with('success', 'Se ha enviado tu invitación');
     }
@@ -583,8 +583,8 @@ class AnuncioController extends Controller
 
 
     public function datos_filtro(){
-        return response()->json(["tramites"=>Tramite::all(),"ciudades"=>Anuncio::select('ciudad')->groupby('ciudad')->get()]);
-        //return response()->json(["tramites"=>Tramite::all(),"ciudades"=>Ciudad::all()]);
+          return response()->json(["tramites"=>Tramite::orderBy('nombre_tramite')->get(),"ciudades"=>Anuncio::select('ciudad')->orderBy('ciudad')->groupby('ciudad')->get()]);
+          //return response()->json(["tramites"=>Tramite::all(),"ciudades"=>Ciudad::all()]);
 
     }
     /**
