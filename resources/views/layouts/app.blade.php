@@ -22,7 +22,7 @@
       }
 
   </style>
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon.ico">  
+  <link rel="icon" type="image/png" sizes="16x16" href="{{asset('favicon.ico')}}">  
     @yield('head')
 </head>
 <body>

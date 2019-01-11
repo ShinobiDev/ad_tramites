@@ -2,7 +2,7 @@
 <div class="modal-dialog" role="document">
     <div class="modal-content">
 
-      <div class="modal-header">
+      <div class="modal-header bg-primary">
         <h3 style="text-align: center;" class="modal-title" id="exampleModalLabel"><b>Califica al anunciante</b></h3>
         <h4 class="modal-title" id="exampleModalLabel">{{config('app.name','') }}, te sirve de intermediario para garantizar que tu tramites cumplan de manerta exitosa para ambas partes, por favor dejanos conocer comentarios sobre este anunciante</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="salir_modal('{{'infocalificar'.$ad->id}}')">
@@ -115,18 +115,18 @@
                      if(form==false){
                         mensaje({mensaje:"Debe diligenciar todos los campos ",respuesta:false});
                         salir_modal('infocalificar'+id_modal);
-                        window.scrollTo(0, 400);
+                        window.scrollTo(0, 0);
                         return false;
                      }else if(form.nota==undefined){
                         mensaje({mensaje:"Debes seleccionar una nota",respuesta:false});
                         salir_modal('infocalificar'+id_modal);
-                        window.scrollTo(0, 400);
+                        window.scrollTo(0, 0);
                         return false;
                      }
                      if(form.opinion=="0" || form.opinion==""){
                         mensaje({mensaje:"Debes seleccionar una opción",respuesta:false});
                         salir_modal('infocalificar'+id_modal);
-                        window.scrollTo(0, 400);
+                        window.scrollTo(0, 0);
                         return false;
                      }
 
@@ -139,7 +139,7 @@
                         mensaje(rs);
                         salir_modal('infocalificar'+id_modal);
                         document.getElementById("btn_cal_"+id_modal).style.display='none';
-                        window.scrollTo(0, 400);
+                        window.scrollTo(0, 0);
                       });
 
                   }

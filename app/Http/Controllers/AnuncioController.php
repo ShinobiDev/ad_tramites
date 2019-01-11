@@ -54,33 +54,93 @@ class AnuncioController extends Controller
         //dd($arr);
         if(count($arr)>0){
             if(count($_REQUEST)>0){
-                //dd($_REQUEST);
-                $anuncios_consultados= Anuncio::select('anuncios.id',
-                                                   'anuncios.codigo_anuncio',
-                                                   'anuncios.descripcion_anuncio',
-                                                   'anuncios.estado_anuncio',
-                                                   'anuncios.validez_anuncio',
-                                                   'anuncios.id_user',
-                                                   'anuncios.ciudad',
-                                                   'anuncios.valor_tramite',
-                                                   'users.nombre',
-                                                   'users.email',
-                                                   'users.telefono',
-                                                   'users.valor_recarga',
-                                                   'users.costo_clic',
-                                                   'tramites.nombre_tramite',
-                                                   DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
-                ->join('users','users.id','anuncios.id_user')
-                ->join('tramites','tramites.id','anuncios.id_tramite')
-                ->where([
-                            ['anuncios.estado_anuncio','1'],
-                            ['validez_anuncio','Activo'],
-                            ['ciudad','LIKE','%'.$_REQUEST['ciudad']."%"],
-                            ['tramites.nombre_tramite','LIKE','%'.$_REQUEST['tramite'].'%']
-                        ])
-                ->whereIn('users.id',$arr)
-                ->orderBy('users.valor_recarga','DESC')
-                ->get();
+                if($_REQUEST['ciudad']!= "0" && $_REQUEST['tramite']!= "0"){
+                   $anuncios_consultados= Anuncio::select('anuncios.id',
+                                                     'anuncios.codigo_anuncio',
+                                                     'anuncios.descripcion_anuncio',
+                                                     'anuncios.estado_anuncio',
+                                                     'anuncios.validez_anuncio',
+                                                     'anuncios.id_user',
+                                                     'anuncios.ciudad',
+                                                     'anuncios.valor_tramite',
+                                                     'users.nombre',
+                                                     'users.email',
+                                                     'users.telefono',
+                                                     'users.valor_recarga',
+                                                     'users.costo_clic',
+                                                     'tramites.nombre_tramite',
+                                                     DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
+                  ->join('users','users.id','anuncios.id_user')
+                  ->join('tramites','tramites.id','anuncios.id_tramite')
+                  ->where([
+                              ['anuncios.estado_anuncio','1'],
+                              ['validez_anuncio','Activo'],
+                              ['ciudad','LIKE','%'.$_REQUEST['ciudad']."%"],
+                              ['tramites.nombre_tramite','LIKE','%'.$_REQUEST['tramite'].'%']
+                          ])
+                  ->whereIn('users.id',$arr)
+                  ->orderBy('users.valor_recarga','DESC')
+                  ->get();       
+                }elseif($_REQUEST['ciudad']!= "" && $_REQUEST['tramite']== "0"){
+                  $anuncios_consultados= Anuncio::select('anuncios.id',
+                                                     'anuncios.codigo_anuncio',
+                                                     'anuncios.descripcion_anuncio',
+                                                     'anuncios.estado_anuncio',
+                                                     'anuncios.validez_anuncio',
+                                                     'anuncios.id_user',
+                                                     'anuncios.ciudad',
+                                                     'anuncios.valor_tramite',
+                                                     'users.nombre',
+                                                     'users.email',
+                                                     'users.telefono',
+                                                     'users.valor_recarga',
+                                                     'users.costo_clic',
+                                                     'tramites.nombre_tramite',
+                                                     DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
+                  ->join('users','users.id','anuncios.id_user')
+                  ->join('tramites','tramites.id','anuncios.id_tramite')
+                  ->where([
+                              ['anuncios.estado_anuncio','1'],
+                              ['validez_anuncio','Activo'],
+                              ['ciudad','LIKE','%'.$_REQUEST['ciudad']."%"],
+                              
+                          ])
+                  ->whereIn('users.id',$arr)
+                  ->orderBy('users.valor_recarga','DESC')
+                  ->get();
+                }elseif($_REQUEST['ciudad']== "0" && $_REQUEST['tramite']!= ""){
+                  
+                  $anuncios_consultados= Anuncio::select('anuncios.id',
+                                                     'anuncios.codigo_anuncio',
+                                                     'anuncios.descripcion_anuncio',
+                                                     'anuncios.estado_anuncio',
+                                                     'anuncios.validez_anuncio',
+                                                     'anuncios.id_user',
+                                                     'anuncios.ciudad',
+                                                     'anuncios.valor_tramite',
+                                                     'users.nombre',
+                                                     'users.email',
+                                                     'users.telefono',
+                                                     'users.valor_recarga',
+                                                     'users.costo_clic',
+                                                     'tramites.nombre_tramite',
+                                                     DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
+                  ->join('users','users.id','anuncios.id_user')
+                  ->join('tramites','tramites.id','anuncios.id_tramite')
+                  ->where([
+                              ['anuncios.estado_anuncio','1'],
+                              ['validez_anuncio','Activo'],
+                              ['tramites.nombre_tramite','LIKE','%'.$_REQUEST['tramite'].'%']
+                          ])
+                  ->whereIn('users.id',$arr)
+                  ->orderBy('users.valor_recarga','DESC')
+                  ->get();
+                }
+
+
+
+                
+                
                 //dd($anuncios_consultados);
                 if(count($anuncios_consultados)==0){
                     $msn="No existen anuncios para este tramite y ciudad, te invitamos a que veas nuestros anuncios actuales";
@@ -209,7 +269,7 @@ class AnuncioController extends Controller
         if($can_ad==1){
             $msn=" un nuevo anuncio, una vez sea verificado que cumpla con nuestra política, serás notificado y el anuncio será publicado";
         }else{
-            $msn=$can_ad." nuevos anuncios, una vez sean verificados que cumplan con nuestra política, serás notificado y los anuncios será publicados";
+            $msn=$can_ad." nuevos anuncios, una vez sean verificados que cumplan con nuestra política, serás notificado y los anuncios serán publicados";
         }
 
         NotificacionAnuncio::dispatch(auth()->user(),["Hemos registrado ".$msn],auth()->user()->valor_recarga,"AnuncioCreado");

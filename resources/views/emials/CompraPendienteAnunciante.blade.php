@@ -7,7 +7,7 @@ Estimad@ {{$user->nombre}}, hemos registrado una compra pendiente falta que la c
 
 ## Resumen Oferta ##
 
-Anuncio:
+# Anuncio:
 
 # Tramite 
  {{$ad[1]->nombre_tramite}}
