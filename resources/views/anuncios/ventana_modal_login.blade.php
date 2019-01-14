@@ -43,10 +43,11 @@
                     <div class="form-group">
                         <div class="col-md-6 col-md-offset-4">
                             <div class="checkbox">
-                                <a id="an_email_enviar_{{$ad->id}}" href="{{ route('register').'/?'}}e={{old('email')}}" class="btn btn-primary">Registrarse</a>
                                 <button type="submit" class="btn btn-primary">
                                     Ingresar
                                 </button>
+                                <a id="an_email_enviar_{{$ad->id}}" href="{{ route('register').'/?'}}e={{old('email')}}" class="btn btn-primary">Registrarse</a>
+                                
                             </div>
 
                         </div>
