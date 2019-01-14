@@ -56,7 +56,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'notificaciones@tutramitador.com'),
+        'address' => env('MAIL_FROM_ADDRESS', 'no-responder@tutramitador.com'),
         'name' => env('MAIL_FROM_NAME', config('app.name')),
     ],
 

@@ -8,13 +8,13 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
   
-    <title>{{ config('app.name', 'AppMetalbit') }}</title>
+    <title>{{ config('app.name') }}</title>
 
     <meta property="og:url"           content="{{config('app.url')}}/register_landing/{{$user->codigo_referido}}" />
     <meta property="og:type"          content="website" />
     <meta property="og:title"         content="{{config('app.name')}} " />
-    <meta property="og:description"   content="Registrate en Metalbit y podras vender o comprar criptomonedas" />
-    <meta property="og:image"         content="{{asset('img/AzulMetalicoHor_logo.png')}}" />
+    <meta property="og:description"   content="Registrate en {{config('app.name')}}} y podras adquirir u ofrecer trámites de tránsito" />
+    <meta property="og:image"         content="{{asset('img/logo.png')}}" />
 
 
 

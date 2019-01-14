@@ -76,7 +76,7 @@
                                 <p>
                                   Las credenciales de acceso serán  enviadas al correo
                                 </p>
-                                <p id="p_error_cod" style="display: none">Este código no es valido</p>
+                                <p id="p_error_cod" style="display: none"></p>
                             </span>
                           </div>
                         </div>
@@ -97,15 +97,19 @@
 @endsection
 <script type="text/javascript">
     function validar_codigo(e){
-        var p_error_cod=document.getElementById("p_error_cod");
+            var p_error_cod=document.getElementById("p_error_cod");
+            var btn_register=document.getElementById("btn_register");
             console.log(e);
             console.log(e.value);
             if(e.value!=""){
               peticion_ajax("POST","validar_codigo",{datos:e.value},function(rs){
                     if(rs.respuesta){
                           p_error_cod.style.display='none';
+                          btn_register.disabled=false;
                     }else{
                           p_error_cod.style.display='block';
+                          p_error_cod.innerHTML=rs.mensaje;
+                          btn_register.disabled=true;
                     }
               });
             }

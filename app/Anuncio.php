@@ -86,10 +86,10 @@ class Anuncio extends Model
                 //dd([$value->costo_clic,$value->valor_recarga,$horarios["respuesta"]]);
                 if(((float)$value->costo_clic > (float)$value->valor_recarga) || $horarios["respuesta"]==false || (float)$value->valor_recarga == 0  || $horarios['respuesta'] == false){
 
+                        //aqui se valida si se muestra o no los anuncios de acuerdo al horario
+                        //$mostrar_info=false;
 
-                        $mostrar_info=false;
-
-                        $mostrar_payu=false;
+                        //$mostrar_payu=false;
 
                 }
                 $cod=$value->codigo_anuncio.'-'.$key;

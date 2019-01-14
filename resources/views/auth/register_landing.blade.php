@@ -70,7 +70,7 @@
                             <div class="col-md-6 col-md-offset-4">
                             <span class="text-red">
                                 <p>
-                                  Las credenciales de acceso seran  enviadas al correo
+                                  Las credenciales de acceso seran enviadas al correo
                                 </p>
                             </span>
                           </div>

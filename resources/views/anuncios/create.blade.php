@@ -223,6 +223,9 @@ $(document).ready(function() {
           peticion_ajax("post","admin/anuncios",d,function(rs){
 
             if(rs.respuesta){
+              if(rs.cambio_rol==true){
+                //location.reload();
+              }
               mensaje(rs,'Success');
 
               document.getElementById('h5Espera').style.display='none';

@@ -81,6 +81,11 @@ class RegisterController extends Controller
         $referente=[];
         if($data['codigo_referido']!=""){
             $referente=User::where('codigo_referido',$data['codigo_referido'])->get();
+            if(count($referente )==0){
+                
+                return redirect()->route('register')->with('error','Error Código referido: El Código de la persona que te refirio no existe. Deja el espacio vacío o pregúntaselo nuevamente.');
+
+            }
         }
         //echo "0";
         $data['password'] = str_random(8);
@@ -101,7 +106,7 @@ class RegisterController extends Controller
 
         ]);
         //asigno el rol
-        $u->assignRole('Anunciante');
+        $u->assignRole('Usuario');
         //echo "2";
          DB::table('detalle_horarios')->insert([
                                         [
@@ -208,7 +213,7 @@ class RegisterController extends Controller
                 ->with("codigo_referido",$codigo_referido)
                 ->with("user",$u[0]);
         }else{
-            return redirect()->route("register")->with('error','Este código de referido no esta registrado, te invitamos a que te registres aquí');
+            return redirect()->route("register")->with('error','Error Código referido: El Código de la persona que te refirio no existe. Deja el espacio vacío o pregúntaselo nuevamente.');
 
         }
 

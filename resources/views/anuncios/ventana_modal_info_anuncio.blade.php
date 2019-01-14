@@ -22,8 +22,11 @@
               <p>{{$ad->nombre_tramite}}</p>
               <b>Descripción:</b>
               <p>{{$ad->descripcion}}</p>
+              <b>Ciudad:</b>
+              <p>{{$ad->ciudad}} </p>
               <b>Valor:</b>
               <p>$ {{number_format($ad->valor_tramite,0)}} </p>
+              
             </div>
         
             <div class="modal-body">
@@ -38,12 +41,12 @@
             </div> 
             <div class="modal-body">
               <b>horarios de atención:  </b> Desde {{explode("|",$ad->horarios->horario)[0]}} hasta  {{explode("|",$ad->horarios->horario)[1]}}
-              <b>Estado: </b> 
+              {{--<b>Estado: </b> 
               @if($ad->estado_dia)
                 {{$ad->horarios->estado}}
               @else
                 Cerrado
-              @endif  
+              @endif--}}  
             </div>
            <div class="modal-body">
                 <h4>Calificación del anunciante: </h4>

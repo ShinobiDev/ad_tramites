@@ -3,15 +3,21 @@
 
 ![logo](http://tutramitador.com/core/img/logo.png)
 
-Hola, soy {{$user->nombre}}, quiero invitarte a que te inscribas en {{ config('app.name')}} 
+Hola
 
-debes seguir las instrucciones para registrarte.
+Te sugiero este sitio web donde se pueden encontrar tramitadores de tránsito de todo en todo el país, para traspasos, fotomultas,  inscripciones y levantamientos de prenda entre otros trámites. 
+
+Yo ya estoy registrado y te sugiero registrarte, el registro es totalmente gratuito.
 
 
-#[Registrate aquí][1]
+#[Puedes registrarte aquí][1]
 [1]:{{$url}}  
 
+Cordialmente, 
 
-Gracias, por seguir confiando en nosotros<br>
-{{ config('app.name') }}
+{{$user->nombre}}
+
 @endcomponent
+
+
+

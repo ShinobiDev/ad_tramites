@@ -5,9 +5,10 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-5 col-md-offset-3">
-            <p><b>¡Hola Bienvenido!</b> mi nombre es <b>{{$user->nombre}}</b>, soy tu referente.</p>
-            <br>
+        <div class="col-md-5 col-md-offset-3 text-center">
+            
+            <p>¡Hola! Bienvenido a TuTramitador.com, <b>{{$user->nombre}}</b> te ha referido. Registrarse es Gratis y encontrar Tramitadores también.</p><br>
+
         </div>
     </div>
     <div class="row">
@@ -61,7 +62,7 @@
                             </div>
                         </div>
                         <div class="form-group{{ $errors->has('telefono') ? ' has-error' : '' }}">
-                            <label for="phone" class="col-md-4 control-label">Código referido</label>
+                            <label for="phone" class="col-md-4 control-label">Código de tu referido</label>
 
                             <div class="col-md-6">
                                 <input id="codigo_referido" type="text" class="form-control" name="codigo_referido" value="{{ $codigo_referido }}" max="15" readonly>
@@ -77,7 +78,7 @@
                             <div class="col-md-6 col-md-offset-4">
                             <span class="text-red">
                                 <p>
-                                  Las credenciales de acceso seran  enviadas al correo
+                                  La contraseña será generada y enviada al nuevo usuario vía Emial
                                 </p>
                             </span>
                           </div>

@@ -39,6 +39,7 @@ class CompartirMail extends Mailable
     {
        //dd($this->error);
        return $this->markdown('emials.CompartirCodigoReferido')
+                            ->from($this->user->email,$this->user->nombre)
                             ->subject('Encuentra tramitadores de tránsito en todo el país');
 
     }

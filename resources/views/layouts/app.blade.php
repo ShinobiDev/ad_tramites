@@ -42,7 +42,7 @@
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
 
-                        <img class="logo"  src="{{asset('img/logo.png')}}">
+                        <img class="logo" src="{{asset('img/logo.png')}}">
                         {{--<h4 class="box-tittle">{{config('app.name')}}</h4>--}}
                     </a>
                 </div>
@@ -82,13 +82,18 @@
                           <li>
                             <a href="{{route('mis_ventas', auth()->user())}}">Mis ventas</a>
                           </li>
-                           <li>
+                          <li>
                             <a href="{{route('mis_compras', auth()->user())}}">Mis compras</a>
                           </li>
                            <li>
                             <a href="{{route('users.show', auth()->user())}}">Recargar</a>
                           </li>
-                          @endrole
+                        @endrole
+                        @role('Usuario')
+                          <li>
+                            <a href="{{route('mis_compras', auth()->user())}}">Mis compras</a>
+                          </li>                          
+                        @endrole
                       <input type="hidden" value="{{Auth::user()->id}}" id="user_id">
                       @endguest
                       <li>

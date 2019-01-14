@@ -56,46 +56,91 @@
 
       <div class="col-md-6">
           <!--HORARIOS-->
-          <div class="box box-primary">
-            <div class="box-header with-border">
-                  <div class="box-title ">
-                      <h3> <i class="fa fa-lock"></i> Horarios</h3>
-                  </div>
+          @role('Anunciante')
+            <div class="box box-primary">
+              <div class="box-header with-border">
+                    <div class="box-title ">
+                        <h3> <i class="fa fa-lock"></i> Horarios</h3>
+                    </div>
+              </div>
+              <div class="box-body">
+                <table class="table table-bordered table-striped">
+                  <thead>
+                    
+                  </thead>
+                  <tbody>
+
+                      @foreach($horarios as $h)
+                          <tr>      
+                              <td>{{$h->dia}}:</td> 
+                              <td> Desde las   
+                                  <input id="inp_{{$h->id}}_am" type="time" value="{{explode('|',$h->horario)[0] }}" onchange="cambiar_horario('{{$h->id}}')" /> 
+                              </td>
+                              <td> hasta las 
+                                <input id="inp_{{$h->id}}_pm" onchange="cambiar_horario('{{$h->id}}')" type="time" value="{{explode('|',$h->horario)[1] }}"  />
+                              </td>
+                              <td> 
+
+                                @if($h->estado=="Abierto")
+                                  <span id="dia_estado_{{$h->id}}">Abierto</span> <input  id="inp_estado_dia_{{$h->id}}" type="checkbox" value="abierto" onchange="cambiar_estado_dia('{{$h->id}}')" checked>
+                                @else
+                                  <span id="dia_estado_{{$h->id}}">Cerrado</span> <input  id="inp_estado_dia_{{$h->id}}" type="checkbox" value="cerrado" onchange="cambiar_estado_dia('{{$h->id}}')" />
+                                @endif
+                              
+                              </td>
+                              
+                           </tr>
+                           <span id="mens"></span>     
+                      @endforeach
+                  </tbody>
+                </table>  
+              </div>
+
             </div>
-            <div class="box-body">
-              <table class="table table-bordered table-striped">
-                <thead>
-                  
-                </thead>
-                <tbody>
+          @endrole
+          <!--HORARIOS se repite-->
+          @role('Admin')
+            <div class="box box-primary">
+              <div class="box-header with-border">
+                    <div class="box-title ">
+                        <h3> <i class="fa fa-lock"></i> Horarios</h3>
+                    </div>
+              </div>
+              <div class="box-body">
+                <table class="table table-bordered table-striped">
+                  <thead>
+                    
+                  </thead>
+                  <tbody>
 
-                    @foreach($horarios as $h)
-                        <tr>      
-                            <td>{{$h->dia}}:</td> 
-                            <td> Desde las   
-                                <input id="inp_{{$h->id}}_am" type="time" value="{{explode('|',$h->horario)[0] }}" onchange="cambiar_horario('{{$h->id}}')" /> 
-                            </td>
-                            <td> hasta las 
-                              <input id="inp_{{$h->id}}_pm" onchange="cambiar_horario('{{$h->id}}')" type="time" value="{{explode('|',$h->horario)[1] }}"  />
-                            </td>
-                            <td> 
+                      @foreach($horarios as $h)
+                          <tr>      
+                              <td>{{$h->dia}}:</td> 
+                              <td> Desde las   
+                                  <input id="inp_{{$h->id}}_am" type="time" value="{{explode('|',$h->horario)[0] }}" onchange="cambiar_horario('{{$h->id}}')" /> 
+                              </td>
+                              <td> hasta las 
+                                <input id="inp_{{$h->id}}_pm" onchange="cambiar_horario('{{$h->id}}')" type="time" value="{{explode('|',$h->horario)[1] }}"  />
+                              </td>
+                              <td> 
 
-                              @if($h->estado=="Abierto")
-                                <span id="dia_estado_{{$h->id}}">Abierto</span> <input  id="inp_estado_dia_{{$h->id}}" type="checkbox" value="abierto" onchange="cambiar_estado_dia('{{$h->id}}')" checked>
-                              @else
-                                <span id="dia_estado_{{$h->id}}">Cerrado</span> <input  id="inp_estado_dia_{{$h->id}}" type="checkbox" value="cerrado" onchange="cambiar_estado_dia('{{$h->id}}')" />
-                              @endif
-                            
-                            </td>
-                            
-                         </tr>
-                         <span id="mens"></span>     
-                    @endforeach
-                </tbody>
-              </table>  
+                                @if($h->estado=="Abierto")
+                                  <span id="dia_estado_{{$h->id}}">Abierto</span> <input  id="inp_estado_dia_{{$h->id}}" type="checkbox" value="abierto" onchange="cambiar_estado_dia('{{$h->id}}')" checked>
+                                @else
+                                  <span id="dia_estado_{{$h->id}}">Cerrado</span> <input  id="inp_estado_dia_{{$h->id}}" type="checkbox" value="cerrado" onchange="cambiar_estado_dia('{{$h->id}}')" />
+                                @endif
+                              
+                              </td>
+                              
+                           </tr>
+                           <span id="mens"></span>     
+                      @endforeach
+                  </tbody>
+                </table>  
+              </div>
+
             </div>
-
-          </div>
+          @endrole
            <!--ROLES--> 
           <div class="box box-primary">
             <div class="box-header with-border">

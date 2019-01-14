@@ -295,7 +295,7 @@ class UsersController extends Controller
         if(count($us)>0){
             return response()->json(["respuesta"=>true]);
         }
-        return response()->json(["respuesta"=>false]);
+        return response()->json(["respuesta"=>false,"mensaje"=>"Error Código referido: El Código de la persona que te refirio no existe. Deja el espacio vacío o pregúntaselo nuevamente."]);
     }
     /*Funcion para cambiar la clave
     */

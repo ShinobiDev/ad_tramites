@@ -29,12 +29,12 @@
         </div>--}}
         <div class="modal-body">
           <b>Horario de atención:  </b> Desde {{explode("|",$ad->horarios->horario)[0]}} hasta  {{explode("|",$ad->horarios->horario)[1]}}
-          <b>Estado: </b>
+          {{--<b>Estado: </b>
           @if($ad->estado_dia)
                 {{$ad->horarios->estado}}
           @else
             Cerrado
-          @endif
+          @endif--}}
         </div>
         {{--<div class="modal-body">
           <b>Ciudad:</b>

@@ -7,28 +7,32 @@
       <div class="box-header">
           <h3 class="box-title">Encuentra tu Tramitador</h3>
             @guest
-              <a href="{{route('login')}}" class="btn btn-primary pull-right btn-lg" >
+              <div class="d-flex">
+                <a href="{{route('login')}}" class="btn btn-primary pull-right btn-lg" >
                   <i class="fa fa-user-plus"> Crear Anuncio</i>
-              </a>
-              <a href="/core" class="btn btn-success pull-right btn-lg" >
-                  <i class="fa "> Ver más anuncios</i>
-               </a>
-               <span></span>
-                <a href="/" class="btn btn-default pull-right btn-lg" >
-                  <i class="fa "> Reiniciar busqueda</i>
-               </a>
+                </a>
+                 <a href="{{config('app.url')}}" class="btn btn-success pull-right btn-lg" >
+                    <i class="fa "> Ver más anuncios</i>
+                 </a>
+                 <a href="/" class="btn btn-default pull-right btn-lg" >
+                    <i class="fa "> Reiniciar busqueda</i>
+                 </a>  
+              </div>
+              
               @else 
+               <div class="d-flex">
                 <a href="{{route('anuncios.create')}}" class="btn btn-primary pull-right btn-lg" >
-                  <i class="fa fa-user-plus"> Crear Anuncio</i>
-              </a>
-              <span></span>
-              <a href="/core" class="btn btn-success pull-right btn-lg" >
-                  <i class="fa "> Ver más anuncios</i>
-               </a>
-               <span></span>
+                    <i class="fa fa-user-plus"> Crear Anuncio</i>
+                </a>
+                
+                <a href="{{config('app.url')}}" class="btn btn-success pull-right btn-lg" >
+                    <i class="fa "> Ver más anuncios</i>
+                </a>
+                
                 <a href="/" class="btn btn-default pull-right btn-lg" >
-                  <i class="fa "> Reiniciar busqueda</i>
-               </a>
+                    <i class="fa "> Reiniciar busqueda</i>
+                </a>
+              </div>  
               @endguest 
 
       </div>

@@ -250,7 +250,14 @@ class AnuncioController extends Controller
         //
         //dd($request->get('data'));
         $this->authorize('create',new Anuncio);
-
+        $cambio_rol=false;
+        //verificar si no tiene anuncios se debe cambiar el rol a Anunciante
+        $ad=Anuncio::where('id_user',auth()->user()->id)->get();
+        if(count($ad)==0){
+          auth()->user()->removeRole('Usuario');
+          auth()->user()->assignRole('Anunciante');
+          $cambio_rol=true;
+        }
         $dt=$request->get('data');
         $can_ad=0;
         foreach ($dt['tramites'] as $key => $value) {
@@ -276,7 +283,7 @@ class AnuncioController extends Controller
         $uadmin=User::role('admin')->get();
         NotificacionAnuncio::dispatch($uadmin[0],["Hemos registrado ".$msn],auth()->user()->valor_recarga,"AnuncioCreadoAdmin");
 
-        return response()->json(["respuesta"=>true,"mensaje"=>"Hemos registrado ".$msn]);
+        return response()->json(["respuesta"=>true,"mensaje"=>"Hemos registrado ".$msn,"cambio_rol"=>$cambio_rol]);
 
     }
 

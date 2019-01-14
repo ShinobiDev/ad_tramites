@@ -43,9 +43,7 @@
                     <div class="form-group">
                         <div class="col-md-6 col-md-offset-4">
                             <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Recordarme
-                                </label>
+                                <a id="an_email_enviar_{{$ad->id}}" href="{{ route('register').'/?'}}e={{old('email')}}" class="btn btn-primary">Registrarse</a>
                                 <button type="submit" class="btn btn-primary">
                                     Ingresar
                                 </button>
@@ -59,14 +57,16 @@
                 <div class="modal-body">
                     <div class="form-group col-md-6 col-md-offset-4">
 
-                            <form method="GET" action="{{route('register')}}">
-                                <input type="hidden" name="e" id="email_enviar_{{$ad->id}}" value="{{old('email')}}">
-                                <button type="submit" class="btn btn-primary">Registrarse</button>
+                            
+                                
+                                <label>
+                                    <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Recordarme
+                                </label>
 
                                 <a id="anOlvide{{$ad->id}}" class="btn btn-link" href="{{ route('password.request').'/?'}}e={{old('email')}}">
                                   Olvide mi clave
                                 </a>
-                            </form>
+                           
 
                     </div>
                 </div>
@@ -80,6 +80,7 @@
     <script type="text/javascript">
         function agregar_correo(e,id){
             document.getElementById('anOlvide'+id).href="{{route('password.request')}}?e="+document.getElementById(e.id).value;        
-            document.getElementById('email_enviar_'+id).value=document.getElementById(e.id).value;
-        }
+            document.getElementById('an_email_enviar_'+id).href="{{route('register')}}?e="+document.getElementById(e.id).value;
+        }    
     </script>
+
