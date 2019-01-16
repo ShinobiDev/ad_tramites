@@ -1,4 +1,4 @@
-<div >
+<div>
 	<div id="div_comentarios_{{$ad->id}}" class="comentarios">
 		@foreach($ad->comentarios as $c)
 			<h5><b>{{$c->opinion}}</b></h5>
@@ -26,11 +26,8 @@
 			}else{
 				$('#espera_'+id).html("No existen más comentarios");				
 			}
-
-			
 		});
 	}
-
 	function mostrar_mas_comentarios(datos){
 		var div=document.getElementById("div_comentarios");
 		for(var d in datos){

@@ -3,10 +3,7 @@
 
 ![logo](http://tutramitador.com/core/img/logo.png)
 
-Estimad@ {{$user->nombre}}, hemos registrado una compra exitosa en  {{ config('app.name')}}.
-
-
-Por favor comunicate con tu comprador, para que se complete la transacción.
+Estimad@ {{$user->nombre}}, la siguiente es información importante para realizar tu trámite
 
 ##VENDEDOR##
 
@@ -25,15 +22,12 @@ Anuncio:
  {{$ad[1]->nombre_tramite}}
 # Ciudad 
  {{$ad[1]->ciudad}} 
-# Valor trámite 
- $ {{number_format($ad[1]->valor_tramite,0,'.','.')}}
-# Descripción del anuncio
- {{$ad[1]->descripcion_anuncio}}
+## Mensaje de tu tramitador ##
+{{$ad[3]['mensaje']}}
 
 
-Estado transacción: APROBADA
 
-#[Sitio Web][1]
+#[Ver compra][1]
 [1]:{{$ad[2]['url']}}
 
 

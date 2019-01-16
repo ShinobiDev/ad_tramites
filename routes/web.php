@@ -49,6 +49,7 @@ Route::group(["prefix"=>"admin","middleware"=>"auth"],function(){
   Route::get("ver_recargas_mis_recargas/{id}","UsersController@ver_recargas_mis_recargas");
   Route::get('ver_mis_compras/{id}',"UsersController@ver_mis_compras")->name('mis_compras');
   Route::get('ver_mis_ventas/{id}',"UsersController@ver_mis_ventas")->name('mis_ventas');
+  Route::post('notificar_comprador','UsersController@notificar_comprador')->name('notificar_comprador');
   //Route::get("confirm_recarga","");
 });
 Route::post("validar_codigo","UsersController@validar_codigo");

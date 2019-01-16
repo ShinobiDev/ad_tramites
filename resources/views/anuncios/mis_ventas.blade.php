@@ -14,7 +14,7 @@
 @endsection
 
 @section('content')
-
+  
   <div class="container">
     <div class="box box-primary">
       <div class="box-header">
@@ -26,16 +26,18 @@
               <tr>
                 <th>Tipo</th>    
                 <th>Trámite</th>      
-                <th>Comprador</th>
+                <th>ventador</th>
                 <th>Estado venta</th>
                 <th>Valor vendido</th>
                 <th>Referecia de pago</th>
                 <th>Fecha transacción</th>
                 <th>Calificación</th>
+                <th>Acción</th>
               </tr>
             </thead>
             <tbody>
               @foreach ($mis_ventas as $venta)
+                  {{--dd($venta)--}}
                   <tr>                   
                     <td>venta</td>   
                     <td>{{$venta->nombre_tramite}}</td>   
@@ -56,7 +58,18 @@
                             <img  class="star" src="{{asset('img/star.png')}}">
                           @endif
                         @endfor
-                    </td>        
+                    </td> 
+                    <td>
+                      @if($venta->estado_pago=="APROBADA" && $venta->calificacion == null)
+                        
+
+                        <button id="{{'btn_cal_'.$venta->id_pago}}" type="button" class="btn btn-primary" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_notificar_comprador'.$venta->id_pago}}','{{$venta->id_pago}}','0',false)" >
+                                                  Notificar
+                        </button>
+                        @include('partials.notificar_comprador',['ad'=>$venta])
+                      
+                      @endif
+                    </td>       
                   </tr>
               @endforeach
             </tbody>

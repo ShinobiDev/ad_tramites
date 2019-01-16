@@ -136,6 +136,12 @@ class NotificationMail extends Mailable
                                 ->subject('Hemos publicado un nuevo anuncio tuyo en '. config('app.name'));
                     # code...
                     break;
+             case "NotificarComprador":
+                    //dd($this);
+                    return $this->markdown('emials.NotificarComprador')
+                                ->subject('Tienes un nuevo mensaje de '. config('app.name'));
+                    # code...
+                    break;
             default:
                 dd(["sin case=>",$this->tipo]);
                 # code...

@@ -17,7 +17,7 @@
 
 @section('content')
 
-  <div class="container">
+  <div class="container-fluid">
     <div class="box box-primary">
       <div class="box-header">
           <h3 class="box-title">Listado de compras realizadas</h3>
@@ -29,12 +29,14 @@
                 <th>Tipo</th>
                 <th>Tramite</th>
                 <th>Vendedor</th>
+                <th>Teléfono tramitador</th>
+                <th>E-mail tramitador</th>
                 <th>Estado compra</th>
-                
                 
                 <th>Valor comprado</th>
                 <th>Referecia de pago</th>
                 <th>Fecha transacción</th>
+                
                 <th>Acción</th>  
               </tr>
             </thead>
@@ -45,6 +47,8 @@
                     <td>compra</td>          
                     <td>{{$compra->nombre_tramite}}</td>   
                     <td>{{$compra->nombre}}</td>          
+                    <td>{{$compra->telefono}}</td>          
+                    <td>{{$compra->email}}</td>          
                     <td>
                       @if($compra->estado_pago=="PENDIENTE")
                         PENDIENTE POR PAGO
@@ -57,13 +61,16 @@
                     <td>$ {{number_format($compra->transation_value,0,',','.')}}</td>                                    
                     <td>{{$compra->transactionId}}</td>
                     <td>{{$compra->updated_at}}</td>
+                   
                     <td>
-                      @if($compra->estado_pago=="APROBADA" && $compra->calificacion == null)
                           
-                         <button id="{{'btn_cal_'.$compra->id}}" type="button" class="btn btn-primary" data-toggle="modal" onclick="descontar_recargar('{{ 'infocalificar'.$compra->id}}','{{$compra->id}}','0','compra')" >
+                      @if($compra->estado_pago=="APROBADA" && $compra->calificacion == null)
+                        
+
+                        <button id="{{'btn_cal_'.$compra->id}}" type="button" class="btn btn-primary" data-toggle="modal" onclick="descontar_recargar('{{ 'infocalificar'.$compra->id}}','{{$compra->id}}','0','compra')" >
                                                   Calificar
                                                 </button>
-                           @include('partials.btn_calificar_anunciante_venta_realizada',['ad'=>$compra])
+                        @include('partials.btn_calificar_anunciante_venta_realizada',['ad'=>$compra])
                       @else    
                         @for($i=1;$i<=$compra->calificacion;$i++)
                           @if($i<=5)

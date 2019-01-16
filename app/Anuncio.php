@@ -92,7 +92,7 @@ class Anuncio extends Model
                         //$mostrar_payu=false;
 
                 }
-                $cod=$value->codigo_anuncio.'-'.$key;
+                $cod=$value->codigo_anuncio.'-'.$value->id.'-'.$key;
                 $hs=$pu[0]->hashear($cod,$value->valor_tramite,"COP");
 
                 if(Auth()->user()!=null){
@@ -298,7 +298,7 @@ class Anuncio extends Model
                 }
               break;
             case 7:
-                //dd($req);
+                
                 //pendiente de confirmacion efecty
                 $comprador=User::where("email",$req['buyerEmail'])->get();
                 $p=DB::table("registro_pagos_anuncios")->where("transactionId",$req['reference_pol'])->get();
@@ -352,6 +352,7 @@ class Anuncio extends Model
                                     ->where("anuncios.id",$id_ad)
                                     ->join('tramites','anuncios.id_tramite','tramites.id')
                                     ->get();
+                  //dd($anuncio,$id_ad);                  
                   $anunciante=User::where(".id",$anuncio[0]->id_user)->get();
                   //dd($anuncio[0]);
                   //aqui debo enviar los datos de confirmación a la cuenta de correo

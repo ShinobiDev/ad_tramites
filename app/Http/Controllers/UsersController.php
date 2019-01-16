@@ -697,5 +697,21 @@ class UsersController extends Controller
         return view('anuncios.mis_ventas')
                 ->with('mis_ventas',$pag);
     }
-
+    /**
+     * Funcion para notificar los documentos requeridos al comprador
+     * @return [type] [description]
+     */
+    public  function notificar_comprador(Request $request){
+      //dd($request);
+      $comprador=User::where('id',$request['id_user_compra'])->first();
+      $pago=DB::table('registro_pagos_anuncios')->where('id',$request['id_pago'])->first();
+      NotificacionAnuncio::dispatch($comprador,
+                            [auth()->user(),
+                            Anuncio::where('anuncios.id',$request['id_anuncio'])->join('tramites','tramites.id','anuncios.id_tramite')->select('tramites.nombre_tramite','anuncios.ciudad')->first(),
+                            ['url'=>config('app.url').'/admin/ver_mis_compras/'.$comprador->id.'?id='.$pago->transactionId],
+                            ['mensaje'=>$request['mensaje']]],
+                            0,
+                            "NotificarComprador");
+      return back()->with('success','notificación enviada correctamente');
+    }
 }

@@ -3,7 +3,7 @@
 
 ![logo](http://tutramitador.com/core/img/logo.png)
 
-Estimad@ {{$user->nombre}}, hemos registardo una nueva venta de un anuncio en  {{ config('app.name')}}
+Estimad@ {{$user->nombre}}, hemos registrado una nueva venta de un anuncio en  {{ config('app.name')}}
 
 ##COMPRADOR##
 Usuario : {{$ad[0]->nombre}}
@@ -24,6 +24,8 @@ Anuncio:
 # Descripción del anuncio
  {{$ad[1]->descripcion_anuncio}}
 
+Por favor comunicate con tu comprador para solicitarle los correspondientes documentos y de este modo realizar el debido trámite. 
+
 Recuerda que debes tener saldo en la cuenta de recargas para que los usuarios puedan
 ver tus datos de contacto.
 
@@ -31,7 +33,7 @@ ver tus datos de contacto.
 $ {{number_format($recarga,0,'.','.')}} 
 
 
-#[Sitio Web][1]
+#[Notificar al comprador][1]
 [1]:{{$ad[2]['url']}}
 
 
