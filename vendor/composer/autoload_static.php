@@ -370,6 +370,7 @@ class ComposerStaticInitb9b15c2b6921efc65f4e342c0d84e544
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
+        'App\\RegistroPagoAnuncio' => __DIR__ . '/../..' . '/app/RegistroPagoAnuncio.php',
         'App\\Tramite' => __DIR__ . '/../..' . '/app/Tramite.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'App\\Variable' => __DIR__ . '/../..' . '/app/Variable.php',

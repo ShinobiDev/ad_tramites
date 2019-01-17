@@ -142,6 +142,18 @@ class NotificationMail extends Mailable
                                 ->subject('Tienes un nuevo mensaje de '. config('app.name'));
                     # code...
                     break;
+            case "NotificarTramitador":
+                    return $this->markdown('emials.NotificarTramitador')
+                                ->subject('Tienes un nuevo mensaje de un cliente en '. config('app.name'));
+                    break;  
+            case "NotificarTramiteFinalizado":
+                    return $this->markdown('emials.NotificarTramiteFinalizado')
+                                ->subject('Ya esta listo tu trámite en '. config('app.name'));
+                    break; 
+            case "NotificarTramiteFinalizadoAdmin":
+                    return $this->markdown('emials.NotificarTramiteFinalizado')
+                                ->subject('Ya esta listo tu trámite en '. config('app.name'));
+                    break;                         
             default:
                 dd(["sin case=>",$this->tipo]);
                 # code...

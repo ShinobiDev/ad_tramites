@@ -27,11 +27,11 @@
                                         @guest
                                                <!--AQUI SE MUESTRA LOS BOTONES PARA LOGIN -->
 
-                                                <button id="{{'btn_'.$ad->id}}" type="button" class="btn btn-success" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_login'.$ad->id}}','{{$ad->id}}','0','info')">
+                                                <button id="{{'btn_'.$ad->id}}" type="button" class="btn btn-success" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_login'.$ad->id}}','{{$ad->id}}','0',false)">
                                                   Ver info
                                                   </button>
 
-                                                <button id="{{'btn_'.$ad->id}}" type="button" class="btn btn-default" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_login'.$ad->id}}','{{$ad->id}}','0','venta')">
+                                                <button id="{{'btn_'.$ad->id}}" type="button" class="btn btn-default" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_login'.$ad->id}}','{{$ad->id}}','0',false)">
                                                   Comprar
                                                 </button>
 
@@ -57,7 +57,7 @@
                                               @endif
 
                                               @if($ad->btn_calificar)
-                                                 <button id="{{'btn_cal_'.$ad->id}}" type="button" class="btn btn-primary" data-toggle="modal" onclick="descontar_recargar('{{ 'infocalificar'.$ad->id}}','{{$ad->id}}','0','compra')" >
+                                                 <button id="{{'btn_cal_'.$ad->id}}" type="button" class="btn btn-primary" data-toggle="modal" onclick="descontar_recargar('{{ 'infocalificar'.$ad->id}}','{{$ad->id}}','0',false)" >
                                                   Calificar
                                                 </button>
                                                  @include('partials.btn_calificar_anunciante')

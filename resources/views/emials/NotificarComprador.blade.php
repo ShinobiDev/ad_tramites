@@ -5,7 +5,7 @@
 
 Estimad@ {{$user->nombre}}, la siguiente es información importante para realizar tu trámite
 
-##VENDEDOR##
+##Tramitador##
 
 # Nombre: 
 {{$ad[0]->nombre}}
@@ -27,7 +27,7 @@ Anuncio:
 
 
 
-#[Ver compra][1]
+#[Ver trámite][1]
 [1]:{{$ad[2]['url']}}
 
 

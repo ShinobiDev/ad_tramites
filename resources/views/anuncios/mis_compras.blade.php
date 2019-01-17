@@ -41,7 +41,7 @@
               </tr>
             </thead>
             <tbody>
-              {{--dd($mis_compras)--}}            
+              
               @foreach ($mis_compras as $compra)
                   <tr>      
                     <td>compra</td>          
@@ -52,10 +52,16 @@
                     <td>
                       @if($compra->estado_pago=="PENDIENTE")
                         PENDIENTE POR PAGO
-                      @else
-                        {{$compra->estado_pago}}
+                      @elseif($compra->estado_pago=="APROBADA")
+                        PAGO ACEPTADO
+                      @elseif($compra->estado_pago=="TRAMITE REALIZADO")  
+                        TRÁMITE REALIZADO
+                      @elseif($compra->estado_pago=="TRANSACCION FINALIZADA")  
+                        TRANSACCIÓN FINALIZADA
+                      @elseif($compra->estado_pago=="RECHAZADA")  
+                         COMPRA RECHAZADA
                       @endif
-                    </td>                                   
+                    </td>                      
                                                        
                                                       
                     <td>$ {{number_format($compra->transation_value,0,',','.')}}</td>                                    
@@ -64,14 +70,22 @@
                    
                     <td>
                           
-                      @if($compra->estado_pago=="APROBADA" && $compra->calificacion == null)
+                      @if($compra->estado_pago=="APROBADA")
+                        <button id="{{'btn_cal_'.$compra->id_pago}}" type="button" class="btn btn-primary" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_notificar_tramitador'.$compra->id_pago}}','{{$compra->id_pago}}','0',false)" >
+                            Notificar al tramitador
+                        </button>
+                        @include('partials.notificar_tramitador',['ad'=>$compra])
                         
+                        @if($compra->calificacion==null)
 
-                        <button id="{{'btn_cal_'.$compra->id}}" type="button" class="btn btn-primary" data-toggle="modal" onclick="descontar_recargar('{{ 'infocalificar'.$compra->id}}','{{$compra->id}}','0','compra')" >
-                                                  Calificar
-                                                </button>
-                        @include('partials.btn_calificar_anunciante_venta_realizada',['ad'=>$compra])
-                      @else    
+                          <button id="{{'btn_cal_'.$compra->id_pago}}" type="button" class="btn btn-success" data-toggle="modal" onclick="descontar_recargar('{{ 'infocalificar'.$compra->id_pago}}','{{$compra->id_pago}}','0',false)" >
+                              Confirmar trámite
+                          </button>
+                          @include('partials.btn_calificar_anunciante_venta_realizada',['ad'=>$compra])
+                        @endif  
+
+
+                      @elseif($compra->estado_pago=="TRANSACCION FINALIZADA")    
                         @for($i=1;$i<=$compra->calificacion;$i++)
                           @if($i<=5)
                             <img  class="star" src="{{asset('img/star.png')}}">
@@ -83,9 +97,11 @@
                                                       
                   </tr>
               @endforeach
+
             </tbody>
           </table>
- 
+          <!--VENTANA ENVIO DOCUMENTACION -->
+          
       </div>
       
         

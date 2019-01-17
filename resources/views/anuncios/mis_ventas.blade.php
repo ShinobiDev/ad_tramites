@@ -45,8 +45,14 @@
                     <td>
                       @if($venta->estado_pago=="PENDIENTE")
                         PENDIENTE POR PAGO
-                      @else
-                        {{$venta->estado_pago}}
+                      @elseif($venta->estado_pago=="APROBADA")
+                        PAGO ACEPTADO
+                      @elseif($venta->estado_pago=="TRAMITE REALIZADO")  
+                        TRÁMITE REALIZADO
+                      @elseif($venta->estado_pago=="TRANSACCION FINALIZADA")  
+                        TRANSACCIÓN FINALIZADA
+                      @elseif($venta->estado_pago=="RECHAZADA")  
+                         VENTA RECHAZADA
                       @endif
                     </td>
                   
@@ -60,14 +66,20 @@
                         @endfor
                     </td> 
                     <td>
-                      @if($venta->estado_pago=="APROBADA" && $venta->calificacion == null)
-                        
-
+                      @if($venta->estado_pago=="APROBADA")
                         <button id="{{'btn_cal_'.$venta->id_pago}}" type="button" class="btn btn-primary" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_notificar_comprador'.$venta->id_pago}}','{{$venta->id_pago}}','0',false)" >
-                                                  Notificar
+                            Notificar al comprador
                         </button>
                         @include('partials.notificar_comprador',['ad'=>$venta])
+
+
+                        <button id="{{'btn_cal_'.$venta->id_pago}}" type="button" class="btn btn-success" data-toggle="modal" onclick="descontar_recargar('{{ 'notificar_tramite_finalizado_comprador'.$venta->id_pago}}','{{$venta->id_pago}}','0',false)" >
+                            Notificar tramite realizado
+                        </button>
+                        @include('partials.notificar_tramite_finalizado_comprador',['ad'=>$venta])
                       
+                      @elseif($venta->estado_pago=="TRAMITE REALIZADO")  
+                        TRÁMITE REALIZADO
                       @endif
                     </td>       
                   </tr>
@@ -114,6 +126,7 @@
                       }
                   }
               } );
+              filtro_url('#ventas-table');
 
             });
           </script>

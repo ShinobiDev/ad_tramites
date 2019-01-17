@@ -22,7 +22,7 @@
           });
         }
        /*funcion que hace la peticion ajax */
-      function peticion_ajax(metodo,url,data,func){
+      function peticion_ajax(metodo,url,data,func,funcerror){
               //debe ir como core y no public la url en producccion
              $.ajaxSetup({
                 headers: {
@@ -40,7 +40,11 @@
                          func(result);
                    },
                    error: function(err){
-                        console.log(err);
+                    console.log(err);
+                    if(funcerror!=undefined){
+                      funcerror(err);
+                    }
+                    
                    }
                });
           }
@@ -344,13 +348,29 @@
       }
     };
    /**
-         * Funcion para el obj data table desde url
-         * @return {[type]} [description]
-         */
-        function filtro_url (obj) {
-            $(obj).DataTable().search(
-                window.location.search.split("=")[1],
-                true,                    
-            ).draw();
-        }
+     * Funcion para el obj data table desde url
+     * @return {[type]} [description]
+     */
+    function filtro_url (obj) {
+      if(window.location.search.split("=")[1]!=undefined){
+        $(obj).DataTable().search(
+            window.location.search.split("=")[1],
+            true,                    
+        ).draw();
+      }
+        
+    }
+    function mostrar_modal(id_ventana,datos){
+      $("#"+id_ventana).addClass( "in" );
+      $("#"+id_ventana).css({"display": "block", "padding-right": "21px"});       
+      console.log(datos);
+      for(var d in datos){        
+        //console.log(datos[d]);
+        //console.log(datos[d].id);
+        //console.log(datos[d].valor);
+        //console.log(document.getElementById(datos[d].id));
+        document.getElementById(datos[d].id).value=datos[d].valor;
+      }
+    }
 </script>
+

@@ -429,7 +429,7 @@ class AnuncioController extends Controller
 
           DB::table('registro_pagos_anuncios')
                   ->where('id',$data['id_anuncio_calificar'])
-                  ->update(['calificacion'=>$data["nota"],'opinion'=>$data["opinion"],'comentario'=>$data["opinion"],'updated_at'=>Carbon::now('America/Bogota')]);
+                  ->update(['calificacion'=>$data["nota"],'estado_pago'=>'TRANSACCION FINALIZADA','opinion'=>$data["opinion"],'comentario'=>$data["opinion"],'updated_at'=>Carbon::now('America/Bogota')]);
           $dtc=DB::table('registro_pagos_anuncios')
               ->where('id',$data['id_anuncio_calificar'])
               ->get();

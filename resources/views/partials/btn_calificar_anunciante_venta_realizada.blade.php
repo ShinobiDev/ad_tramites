@@ -1,11 +1,11 @@
-<div class="modal fade" id="{{'infocalificar'.$ad->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="overflow-y: scroll;" >
+<div class="modal fade" id="{{'infocalificar'.$ad->id_pago}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="overflow-y: scroll;" >
 <div class="modal-dialog" role="document">
     <div class="modal-content">
 
       <div class="modal-header bg-primary">
         <h3 style="text-align: center;" class="modal-title" id="exampleModalLabel"><b>Califica al anunciante</b></h3>
         <h4 class="modal-title" id="exampleModalLabel">{{config('app.name','') }}, te sirve de intermediario para garantizar que tu trámites cumplan de manerta exitosa para ambas partes, por favor dejanos conocer comentarios sobre este anunciante</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="salir_modal('{{'infocalificar'.$ad->id}}')">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="salir_modal('{{'infocalificar'.$ad->id_pago}}')">
           <span aria-hidden="true" >&times;</span>
         </button>
       </div>
@@ -21,9 +21,7 @@
           @endfor
       </div>
       <div class="modal-body">
-
-            <!--<form method="POST" action="{{url('admin/calificar')}}">-->
-                    <form id="formCalificar">
+              <form id="formCalificar">
                      <h3 style="text-align: center;" class="modal-title" id="exampleModalLabel"><b>¿Cómo calificarias a este anunciante?</b></h3>
                     {{csrf_field()}}
                     <input type="hidden" name="id_anuncio_calificar" value="{{$ad->id_pago}}">
@@ -63,10 +61,8 @@
 
                     </div>
                     <!--<button id="btn_calificar" type="submit" class="btn btn-primary">Calificar</button>-->
-                    <input type="button" value="Calificar" class="btn btn-primary" onclick="calificar_anunciante('{{$ad->id}}')">
+                    <input type="button" value="Calificar" class="btn btn-primary" onclick="calificar_anunciante('{{$ad->id_pago}}')">
             </form>
-
-
        </div>
 
         <div class="modal-footer">
@@ -77,68 +73,68 @@
 </div>
 </div>
  <script type="text/javascript">
-                   /**
-                    * Funcion para validar el tamaño limite de el texto
-                    * @param  {[type]} e [elemento que desencadena el evento]
-                    * @return {[void]}   [realiza el cambio de la variable lb_limit_txt]
-                    */
-                   function validar_tam_txt(e){
-                        console.log(e.value);
-                        console.log(e.value.length);
-                        if((e.value.length+1)<=110){
-                            document.getElementById('lb_limit_txt').innerHTML=e.value.length+1;
+         /**
+          * Funcion para validar el tamaño limite de el texto
+          * @param  {[type]} e [elemento que desencadena el evento]
+          * @return {[void]}   [realiza el cambio de la variable lb_limit_txt]
+          */
+         function validar_tam_txt(e){
+              console.log(e.value);
+              console.log(e.value.length);
+              if((e.value.length+1)<=110){
+                  document.getElementById('lb_limit_txt').innerHTML=e.value.length+1;
 
-                        }
+              }
 
-                   }
+         }
 
-                   function validar_opcion(e){
-                      var sel=document.getElementById("sel_opt_calificacion"+e).value;
-                     //alert(sel);
-                      if(sel=="Otros"){
-                        document.getElementById("txt_opinion"+e).style.display='';
+         function validar_opcion(e){
+            var sel=document.getElementById("sel_opt_calificacion"+e).value;
+           //alert(sel);
+            if(sel=="Otros"){
+              document.getElementById("txt_opinion"+e).style.display='';
 
-                      }else{
-                        document.getElementById("txt_opinion"+e).style.display='none';
-                      }
-                   }
+            }else{
+              document.getElementById("txt_opinion"+e).style.display='none';
+            }
+         }
 
-                  function calificar_anunciante(id_modal){
-                      form=$("#formCalificar").serializarFormulario();
-                      /*
-                       * Envio la peticion
-                      */
-                     console.log(form);
-                     if(form==false){
-                        mensaje({mensaje:"Debe diligenciar todos los campos ",respuesta:false});
-                        salir_modal('infocalificar'+id_modal);
-                        window.scrollTo(0, 400);
-                        return false;
-                     }else if(form.nota==undefined){
-                        mensaje({mensaje:"Debes seleccionar una nota",respuesta:false});
-                        salir_modal('infocalificar'+id_modal);
-                        window.scrollTo(0, 400);
-                        return false;
-                     }
-                     if(form.opinion=="0" || form.opinion==""){
-                        mensaje({mensaje:"Debes seleccionar una opción",respuesta:false});
-                        salir_modal('infocalificar'+id_modal);
-                        window.scrollTo(0, 400);
-                        return false;
-                     }
+        function calificar_anunciante(id_modal){
+            form=$("#formCalificar").serializarFormulario();
+            /*
+             * Envio la peticion
+            */
+           console.log(form);
+           if(form==false){
+              mensaje({mensaje:"Debe diligenciar todos los campos ",respuesta:false});
+              salir_modal('infocalificar'+id_modal);
+              window.scrollTo(0, 400);
+              return false;
+           }else if(form.nota==undefined){
+              mensaje({mensaje:"Debes seleccionar una nota",respuesta:false});
+              salir_modal('infocalificar'+id_modal);
+              window.scrollTo(0, 400);
+              return false;
+           }
+           if(form.opinion=="0" || form.opinion==""){
+              mensaje({mensaje:"Debes seleccionar una opción",respuesta:false});
+              salir_modal('infocalificar'+id_modal);
+              window.scrollTo(0, 400);
+              return false;
+           }
 
-                     if(form.opinion=="Otros"){
-                        form.opinion=form.opinion_txt;
-                     }
+           if(form.opinion=="Otros"){
+              form.opinion=form.opinion_txt;
+           }
 
-                     //console.log(form);
-                      peticion_ajax("post","admin/calificar_venta",form,function(rs){
-                        mensaje(rs);
-                        salir_modal('infocalificar'+id_modal);
-                        document.getElementById("btn_cal_"+id_modal).style.display='none';
-                        window.scrollTo(0, 400);
-                      });
+           //console.log(form);
+            peticion_ajax("post","admin/calificar_venta",form,function(rs){
+              mensaje(rs);
+              salir_modal('infocalificar'+id_modal);
+              document.getElementById("btn_cal_"+id_modal).style.display='none';
+              window.scrollTo(0, 400);
+            });
 
-                  }
+        }
 
 </script>

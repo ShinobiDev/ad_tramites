@@ -17,6 +17,7 @@ use App\Tramite;
 use App\Variable;
 use App\DetalleClicAnuncio;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use App\Events\NotificacionAnuncio;
 use Carbon\Carbon;
@@ -642,7 +643,7 @@ class UsersController extends Controller
                            'anuncios.id', 
                            'anuncios.codigo_anuncio',
                            'anuncios.ciudad',
-                           'users.id as id_anunciante ',
+                           'users.id as id_anunciante',
                            'users.nombre',
                            'users.email',
                            'users.telefono')
@@ -693,9 +694,12 @@ class UsersController extends Controller
                                 ['registro_pagos_anuncios.transactionId','!=',null]
                             ])
                     ->get();
+               
+
         
         return view('anuncios.mis_ventas')
                 ->with('mis_ventas',$pag);
+        
     }
     /**
      * Funcion para notificar los documentos requeridos al comprador
@@ -704,7 +708,9 @@ class UsersController extends Controller
     public  function notificar_comprador(Request $request){
       //dd($request);
       $comprador=User::where('id',$request['id_user_compra'])->first();
+     
       $pago=DB::table('registro_pagos_anuncios')->where('id',$request['id_pago'])->first();
+      //dd($comprador);
       NotificacionAnuncio::dispatch($comprador,
                             [auth()->user(),
                             Anuncio::where('anuncios.id',$request['id_anuncio'])->join('tramites','tramites.id','anuncios.id_tramite')->select('tramites.nombre_tramite','anuncios.ciudad')->first(),
@@ -712,6 +718,43 @@ class UsersController extends Controller
                             ['mensaje'=>$request['mensaje']]],
                             0,
                             "NotificarComprador");
-      return back()->with('success','notificación enviada correctamente');
+      return back()->with('success','notificación enviada a tu cliente correctamente');
     }
+   
+     /**
+     * Funcion para notificar los documentos requeridos al comprador
+     * @return [type] [description]
+     */
+    public  function notificar_tramitador(Request $request){
+      //dd($request);
+      $tramitador=User::where('id',$request['id_user_compra'])->first();
+     
+      $pago=DB::table('registro_pagos_anuncios')->where('id',$request['id_pago'])->first();
+      //dd($tramitador);
+      NotificacionAnuncio::dispatch($tramitador,
+                            [auth()->user(),
+                            Anuncio::where('anuncios.id',$request['id_anuncio'])->join('tramites','tramites.id','anuncios.id_tramite')->select('tramites.nombre_tramite','anuncios.ciudad')->first(),
+                            ['url'=>config('app.url').'/admin/ver_mis_ventas/'.$tramitador->id.'?id='.$pago->transactionId],
+                            ['mensaje'=>$request['mensaje']]],
+                            0,
+                            "NotificarTramitador");
+      return back()->with('success','notificación enviada a tu tramitador correctamente');
+    }
+
+    public function notificar_tramite_finalizado(Request $request){
+      //dd($request);
+      $comprador=User::where('id',$request['id_user_compra'])->first();
+     
+      $pago=DB::table('registro_pagos_anuncios')->where('id',$request['id_pago'])->first();
+      //dd($comprador);
+      NotificacionAnuncio::dispatch($comprador,
+                            [auth()->user(),
+                            Anuncio::where('anuncios.id',$request['id_anuncio'])->join('tramites','tramites.id','anuncios.id_tramite')->select('tramites.nombre_tramite','anuncios.ciudad')->first(),
+                            ['url'=>config('app.url').'/admin/ver_mis_compras/'.$comprador->id.'?id='.$pago->transactionId],
+                            ['mensaje'=>$request['mensaje']]],
+                            0,
+                            "NotificarTramiteFinalizado");
+      return back()->with('success','notificación enviada a tu cliente correctamente');
+    }
+   
 }

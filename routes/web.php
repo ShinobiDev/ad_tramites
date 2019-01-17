@@ -12,7 +12,9 @@
 */
 Auth::routes();
 
+Route::get('prueba',function(){
 
+});
 Route::get('register_landing/{codigo_referido}',"Auth\RegisterController@create_landing");
 Route::get('/','AnuncioController@index' )->name('anuncios.index');
 Route::get('/home', 'AnuncioController@index')->name('home');
@@ -50,8 +52,14 @@ Route::group(["prefix"=>"admin","middleware"=>"auth"],function(){
   Route::get('ver_mis_compras/{id}',"UsersController@ver_mis_compras")->name('mis_compras');
   Route::get('ver_mis_ventas/{id}',"UsersController@ver_mis_ventas")->name('mis_ventas');
   Route::post('notificar_comprador','UsersController@notificar_comprador')->name('notificar_comprador');
-  //Route::get("confirm_recarga","");
+  Route::post('notificar_tramitador','UsersController@notificar_tramitador')->name('notificar_tramitador');
+  Route::post('notificar_tramite_finalizado','UsersController@notificar_tramite_finalizado')->name('notificar_tramite_finalizado');
+  Route::post('notificar_tramite_finalizado_admin','UsersController@notificar_tramite_finalizado_admin')->name('notificar_tramite_finalizado_admin');
+ 
+  
+  
 });
+
 Route::post("validar_codigo","UsersController@validar_codigo");
 
 //Route::get("response_recarga","UsersController@registro_recargas");

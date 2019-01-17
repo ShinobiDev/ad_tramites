@@ -3,7 +3,7 @@
       <div class="modal-content">
 
         <div class="modal-header bg-primary">
-          <h5 class="modal-title text-center" id="exampleModalLabel">Ingresa los documentos necesarios para el trámite</h5>
+          <h5 class="modal-title text-center" id="exampleModalLabel">Solicita información a tu cliente</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="salir_modal('{{'ventana_notificar_comprador'.$ad->id_pago}}')">
             <span aria-hidden="true" >&times;</span>
           </button>
@@ -30,7 +30,7 @@
                 </div>
 
                 <div class="form-group {{ $errors->has('password') ? ' has-error' : '' }}">
-                    <label for="password" class="col-md-4 control-label">Documentos o información adicional </label>
+                    <label for="password" class="col-md-4 control-label">Mensaje </label>
                     <div class="col-md-6">
                        
                         <textarea name="mensaje" class="form-control" rows="8" cols="100"></textarea>
