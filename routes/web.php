@@ -55,7 +55,9 @@ Route::group(["prefix"=>"admin","middleware"=>"auth"],function(){
   Route::post('notificar_tramitador','UsersController@notificar_tramitador')->name('notificar_tramitador');
   Route::post('notificar_tramite_finalizado','UsersController@notificar_tramite_finalizado')->name('notificar_tramite_finalizado');
   Route::post('notificar_tramite_finalizado_admin','UsersController@notificar_tramite_finalizado_admin')->name('notificar_tramite_finalizado_admin');
- 
+  Route::get('todas_las_transacciones','UsersController@todas_las_transacciones')->name('todas_las_transacciones');
+  Route::post('notificar_pago_a_tramitador','UsersController@notificar_pago_a_tramitador')->name('notificar_pago_a_tramitador');
+  Route::post('notificar_pago_de_tramitador','UsersController@notificar_pago_de_tramitador')->name('notificar_pago_de_tramitador');
   
   
 });

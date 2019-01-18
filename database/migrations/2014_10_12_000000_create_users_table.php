@@ -26,6 +26,8 @@ class CreateUsersTable extends Migration
             $table->integer('num_calificaciones')->default(1);
             $table->string('password');
             $table->date("fecha_ultima_recarga")->nullable();
+            $table->string('cuenta_bancaria')->nullable();
+            $table->string('certificacion_bancaria')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

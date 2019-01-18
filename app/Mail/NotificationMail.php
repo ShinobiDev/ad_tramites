@@ -153,7 +153,11 @@ class NotificationMail extends Mailable
             case "NotificarTramiteFinalizadoAdmin":
                     return $this->markdown('emials.NotificarTramiteFinalizado')
                                 ->subject('Ya esta listo tu trámite en '. config('app.name'));
-                    break;                         
+                    break;   
+            case "NotificarPagoTramitador":
+                    return $this->markdown('emials.NotificarPagoTramitador')
+                                ->subject('Ya esta listo tu pago en '. config('app.name'));
+                    break;                                 
             default:
                 dd(["sin case=>",$this->tipo]);
                 # code...

@@ -49,14 +49,14 @@
                         PAGO ACEPTADO
                       @elseif($venta->estado_pago=="TRAMITE REALIZADO")  
                         TRÁMITE REALIZADO
-                      @elseif($venta->estado_pago=="TRANSACCION FINALIZADA")  
+                      @elseif($venta->estado_pago=="TRANSACCION FINALIZADA" || $venta->estado_pago=="PAGO A TRAMITADOR")  
                         TRANSACCIÓN FINALIZADA
                       @elseif($venta->estado_pago=="RECHAZADA")  
                          VENTA RECHAZADA
                       @endif
                     </td>
                   
-                    <td>{{number_format($venta->transation_value,0,',','.')}}</td>                                    
+                    <td>$ {{number_format($venta->transation_value,0,',','.')}}</td>                                    
                     <td>{{$venta->transactionId}}</td>                                   
                     <td>{{$venta->updated_at}}</td>
                     <td> @for($i=1;$i<=$venta->calificacion;$i++)
@@ -78,8 +78,13 @@
                         </button>
                         @include('partials.notificar_tramite_finalizado_comprador',['ad'=>$venta])
                       
-                      @elseif($venta->estado_pago=="TRAMITE REALIZADO")  
-                        TRÁMITE REALIZADO
+                      @elseif($venta->estado_pago=="TRANSACCION FINALIZADA" )  
+                        <button id="{{'btn_cal_'.$venta->id_pago}}" type="button" class="btn btn-success" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_pago_de_tramitador'.$venta->id_pago}}','{{$venta->id_pago}}','0',false)" >
+                            Confirmar pago de {{config('app.name')}}
+                        </button>
+                        @include('partials.confirmar_pago_de_tramitador',['ad'=>$venta])
+                      @elseif( $venta->estado_pago=="PAGO A TRAMITADOR")
+                       TRANSACCION FINALIZADA
                       @endif
                     </td>       
                   </tr>

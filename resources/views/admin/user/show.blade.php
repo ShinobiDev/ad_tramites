@@ -24,6 +24,12 @@
                 <b>Código para referir</b> <a class="pull-right" style="margin-right:  20px;">{{$user->codigo_referido}}</a>
               </li>
               @role('Anunciante')
+                <li class="list-group-item" style="margin-left:  20px;">
+                  <b>Cuenta bancaria</b> <a class="pull-right" style="margin-right:  20px;">{{$user->cuenta_bancaria}}</a>
+                </li>
+                <li class="list-group-item" style="margin-left:  20px;">
+                  <b>Certificación bancaria</b> <a class="pull-right" style="margin-right:  20px;">{{$user->certificación_bancaria}}</a>
+                </li>
                 <li class="list-group-item" style="text-align: center;">
                   <b>Horarios de atención</b>
                 </li>

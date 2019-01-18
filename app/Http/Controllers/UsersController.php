@@ -718,7 +718,7 @@ class UsersController extends Controller
                             ['mensaje'=>$request['mensaje']]],
                             0,
                             "NotificarComprador");
-      return back()->with('success','notificación enviada a tu cliente correctamente');
+      return back()->with('success','Notificación enviada a tu cliente correctamente');
     }
    
      /**
@@ -738,7 +738,7 @@ class UsersController extends Controller
                             ['mensaje'=>$request['mensaje']]],
                             0,
                             "NotificarTramitador");
-      return back()->with('success','notificación enviada a tu tramitador correctamente');
+      return back()->with('success','Notificación enviada a tu tramitador correctamente');
     }
 
     public function notificar_tramite_finalizado(Request $request){
@@ -754,7 +754,89 @@ class UsersController extends Controller
                             ['mensaje'=>$request['mensaje']]],
                             0,
                             "NotificarTramiteFinalizado");
-      return back()->with('success','notificación enviada a tu cliente correctamente');
+
+      //pendiente envio email a administrador
+      //
+      //            
+      return back()->with('success','Notificación enviada a tu cliente correctamente');
     }
-   
+    
+    public function todas_las_transacciones(){
+      $transacciones=DB::table('registro_pagos_anuncios')
+                            ->select('registro_pagos_anuncios.id as id_pago',
+                                   'registro_pagos_anuncios.transactionId',
+                                   'registro_pagos_anuncios.transactionState',
+                                   'registro_pagos_anuncios.transation_value',
+                                   'registro_pagos_anuncios.id_anuncio',
+                                   'registro_pagos_anuncios.id_user_compra',
+                                   'registro_pagos_anuncios.metodo_pago',
+                                   'registro_pagos_anuncios.estado_pago',
+                                   'registro_pagos_anuncios.opinion',
+                                   'registro_pagos_anuncios.calificacion',
+                                   'registro_pagos_anuncios.created_at',
+                                   'registro_pagos_anuncios.updated_at',
+                                   'tramites.nombre_tramite',
+                                   'anuncios.id', 
+                                   'anuncios.codigo_anuncio',
+                                   'anuncios.ciudad',
+                                   'users.id as id_anunciante',
+                                   'users.nombre',
+                                   'users.email',
+                                   'users.telefono')
+                            ->join('anuncios','anuncios.id','registro_pagos_anuncios.id_anuncio')
+                            ->join('users','users.id','anuncios.id_user')
+                            ->join('tramites','anuncios.id_tramite','tramites.id')
+                            ->get();
+
+        return view('anuncios.todas_las_transacciones')
+                  ->with('transacciones',$transacciones)
+                  ->with('porcentaje',DB::table('variables')->where('nombre','porcentaje_tramite')->get());
+
+
+    }
+    /**
+     * Funcion para notificar al tramitador del pago hecho por tu tramitador
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function notificar_pago_a_tramitador(Request $request){
+      //dd($request);
+       $tramitador=User::where('id',$request['id_user_compra'])->first();
+      
+      $pago=DB::table('registro_pagos_anuncios')->where('id',$request['id_pago'])->first();
+      //dd($comprador);
+      NotificacionAnuncio::dispatch($tramitador,
+                            [auth()->user(),
+                            Anuncio::where('anuncios.id',$request['id_anuncio'])->join('tramites','tramites.id','anuncios.id_tramite')->select('tramites.nombre_tramite','anuncios.ciudad')->first(),
+                            ['url'=>config('app.url').'/admin/ver_mis_ventas/'.$tramitador->id.'?id='.$pago->transactionId],
+                            ['mensaje'=>$request['mensaje']],
+                            ['valor'=>$request['valor']]],
+                            0,
+                            "NotificarPagoTramitador");
+      return back()->with('success','Notificación enviada al tramitador correctamente');
+    }
+    /**
+     * Funcion para registrar el pago hecho por tu tramitador
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function notificar_pago_de_tramitador(Request $request){
+      //dd($request);
+      //$tramitador=User::where('id',$request['id_user_compra'])->first();
+      DB::table('registro_pagos_anuncios')
+              ->where('id',$request['id_pago'])
+              ->update(["estado_pago"=>'PAGO A TRAMITADOR']);
+      //$pago=DB::table('registro_pagos_anuncios')->where('id',$request['id_pago'])->first();
+      //dd($comprador);
+      /*NotificacionAnuncio::dispatch($tramitador,
+                            [auth()->user(),
+                            Anuncio::where('anuncios.id',$request['id_anuncio'])->join('tramites','tramites.id','anuncios.id_tramite')->select('tramites.nombre_tramite','anuncios.ciudad')->first(),
+                            ['url'=>config('app.url').'/admin/ver_mis_ventas/'.$tramitador->id.'?id='.$pago->transactionId],
+                            ['mensaje'=>$request['mensaje']],
+                            ['valor'=>$request['valor']]],
+                            0,
+                            "NotificarPagoTramitador");*/
+      return back()->with('success','Gracias por confiar en '.config('app.name'));
+    }
+
 }

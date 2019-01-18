@@ -26,8 +26,7 @@
   <!--<link rel="stylesheet" type="text/css" href="{{asset('css/dropzone.css')}}">
   <script type="text/javascript" src="{{asset('js/dropzone.js')}}"></script> -->
   
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css">
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
+  
     @yield('head')
 </head>
 <body>
@@ -73,6 +72,9 @@
                         <li>
                            <a href="{{route('anuncios.show',['id'=>Auth::user()->id])}}">Todos los anuncios</a>
                         </li>
+                        <li>
+                            <a href="{{route('todas_las_transacciones')}}">Todas las transacciones</a>
+                          </li>
                         <li>
                           <a href="{{route('recargas.show')}}"> Estadistica recargas</a>
                         </li> 

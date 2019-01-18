@@ -4,7 +4,7 @@
 @endsection
 @section('header')
     <h1>
-        Mis compras
+        Todas las transacciones
     </h1>
     <small>Listado</small>
 
@@ -20,20 +20,21 @@
   <div class="container-fluid">
     <div class="box box-primary">
       <div class="box-header">
-          <h3 class="box-title">Listado de compras realizadas</h3>
+          <h3 class="box-title">Listado de transacciones realizadas</h3>
       </div>
       <div class="box-body">
-          <table id="compras-table" class="table table-bordered table-striped">
+          <table id="transacciones-table" class="table table-bordered table-striped">
             <thead>
               <tr>
-                <th>Tipo</th>
+                
                 <th>Tramite</th>
                 <th>Vendedor</th>
                 <th>Teléfono tramitador</th>
                 <th>E-mail tramitador</th>
-                <th>Estado compra</th>
-                
-                <th>Valor comprado</th>
+                <th>Estado transaccion</th>
+                <th>Valor transacción</th>
+                <th>% tu tramitador</th>
+                <th>Valor a pagar al tramitador</th>
                 <th>Referecia de pago</th>
                 <th>Fecha transacción</th>
                 
@@ -42,55 +43,40 @@
             </thead>
             <tbody>
               
-              @foreach ($mis_compras as $compra)
+              @foreach ($transacciones as $transaccion)
                   <tr>      
-                    <td>compra</td>          
-                    <td>{{$compra->nombre_tramite}}</td>   
-                    <td>{{$compra->nombre}}</td>          
-                    <td>{{$compra->telefono}}</td>          
-                    <td>{{$compra->email}}</td>          
+                    
+                    <td>{{$transaccion->nombre_tramite}}</td>   
+                    <td>{{$transaccion->nombre}}</td>          
+                    <td>{{$transaccion->telefono}}</td>          
+                    <td>{{$transaccion->email}}</td>          
                     <td>
-                      @if($compra->estado_pago=="PENDIENTE")
+                      @if($transaccion->estado_pago=="PENDIENTE")
                         PENDIENTE POR PAGO
-                      @elseif($compra->estado_pago=="APROBADA")
+                      @elseif($transaccion->estado_pago=="APROBADA")
                         PAGO ACEPTADO
-                      @elseif($compra->estado_pago=="TRAMITE REALIZADO")  
+                      @elseif($transaccion->estado_pago=="TRAMITE REALIZADO")  
                         TRÁMITE REALIZADO
-                      @elseif($compra->estado_pago=="TRANSACCION FINALIZADA" || $compra->estado_pago=="PAGO A TRAMITADOR")  
+                      @elseif($transaccion->estado_pago=="TRANSACCION FINALIZADA")  
                         TRANSACCIÓN FINALIZADA
-                      @elseif($compra->estado_pago=="RECHAZADA")  
-                         COMPRA RECHAZADA
+                      @elseif($transaccion->estado_pago=="RECHAZADA")  
+                         transaccion RECHAZADA
                       @endif
                     </td>                      
                                                        
                                                       
-                    <td>$ {{number_format($compra->transation_value,0,',','.')}}</td>                                    
-                    <td>{{$compra->transactionId}}</td>
-                    <td>{{$compra->updated_at}}</td>
+                    <td>$ {{number_format($transaccion->transation_value,0,',','.')}}</td>
+                    <td>{{$porcentaje[0]->valor}} %</td>                                     
+                    <td width="15%">$ {{number_format($transaccion->transation_value-($transaccion->transation_value*$porcentaje[0]->valor/100),0,',','.')}}</td>                                     
+                    <td>{{$transaccion->transactionId}}</td>
+                    <td>{{$transaccion->updated_at}}</td>
                    
                     <td>
                           
-                      @if($compra->estado_pago=="APROBADA")
-                        <button id="{{'btn_cal_'.$compra->id_pago}}" type="button" class="btn btn-primary" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_notificar_tramitador'.$compra->id_pago}}','{{$compra->id_pago}}','0',false)" >
-                            Notificar al tramitador
-                        </button>
-                        @include('partials.notificar_tramitador',['ad'=>$compra])
-                        
-                        @if($compra->calificacion==null)
-
-                          <button id="{{'btn_cal_'.$compra->id_pago}}" type="button" class="btn btn-success" data-toggle="modal" onclick="descontar_recargar('{{ 'infocalificar'.$compra->id_pago}}','{{$compra->id_pago}}','0',false)" >
-                              Confirmar trámite
+                      @if($transaccion->estado_pago=="TRANSACCION FINALIZADA")    
+                        <button id="{{'btn_cal_'.$transaccion->id_pago}}" type="button" class="btn btn-success" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_pago_a_tramitador'.$transaccion->id_pago}}','{{$transaccion->id_pago}}','0',false)" >Confirmar pago a tramitador
                           </button>
-                          @include('partials.btn_calificar_anunciante_venta_realizada',['ad'=>$compra])
-                        @endif  
-
-
-                      @elseif($compra->estado_pago=="TRANSACCION FINALIZADA"  || $compra->estado_pago=="PAGO A TRAMITADOR")    
-                        @for($i=1;$i<=$compra->calificacion;$i++)
-                          @if($i<=5)
-                            <img  class="star" src="{{asset('img/star.png')}}">
-                          @endif
-                        @endfor
+                          @include('partials.confirmar_pago_a_tramitador',['ad'=>$transaccion,'valor'=>number_format($transaccion->transation_value-($transaccion->transation_value*$porcentaje[0]->valor/100),0,',','.')])
                       @endif
                     </td>                                   
                      
@@ -118,7 +104,7 @@
           <script>
             $(document).ready(function() {
                 console.log("5");
-                $('#compras-table').DataTable( {
+                $('#transacciones-table').DataTable( {
                     dom: 'Bfrtip',
                     buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
                     language:
@@ -147,7 +133,7 @@
                         }
                     }
                 } );
-                filtro_url('#compras-table');
+                filtro_url('#transacciones-table');
 
 
             });
