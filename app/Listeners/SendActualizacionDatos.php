@@ -23,7 +23,7 @@ class SendActualizacionDatos
     public function handle(ActualizacionDatos $event)
     {   
         //dd($event->new_email);
-        $url=trim(config("app.url")."admin/confirmar_cambio_email/".$event->user->id."/".$event->new_email);
+        $url=trim(config("app.url")."/confirmar_cambio_email/".$event->user->id."/".$event->new_email);
         //dd($url);
         Mail::to($event->new_email)->queue(
 

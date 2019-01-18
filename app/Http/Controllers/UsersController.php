@@ -175,7 +175,7 @@ class UsersController extends Controller
 
     public function update(UpdateUserRequest $request, User $user)
     {
-
+        //dd($request);
         $uo=User::where("id",$user->id)->get();
         //dd($uo[0]->email);
         if($uo[0]->email!=$request["email"]){
@@ -187,7 +187,11 @@ class UsersController extends Controller
                 return back()->with('error',$msn);
             }
             $arr["nombre"]=$data["nombre"];
-            $arr["telefono"]=$data["telefono"];;
+            $arr["telefono"]=$data["telefono"];
+            if(array_key_exists("cuenta_bancaria", $data)){
+              $arr["cuenta_bancaria"]=$data["cuenta_bancaria"];            
+            }
+            
             if(array_key_exists("password", $data)){
                 $arr["password"]=bcrypt($data["password"]);
             }
@@ -211,13 +215,20 @@ class UsersController extends Controller
 
         }else{
             $dt=$request->validated();
+            //dd($dt);
             if(strlen($dt['telefono']) < 7 ||  strlen($dt['telefono']) > 13){
                 $msn="Ingresa un número de télefono valido";
                 return back()->with('error',$msn);
             }
-            if(array_key_exists("password", $dt)){
-                $dt["password"]=bcrypt($dt["password"]);
+            if(array_key_exists("cuenta_bancaria", $dt)){
+
+                $dt["cuenta_bancaria"]=$dt["cuenta_bancaria"];
+                //dd($dt["cuenta_bancaria"]);
             }
+            if(array_key_exists("password", $dt)){
+                $dt["password"]=bcrypt($data["password"]);
+            }
+            //dd($dt);
             $user->update($dt);
             $msn='Se ha actualizado el usuario correctamente';
 
@@ -241,7 +252,13 @@ class UsersController extends Controller
 
         return redirect()->route('users.index')->with('success', 'Usuario Eliminado correctamente');
     }
-
+    /**
+     * Funcion para validar el cambio del correo
+     * 
+     * @param  [type] $id           [description]
+     * @param  [type] $nuevo_correo [description]
+     * @return [type]               [description]
+     */
     public function cambio_correo($id,$nuevo_correo){
         if(filter_var($nuevo_correo, FILTER_VALIDATE_EMAIL)){
             $dd=User::where("id",$id)->get();
@@ -264,7 +281,10 @@ class UsersController extends Controller
 
 
     }
-
+    /**
+     * Funcion para consulatr las bonificaciones
+     * @return [type] [description]
+     */
     public function mis_bonificaciones(){
         $bonificaciones=DB::table("bonificaciones")
                                ->select('users.id',
@@ -288,7 +308,11 @@ class UsersController extends Controller
                 ->with('success', 'Estas son tus bonificaciones');
 
     }
-
+    /**
+     * Funcion para validar el código
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function validar_codigo(Request $request){
         //dd($request['data']['datos']);
         $cod=$request['data']['datos'];
@@ -298,8 +322,11 @@ class UsersController extends Controller
         }
         return response()->json(["respuesta"=>false,"mensaje"=>"Error Código referido: El Código de la persona que te refirio no existe. Deja el espacio vacío o pregúntaselo nuevamente."]);
     }
-    /*Funcion para cambiar la clave
-    */
+    /**
+     * Funcion para cambiar la clave
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function cambio_pass(Request $request){
          User::where("email",$request['email'])->update(['password'=>bcrypt($request['password'])]);
          return redirect()->route('login',["id"=>$request['email']])->with('success', 'Se ha cambiado tu contraseña correctamente, debes ingresar con tu nueva contraseña');
@@ -361,7 +388,12 @@ class UsersController extends Controller
 
 
 
-
+    /**
+     * Funcion para cambiar el horario de un cliente
+     * @param  [type] $id       [description]
+     * @param  [type] $horarios [description]
+     * @return [type]           [description]
+     */
    public function cambiar_horario( $id,$horarios){
         //dd($horarios);
         DB::table('detalle_horarios')->where('id',$id)->update([
@@ -400,9 +432,9 @@ class UsersController extends Controller
                       ["id","=",$ad[0]->id_user],
                       ["valor_recarga",">",0]
                       ])->decrement('valor_recarga',floatval($costo));
-              $uu=User::where("id",$ad[0]->id_user)->get();
-              $uc=User::where("id",$user_id)->get();
-              //dd($uc);
+              $tramitador=User::where("id",$ad[0]->id_user)->get();
+              $cliente=User::where("id",$user_id)->get();
+              //dd($tramitador,$cliente);
              /*Registro la consulta realizada*/
               $rc=User::select("valor_recarga")
                   ->where("id",$ad[0]->id_user)
@@ -414,8 +446,6 @@ class UsersController extends Controller
                                               ["id_anuncio",$ad[0]->id]
                                           ])
                                       ->get();
-
-
               /*
               aqui valido si el registr ya existe y en ese caso le agrego el numero de visitas y le actualizo la fecha
                */
@@ -453,14 +483,15 @@ class UsersController extends Controller
               }
 
 
-              //dd($ad,$uc,$rc);
-              NotificacionAnuncio::dispatch($uu[0], [$ad[0],$uc[0]],$rc[0]->valor_recarga,"AnuncioClickeado");
+              //dd($ad,$cliente,$rc);
+              NotificacionAnuncio::dispatch($tramitador[0], [$ad[0],$cliente[0]],$rc[0]->valor_recarga,"AnuncioClickeado");
+              NotificacionAnuncio::dispatch($cliente[0], [$ad[0],$tramitador[0]],0,"AnuncioClickeadoCliente");
           }
           //valido valor de recarga
 
           //dd($rc);
-          if($uu[0]->costo_clic>0){
-              if(($rc[0]->valor_recarga/$uu[0]->costo_clic)< 20 && ($rc[0]->valor_recarga/$uu[0]->costo_clic) > 0 ){
+          if($tramitador[0]->costo_clic>0){
+              if(($rc[0]->valor_recarga/$tramitador[0]->costo_clic)< 20 && ($rc[0]->valor_recarga/$uu[0]->costo_clic) > 0 ){
                   //aqui envie el mail
                   NotificacionAnuncio::dispatch($uu[0], $ad,$rc[0]->valor_recarga,"RecargaCasiAgotada");
               }
@@ -468,10 +499,10 @@ class UsersController extends Controller
 
 
           $vi=true;
-          if(($rc[0]->valor_recarga/$uu[0]->costo_clic)< 0){
+          if(($rc[0]->valor_recarga/$tramitador[0]->costo_clic)< 0){
               $vi=false;
               User::where("id",$ad[0]->user_id)->update(["status_recarga"=>"AGOTADA"]);
-              NotificacionAnuncio::dispatch($uu[0], $ad,$rc[0]->valor,"RecargaAgotada");
+              NotificacionAnuncio::dispatch($tramitador[0], $ad,$rc[0]->valor,"RecargaAgotada");
           }
 
           if(floatval($rc[0]->valor_recarga)>0){
@@ -747,17 +778,26 @@ class UsersController extends Controller
      
       $pago=DB::table('registro_pagos_anuncios')->where('id',$request['id_pago'])->first();
       //dd($comprador);
+      $ad=Anuncio::where('anuncios.id',$request['id_anuncio'])->join('tramites','tramites.id','anuncios.id_tramite')->select('tramites.nombre_tramite','anuncios.ciudad','anuncios.id_user')->first();
       NotificacionAnuncio::dispatch($comprador,
                             [auth()->user(),
-                            Anuncio::where('anuncios.id',$request['id_anuncio'])->join('tramites','tramites.id','anuncios.id_tramite')->select('tramites.nombre_tramite','anuncios.ciudad')->first(),
+                            $ad,
                             ['url'=>config('app.url').'/admin/ver_mis_compras/'.$comprador->id.'?id='.$pago->transactionId],
                             ['mensaje'=>$request['mensaje']]],
                             0,
                             "NotificarTramiteFinalizado");
 
       //pendiente envio email a administrador
-      //
-      //            
+      $admin=User::role('admin')->first();  
+      //dd($ad,User::where('id',$ad->id_user)->first());
+      NotificacionAnuncio::dispatch($admin,
+                            [User::where('id',$ad->id_user)->first(),
+                            $ad,
+                            ['url'=>config('app.url').'/admin/todas_las_transacciones?id='.$pago->transactionId],
+                            ['mensaje'=>""]],
+                            0,
+                            "NotificarTramiteFinalizadoAdmin");
+                
       return back()->with('success','Notificación enviada a tu cliente correctamente');
     }
     
@@ -821,22 +861,38 @@ class UsersController extends Controller
      * @return [type]           [description]
      */
     public function notificar_pago_de_tramitador(Request $request){
-      //dd($request);
-      //$tramitador=User::where('id',$request['id_user_compra'])->first();
+      dd($request);
+      $tramitador=User::where('id',$request['id_anunciante'])->first();
       DB::table('registro_pagos_anuncios')
               ->where('id',$request['id_pago'])
               ->update(["estado_pago"=>'PAGO A TRAMITADOR']);
-      //$pago=DB::table('registro_pagos_anuncios')->where('id',$request['id_pago'])->first();
+      $pago=DB::table('registro_pagos_anuncios')->where('id',$request['id_pago'])->first();
       //dd($comprador);
-      /*NotificacionAnuncio::dispatch($tramitador,
+      NotificacionAnuncio::dispatch($tramitador,
                             [auth()->user(),
                             Anuncio::where('anuncios.id',$request['id_anuncio'])->join('tramites','tramites.id','anuncios.id_tramite')->select('tramites.nombre_tramite','anuncios.ciudad')->first(),
                             ['url'=>config('app.url').'/admin/ver_mis_ventas/'.$tramitador->id.'?id='.$pago->transactionId],
                             ['mensaje'=>$request['mensaje']],
                             ['valor'=>$request['valor']]],
                             0,
-                            "NotificarPagoTramitador");*/
+                            "NotificarPagoTramitador");
       return back()->with('success','Gracias por confiar en '.config('app.name'));
+    }
+
+    /**
+     * Funcion paraaregistrar la certificacion bancaria
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
+    public function actualizar_certificacion_bancaria(Request $request,$id){
+        
+  
+        User::where('id',$id)
+                ->update([
+                        'certificacion_bancaria'=>Storage::url($request->file('file')->store('public'))
+                    ]);
+        return  response()->json(['respuesta'=>true,'mensaje'=>'Se ha registrado tu certificación bancaria']);                       
+        
     }
 
 }

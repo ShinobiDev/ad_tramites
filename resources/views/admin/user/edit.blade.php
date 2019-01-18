@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-{{--dd($user->nombre)--}}
+{{--dd($user)--}}
     <div class="row">
 
       <div class="col-md-6">
@@ -33,7 +33,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="phone">Cuenta bancaria:</label>
-                                <input type="text" name="cuenta_bancaria" value="{{old('cuenta_bancaria', $user->cuenta_bancaria)}}" class="form-control" minlength=6 maxlength=13>
+                                
+                                <input type="text" name="cuenta_bancaria" value="{{ $user->cuenta_bancaria or ''}}" class="form-control" minlength=6 maxlength=13>
                             </div>
                             <div class="form-group">
                                 <label for="phone">Certificación bancaria:</label>
@@ -43,6 +44,14 @@
                                   <a href="{{config('app.url').$user->certificacion_bancaria}}" target="_blank" >DESCARGAR</a>
                                 @endif
                                 <div class="dropzone"></div>
+
+                                <!--<form action="'{{config('app.url')}}'+'/admin/actualizar_certificacion_bancaria/{{$user->id}}'"
+                                 class="dropzone">
+                                  {{csrf_field()}} 
+                                  <div class="fallback">
+                                    <input name="file" type="file" multiple />
+                                  </div>
+                                </form>-->
 
                                 
                             </div>
@@ -242,21 +251,20 @@
      * Aqui gestiono dropzone 
      * @type {String}
      -->
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css">
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script> 
-    <script type="text/javascript">
-      new Dropzone('.dropzone',{
+  <script type="text/javascript">
+
+     new Dropzone('.dropzone',{
         //url:"/",
-        url:"{{config('app.url')}}"+"/actualizar_certificacion_bancaria/{{$user->id}}",
+        url:"{{config('app.url')}}"+"/admin/actualizar_certificacion_bancaria/{{$user->id}}",
         dictDefaultMessage:"Sube aquí tu código QR (solo se permiten imagenes con formato PNG,JPEG o JPG)",
-        maxFiles:1,
-        maxFilesize:10,//MB
-        acceptedFiles: "image/*",
-        dictMaxFilesExceeded:"Solo esta permitido subir un archivo",
-        dictInvalidFileType:"Solo esta permitido subir imagenes",
-        headers:{
+        //maxFiles:1,
+        //maxFilesize:10,//MB
+        //acceptedFiles: "image/*",
+        //dictMaxFilesExceeded:"Solo esta permitido subir un archivo",
+        //dictInvalidFileType:"Solo esta permitido subir imagenes",
+        /*headers:{
           'X-CSRF-TOKEN':'{{csrf_token()}}'
-        }
+        }*/
       });
       Dropzone.autoDiscover=false;
 

@@ -3,11 +3,10 @@
 
 ![logo](http://tutramitador.com/core/img/logo.png)
 
-Estimad@ {{$user->nombre}}, tienes un mensaje nuevo de uno de tus clientes
+Estimad@ {{$user->nombre}}, se ha realizado una nueva transacción en {{config('app.name')}}
 
-##Comprador##
 
-# Nombre: 
+# Nombre tramitador: 
 {{$ad[0]->nombre}}
 # Télefono:
  {{$ad[0]->telefono}}
@@ -16,7 +15,7 @@ Estimad@ {{$user->nombre}}, tienes un mensaje nuevo de uno de tus clientes
 
 ## Resumen Oferta ##
 
-Anuncio:
+# Anuncio:
 
 # Trámite 
  {{$ad[1]->nombre_tramite}}

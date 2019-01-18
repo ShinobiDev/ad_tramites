@@ -31,6 +31,7 @@
                 <th>Vendedor</th>
                 <th>Teléfono tramitador</th>
                 <th>E-mail tramitador</th>
+                <th>Cuenta bancaria tramitador</th>
                 <th>Estado transaccion</th>
                 <th>Valor transacción</th>
                 <th>% tu tramitador</th>
@@ -50,6 +51,7 @@
                     <td>{{$transaccion->nombre}}</td>          
                     <td>{{$transaccion->telefono}}</td>          
                     <td>{{$transaccion->email}}</td>          
+                    <td>{{$transaccion->cuenta_bancaria or 'Sin registrar'}}</td>          
                     <td>
                       @if($transaccion->estado_pago=="PENDIENTE")
                         PENDIENTE POR PAGO
@@ -59,6 +61,8 @@
                         TRÁMITE REALIZADO
                       @elseif($transaccion->estado_pago=="TRANSACCION FINALIZADA")  
                         TRANSACCIÓN FINALIZADA
+                      @elseif($transaccion->estado_pago=="PAGO A TRAMITADOR")  
+                        PAGO ENVIADO A TRAMITADOR  
                       @elseif($transaccion->estado_pago=="RECHAZADA")  
                          transaccion RECHAZADA
                       @endif
@@ -77,6 +81,8 @@
                         <button id="{{'btn_cal_'.$transaccion->id_pago}}" type="button" class="btn btn-success" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_pago_a_tramitador'.$transaccion->id_pago}}','{{$transaccion->id_pago}}','0',false)" >Confirmar pago a tramitador
                           </button>
                           @include('partials.confirmar_pago_a_tramitador',['ad'=>$transaccion,'valor'=>number_format($transaccion->transation_value-($transaccion->transation_value*$porcentaje[0]->valor/100),0,',','.')])
+                      @elseif($transaccion->estado_pago=="APROBADA") 
+                        Pendiente confirmación cliente   
                       @endif
                     </td>                                   
                      

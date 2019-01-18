@@ -60,6 +60,13 @@ class NotificationMail extends Mailable
                             ->subject( 'Tu anuncio ha sido clickeado '. config('app.name'));
                 # code...
                 break;
+            case 'AnuncioClickeadoCliente':
+                //dd($this);
+                return $this->markdown('emials.ClicAnuncioCliente')
+                            ->subject( 'Tu anuncio ha sido clickeado '. config('app.name'));
+                # code...
+                break;    
+                
             case 'AnuncioHabilitado':
                 return $this->markdown('emials.AnuncioActivado')
                             ->subject('Tu anuncio ha sido activado '. config('app.name'));
@@ -151,8 +158,8 @@ class NotificationMail extends Mailable
                                 ->subject('Ya esta listo tu trámite en '. config('app.name'));
                     break; 
             case "NotificarTramiteFinalizadoAdmin":
-                    return $this->markdown('emials.NotificarTramiteFinalizado')
-                                ->subject('Ya esta listo tu trámite en '. config('app.name'));
+                    return $this->markdown('emials.NotificarTramiteFinalizadoAdmin')
+                                ->subject('Hemos registrado una transacción exitosa en '. config('app.name'));
                     break;   
             case "NotificarPagoTramitador":
                     return $this->markdown('emials.NotificarPagoTramitador')

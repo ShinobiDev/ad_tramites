@@ -84,7 +84,7 @@
                         </button>
                         @include('partials.confirmar_pago_de_tramitador',['ad'=>$venta])
                       @elseif( $venta->estado_pago=="PAGO A TRAMITADOR")
-                       TRANSACCION FINALIZADA
+                       TRANSACCION FINALIZADA PAGO REALIZADO
                       @endif
                     </td>       
                   </tr>

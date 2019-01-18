@@ -25,10 +25,10 @@
               </li>
               @role('Anunciante')
                 <li class="list-group-item" style="margin-left:  20px;">
-                  <b>Cuenta bancaria</b> <a class="pull-right" style="margin-right:  20px;">{{$user->cuenta_bancaria}}</a>
+                  <b>Cuenta bancaria</b> <a class="pull-right" style="margin-right:  20px;">{{$user->cuenta_bancaria or 'No registrada'}}</a>
                 </li>
                 <li class="list-group-item" style="margin-left:  20px;">
-                  <b>Certificación bancaria</b> <a class="pull-right" style="margin-right:  20px;">{{$user->certificación_bancaria}}</a>
+                  <b>Certificación bancaria</b> <a class="pull-right" style="margin-right:  20px;" href="{{$user->certificación_bancaria or '#' }}">{{$user->certificación_bancaria or 'No registrada'}}</a>
                 </li>
                 <li class="list-group-item" style="text-align: center;">
                   <b>Horarios de atención</b>

@@ -1,11 +1,8 @@
 @component('mail::message')
 
-
 ![logo](http://tutramitador.com/core/img/logo.png)
 
 Estimad@ {{$user->nombre}}
-
-{{$ad[0]}}
 
 Tus anuncios seran verificados para garantizar que cumplas nuestras politicas de uso, una vez termine este proceso se publicara dicho anuncio
 

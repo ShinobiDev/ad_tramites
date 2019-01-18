@@ -19,6 +19,8 @@ Route::get('register_landing/{codigo_referido}',"Auth\RegisterController@create_
 Route::get('/','AnuncioController@index' )->name('anuncios.index');
 Route::get('/home', 'AnuncioController@index')->name('home');
 Route::post("cambio_clave","UsersController@cambio_pass")->name('cambio_credenciales');
+Route::get("confirmar_cambio_email/{id}/{correo}","UsersController@cambio_correo");
+
 Route::group(["prefix"=>"admin","middleware"=>"auth"],function(){
 
   Route::resource('anuncios', 'AnuncioController');
@@ -34,8 +36,7 @@ Route::group(["prefix"=>"admin","middleware"=>"auth"],function(){
 
   Route::post("calificar","AnuncioController@calificar");
   Route::post("calificar_venta","AnuncioController@calificar_venta");
-  Route::get("ver_mas_comentarios/{id}/{min}/{max}","AnuncioController@ver_mas_comentarios");
-  Route::get("confirmar_cambio_email/{id}/{correo}","UsersController@cambio_correo");
+  Route::get("ver_mas_comentarios/{id}/{min}/{max}","AnuncioController@ver_mas_comentarios"); 
   Route::get("cambiar_estado_anuncio/{id_ad}/{estado}","AnuncioController@cambiar_estado_anuncio");
   Route::get("publicar_anuncio/{id_ad}/{estado}","AnuncioController@publicar_anuncio");
   Route::resource('users', 'UsersController');
@@ -58,7 +59,7 @@ Route::group(["prefix"=>"admin","middleware"=>"auth"],function(){
   Route::get('todas_las_transacciones','UsersController@todas_las_transacciones')->name('todas_las_transacciones');
   Route::post('notificar_pago_a_tramitador','UsersController@notificar_pago_a_tramitador')->name('notificar_pago_a_tramitador');
   Route::post('notificar_pago_de_tramitador','UsersController@notificar_pago_de_tramitador')->name('notificar_pago_de_tramitador');
-  
+  Route::post('actualizar_certificacion_bancaria/{id_user}','UsersController@actualizar_certificacion_bancaria');
   
 });
 
