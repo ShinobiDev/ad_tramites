@@ -2,7 +2,7 @@
 
 
 
-![logo](http://tutramitador.com/core/img/logo.png)
+![logo](http://tutramitador.com/core/img/logolarge.png)
 
 Estimad@ {{$user->nombre}}, se ha publicado uno de tus anuncios en {{config('app.name')}}
 

@@ -63,7 +63,7 @@ class NotificationMail extends Mailable
             case 'AnuncioClickeadoCliente':
                 //dd($this);
                 return $this->markdown('emials.ClicAnuncioCliente')
-                            ->subject( 'Tu anuncio ha sido clickeado '. config('app.name'));
+                            ->subject( 'Información del anuncio visto en  '. config('app.name'));
                 # code...
                 break;    
                 
@@ -158,10 +158,12 @@ class NotificationMail extends Mailable
                                 ->subject('Ya esta listo tu trámite en '. config('app.name'));
                     break; 
             case "NotificarTramiteFinalizadoAdmin":
+                //dd($this);
                     return $this->markdown('emials.NotificarTramiteFinalizadoAdmin')
                                 ->subject('Hemos registrado una transacción exitosa en '. config('app.name'));
                     break;   
             case "NotificarPagoTramitador":
+                    //dd($this);
                     return $this->markdown('emials.NotificarPagoTramitador')
                                 ->subject('Ya esta listo tu pago en '. config('app.name'));
                     break;                                 

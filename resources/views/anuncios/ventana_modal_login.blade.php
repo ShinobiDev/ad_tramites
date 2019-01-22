@@ -1,7 +1,7 @@
  <div class="modal fade" id="{{'ventana_login'.$ad->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-
+        @include('partials.error')
         <div class="modal-header bg-primary">
           <h5 class="modal-title text-center" id="exampleModalLabel">Ingresa tus datos. Debes estar Registrado. Registrarse es Gratis.</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="salir_modal('{{'ventana_login'.$ad->id}}')">
@@ -83,5 +83,8 @@
         document.getElementById('anOlvide'+id).href="{{route('password.request')}}?e="+document.getElementById(e.id).value;        
         document.getElementById('an_email_enviar_'+id).href="{{route('register')}}?e="+document.getElementById(e.id).value;
     }    
+    function mostrar_login(){
+        console.log(location.href.split('#')[1]);
+    }
 </script>
 

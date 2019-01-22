@@ -2,7 +2,7 @@
 
 
 
-![logo](http://tutramitador.com/core/img/logo.png)
+![logo](http://tutramitador.com/core/img/logolarge.png)
 
 
 ##Utiliza estas credenciales para acceder a {{config('app.name')}}##

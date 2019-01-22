@@ -1,14 +1,17 @@
 @component('mail::message')
 
 
-![logo](http://tutramitador.com/core/img/logo.png)
+![logo](http://tutramitador.com/core/img/logolarge.png)
 
 Estimad@ {{$user->nombre}}, hemos registrado una nueva venta de un anuncio en  {{ config('app.name')}}
 
 ##COMPRADOR##
-Usuario : {{$ad[0]->nombre}}
-Telefono: {{$ad[0]->telefono}},
-Email: {{$ad[0]->email}},
+# Nombre Usuario : 
+ {{$ad[0]->nombre}}
+# Télefono: 
+ {{$ad[0]->telefono}},
+# Email: 
+ {{$ad[0]->email}},
 
 
 ## Resumen Oferta ##
@@ -24,7 +27,7 @@ Anuncio:
 # Descripción del anuncio
  {{$ad[1]->descripcion_anuncio}}
 
-Por favor comunicate con tu comprador para solicitarle los correspondientes documentos y de este modo realizar el debido trámite. 
+Por favor comunicate con tu comprador para solicitarle los correspondientes documentos y de este modo realizar el trámite. 
 
 Recuerda que debes tener saldo en la cuenta de recargas para que los usuarios puedan
 ver tus datos de contacto.

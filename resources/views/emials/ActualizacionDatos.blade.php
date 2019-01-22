@@ -1,7 +1,7 @@
 @component('mail::message')
 
 
-![logo](http://tutramitador.com/core/img/logo.png)
+![logo](http://tutramitador.com/core/img/logolarge.png)
 
 
 #Solo te falta un paso, para cambiar tu correo electrónico de contacto#

@@ -1,16 +1,14 @@
 @component('mail::message')
 
 
-![logo](http://tutramitador.com/core/img/logo.png)
+![logo](http://tutramitador.com/core/img/logolarge.png)
 
 Estimad@ {{$user->nombre}}, hemos registrado una compra exitosa en  {{ config('app.name')}}.
 
 
-Por favor comunicate con tu comprador, para que se complete la transacción.
-
 ##VENDEDOR##
 
-# Nombre: 
+# Nombre usuario: 
 {{$ad[0]->nombre}}
 # Télefono:
  {{$ad[0]->telefono}}

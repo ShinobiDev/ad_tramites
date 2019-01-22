@@ -253,7 +253,7 @@ class AnuncioController extends Controller
         $cambio_rol=false;
         //verificar si no tiene anuncios se debe cambiar el rol a Anunciante
         $ad=Anuncio::where('id_user',auth()->user()->id)->get();
-        if(count($ad)==0){
+        if(count($ad)==0 && !auth()->user()->hasRole('Admin')){
           auth()->user()->removeRole('Usuario');
           auth()->user()->assignRole('Anunciante');
           $cambio_rol=true;
@@ -433,10 +433,34 @@ class AnuncioController extends Controller
           $dtc=DB::table('registro_pagos_anuncios')
               ->where('id',$data['id_anuncio_calificar'])
               ->get();
-          $an=Anuncio::where("id",$dtc[0]->id_anuncio)->get();
+
+          $an=Anuncio::where("anuncios.id",$dtc[0]->id_anuncio)
+                      ->join('tramites','anuncios.id_tramite','tramites.id')
+                      ->select('anuncios.id',
+                              'anuncios.codigo_anuncio',
+                              'anuncios.descripcion_anuncio',
+                              'anuncios.estado_anuncio',
+                              'anuncios.validez_anuncio',
+                              'anuncios.id_tramite',
+                              'anuncios.id_user',
+                              'anuncios.ciudad',
+                              'anuncios.valor_tramite',
+                              'tramites.nombre_tramite')
+                      ->get();
+                      //dd($an);
           User::where("id",$an[0]->user_id)->increment("nota",$data['nota']);
           User::where("id",$an[0]->user_id)->increment("num_calificaciones",1);
-        
+          $admin=User::role('admin')->first();  
+          NotificacionAnuncio::dispatch($admin,
+                            [User::where('id',$an[0]->id_user)->first(),
+                            $an[0],
+                            ['url'=>config('app.url').'/admin/todas_las_transacciones?id='.$dtc[0]->transactionId],
+                            ['mensaje'=>""]],
+                            0,
+                            "NotificarTramiteFinalizadoAdmin");
+
+
+
           return response()->json(["respuesta"=>true,'mensaje' => 'Se ha registrado tu calificación, gracias por confiar en '.config('app.name')]);
           //return redirect()->route('users.show', auth()->user())->with('success', 'Se ha registardo tu calificación ');
     }

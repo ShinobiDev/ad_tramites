@@ -56,7 +56,7 @@
                         PAGO ACEPTADO
                       @elseif($compra->estado_pago=="TRAMITE REALIZADO")  
                         TRÁMITE REALIZADO
-                      @elseif($compra->estado_pago=="TRANSACCION FINALIZADA" || $compra->estado_pago=="PAGO A TRAMITADOR")  
+                      @elseif($compra->estado_pago=="TRANSACCION FINALIZADA" || $compra->estado_pago=="PAGO A TRAMITADOR" || $compra->estado_pago=="PAGO TRAMITADOR CONFIRMADO")  
                         TRANSACCIÓN FINALIZADA
                       @elseif($compra->estado_pago=="RECHAZADA")  
                          COMPRA RECHAZADA
@@ -85,7 +85,7 @@
                         @endif  
 
 
-                      @elseif($compra->estado_pago=="TRANSACCION FINALIZADA"  || $compra->estado_pago=="PAGO A TRAMITADOR")    
+                      @elseif($compra->estado_pago=="TRANSACCION FINALIZADA"  || $compra->estado_pago=="PAGO A TRAMITADOR" || $compra->estado_pago=="PAGO TRAMITADOR CONFIRMADO")     
                         @for($i=1;$i<=$compra->calificacion;$i++)
                           @if($i<=5)
                             <img  class="star" src="{{asset('img/star.png')}}">
@@ -119,6 +119,7 @@
             $(document).ready(function() {
                 console.log("5");
                 $('#compras-table').DataTable( {
+                    responsive: true,
                     dom: 'Bfrtip',
                     buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
                     language:

@@ -15,7 +15,7 @@
 
                 <h4 class="text-center">¿Estás seguro de confirmar el pago hecho por {{config('app.name')}}?</h4>
                 <input type="hidden" name="id_pago" value="{{$ad->id_pago}}">
-                <input type="hidden" name="id_anunciante" value="{{$ad->anunciante}}">                               
+                <input type="hidden" name="id_anunciante" value="{{$ad->id_anunciante}}">                               
                 <div class="form-group">
                     <div class="col-md-6 col-md-offset-4">
                         <div class="checkbox">

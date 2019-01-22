@@ -1,21 +1,24 @@
 @component('mail::message')
 
 
-![logo]({{config('app.url')}}/img/logo.png)
+![logo](http://tutramitador.com/core/img/logolarge.png)
 
 Estimad@ {{$user->nombre}}, haz visto un anuncio en  {{ config('app.name')}}
 
 ## Tramitador ##
 
-## Nombre : {{$ad[1]->nombre}}
-## Teléfono: {{$ad[1]->telefono}}
-## Email: {{$ad[1]->email}}
+## Nombre : 
+ {{$ad[1]->nombre}}
+## Teléfono: 
+  {{$ad[1]->telefono}}
+## Email: 
+  {{$ad[1]->email}}
 
 ## Resumen Oferta ##
 
 # Anuncio:
 
-# Trámite
+# Trámite 
  {{$ad[0]->nombre_tramite}}
 # Ciudad
  {{$ad[0]->ciudad}}

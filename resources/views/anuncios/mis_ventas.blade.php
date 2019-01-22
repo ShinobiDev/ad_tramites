@@ -15,7 +15,7 @@
 
 @section('content')
   
-  <div class="container">
+  <div class="container-fluid">
     <div class="box box-primary">
       <div class="box-header">
           <h3 class="box-title">Listado de ventas realizadas</h3>
@@ -26,7 +26,8 @@
               <tr>
                 <th>Tipo</th>    
                 <th>Trámite</th>      
-                <th>ventador</th>
+                <th>Comprador</th>
+                <th>Email Comprador</th>
                 <th>Estado venta</th>
                 <th>Valor vendido</th>
                 <th>Referecia de pago</th>
@@ -42,6 +43,7 @@
                     <td>venta</td>   
                     <td>{{$venta->nombre_tramite}}</td>   
                     <td>{{$venta->nombre}}</td>
+                    <td>{{$venta->email}}</td>
                     <td>
                       @if($venta->estado_pago=="PENDIENTE")
                         PENDIENTE POR PAGO
@@ -50,6 +52,8 @@
                       @elseif($venta->estado_pago=="TRAMITE REALIZADO")  
                         TRÁMITE REALIZADO
                       @elseif($venta->estado_pago=="TRANSACCION FINALIZADA" || $venta->estado_pago=="PAGO A TRAMITADOR")  
+                        TRANSACCIÓN FINALIZADA
+                      @elseif($venta->estado_pago=='PAGO TRAMITADOR CONFIRMADO')  
                         TRANSACCIÓN FINALIZADA
                       @elseif($venta->estado_pago=="RECHAZADA")  
                          VENTA RECHAZADA
@@ -83,7 +87,7 @@
                             Confirmar pago de {{config('app.name')}}
                         </button>
                         @include('partials.confirmar_pago_de_tramitador',['ad'=>$venta])
-                      @elseif( $venta->estado_pago=="PAGO A TRAMITADOR")
+                      @elseif( $venta->estado_pago=="PAGO A TRAMITADOR" || $venta->estado_pago=="PAGO TRAMITADOR CONFIRMADO")
                        TRANSACCION FINALIZADA PAGO REALIZADO
                       @endif
                     </td>       
@@ -103,6 +107,7 @@
           <script>
               $(document).ready(function() {
               $('#ventas-table').DataTable( {
+                  responsive: true,
                   dom: 'Bfrtip',
                   buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
                   language:

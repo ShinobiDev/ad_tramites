@@ -226,7 +226,7 @@ class UsersController extends Controller
                 //dd($dt["cuenta_bancaria"]);
             }
             if(array_key_exists("password", $dt)){
-                $dt["password"]=bcrypt($data["password"]);
+                $dt["password"]=bcrypt($dt["password"]);
             }
             //dd($dt);
             $user->update($dt);
@@ -423,7 +423,7 @@ class UsersController extends Controller
                   ->join('tramites','tramites.id','anuncios.id_tramite')
                   ->get();
 
-        if(auth()->user()->hasRole('Anunciante')){
+        if(auth()->user()->hasRole('Anunciante') || auth()->user()->hasRole('Usuario')){
 
           //dd($ad);
           //descuento al cliente solo si no es el anunciante
@@ -478,7 +478,8 @@ class UsersController extends Controller
                                   "id_usuario"=>$user_id,
                                   "costo"=>$costo,
                                   "num_visitas"=>1,
-                                  "created_at"=>Carbon::now('America/Bogota')
+                                  "created_at"=>Carbon::now('America/Bogota'),
+                                  "updated_at"=>Carbon::now('America/Bogota')
                               ]);
               }
 
@@ -685,6 +686,7 @@ class UsersController extends Controller
                                 ['id_user_compra',$id],
                                 ['registro_pagos_anuncios.transactionId','!=',null]
                             ])
+                    ->orderBy('registro_pagos_anuncios.updated_at','DESC')
                     ->get();
         //dd([$pag,auth()->user()->name]);
         return view('anuncios.mis_compras')
@@ -713,7 +715,7 @@ class UsersController extends Controller
                            'tramites.nombre_tramite',
                            'anuncios.codigo_anuncio',
                            'anuncios.ciudad',
-                           'users.id as id_anunciante ',
+                           'users.id as id_anunciante',
                            'users.nombre',
                            'users.email',
                            'users.telefono')
@@ -724,10 +726,9 @@ class UsersController extends Controller
                                 ['anuncios.id_user',$id],
                                 ['registro_pagos_anuncios.transactionId','!=',null]
                             ])
+                    ->orderBy('registro_pagos_anuncios.updated_at','DESC')
                     ->get();
-               
-
-        
+      
         return view('anuncios.mis_ventas')
                 ->with('mis_ventas',$pag);
         
@@ -758,7 +759,7 @@ class UsersController extends Controller
      */
     public  function notificar_tramitador(Request $request){
       //dd($request);
-      $tramitador=User::where('id',$request['id_user_compra'])->first();
+      $tramitador=User::where('id',$request['id_user_ad'])->first();
      
       $pago=DB::table('registro_pagos_anuncios')->where('id',$request['id_pago'])->first();
       //dd($tramitador);
@@ -789,7 +790,7 @@ class UsersController extends Controller
 
       //pendiente envio email a administrador
       $admin=User::role('admin')->first();  
-      //dd($ad,User::where('id',$ad->id_user)->first());
+      
       NotificacionAnuncio::dispatch($admin,
                             [User::where('id',$ad->id_user)->first(),
                             $ad,
@@ -802,7 +803,9 @@ class UsersController extends Controller
     }
     
     public function todas_las_transacciones(){
-      $transacciones=DB::table('registro_pagos_anuncios')
+    
+      if(auth()->user()->roles[0]->name=='Admin'){
+           $transacciones=DB::table('registro_pagos_anuncios')
                             ->select('registro_pagos_anuncios.id as id_pago',
                                    'registro_pagos_anuncios.transactionId',
                                    'registro_pagos_anuncios.transactionState',
@@ -822,15 +825,21 @@ class UsersController extends Controller
                                    'users.id as id_anunciante',
                                    'users.nombre',
                                    'users.email',
+                                   'users.cuenta_bancaria',
                                    'users.telefono')
                             ->join('anuncios','anuncios.id','registro_pagos_anuncios.id_anuncio')
                             ->join('users','users.id','anuncios.id_user')
                             ->join('tramites','anuncios.id_tramite','tramites.id')
+                            ->orderBy('registro_pagos_anuncios.updated_at','DESC')
                             ->get();
 
         return view('anuncios.todas_las_transacciones')
                   ->with('transacciones',$transacciones)
                   ->with('porcentaje',DB::table('variables')->where('nombre','porcentaje_tramite')->get());
+      }else{
+        return back();
+      }
+     
 
 
     }
@@ -861,16 +870,18 @@ class UsersController extends Controller
      * @return [type]           [description]
      */
     public function notificar_pago_de_tramitador(Request $request){
-      dd($request);
+      //dd($request);
       $tramitador=User::where('id',$request['id_anunciante'])->first();
       DB::table('registro_pagos_anuncios')
               ->where('id',$request['id_pago'])
               ->update(["estado_pago"=>'PAGO A TRAMITADOR']);
       $pago=DB::table('registro_pagos_anuncios')->where('id',$request['id_pago'])->first();
-      //dd($comprador);
+      $ad=Anuncio::where('anuncios.id',$pago->id_anuncio)
+                ->join('tramites','tramites.id','anuncios.id_tramite')->select('tramites.nombre_tramite','anuncios.ciudad')->first();
+      //dd($ad);          
       NotificacionAnuncio::dispatch($tramitador,
                             [auth()->user(),
-                            Anuncio::where('anuncios.id',$request['id_anuncio'])->join('tramites','tramites.id','anuncios.id_tramite')->select('tramites.nombre_tramite','anuncios.ciudad')->first(),
+                            $ad,
                             ['url'=>config('app.url').'/admin/ver_mis_ventas/'.$tramitador->id.'?id='.$pago->transactionId],
                             ['mensaje'=>$request['mensaje']],
                             ['valor'=>$request['valor']]],
@@ -886,7 +897,7 @@ class UsersController extends Controller
      */
     public function actualizar_certificacion_bancaria(Request $request,$id){
         
-  
+        
         User::where('id',$id)
                 ->update([
                         'certificacion_bancaria'=>Storage::url($request->file('file')->store('public'))

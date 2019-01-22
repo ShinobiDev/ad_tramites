@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
      * @return void
      */
     protected function schedule(Schedule $schedule)
-    {
+    {    //EJECUTO EL COMANDO DIARIAMENTE A MEDIANOCHE   
          $schedule->command('ValidarTransaccion:ValidarTransaccion')
                   ->hourly();
     }

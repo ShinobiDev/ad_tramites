@@ -8,7 +8,7 @@
 @section('content')
       <body class="server-prod session-anonymous">
         <div class="container">
-          <h1 class="text-center">Cree un anuncio para ofertar tramites</h1>
+          <h1 class="text-center">Crea un anuncio para ofertar tramites</h1>
 
 
 
@@ -38,14 +38,14 @@
 
                     <h3>
                       <i class="fa fa-info-circle"></i>
-                      ¿Quiere aumentar su visibilidad?, los anuncios son ordenados orgánicamente situando primero a los usuarios que tengan un mayor valor de recarga total
+                      ¿Quieres aumentar tu visibilidad?, los anuncios son ordenados orgánicamente situando primero a los usuarios que tengan un mayor valor de recarga total
                     </h3>
 
                 </div>
                 <div class="alert alert-warning">
                     <h3>
                       <i class="fa fa-info-circle"></i>
-                      Si su servicio es comprado directamente en <a href="{{config('app.url')}}">{{config('app.name')}}</a>, el costo de este servicio es del {{$porcentaje[0]->valor}}%
+                      Si tu servicio es comprado directamente en <a href="{{config('app.url')}}">{{config('app.name')}}</a>, el costo de este servicio es del {{$porcentaje[0]->valor}}%
                     </h3>
                </div>           
               </div>

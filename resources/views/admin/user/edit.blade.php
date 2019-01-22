@@ -43,17 +43,8 @@
                                 @if($user->certificacion_bancaria != null)
                                   <a href="{{config('app.url').$user->certificacion_bancaria}}" target="_blank" >DESCARGAR</a>
                                 @endif
-                                <div class="dropzone"></div>
-
-                                <!--<form action="'{{config('app.url')}}'+'/admin/actualizar_certificacion_bancaria/{{$user->id}}'"
-                                 class="dropzone">
-                                  {{csrf_field()}} 
-                                  <div class="fallback">
-                                    <input name="file" type="file" multiple />
-                                  </div>
-                                </form>-->
-
-                                
+                                <input type="file" id="flCertificacionBancaria" name="bancaria" onchange="subir_archivo(this)">     
+                                <label id="msnEspera"></label>                             
                             </div>
                             <div class="form-group">
                               <span class="help-block">Dejar en blanco si no
@@ -246,27 +237,36 @@
             document.getElementById("dia_estado_"+id).innerHTML=rs.estado;
           });
       }
-    </script>
-     <!--
-     * Aqui gestiono dropzone 
-     * @type {String}
-     -->
-  <script type="text/javascript">
 
-     new Dropzone('.dropzone',{
-        //url:"/",
-        url:"{{config('app.url')}}"+"/admin/actualizar_certificacion_bancaria/{{$user->id}}",
-        dictDefaultMessage:"Sube aquí tu código QR (solo se permiten imagenes con formato PNG,JPEG o JPG)",
-        //maxFiles:1,
-        //maxFilesize:10,//MB
-        //acceptedFiles: "image/*",
-        //dictMaxFilesExceeded:"Solo esta permitido subir un archivo",
-        //dictInvalidFileType:"Solo esta permitido subir imagenes",
-        /*headers:{
-          'X-CSRF-TOKEN':'{{csrf_token()}}'
-        }*/
-      });
-      Dropzone.autoDiscover=false;
+      function subir_archivo(e){
+        //e.preventDefault();
+          mostrar_cargando("msnEspera",10,"Cargando ...");
+          var Token =  '{{csrf_token()}}';
+          var formData = new FormData();
+          formData.append("file", $('#'+e.id).get(0).files[0]);
+          formData.append("Token", Token);
 
+          // Send the token every ajax request
+          $.ajaxSetup({
+              headers: { 'X-CSRF-Token' : Token }
+          });
+
+              $.ajax({        
+                      url: "{{config('app.url')}}"+"/admin/actualizar_certificacion_bancaria/{{$user->id}}",
+                      method: 'POST',
+                      data: formData,
+                      processData: false,
+                      contentType: false,
+                      cache: false,
+                      success: function(data) {
+                          document.getElementById("msnEspera").innerHTML=data.mensaje;
+                  }
+              });
+      }
     </script>
+
+  
+
+
+
 @endsection

@@ -1,7 +1,7 @@
 @component('mail::message')
 
 
-![logo](http://tutramitador.com/core/img/logo.png)
+![logo](http://tutramitador.com/core/img/logolarge.png)
 
 Estimad@ {{$user->nombre}}, tienes un mensaje nuevo de uno de tus clientes
 
@@ -9,7 +9,7 @@ Estimad@ {{$user->nombre}}, tienes un mensaje nuevo de uno de tus clientes
 
 # Nombre: 
 {{$ad[0]->nombre}}
-# Télefono:
+# Teléfono:
  {{$ad[0]->telefono}}
 # Correo electrónico:
  {{$ad[0]->email}}

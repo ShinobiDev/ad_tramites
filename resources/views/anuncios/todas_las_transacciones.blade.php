@@ -11,7 +11,7 @@
     <ol class="breadcrumb">
       <li><a href="{{route('welcome')}}"><i class="fa fa-dashboard">  Inicio</i></a></li>
       <li class="active">Ingresos</li>
-    </0l>
+    </ol>
 
 @endsection
 
@@ -32,7 +32,7 @@
                 <th>Teléfono tramitador</th>
                 <th>E-mail tramitador</th>
                 <th>Cuenta bancaria tramitador</th>
-                <th>Estado transaccion</th>
+                <th>Estado transacción</th>
                 <th>Valor transacción</th>
                 <th>% tu tramitador</th>
                 <th>Valor a pagar al tramitador</th>
@@ -46,7 +46,7 @@
               
               @foreach ($transacciones as $transaccion)
                   <tr>      
-                    
+                     
                     <td>{{$transaccion->nombre_tramite}}</td>   
                     <td>{{$transaccion->nombre}}</td>          
                     <td>{{$transaccion->telefono}}</td>          
@@ -62,7 +62,9 @@
                       @elseif($transaccion->estado_pago=="TRANSACCION FINALIZADA")  
                         TRANSACCIÓN FINALIZADA
                       @elseif($transaccion->estado_pago=="PAGO A TRAMITADOR")  
-                        PAGO ENVIADO A TRAMITADOR  
+                        PAGO ENVIADO A TRAMITADOR
+                      @elseif($transaccion->estado_pago=='PAGO TRAMITADOR CONFIRMADO')
+                        PAGO HECHO AL TRAMITADOR  
                       @elseif($transaccion->estado_pago=="RECHAZADA")  
                          transaccion RECHAZADA
                       @endif
@@ -78,11 +80,20 @@
                     <td>
                           
                       @if($transaccion->estado_pago=="TRANSACCION FINALIZADA")    
-                        <button id="{{'btn_cal_'.$transaccion->id_pago}}" type="button" class="btn btn-success" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_pago_a_tramitador'.$transaccion->id_pago}}','{{$transaccion->id_pago}}','0',false)" >Confirmar pago a tramitador
+                          @if($transaccion->cuenta_bancaria == '' )    
+                            <button id="{{'btn_cal_'.$transaccion->id_pago}}" type="button" class="btn btn-primary" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_notificar_tramitador'.$transaccion->id_pago}}','{{$transaccion->id_pago}}','0',false)" >
+                            Notificar al tramitador
+                        </button>
+                        @include('partials.notificar_tramitador',['ad'=>$transaccion])
+
+                          @endif
+                          <button id="{{'btn_cal_'.$transaccion->id_pago}}" type="button" class="btn btn-success" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_pago_a_tramitador'.$transaccion->id_pago}}','{{$transaccion->id_pago}}','0',false)" >Confirmar pago a tramitador
                           </button>
+                          
                           @include('partials.confirmar_pago_a_tramitador',['ad'=>$transaccion,'valor'=>number_format($transaccion->transation_value-($transaccion->transation_value*$porcentaje[0]->valor/100),0,',','.')])
+
                       @elseif($transaccion->estado_pago=="APROBADA") 
-                        Pendiente confirmación cliente   
+                           Pendiente confirmación cliente   
                       @endif
                     </td>                                   
                      
@@ -111,6 +122,7 @@
             $(document).ready(function() {
                 console.log("5");
                 $('#transacciones-table').DataTable( {
+                    responsive: true,
                     dom: 'Bfrtip',
                     buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
                     language:

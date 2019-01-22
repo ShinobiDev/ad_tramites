@@ -222,9 +222,9 @@ class Anuncio extends Model
                       $anunciante=User::where("id",$anuncio[0]->id_user)->get();
                         
                         //aqui debo enviar los datos de confirmación a la cuenta de correo
-                        NotificacionAnuncio::dispatch($comprador[0], [$anunciante[0],$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_compras/'.$comprador[0]->id]],[],"CompraExitosa");
+                        NotificacionAnuncio::dispatch($comprador[0], [$anunciante[0],$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_compras/'.$comprador[0]->id.'?id='.$req['reference_pol']]],[],"CompraExitosa");
                         
-                        NotificacionAnuncio::dispatch($anunciante[0], [$comprador[0],$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_ventas/'.$anunciante[0]->id]],$anunciante[0]->valor_recarga,"CompraExitosaAnunciante");
+                        NotificacionAnuncio::dispatch($anunciante[0], [$comprador[0],$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_ventas/'.$anunciante[0]->id.'?id='.$req['reference_pol']]],$anunciante[0]->valor_recarga,"CompraExitosaAnunciante");
 
                         return view('payu.confirmar_payu')->with("respuesta",$req)
                             ->with("empresa",$empresa)
@@ -277,8 +277,8 @@ class Anuncio extends Model
                             $anunciante=User::where("id",$anuncio[0]->id_user)->get();
 
                                   //aqui debo enviar los datos de confirmación a la cuenta de correo
-                            NotificacionAnuncio::dispatch($comprador[0], [$anunciante[0],$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_compras/'.$comprador[0]->id]],[],"CompraExitosa");
-                            NotificacionAnuncio::dispatch($anunciante[0], [$comprador[0],$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_ventas/'.$anunciante[0]->id]],$req['TX_VALUE'],"CompraExitosaAnunciante");
+                            NotificacionAnuncio::dispatch($comprador[0], [$anunciante[0],$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_compras/'.$comprador[0]->id.'?id='.$req['reference_pol']]],[],"CompraExitosa");
+                            NotificacionAnuncio::dispatch($anunciante[0], [$comprador[0],$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_ventas/'.$anunciante[0]->id.'?id='.$req['reference_pol']]],$req['TX_VALUE'],"CompraExitosaAnunciante");
                     }else{
 
                         $msn="Esta referencia de pago no corresponde a ningna registrada en nuestro sistema, por favor verifica con tu plataforma de pagos ";
@@ -356,10 +356,10 @@ class Anuncio extends Model
                   $anunciante=User::where(".id",$anuncio[0]->id_user)->get();
                   //dd($anuncio[0]);
                   //aqui debo enviar los datos de confirmación a la cuenta de correo
-                  NotificacionAnuncio::dispatch($comprador[0], [$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_compras/'.$comprador[0]->id]],[],"CompraPendiente");
+                  NotificacionAnuncio::dispatch($comprador[0], [$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_compras/'.$comprador[0]->id.'?id='.$req['reference_pol']]],[],"CompraPendiente");
 
                   //dd([$anunciante[0],$comprador,$anuncio]);
-                  NotificacionAnuncio::dispatch($anunciante[0],[$comprador[0],$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_ventas/'.$anunciante[0]->id]],$req['TX_VALUE'],"CompraPendienteAnunciante");
+                  NotificacionAnuncio::dispatch($anunciante[0],[$comprador[0],$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_ventas/'.$anunciante[0]->id.'?id='.$req['reference_pol']]],$req['TX_VALUE'],"CompraPendienteAnunciante");
                   /*return redirect()->route('confirmar_payu')
                             ->with("empresa",$empresa)
                             ->with("cliente",$comprador)

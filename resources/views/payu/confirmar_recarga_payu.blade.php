@@ -24,13 +24,13 @@
         <div class="contenedor">
             <div class="descripcion">
                 <h5>{{($respuesta["description"])}}</h5>
-                <label>$ {{$respuesta["TX_VALUE"]}}</label>
+                <label>$ {{number_format($respuesta["TX_VALUE"],0,',','.')}}</label>
                 <br>
                 <h5>Iva</h5>
                 <label>$ {{$respuesta['TX_TAX']}}</label>
                 <br>
                 <h5>Total</h5>
-                <label class="rj"> $ {{$respuesta['TX_VALUE']}}</label>
+                <label class="rj"> $ {{number_format($respuesta['TX_VALUE'],0,',','.')}}</label>
             </div>
         </div>
         <div class="contenedor">

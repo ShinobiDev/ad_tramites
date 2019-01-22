@@ -18,9 +18,9 @@
 
                     <div class="col-md-6">
                         <input id="email{{$ad->id_pago}}" type="email" class="form-control" name="email" value="{{ $ad->email }}" readonly  required autofocus>
-                        <input type="hidden" name="id_anuncio" value="{{$compra->id_anuncio}}">
-                        <input type="hidden" name="id_user_compra" value="{{$compra->id_anunciante}}">
-                        <input type="hidden" name="id_pago" value="{{$compra->id_pago}}">
+                        <input type="hidden" name="id_anuncio" value="{{$ad->id_anuncio}}">
+                        <input type="hidden" name="id_user_ad" value="{{$ad->id_anunciante}}">
+                        <input type="hidden" name="id_pago" value="{{$ad->id_pago}}">
                         @if ($errors->has('email'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('email') }}</strong>

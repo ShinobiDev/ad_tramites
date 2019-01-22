@@ -3,7 +3,7 @@
     <div class="modal-content">
 
       <div class="modal-header bg-primary">
-        <h3 style="text-align: center;" class="modal-title" id="exampleModalLabel"><b>Califica al anunciante</b></h3>
+        <h3 style="text-align: center;" class="modal-title" id="exampleModalLabel"><b>Confirma tu trámite y califica al tramitador</b></h3>
         <h4 class="modal-title" id="exampleModalLabel">{{config('app.name','') }}, te sirve de intermediario para garantizar que tu trámites cumplan de manerta exitosa para ambas partes, por favor dejanos conocer comentarios sobre este anunciante</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="salir_modal('{{'infocalificar'.$ad->id_pago}}')">
           <span aria-hidden="true" >&times;</span>
@@ -66,7 +66,7 @@
        </div>
 
         <div class="modal-footer">
-        <button  type="button" class="btn btn-primary" data-dismiss="modal" onclick="salir_modal('{{'infocalificar'.$ad->id}}')">VER MÁS ANUNCIOS</button>
+        <button  type="button" class="btn btn-primary" data-dismiss="modal" onclick="salir_modal('{{'infocalificar'.$ad->id_pago}}')">VER MÁS ANUNCIOS</button>
       </div>
 
     </div>

@@ -36,11 +36,12 @@
 
                       <button id="{{'btn_'.$ad->cod_anuncio}}" type="button" class="btn btn-success" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_login'.$ad->id}}','{{$ad->id}}','0','info')">
                         Ver info
-                        </button>
+                      </button>
 
                       <button id="{{'btn_'.$ad->cod_anuncio}}" type="button" class="btn btn-default" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_login'.$ad->id}}','{{$ad->id}}','0','venta')">
                         Comprar
                       </button>
+                      <!--<a id="{{'btn_'.$ad->cod_anuncio}}" href="#{{$ad->id}}"  class="btn btn-default" onclick="descontar_recargar('{{ 'ventana_login'.$ad->id}}','{{$ad->id}}','0','venta')" >Comprar</a>-->
 
                       @include('anuncios.ventana_modal_login')
 

@@ -6,7 +6,8 @@ function descontar_recargar(id_ventana,id_anuncio,costo,tipo){
 	console.log(document.getElementById(id_ventana));
 	   $("#"+id_ventana).addClass( "in" );
 	   $("#"+id_ventana).css({"display": "block", "padding-right": "21px"});
-       
+
+       //location.href=location.href.split('#')[0]+='#'+id_anuncio;
        $.ajaxSetup({
 	        headers: {
 	            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

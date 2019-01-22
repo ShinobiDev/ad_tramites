@@ -23,12 +23,13 @@
 
   </style>
   <link rel="icon" type="image/png" sizes="16x16" href="{{asset('favicon.ico')}}">  
+  <!--datatable responsive-->
+  <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.1.5/css/fixedHeader.bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">
+  <!--datatable responsive-->
   <!--<link rel="stylesheet" type="text/css" href="{{asset('css/dropzone.css')}}">
   <script type="text/javascript" src="{{asset('js/dropzone.js')}}"></script> -->
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css">
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script> 
-  
-  
+
     @yield('head')
 </head>
 <body>
@@ -64,7 +65,7 @@
                         <li>
                            <a href="{{route('login')}}">Comprar</a>
                         </li>-->
-                        <input type="hidden" value="{0" id="user_id">
+                        <input type="hidden" value="0" id="user_id">
                       @else
                         
                         <li>
@@ -103,7 +104,7 @@
                             <a href="{{route('mis_compras', auth()->user())}}">Mis compras</a>
                           </li>                          
                         @endrole
-                      <input type="hidden" value="{{Auth::user()->id}}" id="user_id">
+                      <input type="hidden" value="{{auth::user()->id}}" id="user_id">
                       @endguest
                       <li>
                        
@@ -191,6 +192,12 @@
     <script src="{{asset('admin-lte/plugins/datatables/buttons.html5.min.js')}}">  </script>
     <script src="{{asset('admin-lte/plugins/datatables/buttons.print.min.js')}}">  </script>
     <script src="{{asset('admin-lte/plugins/datepicker/bootstrap-datepicker.js')}}"></script>
+    <!--datatable responsive -->
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"></script>
+    <!--datatable responsive -->
+
 
     {{-- <script src="{{asset('admin-lte/plugins/datatables/dataTables.bootstrap4.min.js')}}">  </script> --}}
 
