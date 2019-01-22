@@ -81,9 +81,7 @@
                         <li>
                           <a href="{{route('recargas.show')}}"> Estadistica recargas</a>
                         </li> 
-                        <li>
-                          <a href="{{route('users.show', auth()->user())}}">Recargar</a>
-                        </li> 
+                       
                         @endrole
                         @role('Anunciante')
                           <li>
