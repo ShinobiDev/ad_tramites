@@ -424,12 +424,17 @@ class AnuncioController extends Controller
      * @return [type]         [description]
      */
     public function calificar_venta(Request $datos){
-         //dd($datos->get('data'));
+          //dd($datos->get('data'));
           $data=$datos->get('data');
 
           DB::table('registro_pagos_anuncios')
                   ->where('id',$data['id_anuncio_calificar'])
-                  ->update(['calificacion'=>$data["nota"],'estado_pago'=>'TRANSACCION FINALIZADA','opinion'=>$data["opinion"],'comentario'=>$data["opinion"],'updated_at'=>Carbon::now('America/Bogota')]);
+                  ->update(['calificacion'=>$data["nota"],
+                            'estado_pago'=>'TRANSACCION FINALIZADA',
+                            'opinion'=>$data["opinion"],
+                            'comentario'=>$data["opinion"],
+                            'updated_at'=>Carbon::now('America/Bogota')]);
+
           $dtc=DB::table('registro_pagos_anuncios')
               ->where('id',$data['id_anuncio_calificar'])
               ->get();
@@ -450,19 +455,32 @@ class AnuncioController extends Controller
                       //dd($an);
           User::where("id",$an[0]->user_id)->increment("nota",$data['nota']);
           User::where("id",$an[0]->user_id)->increment("num_calificaciones",1);
-          $admin=User::role('admin')->first();  
-          NotificacionAnuncio::dispatch($admin,
+          $admin=User::role('admin')->get();  
+          //CORREO A LOS ADMINISTARDOR
+          foreach ($admin as $key => $value) {
+            //dd($value);
+            NotificacionAnuncio::dispatch($value,
                             [User::where('id',$an[0]->id_user)->first(),
                             $an[0],
                             ['url'=>config('app.url').'/admin/todas_las_transacciones?id='.$dtc[0]->transactionId],
                             ['mensaje'=>""]],
                             0,
                             "NotificarTramiteFinalizadoAdmin");
+          
+          }
 
-
-
+          //correo al tramitador
+          $u=User::where("id",$an[0]->id_user)->first();
+          
+          NotificacionAnuncio::dispatch($u,
+                            [$an[0],
+                            ['url'=>config('app.url').'/admin/ver_mis_ventas/'.$u->id.'?id='.$dtc[0]->transactionId],
+                            ['mensaje'=>""]],
+                            0,
+                            "NotificarTramiteCalificacion");
+          
           return response()->json(["respuesta"=>true,'mensaje' => 'Se ha registrado tu calificación, gracias por confiar en '.config('app.name')]);
-          //return redirect()->route('users.show', auth()->user())->with('success', 'Se ha registardo tu calificación ');
+      
     }
 
 

@@ -14,7 +14,9 @@
         @foreach ($anuncios as $ad)
 
          <tr>
-            <td class="text-green text-center"><strong><h4> {{$ad->nombre_tramite}}</h4></strong></td>
+            <td class="text-green text-center">
+              <strong><h4> {{$ad->nombre_tramite}}</h4></strong>              
+            </td>
 
             <td class="text-center" style="width:30%"><strong><h5>{{$ad->descripcion}}</h5></strong></td>
 
@@ -30,7 +32,6 @@
               @include('partials.stars')
             </td>
             <td>
-
               @guest
                      <!--AQUI SE MUESTRA LOS BOTONES PARA LOGIN -->
 
@@ -41,35 +42,9 @@
                       <button id="{{'btn_'.$ad->cod_anuncio}}" type="button" class="btn btn-default" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_login'.$ad->id}}','{{$ad->id}}','0','venta')">
                         Comprar
                       </button>
-                      <!--<a id="{{'btn_'.$ad->cod_anuncio}}" href="#{{$ad->id}}"  class="btn btn-default" onclick="descontar_recargar('{{ 'ventana_login'.$ad->id}}','{{$ad->id}}','0','venta')" >Comprar</a>-->
 
-                      @include('anuncios.ventana_modal_login')
-
-                      {{--
-
-                      <!--SE COMENTA ESTA SECCION LUEGO DE SOLUCITD DE HERIBERTO SIN EMBARGO AQUI SE DEJA FUNCIONAL Y SE MUESTRA LA INFORMACION PARCIAL DEL ANUNCIO-->
-                      <button id="{{'btn_'.$ad->id}}" type="button" class="btn btn-success" data-toggle="modal" onclick="descontar_recargar('{{ 'infogen'.$ad->id}}','{{$ad->id}}','{{$ad->costo_clic}}','info')">
-                        Ver info
-                        </button>
-                       <!--<a id="an_{{$ad->id}}" href="admin/anuncios_vistos" class="btn btn-primary" style="display: none">Ya lo Viste</a>-->
-                       <button id="{{'an_'.$ad->id}}" type="button" class="btn btn-primary" data-toggle="modal" onclick="descontar_recargar('{{ 'infogen'.$ad->id}}','{{$ad->id}}','0','info')" style="display: none">
-                        Ya lo Viste
-                        </button>
-                      @include('anuncios.ventana_modal_info_general_sin_login')
-
-
-                      <button id="{{'btn_'.$ad->cod_anuncio}}" type="button" class="btn btn-default" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_login'.$ad->id}}','{{$ad->id}}','0','venta')">
-                        Comprar
-                      </button>
-                      @include('anuncios.ventana_modal_login')
-
-                      --}}
-
-
+                      {{--@include('anuncios.ventana_modal_login')--}}
               @else
-
-
-
                     @if($ad->btn_info)
                       @if($ad->visto!="")
 
@@ -83,8 +58,11 @@
                         <button id="{{'btn_'.$ad->id}}" type="button" class="btn btn-success" data-toggle="modal" onclick="descontar_recargar('{{ 'infogen'.$ad->id}}','{{$ad->id}}','{{$ad->costo_clic}}','info')">
                         Ver info
                         </button>
-                        <a id="an_{{$ad->id}}" href="admin/anuncios_vistos" class="btn btn-primary" style="display: none">Ya lo Viste</a>
-                        @include('anuncios.ventana_modal_info_general')
+                         <button id="{{'an_'.$ad->id}}" type="button" class="btn btn-primary" data-toggle="modal" onclick="descontar_recargar('{{ 'infogen'.$ad->id}}','{{$ad->id}}','0','info')">
+                        Ya lo Viste
+                        </button>
+                        
+                        {{--@include('anuncios.ventana_modal_info_general')--}}
 
 
                       @endif
@@ -96,7 +74,7 @@
                         Comprar
                       </button>
 
-                     @include('anuncios.ventana_modal_info_anuncio')
+                     {{--@include('anuncios.ventana_modal_info_anuncio')--}}
                     @endif
 
 
@@ -111,3 +89,21 @@
         {{--/se crean las tablas de ventas--}}
       </tbody>
 </table>
+
+@foreach ($anuncios as $ad)
+              @guest
+                     <!--AQUI SE MUESTRA LOS BOTONES PARA LOGIN -->
+                      @include('anuncios.ventana_modal_login')            
+              @else
+                    @if($ad->btn_info)
+                      @if($ad->visto!="")
+                         @include('anuncios.ventana_modal_info_general')
+                      @else
+                        @include('anuncios.ventana_modal_info_general')
+                      @endif
+                    @endif
+                    @if($ad->btn_payu)
+                     @include('anuncios.ventana_modal_info_anuncio')
+                    @endif
+              @endguest
+@endforeach

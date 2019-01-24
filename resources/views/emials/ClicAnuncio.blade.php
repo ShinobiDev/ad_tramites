@@ -32,7 +32,7 @@ Estado: ACTIVO
 ## BALANCE DE RECARGA ##
 $ {{number_format($recarga,0,'.','.')}} 
 
-#[Recarga][1]
+#[Recargar][1]
 [1]:{{$url}}#
 
   No dejes agotar tu recarga, para que puedan seguir viendo tu anuncio.

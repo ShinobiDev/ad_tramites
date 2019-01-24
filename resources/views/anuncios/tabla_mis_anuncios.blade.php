@@ -75,19 +75,19 @@
                     </button>
 
 
-                @include('anuncios.ventana_modal_login')
+                {{--@include('anuncios.ventana_modal_login')--}}
             @else
                      <button id="{{'btn_'.$ad->id}}" type="button" class="btn btn-success" data-toggle="modal" onclick="descontar_recargar('{{ 'infogen'.$ad->id}}','{{$ad->id}}','0','info')">
                       Ver info
                       </button>
 
-                      @include('anuncios.ventana_modal_info_general')
+                      {{--@include('anuncios.ventana_modal_info_general')--}}
 
                   @if($ad->btn_payu)
                     <button id="{{'btn_'.$ad->id}}" type="button" class="btn btn-default" data-toggle="modal" onclick="descontar_recargar('{{ 'infoventa'.$ad->id}}','{{$ad->id}}','0','compra')" >
                       Comprar
                     </button>
-                    @include('anuncios.ventana_modal_info_anuncio')
+                    {{--@include('anuncios.ventana_modal_info_anuncio')--}}
                   @endif
 
             @endguest
@@ -100,3 +100,25 @@
     {{--/se crean las tablas de ventas--}}
   </tbody>
 </table>
+<!--ventanas-->
+ @foreach ($anuncios as $ad)
+
+        
+            @guest
+                 
+
+                @include('anuncios.ventana_modal_login')
+            @else
+                    @include('anuncios.ventana_modal_info_general')
+
+                  @if($ad->btn_payu)
+                   
+                    @include('anuncios.ventana_modal_info_anuncio')
+                  @endif
+
+            @endguest
+
+        
+
+
+    @endforeach

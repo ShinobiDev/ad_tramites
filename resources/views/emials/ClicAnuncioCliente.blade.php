@@ -29,12 +29,11 @@ Estimad@ {{$user->nombre}}, haz visto un anuncio en  {{ config('app.name')}}
 
 
 
-#[Sitio web][1]
-[1]:{{$url}}#
-
-  
-
-
 Gracias, por seguir confiando en nosotros<br>
 {{ config('app.name') }}
+
+
+#[Ver anuncio][1]
+[1]:{{$ad[2]['url']}}
+
 @endcomponent

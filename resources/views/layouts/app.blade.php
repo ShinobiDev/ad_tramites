@@ -26,6 +26,7 @@
   <!--datatable responsive-->
   <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.1.5/css/fixedHeader.bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">
+  
   <!--datatable responsive-->
   <!--<link rel="stylesheet" type="text/css" href="{{asset('css/dropzone.css')}}">
   <script type="text/javascript" src="{{asset('js/dropzone.js')}}"></script> -->
@@ -65,12 +66,17 @@
                         <li>
                            <a href="{{route('login')}}">Comprar</a>
                         </li>-->
+                        <li>
+                           <a href="{{route('anuncios.index')}}">Ver anuncios</a>
+                        </li>
                         <input type="hidden" value="0" id="user_id">
                       @else
-                        
+                        <li>
+                           <a href="{{route('anuncios.index')}}">Ver anuncios</a>
+                        </li>
                         <li>
                            <a href="{{route('anuncios.create')}}">Publicar anuncios</a>
-                        </li>
+                        </li>                       
                         @role('Admin')
                         <li>
                            <a href="{{route('anuncios.show',['id'=>Auth::user()->id])}}">Todos los anuncios</a>

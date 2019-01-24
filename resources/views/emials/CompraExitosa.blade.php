@@ -31,7 +31,7 @@ Anuncio:
 
 Estado transacción: APROBADA
 
-#[Sitio Web][1]
+#[ir a {{config('app.name')}}][1]
 [1]:{{$ad[2]['url']}}
 
 

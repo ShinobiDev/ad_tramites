@@ -10,7 +10,7 @@ los usurarios puedan ver tus datos de contacto.
 
 ## BALANCE DE RECARGA $ {{$recarga}} ##
 
-#[Recarga][1]
+#[Recargar][1]
 [1]:{{$url}}#
 
 Gracias,<br>

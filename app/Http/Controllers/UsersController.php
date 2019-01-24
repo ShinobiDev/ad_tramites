@@ -486,7 +486,7 @@ class UsersController extends Controller
 
               //dd($ad,$cliente,$rc);
               NotificacionAnuncio::dispatch($tramitador[0], [$ad[0],$cliente[0]],$rc[0]->valor_recarga,"AnuncioClickeado");
-              NotificacionAnuncio::dispatch($cliente[0], [$ad[0],$tramitador[0]],0,"AnuncioClickeadoCliente");
+              NotificacionAnuncio::dispatch($cliente[0], [$ad[0],$tramitador[0],["url"=>config('app.url')."/admin/anuncios_vistos?id=".$ad[0]->id."-"]],0,"AnuncioClickeadoCliente");
           }
           //valido valor de recarga
 

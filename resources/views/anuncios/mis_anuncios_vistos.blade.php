@@ -74,8 +74,9 @@
                             }
                         }
                       });
+                      filtro_url('#users-table');
                   });
-            
+                  
   
              </script>
 @endsection

@@ -351,7 +351,7 @@
      * Funcion para el obj data table desde url
      * @return {[type]} [description]
      */
-    function filtro_url (obj) {
+    function filtro_url (obj,col=false) {
       if(window.location.search.split("=")[1]!=undefined){
         $(obj).DataTable().search(
             window.location.search.split("=")[1],

@@ -163,9 +163,14 @@ class NotificationMail extends Mailable
                                 ->subject('Hemos registrado una transacción exitosa en '. config('app.name'));
                     break;   
             case "NotificarPagoTramitador":
-                    //dd($this);
+                    //dd("-",$this);
                     return $this->markdown('emials.NotificarPagoTramitador')
                                 ->subject('Ya esta listo tu pago en '. config('app.name'));
+                    break;        
+            case "NotificarTramiteCalificacion":
+                    //dd($this);
+                    return $this->markdown('emials.NotificarTramiteCalificacion')
+                                ->subject('Te han calificado en '. config('app.name'));    
                     break;                                 
             default:
                 dd(["sin case=>",$this->tipo]);

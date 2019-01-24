@@ -15,7 +15,7 @@ Recuerda validar con tu entidad o medio de pago.
 
 
 
-#[Sitio web][1]
+#[ir a {{config('app.name')}}][1]
 [1]:{{$url}}#
 
 

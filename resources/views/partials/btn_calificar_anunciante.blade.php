@@ -25,8 +25,7 @@
       </div>
        <div class="modal-body">
 
-            <!--<form method="POST" action="{{url('admin/calificar')}}">-->
-                    <form id="formCalificar">
+            <form id="formCalificar">
                      <h3 style="text-align: center;" class="modal-title" id="exampleModalLabel"><b>¿Cómo calificarias a este anunciante?</b></h3>
                     {{csrf_field()}}
                     <input type="hidden" name="id_anuncio_calificar" value="{{$ad->id_detalle_clic}}">
@@ -37,11 +36,10 @@
                         <label for="rd2">2</label>
                         <input id="rd3" class="" type="radio" name="nota" value="3">
                         <label for="rd3">3</label>
-                        <!--<input id="rd4" class="" type="radio" name="nota" value="4">
+                        <input id="rd4" class="" type="radio" name="nota" value="4">
                         <label for="rd4">4</label>
                         <input id="rd5" class="" type="radio" name="nota" value="5">
-                        <label for="rd5">5</label>-->
-
+                        <label for="rd5">5</label>
                     </section>
                     <section style="text-align: center;" >
                         <h3><b>Opinión</b></h3>
@@ -55,8 +53,7 @@
                             <option value="Posible fraude" >Posible fraude</option>
                             <option value="La atención no fue tan buena" >La atención no fue tan buena</option>
                             <option value="Otros" >Otros</option>
-                        </select>
-                        <!--<input type="text" id="opinion_otro" name="opinion_otro" class="textinput textInput form-control" placeholder="Dejanos conocer tu opinión" style="display: none;">-->
+                        </select>                        
                     </section>
                     <div class="modal-body">
                     <textarea  style="display: none" maxlength="110" id="txt_opinion{{$ad->id}}" class="textarea form-control" name="opinion_txt" value="{{old('opinion')}}" placeholder="Dejanos conocer tu opinión" onkeypress="validar_tam_txt(this)">
