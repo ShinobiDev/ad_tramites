@@ -898,11 +898,12 @@ class UsersController extends Controller
     public function actualizar_certificacion_bancaria(Request $request,$id){
         
         $filename = $request->file('file')->move('archivos/'.$id);
-        rename($filename,realpath(dirname($filename))."/certificacion_bancaria.".explode(".",$_FILES['file']['name'])[1]);
-        
+          $newname="/certificacion_bancaria.".explode(".",$_FILES['file']['name'])[1];
+        rename($filename,realpath(dirname($filename)).$newname);
+
         User::where('id',$id)
                 ->update([
-                        'certificacion_bancaria'=>'/archivos/'.$id."/certificacion_bancaria".explode(".",$_FILES['file']['name'])[1])
+                        'certificacion_bancaria'=>'/archivos/'.$id."".$newname
                     ]);
                 
         

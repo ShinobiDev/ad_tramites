@@ -56,7 +56,9 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
 
-
+                        <li>
+                           <a href="{{route('anuncios.index')}}">Ver anuncios</a>
+                        </li>
 
                     </ul>
 

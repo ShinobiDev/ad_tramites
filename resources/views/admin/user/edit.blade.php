@@ -41,7 +41,7 @@
                                 
                                 {{--dd($user->certificacion_bancaria)--}}
                                 @if($user->certificacion_bancaria != null)
-                                  <a href="{{config('app.url').$user->certificacion_bancaria}}" target="_blank" >DESCARGAR</a>
+                                  <a href="{{config('app.url').$user->certificacion_bancaria}}" target="_blank" >Ver</a>
                                 @endif
                                 <input type="file" id="flCertificacionBancaria" name="bancaria" onchange="subir_archivo(this)">     
                                 <label id="msnEspera"></label>                             

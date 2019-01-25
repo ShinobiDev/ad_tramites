@@ -67,11 +67,11 @@
           <table id="mis_recargas-table"class="table table-bordered table-striped">
                <thead>
                 <tr>
-                  <th>Items</th>
+                  
                   <th>Usuario</th>
                   <th>Valor recarga</th>
                   <th>Estado</th>
-                  <th>Referecia recarga</th>                 
+                  <th>Referecia recarga payu</th>                 
                   <th>Fecha recarga</th>                 
                 </tr>
               </thead>
@@ -79,12 +79,11 @@
                  @foreach ($mi_lista_recarga as $mi_recarga)
                   {{--$mi_recarga--}}
                    <tr>
-                    <td>{{ $mi_recarga->id }}</td>
-                    <td>{{ $mi_recarga->name }}</td>
-                    <td>{{ $mi_recarga->valor_recarga }}</td>
+                    <td>{{ $mi_recarga->nombre }}</td>
+                    <td>$ {{ number_format($mi_recarga->valor_recarga,'0','.','.') }}</td>
                     <td>{{ $mi_recarga->estado_detalle_recarga }}</td>
-                    <td>{{ $mi_recarga->referencia_pago }}</td>
-                    <td>{{ $mi_recarga->created_at }}</td>
+                    <td>{{ $mi_recarga->referencia_pago_pay_u }}</td>
+                    <td>{{ $mi_recarga->updated_at }}</td>
                    </tr> 
                  @endforeach
               </tbody>
@@ -183,6 +182,7 @@
 <script type="text/javascript">
   function ver_recargas(id){
      peticion_ajax("get","admin/ver_recargas_mis_recargas/"+id,{},function(rs){
+        location.href="#mis_recargas-table";
         console.log(rs);
         var ls=document.getElementById("tbl_mis_lista");
         ls.innerHTML="";

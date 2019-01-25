@@ -28,7 +28,15 @@
                   <b>Cuenta bancaria</b> <a class="pull-right" style="margin-right:  20px;">{{$user->cuenta_bancaria or 'No registrada'}}</a>
                 </li>
                 <li class="list-group-item" style="margin-left:  20px;">
-                  <b>Certificación bancaria</b> <a class="pull-right" style="margin-right:  20px;" href="{{$user->certificación_bancaria or '#' }}">{{$user->certificación_bancaria or 'No registrada'}}</a>
+                  <b>Certificación bancaria</b> 
+                      @if($user->certificacion_bancaria != "")
+                        <a class="pull-right" style="margin-right:  20px;" href="{{config('app.url').$user->certificacion_bancaria  }}">Ver</a>
+                      @else
+                        <a class="pull-right" style="margin-right:  20px;" href="#">Sin registrar</a>
+                        
+
+                      @endif
+
                 </li>
                 <li class="list-group-item" style="text-align: center;">
                   <b>Horarios de atención</b>

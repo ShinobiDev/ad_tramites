@@ -36,7 +36,7 @@
 <body>
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
+            <div class="container-fluid">
                 <div class="navbar-header">
 
                     <!-- Collapsed Hamburger -->
@@ -60,19 +60,15 @@
                     <ul class="nav navbar-nav">
 
                        @guest
-                        <!-- <li>
-                           <a href="{{route('login')}}">Vender</a>
-                        </li>
-                        <li>
-                           <a href="{{route('login')}}">Comprar</a>
-                        </li>-->
                         <li>
                            <a href="{{route('anuncios.index')}}">Ver anuncios</a>
+                           <input type="hidden" value="0" id="user_id">
                         </li>
-                        <input type="hidden" value="0" id="user_id">
+                        
                       @else
                         <li>
                            <a href="{{route('anuncios.index')}}">Ver anuncios</a>
+                            <input type="hidden" value="{{auth::user()->id}}" id="user_id">
                         </li>
                         <li>
                            <a href="{{route('anuncios.create')}}">Publicar anuncios</a>
@@ -85,7 +81,7 @@
                             <a href="{{route('todas_las_transacciones')}}">Todas las transacciones</a>
                           </li>
                         <li>
-                          <a href="{{route('recargas.show')}}"> Estadistica recargas</a>
+                          <a href="{{route('recargas.show')}}"> Todas las recargas</a>
                         </li> 
                        
                         @endrole
@@ -108,7 +104,7 @@
                             <a href="{{route('mis_compras', auth()->user())}}">Mis compras</a>
                           </li>                          
                         @endrole
-                      <input type="hidden" value="{{auth::user()->id}}" id="user_id">
+                     
                       @endguest
                       <li>
                        
@@ -139,6 +135,7 @@
 
                                       <li class="dropdown">
                                         @role('Admin') {{-- Laravel-permission blade helper --}}
+                                        
                                          <a href="{{route('users.index')}}">Usuarios</a>
                                          <a href="{{route('permissions.index')}}">Permisos</a>
                                          <a href="{{route('roles.index')}}">Roles</a>

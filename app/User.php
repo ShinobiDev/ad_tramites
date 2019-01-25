@@ -168,7 +168,7 @@ class User extends Authenticatable
                                                          "referencia_pago_pay_u"=>time().$cliente[0]->id,
                                                          "metodo_pago"=>"BONIFICACION RECARGA 10%  ".$cliente[0]->name,
                                                          "tipo_recarga"=>"BONIFICACION" ,
-                                                         'create_at'=>Carbon::now('America/Bogota')
+                                                         'created_at'=>Carbon::now('America/Bogota')
                                                             ]
                                                     );
                                                     
@@ -193,7 +193,7 @@ class User extends Authenticatable
                                                          "referencia_pago_pay_u"=>time().$cliente[0]->id,
                                                          "metodo_pago"=>"BONIFICACION RECARGA 1%  ".$cliente[0]->name,
                                                          "tipo_recarga"=>"BONIFICACION",
-                                                         'create_at'=>Carbon::now('America/Bogota')
+                                                         'created_at'=>Carbon::now('America/Bogota')
                                                             ]
                                                     );
                                                 DB::table("bonificaciones")->insert(

@@ -43,7 +43,7 @@
                         Comprar
                       </button>
 
-                      {{--@include('anuncios.ventana_modal_login')--}}
+                      
               @else
                     @if($ad->btn_info)
                       @if($ad->visto!="")
@@ -52,18 +52,16 @@
                         <button id="{{'btn_'.$ad->id}}" type="button" class="btn btn-primary" data-toggle="modal" onclick="descontar_recargar('{{ 'infogen'.$ad->id}}','{{$ad->id}}','0','info')">
                         Ya lo Viste
                         </button>
-                         @include('anuncios.ventana_modal_info_general')
-
+                     
                       @else
                         <button id="{{'btn_'.$ad->id}}" type="button" class="btn btn-success" data-toggle="modal" onclick="descontar_recargar('{{ 'infogen'.$ad->id}}','{{$ad->id}}','{{$ad->costo_clic}}','info')">
                         Ver info
                         </button>
-                         <button id="{{'an_'.$ad->id}}" type="button" class="btn btn-primary" data-toggle="modal" onclick="descontar_recargar('{{ 'infogen'.$ad->id}}','{{$ad->id}}','0','info')">
+                         <button id="{{'an_'.$ad->id}}" style="display: none;" type="button" class="btn btn-primary" data-toggle="modal" onclick="descontar_recargar('{{ 'infogen'.$ad->id}}','{{$ad->id}}','0','info')">
                         Ya lo Viste
                         </button>
                         
-                        {{--@include('anuncios.ventana_modal_info_general')--}}
-
+                        
 
                       @endif
 
@@ -74,7 +72,6 @@
                         Comprar
                       </button>
 
-                     {{--@include('anuncios.ventana_modal_info_anuncio')--}}
                     @endif
 
 
