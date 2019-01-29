@@ -30,7 +30,7 @@
                 <li class="list-group-item" style="margin-left:  20px;">
                   <b>Certificación bancaria</b> 
                       @if($user->certificacion_bancaria != "")
-                        <a class="pull-right" style="margin-right:  20px;" href="{{config('app.url').$user->certificacion_bancaria  }}">Ver</a>
+                        <a class="pull-right" style="margin-right:  20px;" href="{{config('app.url').$user->certificacion_bancaria  }}" target="_blank">Ver</a>
                       @else
                         <a class="pull-right" style="margin-right:  20px;" href="#">Sin registrar</a>
                         

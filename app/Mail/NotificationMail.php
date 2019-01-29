@@ -171,7 +171,17 @@ class NotificationMail extends Mailable
                     //dd($this);
                     return $this->markdown('emials.NotificarTramiteCalificacion')
                                 ->subject('Te han calificado en '. config('app.name'));    
-                    break;                                 
+                    break;       
+            case 'TransaccionFinalizadaAutomaticamenteAdministrador':
+                     //dd($this);   
+                    return $this->markdown('emials.TransaccionFinalizadaAutomaticamenteAdministrador')
+                                ->subject('Transacción cerrada automaticamente en'. config('app.name'));    
+                    break;                                  
+            case 'TransaccionFinalizadaAutomaticamenteComerciante':
+                    //dd($this->user);
+                    return $this->markdown('emials.TransaccionFinalizadaAutomaticamenteComerciante')
+                                ->subject('Transacción cerrada automaticamente en'. config('app.name'));    
+                    break;                                          
             default:
                 dd(["sin case=>",$this->tipo]);
                 # code...

@@ -27,11 +27,12 @@
             <thead>
               <tr>
                 <th>Tipo</th>
+                <th>Estado compra</th>
                 <th>Trámite</th>
                 <th>Vendedor</th>
                 <th>Teléfono tramitador</th>
                 <th>E-mail tramitador</th>
-                <th>Estado compra</th>
+                
                 
                 <th>Valor comprado</th>
                 <th>Referecia de pago</th>
@@ -44,24 +45,25 @@
               
               @foreach ($mis_compras as $compra)
                   <tr>      
-                    <td>compra</td>          
+                    <td>compra</td>         
+                    <td>
+                      @if($compra->estado_pago=="PENDIENTE")
+                        <span class="text-warning">Pendiente por pago del cliente</span>
+                      @elseif($compra->estado_pago=="APROBADA")
+                        <span class="text-primary">Pago del cliente aceptado</span>
+                      @elseif($compra->estado_pago=="TRAMITE REALIZADO")  
+                        <span class="text-info">Trámite realizado</span>
+                      @elseif($compra->estado_pago=="TRANSACCION FINALIZADA" || $compra->estado_pago=="PAGO A TRAMITADOR" || $compra->estado_pago=="PAGO TRAMITADOR CONFIRMADO")  
+                         <span class="text-danger">Transacción finalizada</span>
+                      @elseif($compra->estado_pago=="RECHAZADA")  
+                         <span class="text-red">Transacción rechazada</span>
+                      @endif
+                    </td>        
                     <td>{{$compra->nombre_tramite}}</td>   
                     <td>{{$compra->nombre}}</td>          
                     <td>{{$compra->telefono}}</td>          
                     <td>{{$compra->email}}</td>          
-                    <td>
-                      @if($compra->estado_pago=="PENDIENTE")
-                        PENDIENTE POR PAGO
-                      @elseif($compra->estado_pago=="APROBADA")
-                        PAGO ACEPTADO
-                      @elseif($compra->estado_pago=="TRAMITE REALIZADO")  
-                        TRÁMITE REALIZADO
-                      @elseif($compra->estado_pago=="TRANSACCION FINALIZADA" || $compra->estado_pago=="PAGO A TRAMITADOR" || $compra->estado_pago=="PAGO TRAMITADOR CONFIRMADO")  
-                        TRANSACCIÓN FINALIZADA
-                      @elseif($compra->estado_pago=="RECHAZADA")  
-                         COMPRA RECHAZADA
-                      @endif
-                    </td>                      
+                                   
                                                        
                                                       
                     <td>$ {{number_format($compra->transation_value,0,',','.')}}</td>                                    

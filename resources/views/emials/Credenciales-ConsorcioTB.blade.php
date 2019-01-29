@@ -13,7 +13,7 @@
     | {{$user->email}} | {{$password}} |
 @endcomponent
 
-@component('mail::button', ['url' => url('login')])
+@component('mail::button', ['url' => url('Iniciar sesión')])
 Login
 @endcomponent
 

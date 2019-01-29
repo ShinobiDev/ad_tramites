@@ -8,7 +8,7 @@
             <span aria-hidden="true" >&times;</span>
           </button>
         </div>
-        @if($ad->validez_anuncio=="0")
+        @if($ad->validez_anuncio=="Bloqueado")
           <div class="modal-body">
             <b class="text-red">Este anuncio se encuentra bloqueado y no lo podra ver la comunidad, por favor comunicate con el administrador de {{config('app.name')}} para hacer la respectiva verificación y activación</b>
           </div>
@@ -42,7 +42,7 @@
         </div>
         <div class="modal-body">
             <b>Trámite: </b>
-            <h6><b>{{$ad->nombre_tramite}}</b> $ {{number_format($ad->valor_tramite,0)}}  </h6>
+            <h5><b>{{$ad->nombre_tramite}}</b> $ {{number_format($ad->valor_tramite,0)}}  </h5>
         </div>
         <div class="modal-body">
             <h4>Calificación del anunciante: </h4>

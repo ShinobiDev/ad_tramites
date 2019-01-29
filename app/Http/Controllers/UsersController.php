@@ -623,7 +623,9 @@ class UsersController extends Controller
         return $u->registro_recargas($_REQUEST);
 
     }
-
+    /*
+      Funcion para editar variables generales
+     */
     public function editar_variables(Request $request){
         //dd($request);
         Variable::where('nombre',$request['nombre'])
@@ -738,11 +740,11 @@ class UsersController extends Controller
      * @return [type] [description]
      */
     public  function notificar_comprador(Request $request){
-      //dd($request);
+      
       $comprador=User::where('id',$request['id_user_compra'])->first();
      
       $pago=DB::table('registro_pagos_anuncios')->where('id',$request['id_pago'])->first();
-      //dd($comprador);
+      
       NotificacionAnuncio::dispatch($comprador,
                             [auth()->user(),
                             Anuncio::where('anuncios.id',$request['id_anuncio'])->join('tramites','tramites.id','anuncios.id_tramite')->select('tramites.nombre_tramite','anuncios.ciudad')->first(),
@@ -750,6 +752,7 @@ class UsersController extends Controller
                             ['mensaje'=>$request['mensaje']]],
                             0,
                             "NotificarComprador");
+
       return back()->with('success','Notificación enviada a tu cliente correctamente');
     }
    
@@ -758,11 +761,11 @@ class UsersController extends Controller
      * @return [type] [description]
      */
     public  function notificar_tramitador(Request $request){
-      //dd($request);
+      
       $tramitador=User::where('id',$request['id_user_ad'])->first();
      
       $pago=DB::table('registro_pagos_anuncios')->where('id',$request['id_pago'])->first();
-      //dd($tramitador);
+      
       NotificacionAnuncio::dispatch($tramitador,
                             [auth()->user(),
                             Anuncio::where('anuncios.id',$request['id_anuncio'])->join('tramites','tramites.id','anuncios.id_tramite')->select('tramites.nombre_tramite','anuncios.ciudad')->first(),

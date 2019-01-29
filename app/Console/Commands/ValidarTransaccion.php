@@ -5,7 +5,10 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 
 use DB;
+use App\User;
 use Carbon\Carbon;
+use App\Events\NotificacionAnuncio;
+
 class ValidarTransaccion extends Command
 {
     /**
@@ -41,18 +44,42 @@ class ValidarTransaccion extends Command
     {
         //
         $pagos=DB::table('registro_pagos_anuncios')
-                ->where('estado_pago','PAGO A TRAMITADOR')    
-                ->whereDate('updated_at',Carbon::now()->subDays('3')->format('Y-m-d'))
+                 ->select('registro_pagos_anuncios.id as id_pago',
+                           'users.id',
+                           'users.nombre',
+                           'users.email',
+                           'users.telefono',
+                           'tramites.nombre_tramite',
+                           'anuncios.ciudad',
+                            'registro_pagos_anuncios.transactionId')   
+                ->join('anuncios','anuncios.id','registro_pagos_anuncios.id_anuncio')    
+                ->join('tramites','tramites.id','anuncios.id_tramite')    
+                ->join('users','users.id','anuncios.id_user')    
+                ->where('registro_pagos_anuncios.estado_pago','PAGO A TRAMITADOR')    
+                ->whereDate('registro_pagos_anuncios.updated_at',Carbon::now()->subDays('3')->format('Y-m-d'))
                 ->get();
         //dd($pagos);        
         foreach ($pagos as $key => $value) {
-              //var_dump($value->estado_pago);      
+                
               
-              DB::table('registro_pagos_anuncios')
-                ->where('id',$value->id)
-                ->update([
-                        "estado_pago"=>'PAGO TRAMITADOR CONFIRMADO'
-                    ]);    
+                   DB::table('registro_pagos_anuncios')
+                    ->where('id',$value->id_pago)
+                    ->update([
+                            "estado_pago"=>'PAGO TRAMITADOR CONFIRMADO'
+                        ]);  
+                //selecciono administradores
+                $uadmin=User::role('admin')->get();
+
+                $tramitador=User::where('id',$value->id)->get();
+                foreach ($uadmin as $key => $admin) {
+
+                       NotificacionAnuncio::dispatch($admin, [$tramitador[0],$value,config('app.url').'/admin/todas_las_transacciones?id='.$value->transactionId],0,"TransaccionFinalizadaAutomaticamenteAdministrador");  
+
+                       
+                } 
+                //notificacion al comerciante
+                NotificacionAnuncio::dispatch($tramitador[0], [$value,config('app.url').'/admin/ver_mis_ventas/'.$value->id.'/?id='.$value->transactionId],0,"TransaccionFinalizadaAutomaticamenteComerciante");       
+         
         }       
 
                 

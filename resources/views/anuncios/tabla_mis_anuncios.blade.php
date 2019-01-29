@@ -36,13 +36,24 @@
                     <h5 id="h5_estado_{{$ad->id}}" style="margin-left:25%;">Activo</h5>
 
                     <input id="rng_{{$ad->id}}" type="range" min="1" max="2" value="1" onchange="cambiar_estado_admin('{{$ad->id}}')" style="width: 50%; margin-left:25%; ">
+                    
+                     <div style="margin-left: 70px" class="col-10 col-offset-2"><label class="col-5">Activo</label><label class="col-2">-</label><label class="col-5">Bloqueado</label></div>
+                  
                   @elseif($ad->validez_anuncio=="Bloqueado")
                     <h5 id="h5_estado_{{$ad->id}}" style="margin-left:25%;" class="text-danger">Bloquedo</h5>
                     <input id="rng_{{$ad->id}}" type="range" min="1" max="2" value="2" onchange="cambiar_estado_admin('{{$ad->id}}')" style="width: 50%; margin-left:25%; ">
+                  
+                     <div style="margin-left: 70px" class="col-10 col-offset-2"><label class="col-5 ">Activo</label><label class="col-2">-</label><label class="col-5">Bloqueado</label></div>
+                 
                   @else
                     <h5 id="h5_estado_{{$ad->id}}" style="margin-left:25%;" class="text-danger">Sin publicar</h5>
                     <input id="rng_{{$ad->id}}" type="range" min="0" max="2" value="0" onchange="activar_anuncio_admin('{{$ad->id}}')" style="width: 50%; margin-left:25%; ">
+
+                     <div style="margin-left: 20px" class="col-12"><label class=" col-3 ">Sin publicar</label><label class="col-1">-</label><label class="col-3">Activo</label><label class="col-1">-</label><label class="col-3">Bloqueado</label></div>
+
                   @endif
+                 
+
               </td>
           @endrole
           @role('Anunciante')

@@ -25,10 +25,10 @@
             <thead>
               <tr>
                 <th>Tipo</th>    
+                <th>Estado venta</th>
                 <th>Trámite</th>      
                 <th>Comprador</th>
-                <th>Email Comprador</th>
-                <th>Estado venta</th>
+                <th>Email Comprador</th>                
                 <th>Valor vendido</th>
                 <th>Referecia de pago</th>
                 <th>Fecha transacción</th>
@@ -41,25 +41,28 @@
                   {{--dd($venta)--}}
                   <tr>                   
                     <td>venta</td>   
-                    <td>{{$venta->nombre_tramite}}</td>   
-                    <td>{{$venta->nombre}}</td>
-                    <td>{{$venta->email}}</td>
                     <td>
                       @if($venta->estado_pago=="PENDIENTE")
-                        PENDIENTE POR PAGO
+                        <span class="text-warning">Pendiente por pago</span>
                       @elseif($venta->estado_pago=="APROBADA")
-                        PAGO ACEPTADO
+                        <span class="text-primary">Pago del cliente aceptado</span>
                       @elseif($venta->estado_pago=="TRAMITE REALIZADO")  
-                        TRÁMITE REALIZADO
-                      @elseif($venta->estado_pago=="TRANSACCION FINALIZADA" || $venta->estado_pago=="PAGO A TRAMITADOR")  
-                        TRANSACCIÓN FINALIZADA
+                        <span class="text-info">Trámite realizado</span>
+                      @elseif($venta->estado_pago=="TRANSACCION FINALIZADA" )
+                        <span class="text-danger">Pendiente pago de {{config('app.name')}}</span>
+                      @elseif($venta->estado_pago=="PAGO A TRAMITADOR")  
+                        <span class="text-dark">Pago enviado por {{config('app.name')}}</span>
                       @elseif($venta->estado_pago=='PAGO TRAMITADOR CONFIRMADO')  
-                        TRANSACCIÓN FINALIZADA
+                        <span class="text-success">Pago hecho a tramitador</span>
                       @elseif($venta->estado_pago=="RECHAZADA")  
-                         VENTA RECHAZADA
+                        <span class="text-danger">Venta rechazada</span> 
                       @endif
                     </td>
                   
+                    <td>{{$venta->nombre_tramite}}</td>   
+                    <td>{{$venta->nombre}}</td>
+                    <td>{{$venta->email}}</td>
+                    
                     <td>$ {{number_format($venta->transation_value,0,',','.')}}</td>                                    
                     <td>{{$venta->transactionId}}</td>                                   
                     <td>{{$venta->updated_at}}</td>
@@ -87,7 +90,7 @@
                         </button>
                        
                       @elseif( $venta->estado_pago=="PAGO A TRAMITADOR" || $venta->estado_pago=="PAGO TRAMITADOR CONFIRMADO")
-                       TRANSACCIÓN FINALIZADA PAGO REALIZADO
+                       <span class="text-success">Transacción finalizada pago realizado</span>
                       @endif
                     </td>       
                   </tr>

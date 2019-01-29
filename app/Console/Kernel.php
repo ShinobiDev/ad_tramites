@@ -26,7 +26,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {    //EJECUTO EL COMANDO DIARIAMENTE A MEDIANOCHE   
          $schedule->command('ValidarTransaccion:ValidarTransaccion')
-                  ->daily();
+                  ->daily()
+                  ->timezone('America/Bogota');
     }
 
     /**

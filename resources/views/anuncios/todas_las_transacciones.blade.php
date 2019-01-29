@@ -28,11 +28,12 @@
               <tr>
                 
                 <th>Trámite</th>
+                <th>Estado transacción</th>
                 <th>Vendedor</th>
                 <th>Teléfono tramitador</th>
                 <th>E-mail tramitador</th>
                 <th>Cuenta bancaria tramitador</th>
-                <th>Estado transacción</th>
+                
                 <th>Valor transacción</th>
                 <th>% tu tramitador</th>
                 <th>Valor a pagar al tramitador</th>
@@ -47,28 +48,35 @@
               @foreach ($transacciones as $transaccion)
                   <tr>      
                      
-                    <td>{{$transaccion->nombre_tramite}}</td>   
+                    <td>{{$transaccion->nombre_tramite}}</td> 
+                     <td>
+                      @if($transaccion->estado_pago=="PENDIENTE")
+                        <span class="text-warning">Pendiente por pago del cliente</span>
+                      @elseif($transaccion->estado_pago=="APROBADA")
+                        <span class="text-primary">Pago del cliente aceptado</span>
+                      @elseif($transaccion->estado_pago=="TRAMITE REALIZADO")  
+                        <span class="text-info">Trámite realizado</span>
+                      @elseif($transaccion->estado_pago=="TRANSACCION FINALIZADA")  
+                         <span class="text-danger">Pendiente de pago al tramitador</span>
+                      @elseif($transaccion->estado_pago=="PAGO A TRAMITADOR")  
+                        <span class="text-dark">Pago enviado a tramitador</span>
+                      @elseif($transaccion->estado_pago=='PAGO TRAMITADOR CONFIRMADO')
+                        <span class="text-green">Pago hecho al tramitador </span>
+                      @elseif($transaccion->estado_pago=="RECHAZADA")  
+                        <span class="text-red">Transacción rechazada</span>
+                      @endif
+                    </td>         
                     <td>{{$transaccion->nombre}}</td>          
                     <td>{{$transaccion->telefono}}</td>          
                     <td>{{$transaccion->email}}</td>          
-                    <td>{{$transaccion->cuenta_bancaria or 'Sin registrar'}}</td>          
                     <td>
-                      @if($transaccion->estado_pago=="PENDIENTE")
-                        PENDIENTE POR PAGO
-                      @elseif($transaccion->estado_pago=="APROBADA")
-                        PAGO ACEPTADO
-                      @elseif($transaccion->estado_pago=="TRAMITE REALIZADO")  
-                        TRÁMITE REALIZADO
-                      @elseif($transaccion->estado_pago=="TRANSACCION FINALIZADA")  
-                        TRANSACCIÓN FINALIZADA
-                      @elseif($transaccion->estado_pago=="PAGO A TRAMITADOR")  
-                        PAGO ENVIADO A TRAMITADOR
-                      @elseif($transaccion->estado_pago=='PAGO TRAMITADOR CONFIRMADO')
-                        PAGO HECHO AL TRAMITADOR  
-                      @elseif($transaccion->estado_pago=="RECHAZADA")  
-                         transaccion RECHAZADA
-                      @endif
-                    </td>                      
+                        @if($transaccion->cuenta_bancaria!="")
+                          <span class="text-green">{{$transaccion->cuenta_bancaria}}</span>
+                        @else
+                          <span class="text-red">Sin registrar</span>
+                        @endif
+                    </td>          
+                                  
                                                        
                                                       
                     <td>$ {{number_format($transaccion->transation_value,0,',','.')}}</td>
