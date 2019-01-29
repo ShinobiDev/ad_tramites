@@ -3,7 +3,7 @@
 
 ![logo](http://tutramitador.com/core/img/logolarge.png)
 
-Estimad@ {{$user->nombre}}, Se ha realizado una nueva recarga Pendiente.
+Estimad@ {{$user->nombre}}, se ha realizado una nueva recarga.
 
 Recarga pendiente por valor: $ {{$recarga[1]['valor']}}  {{$recarga[1]['fecha']}}, solo falta que realices el pago.
 

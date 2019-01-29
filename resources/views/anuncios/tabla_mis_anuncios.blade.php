@@ -22,7 +22,7 @@
               <h4>{{$ad->nombre_tramite}}</h4>
             </strong>
           </td>
-          <td class=" text-center" style="width:20%"><strong><h5>{{$ad->descripcion}}</h5></strong></td>
+          <td class=" text-center" style="width:20%"><strong><h5 class="text-justify">{{$ad->descripcion}}</h5></strong></td>
           <td class=" text-center" style="width:15%"><strong><h5>{{$ad->ciudad}}</h5></strong></td>
           <td class="text-center" style="width:25% padding: 0px">
 
@@ -35,13 +35,13 @@
                   @if($ad->validez_anuncio=="Activo")
                     <h5 id="h5_estado_{{$ad->id}}" style="margin-left:25%;">Activo</h5>
 
-                    <input id="rng_{{$ad->id}}" type="range" min="0" max="1" value="1" onchange="cambiar_estado_admin('{{$ad->id}}')" style="width: 50%; margin-left:25%; ">
+                    <input id="rng_{{$ad->id}}" type="range" min="1" max="2" value="1" onchange="cambiar_estado_admin('{{$ad->id}}')" style="width: 50%; margin-left:25%; ">
                   @elseif($ad->validez_anuncio=="Bloqueado")
                     <h5 id="h5_estado_{{$ad->id}}" style="margin-left:25%;" class="text-danger">Bloquedo</h5>
-                    <input id="rng_{{$ad->id}}" type="range" min="0" max="1" value="0" onchange="cambiar_estado_admin('{{$ad->id}}')" style="width: 50%; margin-left:25%; ">
+                    <input id="rng_{{$ad->id}}" type="range" min="1" max="2" value="2" onchange="cambiar_estado_admin('{{$ad->id}}')" style="width: 50%; margin-left:25%; ">
                   @else
                     <h5 id="h5_estado_{{$ad->id}}" style="margin-left:25%;" class="text-danger">Sin publicar</h5>
-                    <input id="rng_{{$ad->id}}" type="range" min="0" max="1" value="0" onchange="activar_anuncio_admin('{{$ad->id}}')" style="width: 50%; margin-left:25%; ">
+                    <input id="rng_{{$ad->id}}" type="range" min="0" max="2" value="0" onchange="activar_anuncio_admin('{{$ad->id}}')" style="width: 50%; margin-left:25%; ">
                   @endif
               </td>
           @endrole

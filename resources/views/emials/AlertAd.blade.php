@@ -3,7 +3,7 @@
 
 ![logo](http://tutramitador.com/core/img/logolarge.png)
 
-Estimad@ {{$user->nombre}}, Tus clic se esta agotando
+Estimad@ {{$user->nombre}}, tus clic se esta agotando
 
 ## BALANCE DE RECARGA ##
 $ {{number_format($recarga,0,'.','.')}} 

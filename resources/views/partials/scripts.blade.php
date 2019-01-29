@@ -175,7 +175,7 @@
               if(rs.respuesta[0].validez_anuncio=='Activo'){
                 es='Activo';
               }else{
-                es='Sin publicar';
+                es='Bloquedo';
               }
               document.getElementById("h5_estado_"+id).innerHTML=es;
            });

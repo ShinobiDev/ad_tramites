@@ -316,6 +316,7 @@ class AnuncioController extends Controller
                             DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
                 ->join('users','users.id','anuncios.id_user')
                 ->join('tramites','tramites.id','anuncios.id_tramite')
+                ->orderBy('validez_anuncio','DESC')
                 ->get();
                 $tramites=Tramite::select('tramites.id','tramites.nombre_tramite')
                                 ->join('anuncios','tramites.id','anuncios.id_tramite')
@@ -342,6 +343,7 @@ class AnuncioController extends Controller
                 ->join('users','users.id','anuncios.id_user')
                 ->join('tramites','tramites.id','anuncios.id_tramite')
                 ->where('users.id',auth()->user()->id)
+                ->orderBy('estado_anuncio','DESC')
                 ->get();
                 $tramites=Tramite::select('tramites.id','tramites.nombre_tramite')
                                 ->join('anuncios','tramites.id','anuncios.id_tramite')
@@ -542,12 +544,12 @@ class AnuncioController extends Controller
                 $est='Activo';
                 NotificacionAnuncio::dispatch(User::where('id',$ad[0]->id_user)->first(), [$ad[0]],auth()->user()->valor_recarga,"AnuncioHabilitado");
 
-            }else{
+            }elseif($estado=='2'){
                 $est='Bloqueado';
                 NotificacionAnuncio::dispatch(User::where('id',$ad[0]->id_user)->first(), [$ad[0]],auth()->user()->valor_recarga,"AnuncioBloqueado");
 
             }
-            //dd($est);
+              //dd($est);
             Anuncio::where("id",$id)->update(["validez_anuncio"=>$est]);
             return response()->json(["respuesta"=>Anuncio::where("id",$id)->select("validez_anuncio")->get()]);
         }else{
@@ -599,8 +601,9 @@ class AnuncioController extends Controller
                 NotificacionAnuncio::dispatch($us_ad[0], [$ad[0]],auth()->user()->valor_recarga,"AnuncioPublicado");
 
             }else{
-                $est='Sin publicar';
-                NotificacionAnuncio::dispatch($us_ad[0], [$ad[0]],auth()->user()->valor_recarga,"AnuncioDeshabilitado");
+                $est='Bloqueado';
+                /*NotificacionAnuncio::dispatch($us_ad[0], [$ad[0]],auth()->user()->valor_recarga,"AnuncioDeshabilitado");]*/
+                NotificacionAnuncio::dispatch($us_ad[0], [$ad[0]],$us_ad[0]->valor_recarga,"AnuncioBloqueado");
 
             }
             //dd($est);

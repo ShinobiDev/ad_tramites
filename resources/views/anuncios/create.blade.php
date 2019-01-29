@@ -8,7 +8,7 @@
 @section('content')
       <body class="server-prod session-anonymous">
         <div class="container">
-          <h1 class="text-center">Crea un anuncio para ofertar tramites</h1>
+          <h1 class="text-center">Crea un anuncio para ofertar trámites</h1>
 
 
 
@@ -17,7 +17,7 @@
 
 
               <div id="identification_hint" class="col-md-12 display-none">
-                <h2 class="text-center">Normas y requisitos de anuncios</h2>
+                <h2 class="text-center">Normas y requisitos de los anuncios</h2>
 
                   <noscript>
                       <div class="row">

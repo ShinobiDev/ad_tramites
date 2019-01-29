@@ -74,27 +74,44 @@
                         <button id="{{'btn_cal_'.$venta->id_pago}}" type="button" class="btn btn-primary" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_notificar_comprador'.$venta->id_pago}}','{{$venta->id_pago}}','0',false)" >
                             Notificar al comprador
                         </button>
-                        @include('partials.notificar_comprador',['ad'=>$venta])
-
+                        
 
                         <button id="{{'btn_cal_'.$venta->id_pago}}" type="button" class="btn btn-success" data-toggle="modal" onclick="descontar_recargar('{{ 'notificar_tramite_finalizado_comprador'.$venta->id_pago}}','{{$venta->id_pago}}','0',false)" >
-                            Notificar tramite realizado
+                            Notificar trámite realizado
                         </button>
-                        @include('partials.notificar_tramite_finalizado_comprador',['ad'=>$venta])
+                      
                       
                       @elseif($venta->estado_pago=="TRANSACCION FINALIZADA" )  
                         <button id="{{'btn_cal_'.$venta->id_pago}}" type="button" class="btn btn-success" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_pago_de_tramitador'.$venta->id_pago}}','{{$venta->id_pago}}','0',false)" >
                             Confirmar pago de {{config('app.name')}}
                         </button>
-                        @include('partials.confirmar_pago_de_tramitador',['ad'=>$venta])
+                       
                       @elseif( $venta->estado_pago=="PAGO A TRAMITADOR" || $venta->estado_pago=="PAGO TRAMITADOR CONFIRMADO")
-                       TRANSACCION FINALIZADA PAGO REALIZADO
+                       TRANSACCIÓN FINALIZADA PAGO REALIZADO
                       @endif
                     </td>       
                   </tr>
               @endforeach
             </tbody>
           </table>
+          <!--VENTANAS-->
+          @foreach ($mis_ventas as $venta)
+                 
+                      @if($venta->estado_pago=="APROBADA")
+                        
+                        @include('partials.notificar_comprador',['ad'=>$venta])
+
+
+                       
+                        @include('partials.notificar_tramite_finalizado_comprador',['ad'=>$venta])
+                      
+                      @elseif($venta->estado_pago=="TRANSACCION FINALIZADA" )  
+                       
+                        @include('partials.confirmar_pago_de_tramitador',['ad'=>$venta])
+                     
+                      @endif
+                    
+              @endforeach
       </div>
     </div>
   </div>

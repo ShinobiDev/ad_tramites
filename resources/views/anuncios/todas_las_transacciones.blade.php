@@ -27,7 +27,7 @@
             <thead>
               <tr>
                 
-                <th>Tramite</th>
+                <th>Trámite</th>
                 <th>Vendedor</th>
                 <th>Teléfono tramitador</th>
                 <th>E-mail tramitador</th>
@@ -113,7 +113,7 @@
                       @endif
               @endif
                           
-              @include('partials.confirmar_pago_a_tramitador',['ad'=>$transaccion,'valor'=>number_format($transaccion->transation_value-($transaccion->transation_value*$porcentaje[0]->valor/100),0,',','.')])
+                      @include('partials.confirmar_pago_a_tramitador',['ad'=>$transaccion,'valor'=>number_format($transaccion->transation_value-($transaccion->transation_value*$porcentaje[0]->valor/100),0,',','.')])
 
                       
               @endforeach

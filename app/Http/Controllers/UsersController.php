@@ -896,7 +896,9 @@ class UsersController extends Controller
      * @return [type]     [description]
      */
     public function actualizar_certificacion_bancaria(Request $request,$id){
-        
+        $this->validate(request(),[
+            'file'=>'required|max:10240|mimetypes:application/pdf'
+        ]);
         $filename = $request->file('file')->move('archivos/'.$id);
           $newname="/certificacion_bancaria.".explode(".",$_FILES['file']['name'])[1];
         rename($filename,realpath(dirname($filename)).$newname);

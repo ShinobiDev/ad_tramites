@@ -18,7 +18,7 @@
                   <tr>
                   <td class="text-green text-center"><strong><h4>{{$ad->id}}-</h4></strong></td>  
                   <td class="text-green text-center"><strong><h4>{{$ad->nombre_tramite}}</h4></strong></td>
-                  <td class="text-center"><strong><h5>{{$ad->descripcion}}</h5></strong></td>
+                  <td class="text-center"><strong><h5 class="text-justify">{{$ad->descripcion}}</h5></strong></td>
                   <td class="text-center"><strong><h5>{{$ad->ciudad}}</h5></strong></td>
                   <td class="text-center"><strong><h5>$ {{number_format($ad->valor_tramite,0,',','.')}}</h5></strong></td>
                   <td>

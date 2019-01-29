@@ -10,7 +10,7 @@ Estimad@ {{$user->nombre}}, hemos registrado una compra exitosa en  {{ config('a
 
 # Nombre usuario: 
 {{$ad[0]->nombre}}
-# Télefono:
+# Teléfono:
  {{$ad[0]->telefono}}
 # Correo electrónico:
  {{$ad[0]->email}}

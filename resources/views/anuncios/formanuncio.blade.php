@@ -11,41 +11,7 @@
 
                </div>
              </div>
-             <div class="row " id="row_id_ad-online_provider">
-                {{-- <div id="div_id_ad-online_provider" class="col-md-2 label-col form-group">
-                  <label for="id_ad-online_provider" class="control-label requiredField"> Forma de pago </label>
-                </div>
-                <div class="col-md-3">
-                  <div class="controls">
-                    <select class="select form-control" id="id_ad-online_provider" name="ad-online_provider">
-                       <option value="NATIONAL_BANK">Transferencia bancaria nacional</option>
-                    </select>
-                  </div>
-                </div>
-                  <div class="col-md-7 two-col-help-text">
-                     <div id="online-payment-method-description" style="display: none">
-                              <strong id="payment-method-name"></strong>
-                                <p id="payment-method-description"></p>
-                        <div id="online-sell-risk">
-                          <p>
-                              El riesgo asociado a la venta de criptomonedas online con esta forma de pago es <strong id="risk-level"></strong>.
-                         </p>
-                         <p>
-                              Infórmese sobre los niveles de riesgo en
-                              <a href="/guides/how-to-sell-bitcoins-online#risk-level"><i class="icon icon-info"></i> nuestra guía de venta online</a>.
-                         </p>
-                       </div>
-                       <div id="online-buy-risk">
-                         <p>
-                           La compra de criptomonedas online está protegida por el depósito en garantía de <a href="/">MetalBit</a>
-                         </p>
-                         <p>
-                           Para más información, consulte <a target="_blank" href="/security/"><i class="icon icon-info"></i> nuestra guía de seguridad</a>.
-                         </p>
-                     </div>
-                    </div>
-                  </div>--}}
-             </div>
+             
             </fieldset>
 
             <fieldset>

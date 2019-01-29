@@ -27,7 +27,7 @@
             <thead>
               <tr>
                 <th>Tipo</th>
-                <th>Tramite</th>
+                <th>Trámite</th>
                 <th>Vendedor</th>
                 <th>Teléfono tramitador</th>
                 <th>E-mail tramitador</th>
@@ -74,14 +74,12 @@
                         <button id="{{'btn_cal_'.$compra->id_pago}}" type="button" class="btn btn-primary" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_notificar_tramitador'.$compra->id_pago}}','{{$compra->id_pago}}','0',false)" >
                             Notificar al tramitador
                         </button>
-                        @include('partials.notificar_tramitador',['ad'=>$compra])
-                        
                         @if($compra->calificacion==null)
 
                           <button id="{{'btn_cal_'.$compra->id_pago}}" type="button" class="btn btn-success" data-toggle="modal" onclick="descontar_recargar('{{ 'infocalificar'.$compra->id_pago}}','{{$compra->id_pago}}','0',false)" >
                               Confirmar trámite
                           </button>
-                          @include('partials.btn_calificar_anunciante_venta_realizada',['ad'=>$compra])
+                          
                         @endif  
 
 
@@ -100,7 +98,17 @@
 
             </tbody>
           </table>
-          <!--VENTANA ENVIO DOCUMENTACION -->
+          <!--VENTANAS -->
+           @foreach ($mis_compras as $compra)                 
+                          
+                      @if($compra->estado_pago=="APROBADA")                       
+                        @include('partials.notificar_tramitador',['ad'=>$compra])                        
+                        @if($compra->calificacion==null)                         
+                          @include('partials.btn_calificar_anunciante_venta_realizada',['ad'=>$compra])
+                        @endif                   
+                        
+                      @endif
+           @endforeach
           
       </div>
       

@@ -137,7 +137,7 @@
             <script>
               $(document).ready(function() {
               $('#mis_recargas-table').DataTable( {
-                  responsive: true,
+                  //responsive: true,
                   dom: 'Bfrtip',
                   buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
                   language:
@@ -188,10 +188,7 @@
         ls.innerHTML="";
         for(var f in rs.datos){
           var tr=document.createElement("tr");
-          var td=document.createElement("td");
-          td.innerHTML=rs.datos[f].id;
-          tr.appendChild(td);
-
+          
           
           var td=document.createElement("td");
           td.innerHTML=rs.datos[f].nombre;

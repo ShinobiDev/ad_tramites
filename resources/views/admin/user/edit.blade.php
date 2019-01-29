@@ -37,7 +37,7 @@
                                 <input type="text" name="cuenta_bancaria" value="{{ $user->cuenta_bancaria or ''}}" class="form-control" minlength=6 maxlength=13>
                             </div>
                             <div class="form-group">
-                                <label for="phone">Certificación bancaria:</label>
+                                <label for="phone">Certificación bancaria (solo es valido en formato .pdf):</label>
                                 
                                 {{--dd($user->certificacion_bancaria)--}}
                                 @if($user->certificacion_bancaria != null)
@@ -260,7 +260,16 @@
                       cache: false,
                       success: function(data) {
                           document.getElementById("msnEspera").innerHTML=data.mensaje;
-                  }
+                      },
+                      error:function(data){
+                        console.log(data);
+                        if(data.responseJSON.message=="The given data was invalid."){
+                          document.getElementById("msnEspera").innerHTML="El formato del archivo debe ser .pdf";  
+                        }else{
+                          document.getElementById("msnEspera").innerHTML=data.responseJSON.message;
+                        }
+                        
+                      }
               });
       }
     </script>

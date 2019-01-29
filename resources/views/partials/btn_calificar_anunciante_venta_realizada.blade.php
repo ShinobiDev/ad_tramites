@@ -61,7 +61,7 @@
 
                     </div>
                     <!--<button id="btn_calificar" type="submit" class="btn btn-primary">Calificar</button>-->
-                    <input type="button" value="Calificar" class="btn btn-primary" onclick="calificar_anunciante('{{$ad->id_pago}}')">
+                    <input id="btn_califica_{{$ad->id_pago}}" type="button" value="Calificar" class="btn btn-primary" onclick="calificar_anunciante('{{$ad->id_pago}}')">
             </form>
        </div>
 
@@ -130,8 +130,8 @@
            //console.log(form);
             peticion_ajax("post","admin/calificar_venta",form,function(rs){
               mensaje(rs);
-              salir_modal('infocalificar'+id_modal);
-              document.getElementById("btn_cal_"+id_modal).style.display='none';
+              salir_modal('infocalificar'+id_modal);              
+              document.getElementById("btn_califica_"+id_modal).style.display='none';
               window.scrollTo(0, 400);
             });
 
