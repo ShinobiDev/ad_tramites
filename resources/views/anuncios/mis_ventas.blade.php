@@ -71,18 +71,18 @@
                     </td> 
                     <td>
                       @if($venta->estado_pago=="APROBADA")
-                        <button id="{{'btn_cal_'.$venta->id_pago}}" type="button" class="btn btn-primary" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_notificar_comprador'.$venta->id_pago}}','{{$venta->id_pago}}','0',false)" >
+                        <button id="{{'btn_cal_'.$venta->id_pago}}" type="button" class="btn btn-primary btn-block" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_notificar_comprador'.$venta->id_pago}}','{{$venta->id_pago}}','0',false)" >
                             Notificar al comprador
                         </button>
                         
 
-                        <button id="{{'btn_cal_'.$venta->id_pago}}" type="button" class="btn btn-success" data-toggle="modal" onclick="descontar_recargar('{{ 'notificar_tramite_finalizado_comprador'.$venta->id_pago}}','{{$venta->id_pago}}','0',false)" >
+                        <button id="{{'btn_cal_'.$venta->id_pago}}" type="button" class="btn btn-success btn-block" data-toggle="modal" onclick="descontar_recargar('{{ 'notificar_tramite_finalizado_comprador'.$venta->id_pago}}','{{$venta->id_pago}}','0',false)" >
                             Notificar trámite realizado
                         </button>
                       
                       
                       @elseif($venta->estado_pago=="TRANSACCION FINALIZADA" )  
-                        <button id="{{'btn_cal_'.$venta->id_pago}}" type="button" class="btn btn-success" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_pago_de_tramitador'.$venta->id_pago}}','{{$venta->id_pago}}','0',false)" >
+                        <button id="{{'btn_cal_'.$venta->id_pago}}" type="button" class="btn btn-success btn-block" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_pago_de_tramitador'.$venta->id_pago}}','{{$venta->id_pago}}','0',false)" >
                             Confirmar pago de {{config('app.name')}}
                         </button>
                        

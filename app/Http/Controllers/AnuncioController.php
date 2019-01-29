@@ -280,8 +280,12 @@ class AnuncioController extends Controller
         }
 
         NotificacionAnuncio::dispatch(auth()->user(),["Hemos registrado ".$msn],auth()->user()->valor_recarga,"AnuncioCreado");
+
         $uadmin=User::role('admin')->get();
-        NotificacionAnuncio::dispatch($uadmin[0],["Hemos registrado ".$msn],auth()->user()->valor_recarga,"AnuncioCreadoAdmin");
+
+        foreach ($uadmin as $key => $value) {
+          NotificacionAnuncio::dispatch($value,["Hemos registrado ".$msn],auth()->user()->valor_recarga,"AnuncioCreadoAdmin");
+        }
 
         return response()->json(["respuesta"=>true,"mensaje"=>"Hemos registrado ".$msn,"cambio_rol"=>$cambio_rol]);
 

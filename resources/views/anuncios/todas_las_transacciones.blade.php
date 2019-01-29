@@ -81,16 +81,16 @@
                           
                       @if($transaccion->estado_pago=="TRANSACCION FINALIZADA")    
                           @if($transaccion->cuenta_bancaria == '' )    
-                            <button id="{{'btn_cal_'.$transaccion->id_pago}}" type="button" class="btn btn-primary" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_notificar_tramitador'.$transaccion->id_pago}}','{{$transaccion->id_pago}}','0',false)" >
+                            <button id="{{'btn_cal_'.$transaccion->id_pago}}" type="button" class="btn btn-primary btn-block" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_notificar_tramitador'.$transaccion->id_pago}}','{{$transaccion->id_pago}}','0',false)" >
                             Notificar al tramitador
                         </button>
-                        {{--@include('partials.notificar_tramitador',['ad'=>$transaccion])--}}
+                        
 
                           @endif
-                          <button id="{{'btn_cal_'.$transaccion->id_pago}}" type="button" class="btn btn-success" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_pago_a_tramitador'.$transaccion->id_pago}}','{{$transaccion->id_pago}}','0',false)" >Confirmar pago a tramitador
+                          <button id="{{'btn_cal_'.$transaccion->id_pago}}" type="button" class="btn btn-success btn-block" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_pago_a_tramitador'.$transaccion->id_pago}}','{{$transaccion->id_pago}}','0',false)" >Confirmar pago a tramitador
                           </button>
                           
-                          {{--@include('partials.confirmar_pago_a_tramitador',['ad'=>$transaccion,'valor'=>number_format($transaccion->transation_value-($transaccion->transation_value*$porcentaje[0]->valor/100),0,',','.')])--}}
+                         
 
                       @elseif($transaccion->estado_pago=="APROBADA") 
                            Pendiente confirmación cliente   

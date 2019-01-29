@@ -71,12 +71,12 @@
                     <td>
                           
                       @if($compra->estado_pago=="APROBADA")
-                        <button id="{{'btn_cal_'.$compra->id_pago}}" type="button" class="btn btn-primary" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_notificar_tramitador'.$compra->id_pago}}','{{$compra->id_pago}}','0',false)" >
+                        <button id="{{'btn_cal_'.$compra->id_pago}}" type="button" class="btn btn-primary btn-block" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_notificar_tramitador'.$compra->id_pago}}','{{$compra->id_pago}}','0',false)" >
                             Notificar al tramitador
                         </button>
                         @if($compra->calificacion==null)
 
-                          <button id="{{'btn_cal_'.$compra->id_pago}}" type="button" class="btn btn-success" data-toggle="modal" onclick="descontar_recargar('{{ 'infocalificar'.$compra->id_pago}}','{{$compra->id_pago}}','0',false)" >
+                          <button id="{{'btn_cal_'.$compra->id_pago}}" type="button" class="btn btn-success btn-block" data-toggle="modal" onclick="descontar_recargar('{{ 'infocalificar'.$compra->id_pago}}','{{$compra->id_pago}}','0',false)" >
                               Confirmar trámite
                           </button>
                           

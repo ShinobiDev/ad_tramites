@@ -5,7 +5,7 @@
 
 Estimad@ {{$user->nombre}}, hemos registrado que uno de los usuario ha creado anuncios, te invitamos a que los verifiques y publiques
 
-#[Ir a {{config('app.url')}}][1]
+#[Ir a {{config('app.name')}}][1]
 [1]:{{$url}}#
 
 
