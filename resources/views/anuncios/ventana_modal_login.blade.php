@@ -17,11 +17,7 @@
                     <label for="email" class="col-md-4 control-label">E-Mail </label>
 
                     <div class="col-md-6">
-                        <input id="email{{$ad->id}}" type="email" class="form-control" name="email" value="{{ old('email') }}" onchange="agregar_correo(this,'{{$ad->id}}')" required autofocus>
-
-                        
-                            
-                        
+                        <input id="email{{$ad->id}}" type="email" class="form-control" name="email" value="{{ old('email') }}" onchange="agregar_correo(this,'{{$ad->id}}')" required autofocus>                        
                     </div>
                 </div>
 

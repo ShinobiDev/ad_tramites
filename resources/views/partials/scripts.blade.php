@@ -389,12 +389,17 @@
         }else if(event==false){
           var data=$('#formLogin_'+id).serializarFormulario();
           enviar_peticion_login(id,data);
-        }
-        
-        
-        
+        }        
     }
+    /**
+     * FUNCION PARA ENVIAR PETICION DE LOGIN
+     * @param  {[type]} id   [description]
+     * @param  {[type]} data [description]
+     * @return {[type]}      [description]
+     */
     function enviar_peticion_login(id,data){
+      mostrar_cargando("error_login_"+id,10,"Estamos validando un momento, por favor...");
+
       $.ajax({
           type: "POST",
           url: "{{route('login')}}",
