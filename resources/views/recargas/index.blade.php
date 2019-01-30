@@ -102,6 +102,7 @@
           <script>
               $(document).ready(function() {
               $('#recargas-table').DataTable( {
+                  stateSave: true,
                   responsive: true,
                   dom: 'Bfrtip',
                   buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],

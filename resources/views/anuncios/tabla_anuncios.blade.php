@@ -13,7 +13,7 @@
         {{--se crean las tablas de ventas--}}
         @foreach ($anuncios as $ad)
 
-         <tr>
+         <tr id="row_{{$ad->id}}">
             <td class="text-green text-center">
               <strong><h5> {{$ad->nombre_tramite}}</h5></strong>              
             </td>
@@ -41,9 +41,7 @@
 
                       <button id="{{'btn_'.$ad->cod_anuncio}}" type="button" class="btn btn-default btn-block" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_login'.$ad->id}}','{{$ad->id}}','0','venta')">
                         Comprar
-                      </button>
-
-                      
+                      </button>                      
               @else
                     @if($ad->btn_info)
                       @if($ad->visto!="")

@@ -80,6 +80,7 @@ class AnuncioController extends Controller
                           ])
                   ->whereIn('users.id',$arr)
                   ->orderBy('users.valor_recarga','DESC')
+                  ->orderBy('anuncios.id','DESC')
                   ->get();       
                 }elseif($_REQUEST['ciudad']!= "" && $_REQUEST['tramite']== "0"){
                   $anuncios_consultados= Anuncio::select('anuncios.id',
@@ -107,6 +108,7 @@ class AnuncioController extends Controller
                           ])
                   ->whereIn('users.id',$arr)
                   ->orderBy('users.valor_recarga','DESC')
+                  ->orderBy('anuncios.id','DESC')
                   ->get();
                 }elseif($_REQUEST['ciudad']== "0" && $_REQUEST['tramite']!= ""){
                   
@@ -128,12 +130,13 @@ class AnuncioController extends Controller
                   ->join('users','users.id','anuncios.id_user')
                   ->join('tramites','tramites.id','anuncios.id_tramite')
                   ->where([
-                              ['anuncios.estado_anuncio','1'],
+                              ['anuncios.estado_anuncio','=','1'],
                               ['validez_anuncio','Activo'],
                               ['tramites.nombre_tramite','LIKE',$_REQUEST['tramite']]
                           ])
                   ->whereIn('users.id',$arr)
                   ->orderBy('users.valor_recarga','DESC')
+                  ->orderBy('anuncios.id','DESC')
                   ->get();
                 }
 
@@ -162,9 +165,10 @@ class AnuncioController extends Controller
                                                    DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
                     ->join('users','users.id','anuncios.id_user')
                     ->join('tramites','tramites.id','anuncios.id_tramite')
-                    ->where([['anuncios.estado_anuncio','1'],['validez_anuncio','Activo']])
+                    ->where([['anuncios.estado_anuncio','=','1'],['validez_anuncio','Activo']])
                     ->whereIn('users.id',$arr)
                     ->orderBy('users.valor_recarga','DESC')
+                    ->orderBy('anuncios.id','DESC')
                     ->get();
                 }else{
                     $msn="Gracias por usar ".config('app.name');
@@ -188,9 +192,10 @@ class AnuncioController extends Controller
                                                    DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
                 ->join('users','users.id','anuncios.id_user')
                 ->join('tramites','tramites.id','anuncios.id_tramite')
-                ->where([['anuncios.estado_anuncio','1'],['validez_anuncio','Activo']])
+                ->where([['anuncios.estado_anuncio','=','1'],['validez_anuncio','Activo']])
                 ->whereIn('users.id',$arr)
                 ->orderBy('users.valor_recarga','DESC')
+                ->orderBy('anuncios.id','DESC')
                 ->get();
                 $msn="Gracias por usar ".config('app.name').' ';
             }
@@ -204,6 +209,7 @@ class AnuncioController extends Controller
                                 ->where('anuncios.estado_anuncio','1')
                                 ->whereIn('anuncios.id_user',$arr)
                                 ->get();
+           //dd($arr_anuncios);
            //dd($no_tiene);
            if($no_tiene){
                  //dd($msn);

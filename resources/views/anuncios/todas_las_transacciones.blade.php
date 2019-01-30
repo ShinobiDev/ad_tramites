@@ -143,6 +143,7 @@
             $(document).ready(function() {
                 console.log("5");
                 $('#transacciones-table').DataTable( {
+                    stateSave: true,
                     responsive: true,
                     dom: 'Bfrtip',
                     buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],

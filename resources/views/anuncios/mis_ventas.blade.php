@@ -125,6 +125,7 @@
           <script>
               $(document).ready(function() {
               $('#ventas-table').DataTable( {
+                  stateSave: true,
                   responsive: true,
                   dom: 'Bfrtip',
                   buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],

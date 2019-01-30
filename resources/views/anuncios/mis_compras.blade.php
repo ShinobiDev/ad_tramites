@@ -116,6 +116,7 @@
             $(document).ready(function() {
                 console.log("5");
                 $('#compras-table').DataTable( {
+                    stateSave: true,
                     responsive: true,
                     dom: 'Bfrtip',
                     buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],

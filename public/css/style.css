@@ -89,3 +89,9 @@ br {
   	width: 100%;
   }
 }
+/*
+estilo der fila seleccionada
+ */
+.fondo_fila{
+	    background-color:#b77171;
+}

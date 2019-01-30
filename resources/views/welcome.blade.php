@@ -51,7 +51,9 @@
              <script>
                   $(function (){
                       $('#users-table').DataTable({
-                        responsive: true,
+
+                        stateSave: true,
+                        'responsive': true,
                         'language':
                           {
                             "sProcessing":     "Procesando...",
@@ -78,12 +80,16 @@
                             }
                         }
                       });
+                      /*$('#users-table').on( 'page.dt',   function (e) { 
+                        alert('Page'+e.page() ); 
+                        console.log(e);} ).datatable();*/
                   });
              </script>
 
              <script>
                   $(function (){
                       $('#comprar-table').DataTable({
+                        stateSave: true,
                         responsive: true,
                         'language':
                           {

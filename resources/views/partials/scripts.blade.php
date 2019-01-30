@@ -381,10 +381,21 @@
     /*
     Funcion para realizar login
      */
-    function login(id){
-        var data=$('#formLogin_'+id).serializarFormulario();
+    function login(id,event){
+        //se ejecurta solo si es enter
+        if(event != undefined && event.which == 13 || event.keyCode == 13){
+          var data=$('#formLogin_'+id).serializarFormulario();  
+          enviar_peticion_login(id,data);
+        }else if(event==false){
+          var data=$('#formLogin_'+id).serializarFormulario();
+          enviar_peticion_login(id,data);
+        }
         
-        $.ajax({
+        
+        
+    }
+    function enviar_peticion_login(id,data){
+      $.ajax({
           type: "POST",
           url: "{{route('login')}}",
           data: data,

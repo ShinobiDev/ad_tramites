@@ -101,6 +101,7 @@
             <script>
               $(document).ready(function() {
               $('#mis_bonificaciones-table').DataTable( {
+                  stateSave: true,
                   responsive: true,
                   dom: 'Bfrtip',
                   buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],

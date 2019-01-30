@@ -47,6 +47,7 @@
            
                   $(function (){
                       $('#users-table').DataTable({
+                        stateSave: true,
                         responsive: true,
                         'language':
                           {
