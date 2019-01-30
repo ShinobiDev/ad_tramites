@@ -11,6 +11,7 @@ use App\Anuncio;
 use Carbon\Carbon;
 use App\Events\NotificacionAnuncio;
 use DB;
+
 class User extends Authenticatable
 {
     use Notifiable, HasRoles;
@@ -156,13 +157,13 @@ class User extends Authenticatable
                                         REGISTRO LAS BONIFICACIONES
                                          */
                                         if(count($id_ref)>0){
-                                            $tot_recargas=detalle_recargas::where("id_user",$cliente[0]->id)->get();
+                                            $tot_recargas=DB::table('detalle_recargas')->where("id_usuario",$cliente[0]->id)->get();
 
                                             if(count($tot_recargas)==0){
                                                 //aunentoo el 10% de la recarga 
                                                 $val_rec=(float)$req['TX_VALUE']*0.10;
                                                 DB::table("detalle_recargas")->insert([
-                                                        'id_user' => $id_ref[0]->id_referido,
+                                                        'id_usuario' => $id_ref[0]->id_referido,
                                                         'valor_recarga'=>$val_rec,
                                                         "referencia_pago"=>time().$cliente[0]->id,
                                                          "referencia_pago_pay_u"=>time().$cliente[0]->id,
@@ -175,7 +176,7 @@ class User extends Authenticatable
                                                 DB::table("bonificaciones")->insert(
                                                             ["tipo_bonificacion"=>"RECARGA",
                                                             "fk_id_detalle_referido"=>$id_ref[0]->id,
-                                                            "valor"=>$val_rec   ]);
+                                                            "valor_bonificacion"=>$val_rec   ]);
 
                                                 User::where("id",$id_ref[0]->id_referido)->increment("valor_recarga",$val_rec);
 
@@ -187,7 +188,7 @@ class User extends Authenticatable
                                                 $val_rec=(float)$req['TX_VALUE']*0.01;  
                                                 
                                                 DB::table("detalle_recargas")->insert([
-                                                        'id_user' => $id_ref[0]->id_referido,
+                                                        'id_usuario' => $id_ref[0]->id_referido,
                                                         'valor_recarga'=>$val_rec,
                                                         "referencia_pago"=>time().$cliente[0]->id,
                                                          "referencia_pago_pay_u"=>time().$cliente[0]->id,
@@ -199,9 +200,9 @@ class User extends Authenticatable
                                                 DB::table("bonificaciones")->insert(
                                                             ["tipo_bonificacion"=>"RECARGA",
                                                             "fk_id_detalle_referido"=>$id_ref[0]->id,
-                                                            "valor"=>$val_rec   ]);
+                                                            "valor_bonificacion"=>$val_rec   ]);
 
-                                                User::where("user_id",$id_ref[0]->id_referido)->increment("valor_recarga",$val_rec);
+                                                User::where("id",$id_ref[0]->id_referido)->increment("valor_recarga",$val_rec);
                                             }
                                         }
                                         

@@ -68,6 +68,7 @@
                     <h5 id="h5_estado_{{$ad->id}}" style="margin-left:25%;">Inactivo</h5>
                     <input id="rng_{{$ad->id}}" type="range" min="0" max="1" value="0" onchange="cambiar_estado('{{$ad->id}}')" style="width: 50%; margin-left:25%; ">
                   @endif
+                   <div style="margin-left: 100px" class="col-12"><label class="col-5">Inactivo</label><label class="col-1">-</label><label class="col-5">Activo</label></div>
               @else
                 <h5 id="h5_estado_{{$ad->id}}" style="margin-left:25%;" class="text-danger">{{$ad->validez_anuncio}}</h5>
               @endif

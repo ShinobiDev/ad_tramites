@@ -84,24 +84,24 @@ class Anuncio extends Model
                 $horarios=$u->ver_horarios($value->id_user,date('w'));
                 //dd($horarios);
                 //dd([$value->costo_clic,$value->valor_recarga,$horarios["respuesta"]]);
-                if(((float)$value->costo_clic > (float)$value->valor_recarga) || $horarios["respuesta"]==false || (float)$value->valor_recarga == 0  || $horarios['respuesta'] == false){
-
+                if(((float)$value->costo_clic > (float)$value->valor_recarga) || (float)$value->valor_recarga == 0  ){
+                        //|| $horarios['respuesta'] == false
                         //aqui se valida si se muestra o no los anuncios de acuerdo al horario
-                        //$mostrar_info=false;
+                        $mostrar_info=false;
 
-                        //$mostrar_payu=false;
+                        $mostrar_payu=false;
 
                 }
                 $cod=$value->codigo_anuncio.'-'.$value->id.'-'.$key;
                 $hs=$pu[0]->hashear($cod,$value->valor_tramite,"COP");
 
-                if(Auth()->user()!=null){
+                if(auth()->user()!=null){
 
 
                    	  $dtc=DB::table('detalle_clic_anuncios')
                    					->where([
                          							['id_anuncio',$value->id],
-                         							['id_usuario',Auth()->user()->id]
+                         							['id_usuario',auth()->user()->id]
                    							])->get();
 
 
@@ -169,9 +169,9 @@ class Anuncio extends Model
    */
   public function ver_comentarios($id,$limite){
 
-      $comentarios=DB::table('detalle_clic_anuncios')
+      $comentarios=DB::table('registro_pagos_anuncios')
                             ->where('id_anuncio',$id)
-                            ->join('users','users.id','detalle_clic_anuncios.id_usuario')
+                            ->join('users','users.id','registro_pagos_anuncios.id_user_compra')
                             ->limit($limite)
                             ->get();
 

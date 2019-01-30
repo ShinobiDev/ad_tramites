@@ -492,7 +492,7 @@ class UsersController extends Controller
 
           //dd($rc);
           if($tramitador[0]->costo_clic>0){
-              if(($rc[0]->valor_recarga/$tramitador[0]->costo_clic)< 20 && ($rc[0]->valor_recarga/$uu[0]->costo_clic) > 0 ){
+              if(($rc[0]->valor_recarga/$tramitador[0]->costo_clic)< 20 && ($rc[0]->valor_recarga/$tramitador[0]->costo_clic) > 0 ){
                   //aqui envie el mail
                   NotificacionAnuncio::dispatch($uu[0], $ad,$rc[0]->valor_recarga,"RecargaCasiAgotada");
               }

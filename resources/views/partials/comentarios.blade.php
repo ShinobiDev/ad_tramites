@@ -1,6 +1,7 @@
 <div>
 	<div id="div_comentarios_{{$ad->id}}" class="comentarios">
 		@foreach($ad->comentarios as $c)
+			
 			<h5><b>{{$c->opinion}}</b></h5>
 			<h6>Hecho por: {{$c->nombre}}</h6>
 			<h6>El día: {{DateTime::createFromFormat('Y-m-d H:i:s', $c->updated_at)->format('M d, Y h:i A')}}</h6>

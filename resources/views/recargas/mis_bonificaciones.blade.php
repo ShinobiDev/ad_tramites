@@ -44,7 +44,7 @@
                     <td>{{ $bonificacion->id }}</td>
                     <td>{{ $bonificacion->nombre }}</td>
                     <td>{{ $bonificacion->tipo_bonificacion }}</td>
-                    <td>{{ $bonificacion->valor_bonificacion}}</td>
+                    <td>$ {{ $bonificacion->valor_bonificacion}}</td>
                     <td>{{ $bonificacion->created_at }}</td>
                     
 
@@ -165,7 +165,7 @@
 
           
           var td=document.createElement("td");
-          td.innerHTML=rs.datos[f].valor_bonificacion;
+          td.innerHTML="$ "+rs.datos[f].valor_bonificacion;
           tr.appendChild(td);
 
           
