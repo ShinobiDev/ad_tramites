@@ -95,6 +95,9 @@
                           <li>
                             <a href="{{route('mis_compras', auth()->user())}}">Mis compras</a>
                           </li>
+                          <li>
+                            <a href="{{route('anuncios_vistos')}}">Anuncios vistos</a>
+                          </li>
                            <li>
                             <a href="{{route('users.show', auth()->user())}}">Recargar</a>
                           </li>
@@ -102,7 +105,10 @@
                         @role('Usuario')
                           <li>
                             <a href="{{route('mis_compras', auth()->user())}}">Mis compras</a>
-                          </li>                          
+                          </li>  
+                           <li>
+                            <a href="{{route('anuncios_vistos')}}">Anuncios vistos</a>
+                          </li>                        
                         @endrole
                      
                       @endguest

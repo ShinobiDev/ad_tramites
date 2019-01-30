@@ -17,12 +17,12 @@
 
 @section('content')
 
-  <div class="container-fluid">
+  <div class="container">
     <div class="box box-primary">
       <div class="box-header">
           <h3 class="box-title">Listado de compras realizadas</h3>
       </div>
-      <div class="box-body">
+      <div class="col-12 col-md-12 box-body"> 
           <table id="compras-table" class="table table-bordered table-striped">
             <thead>
               <tr>
@@ -32,12 +32,9 @@
                 <th>Vendedor</th>
                 <th>Teléfono tramitador</th>
                 <th>E-mail tramitador</th>
-                
-                
                 <th>Valor comprado</th>
                 <th>Referecia de pago</th>
-                <th>Fecha transacción</th>
-                
+                <th>Fecha transacción</th>                
                 <th>Acción</th>  
               </tr>
             </thead>
@@ -62,16 +59,11 @@
                     <td>{{$compra->nombre_tramite}}</td>   
                     <td>{{$compra->nombre}}</td>          
                     <td>{{$compra->telefono}}</td>          
-                    <td>{{$compra->email}}</td>          
-                                   
-                                                       
-                                                      
-                    <td>$ {{number_format($compra->transation_value,0,',','.')}}</td>                                    
+                    <td>{{$compra->email}}</td>        
+                    <td>$ {{number_format($compra->transation_value,0,',','.')}}</td>
                     <td>{{$compra->transactionId}}</td>
                     <td>{{$compra->updated_at}}</td>
-                   
                     <td>
-                          
                       @if($compra->estado_pago=="APROBADA")
                         <button id="{{'btn_cal_'.$compra->id_pago}}" type="button" class="btn btn-primary btn-block" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_notificar_tramitador'.$compra->id_pago}}','{{$compra->id_pago}}','0',false)" >
                             Notificar al tramitador
@@ -80,11 +72,8 @@
 
                           <button id="{{'btn_cal_'.$compra->id_pago}}" type="button" class="btn btn-success btn-block" data-toggle="modal" onclick="descontar_recargar('{{ 'infocalificar'.$compra->id_pago}}','{{$compra->id_pago}}','0',false)" >
                               Confirmar trámite
-                          </button>
-                          
+                          </button>                          
                         @endif  
-
-
                       @elseif($compra->estado_pago=="TRANSACCION FINALIZADA"  || $compra->estado_pago=="PAGO A TRAMITADOR" || $compra->estado_pago=="PAGO TRAMITADOR CONFIRMADO")     
                         @for($i=1;$i<=$compra->calificacion;$i++)
                           @if($i<=5)
@@ -92,9 +81,7 @@
                           @endif
                         @endfor
                       @endif
-                    </td>                                   
-                     
-                                                      
+                    </td>                             
                   </tr>
               @endforeach
 

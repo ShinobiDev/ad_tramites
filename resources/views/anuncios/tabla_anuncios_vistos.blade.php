@@ -1,7 +1,7 @@
 <table id="users-table" class="table table-striped table-codensed table-hover table-resposive">
         <thead>
           <tr>
-            <th class="text-center">ID</th>
+            <th class="text-center col-1 col-md-1  col-sm-1 col-xs-1" >ID</th>
             <th class="text-center">Trámite</th>
             <th class="text-center">Descripción</th>
             <th class="text-center">Ciudad</th>
@@ -16,7 +16,7 @@
               {{--dd($ad)--}}
               @if($ad->validez_anuncio=='Activo')
                   <tr>
-                  <td class="text-green text-center"><strong><h4>{{$ad->id}}-</h4></strong></td>  
+                  <td class="text-green text-center"><strong><h5>{{$ad->id}}-</h5></strong></td>  
                   <td class="text-green text-center"><strong><h4>{{$ad->nombre_tramite}}</h4></strong></td>
                   <td class="text-center"><strong><h5 class="text-justify">{{$ad->descripcion}}</h5></strong></td>
                   <td class="text-center"><strong><h5>{{$ad->ciudad}}</h5></strong></td>
@@ -28,40 +28,40 @@
                     @guest
                            <!--AQUI SE MUESTRA LOS BOTONES PARA LOGIN -->
 
-                            <button id="{{'btn_'.$ad->id}}" type="button" class="btn btn-success" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_login'.$ad->id}}','{{$ad->id}}','0',false)">
+                            <button id="{{'btn_'.$ad->id}}" type="button" class="btn btn-success btn-block" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_login'.$ad->id}}','{{$ad->id}}','0',false)">
                               Ver info
                               </button>
 
-                            <button id="{{'btn_'.$ad->id}}" type="button" class="btn btn-default" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_login'.$ad->id}}','{{$ad->id}}','0',false)">
+                            <button id="{{'btn_'.$ad->id}}" type="button" class="btn btn-default btn-block" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_login'.$ad->id}}','{{$ad->id}}','0',false)">
                               Comprar
                             </button>
 
 
-                        {{--@include('anuncios.ventana_modal_login')--}}
+                        
                     @else
                           @if($ad->btn_info)
 
-                              <button id="{{'btn_'.$ad->id}}" type="button" class="btn btn-success" data-toggle="modal" onclick="descontar_recargar('{{ 'infogen'.$ad->id}}','{{$ad->id}}','0','info')">
+                              <button id="{{'btn_'.$ad->id}}" type="button" class="btn btn-success btn-block" data-toggle="modal" onclick="descontar_recargar('{{ 'infogen'.$ad->id}}','{{$ad->id}}','0','info')">
                               Ver info
                               </button>
 
-                              {{--@include('anuncios.ventana_modal_info_general')--}}
+                              
 
                           @endif
 
                           @if($ad->btn_payu)
-                            <button id="{{'btn_'.$ad->id}}" type="button" class="btn btn-default" data-toggle="modal" onclick="descontar_recargar('{{ 'infoventa'.$ad->id}}','{{$ad->id}}','0','compra')" >
+                            <button id="{{'btn_'.$ad->id}}" type="button" class="btn btn-default btn-block" data-toggle="modal" onclick="descontar_recargar('{{ 'infoventa'.$ad->id}}','{{$ad->id}}','0','compra')" >
                               Comprar
                             </button>
 
-                           {{--@include('anuncios.ventana_modal_info_anuncio')--}}
+                           
                           @endif
 
                           @if($ad->btn_calificar)
-                             <button id="{{'btn_cal_'.$ad->id}}" type="button" class="btn btn-primary" data-toggle="modal" onclick="descontar_recargar('{{ 'infocalificar'.$ad->id}}','{{$ad->id}}','0',false)" >
+                             <button id="{{'btn_cal_'.$ad->id}}" type="button" class="btn btn-primary btn-block" data-toggle="modal" onclick="descontar_recargar('{{ 'infocalificar'.$ad->id}}','{{$ad->id}}','0',false)" >
                               Calificar
                             </button>
-                             {{--@include('partials.btn_calificar_anunciante')--}}
+                             
                           @endif
 
                     @endguest
@@ -75,19 +75,19 @@
 <!--aqui creo las ventanas-->
 @foreach ($anuncios as $ad)
               {{--dd($ad)--}}
-              @if($ad->validez_anuncio=='Activo')
-                    @guest
-                          @include('anuncios.ventana_modal_login')
-                    @else
-                          @if($ad->btn_info)
-                              @include('anuncios.ventana_modal_info_general')
-                          @endif
-                          @if($ad->btn_payu)
-                              @include('anuncios.ventana_modal_info_anuncio')
-                          @endif
-                          @if($ad->btn_calificar)
-                             @include('partials.btn_calificar_anunciante')
-                          @endif
-                    @endguest
-              @endif
-          @endforeach
+      @if($ad->validez_anuncio=='Activo')
+            @guest
+                  @include('anuncios.ventana_modal_login')
+            @else
+                  @if($ad->btn_info)
+                      @include('anuncios.ventana_modal_info_general')
+                  @endif
+                  @if($ad->btn_payu)
+                      @include('anuncios.ventana_modal_info_anuncio')
+                  @endif
+                  @if($ad->btn_calificar)
+                     @include('partials.btn_calificar_anunciante')
+                  @endif
+            @endguest
+      @endif
+@endforeach

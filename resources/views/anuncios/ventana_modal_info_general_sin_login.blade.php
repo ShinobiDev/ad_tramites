@@ -18,7 +18,7 @@
         </div>
          @if(auth()->user()==null)
               <div class="modal-body">
-                <b class="text-red">Quieres conocer mas acerca de este anunciante te invitamos a registrarte</b>
+                <b class="text-red">¿Quieres conocer más acerca de este anunciante?, te invitamos a registrarte</b>
               </div>
          @endif
          {{--<div class="modal-body">

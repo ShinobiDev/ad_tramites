@@ -116,13 +116,14 @@ class User extends Authenticatable
                 //APROBADA
                 $rp=DB::table("detalle_recargas")->where("referencia_pago",$req['referenceCode'])->get();
                 $cliente=User::where("email",$req['buyerEmail'])->get();
-                //dd(count($rp));
+                
+                //dd($rp,count($rp));
                 if(count($rp)==1){
                         
 
                     
                         if(count($cliente)==0){
-                                $msn="Los datos de este usuario no corresponde a ninguno que este registrado en MetalBio ";
+                                $msn="Los datos de este usuario no corresponde a ninguno que este registrado en ".config('app.name');
 
                                 return view('payu.error_payu')->with("mensaje",$msn);
                         }else{
@@ -156,6 +157,7 @@ class User extends Authenticatable
                                         /*
                                         REGISTRO LAS BONIFICACIONES
                                          */
+                                        //dd($id_ref,$cliente[0]);
                                         if(count($id_ref)>0){
                                             $tot_recargas=DB::table('detalle_recargas')->where("id_usuario",$cliente[0]->id)->get();
 
@@ -163,22 +165,26 @@ class User extends Authenticatable
                                                 //aunentoo el 10% de la recarga 
                                                 $val_rec=(float)$req['TX_VALUE']*0.10;
                                                 DB::table("detalle_recargas")->insert([
-                                                        'id_usuario' => $id_ref[0]->id_referido,
+                                                        'id_usuario' => $id_ref[0]->id_cabeza,
                                                         'valor_recarga'=>$val_rec,
                                                         "referencia_pago"=>time().$cliente[0]->id,
                                                          "referencia_pago_pay_u"=>time().$cliente[0]->id,
                                                          "metodo_pago"=>"BONIFICACION RECARGA 10%  ".$cliente[0]->name,
                                                          "tipo_recarga"=>"BONIFICACION" ,
-                                                         'created_at'=>Carbon::now('America/Bogota')
+                                                         'estado_detalle_recarga'=>'APROBADA',
+                                                         'created_at'=>Carbon::now('America/Bogota'),
+                                                         'updated_at'=>Carbon::now('America/Bogota')
                                                             ]
                                                     );
                                                     
                                                 DB::table("bonificaciones")->insert(
                                                             ["tipo_bonificacion"=>"RECARGA",
                                                             "fk_id_detalle_referido"=>$id_ref[0]->id,
-                                                            "valor_bonificacion"=>$val_rec   ]);
-
-                                                User::where("id",$id_ref[0]->id_referido)->increment("valor_recarga",$val_rec);
+                                                            "valor_bonificacion"=>$val_rec,
+                                                            'created_at'=>Carbon::now('America/Bogota'),
+                                                         	'updated_at'=>Carbon::now('America/Bogota')   ]);
+                                                //hago el incremento de la recarga
+                                                User::where("id",$id_ref[0]->id_cabeza)->increment("valor_recarga",$val_rec);
 
                                                 
                                             }else{
@@ -188,21 +194,25 @@ class User extends Authenticatable
                                                 $val_rec=(float)$req['TX_VALUE']*0.01;  
                                                 
                                                 DB::table("detalle_recargas")->insert([
-                                                        'id_usuario' => $id_ref[0]->id_referido,
+                                                        'id_usuario' => $id_ref[0]->id_cabeza,
                                                         'valor_recarga'=>$val_rec,
                                                         "referencia_pago"=>time().$cliente[0]->id,
                                                          "referencia_pago_pay_u"=>time().$cliente[0]->id,
                                                          "metodo_pago"=>"BONIFICACION RECARGA 1%  ".$cliente[0]->name,
                                                          "tipo_recarga"=>"BONIFICACION",
-                                                         'created_at'=>Carbon::now('America/Bogota')
+                                                         'estado_detalle_recarga'=>'APROBADA',
+                                                         'created_at'=>Carbon::now('America/Bogota'),
+                                                         'updated_at'=>Carbon::now('America/Bogota')
                                                             ]
                                                     );
                                                 DB::table("bonificaciones")->insert(
                                                             ["tipo_bonificacion"=>"RECARGA",
                                                             "fk_id_detalle_referido"=>$id_ref[0]->id,
-                                                            "valor_bonificacion"=>$val_rec   ]);
+                                                            "valor_bonificacion"=>$val_rec,
+                                                            'created_at'=>Carbon::now('America/Bogota'),
+                                                         	'updated_at'=>Carbon::now('America/Bogota')   ]);
 
-                                                User::where("id",$id_ref[0]->id_referido)->increment("valor_recarga",$val_rec);
+                                                User::where("id",$id_ref[0]->id_cabeza)->increment("valor_recarga",$val_rec);
                                             }
                                         }
                                         
@@ -254,7 +264,7 @@ class User extends Authenticatable
                             }
                         
                             if(count($cliente)==0){
-                                    $msn="Los datos de este usuario no corresponde a ninguno que este registrado en MetalBio ";
+                                    $msn="Los datos de este usuario no corresponde a ninguno que este registrado en ".config('app.name');
 
                                     return view('payu.error_payu')->with("mensaje",$msn);
                             }else{

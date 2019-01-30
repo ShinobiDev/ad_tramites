@@ -176,7 +176,8 @@ class RegisterController extends Controller
                                                 "referencia_pago"=>time().$u->id,
                                                  "referencia_pago_pay_u"=>time().$u->id,
                                                  "metodo_pago"=>"BONIFICACION REGISTRO REFERIDO ",
-                                                 "tipo_recarga"=>"BONIFICACION"
+                                                 "tipo_recarga"=>"BONIFICACION",
+                                                 "estado_detalle_recarga"=>'APROBADA'
                                                     ]
                                             );
             //echo "4";

@@ -58,12 +58,9 @@
                         Ver info
                         </button>
 
-                         <button id="{{'an_'.$ad->id}}" style="display: none;" type="button" class="btn btn-primary btn-block" data-toggle="modal" onclick="descontar_recargar('{{ 'infogen'.$ad->id}}','{{$ad->id}}','0','info')">
-                        Ya lo Viste
+                        <button id="{{'an_'.$ad->id}}" style="display: none;" type="button" class="btn btn-primary btn-block" data-toggle="modal" onclick="descontar_recargar('{{ 'infogen'.$ad->id}}','{{$ad->id}}','0','info')">
+                          Ya lo Viste
                         </button>
-                        
-                        
-
                       @endif
 
                     @endif

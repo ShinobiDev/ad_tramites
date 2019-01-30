@@ -49,7 +49,7 @@
 
 
                  <hr>
-                    <input type="hidden" name="user_id" value="{{Auth::user()->id }}" class="form-control">
+                    <input type="hidden" name="user_id" value="{{auth::user()->id }}" class="form-control">
                     <div class="form-group col-sm-4">
                       <div class="controls">
                          <input type="button" name="submit" value="Publicar anuncio" class="btn btn-success" id="btn_crear_anuncio" onclick="crear_anuncio()" />

@@ -542,7 +542,8 @@ class UsersController extends Controller
                     'tipo_recarga' => "RECARGA",
                     'valor_recarga'=>$valor_recarga,
                     'referencia_pago'=>$referencia_pago,
-                    'id_usuario'=>$id
+                    'id_usuario'=>$id,
+                    'estado_detalle_recarga'=>'SIN REGISTRAR'
                 ]);
 
         }

@@ -15,12 +15,12 @@
 
 @section('content')
   
-  <div class="container-fluid">
+  <div class="container">
     <div class="box box-primary">
       <div class="box-header">
           <h3 class="box-title">Listado de ventas realizadas</h3>
       </div>
-      <div class="box-body">
+      <div class="col-12 col-md-12 box-body"> 
           <table id="ventas-table" class="table table-bordered table-striped">
             <thead>
               <tr>
@@ -103,8 +103,6 @@
                       @if($venta->estado_pago=="APROBADA")
                         
                         @include('partials.notificar_comprador',['ad'=>$venta])
-
-
                        
                         @include('partials.notificar_tramite_finalizado_comprador',['ad'=>$venta])
                       
@@ -190,7 +188,7 @@
 
           
           var td=document.createElement("td");
-          td.innerHTML=rs.datos[f].valor_bonificacion;
+          td.innerHTML="$ "+number_format(rs.datos[f].valor_bonificacion,0,',','.');
           tr.appendChild(td);
 
           

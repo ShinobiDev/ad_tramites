@@ -1,6 +1,6 @@
 <!--ventas-->
 
-<div class="container-fluid">
+<div class="container">
  <div class="col-md-12 col-lg-offset-0">
     <div class="box box-primary">
       <div class="box-header">
@@ -17,7 +17,7 @@
 
       </div>
 
-      <div class="box-body">
+       <div class="col-12 col-md-12 box-body"> 
           
           
            @include('partials.alert')

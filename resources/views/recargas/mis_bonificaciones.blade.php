@@ -29,7 +29,7 @@
           <table id="bonificaciones-table" class="table table-bordered table-striped">
             <thead>
               <tr>
-                <th>Items</th>
+                <
                 <th>Referido</th>
                 <th>Tipo bonificación</th>
                 <th>Valor bonificación</th>
@@ -41,14 +41,11 @@
                         
               @foreach ($bonificaciones as $bonificacion)
                   <tr>
-                    <td>{{ $bonificacion->id }}</td>
+                    
                     <td>{{ $bonificacion->nombre }}</td>
                     <td>{{ $bonificacion->tipo_bonificacion }}</td>
-                    <td>$ {{ $bonificacion->valor_bonificacion}}</td>
-                    <td>{{ $bonificacion->created_at }}</td>
-                    
-
-                    
+                    <td>$ {{ number_format($bonificacion->valor_bonificacion,0,',','.')}}</td>
+                    <td>{{ $bonificacion->created_at }}</td>                  
                   </tr>
               @endforeach
             </tbody>

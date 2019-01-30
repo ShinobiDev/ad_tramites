@@ -43,7 +43,7 @@
                 <div class="form-group">
                     <div class="col-md-6 col-md-offset-4">
                         <div class="checkbox">
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit"  class="btn btn-primary">
                                 Ingresar
                             </button>
                             <a id="an_email_enviar_{{$ad->id}}" href="{{ route('register').'/?'}}e={{old('email')}}" class="btn btn-primary">Registrarse</a>
@@ -83,8 +83,6 @@
         document.getElementById('anOlvide'+id).href="{{route('password.request')}}?e="+document.getElementById(e.id).value;        
         document.getElementById('an_email_enviar_'+id).href="{{route('register')}}?e="+document.getElementById(e.id).value;
     }    
-    function mostrar_login(){
-        console.log(location.href.split('#')[1]);
-    }
+    
 </script>
 
