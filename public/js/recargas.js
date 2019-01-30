@@ -3,7 +3,6 @@ var nuevo_valor_recarga=50;
 function descontar_recargar(id_ventana,id_anuncio,costo,tipo){
 	
 
-	console.log(document.getElementById(id_ventana));
 	   $("#"+id_ventana).addClass( "in" );
 	   $("#"+id_ventana).css({"display": "block", "padding-right": "21px"});
 	   

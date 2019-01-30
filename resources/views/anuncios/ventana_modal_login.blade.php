@@ -10,20 +10,18 @@
         </div>
 
         <div class="modal-body">
-            <form class="form-horizontal" method="POST" action="{{ route('login') }}">
+            <form class="form-horizontal" id="formLogin_{{$ad->id}}">
                 {{ csrf_field() }}
 
-                <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                <div class="form-group {{ $errors->has('email') ? ' has-error' : '' }}">
                     <label for="email" class="col-md-4 control-label">E-Mail </label>
 
                     <div class="col-md-6">
                         <input id="email{{$ad->id}}" type="email" class="form-control" name="email" value="{{ old('email') }}" onchange="agregar_correo(this,'{{$ad->id}}')" required autofocus>
 
-                        @if ($errors->has('email'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('email') }}</strong>
-                            </span>
-                        @endif
+                        
+                            
+                        
                     </div>
                 </div>
 
@@ -32,18 +30,16 @@
                     <div class="col-md-6">
                         <input id="password{{$ad->id}}" type="password" class="form-control" name="password" required>
 
-                        @if ($errors->has('password'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('password') }}</strong>
-                            </span>
-                        @endif
+                        <span class="help-block">
+                                <strong id="error_login_{{$ad->id}}" class="text-red"></strong>
+                        </span>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-md-6 col-md-offset-4">
                         <div class="checkbox">
-                            <button type="submit"  class="btn btn-primary">
+                            <button type="button" onclick="login('{{$ad->id}}')"  class="btn btn-primary">
                                 Ingresar
                             </button>
                             <a id="an_email_enviar_{{$ad->id}}" href="{{ route('register').'/?'}}e={{old('email')}}" class="btn btn-primary">Registrarse</a>
@@ -56,9 +52,7 @@
             </form>
             <!--FORMULARIO PARA ENVIAR EMAIL-->
             <div class="modal-body">
-                <div class="form-group col-md-6 col-md-offset-4">
-
-                        
+                <div class="form-group col-md-6 col-md-offset-4">                       
                             
                             <label>
                                 <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Recordarme
@@ -66,8 +60,7 @@
 
                             <a id="anOlvide{{$ad->id}}" class="btn btn-link" href="{{ route('password.request').'/?'}}e={{old('email')}}">
                               Olvide mi clave
-                            </a>
-                       
+                            </a>                     
 
                 </div>
             </div>
@@ -83,6 +76,6 @@
         document.getElementById('anOlvide'+id).href="{{route('password.request')}}?e="+document.getElementById(e.id).value;        
         document.getElementById('an_email_enviar_'+id).href="{{route('register')}}?e="+document.getElementById(e.id).value;
     }    
-    
+   
 </script>
 

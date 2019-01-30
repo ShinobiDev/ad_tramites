@@ -360,6 +360,12 @@
       }
         
     }
+    /**
+     * Funcion para mostar login
+     * @param  {[type]} id_ventana [description]
+     * @param  {[type]} datos      [description]
+     * @return {[type]}            [description]
+     */
     function mostrar_modal(id_ventana,datos){
       $("#"+id_ventana).addClass( "in" );
       $("#"+id_ventana).css({"display": "block", "padding-right": "21px"});       
@@ -371,6 +377,30 @@
         //console.log(document.getElementById(datos[d].id));
         document.getElementById(datos[d].id).value=datos[d].valor;
       }
+    }
+    /*
+    Funcion para realizar login
+     */
+    function login(id){
+        var data=$('#formLogin_'+id).serializarFormulario();
+        
+        $.ajax({
+          type: "POST",
+          url: "{{route('login')}}",
+          data: data,
+          success: function(rs){
+            
+            location.reload();
+          },
+          error:function(rs){
+            console.log(rs);
+            console.log(rs.responseText);
+            console.log(JSON.parse(rs.responseText).errors.email);
+            //alert(JSON.parse(rs.responseText).errors.email);
+            document.getElementById('error_login_'+id).innerHTML=JSON.parse(rs.responseText).errors.email;
+          },
+          dataType: 'html'
+        });
     }
 </script>
 
