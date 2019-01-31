@@ -93,12 +93,12 @@
                         </button>
                       
                       
-                      @elseif($venta->estado_pago=="TRANSACCION FINALIZADA" )  
+                      @elseif($venta->estado_pago=="PAGO A TRAMITADOR" || $venta->estado_pago=="TRANSACCION FINALIZADA" )  
                         <button id="{{'btn_cal_'.$venta->id_pago}}" type="button" class="btn btn-success btn-block" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_pago_de_tramitador'.$venta->id_pago}}','{{$venta->id_pago}}','0',false)" >
                             Confirmar pago de {{config('app.name')}}
                         </button>
                        
-                      @elseif( $venta->estado_pago=="PAGO A TRAMITADOR" || $venta->estado_pago=="PAGO TRAMITADOR CONFIRMADO")
+                      @elseif( $venta->estado_pago=="PAGO TRAMITADOR CONFIRMADO")
                        <span class="text-success">Transacción finalizada pago realizado</span>
                       @endif
                     </td>       
