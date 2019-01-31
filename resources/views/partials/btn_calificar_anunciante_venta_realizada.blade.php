@@ -61,6 +61,7 @@
 
                     </div>
                     <!--<button id="btn_calificar" type="submit" class="btn btn-primary">Calificar</button>-->
+                    <h5 id="h5_estado_cal{{$ad->id_pago}}" ></h5>
                     <input id="btn_califica_{{$ad->id_pago}}" type="button" value="Calificar" class="btn btn-primary" onclick="calificar_anunciante('{{$ad->id_pago}}')">
             </form>
        </div>
@@ -100,9 +101,11 @@
          }
 
         function calificar_anunciante(id_modal){
+            mostrar_cargando("h5_estado_cal"+id_modal,10,"Un momento, por favor...");
             form=$("#formCalificar").serializarFormulario();
             /*
              * Envio la peticion
+             * 
             */
            console.log(form);
            if(form==false){
@@ -132,6 +135,7 @@
               mensaje(rs);
               salir_modal('infocalificar'+id_modal);              
               document.getElementById("btn_califica_"+id_modal).style.display='none';
+              document.getElementById("h5_estado_cal"+id_modal).innerHTML='';
               window.scrollTo(0, 400);
             });
 

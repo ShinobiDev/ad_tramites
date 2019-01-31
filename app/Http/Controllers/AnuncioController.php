@@ -403,7 +403,7 @@ class AnuncioController extends Controller
     }
     public function compartir_mail(Request $re){
         //dd($re["correos"]);
-
+        
             CompartirCodigo::dispatch(auth()->user(),$re["correos"]);
 
             return redirect()->route('users.show', auth()->user())->with('success', 'Se ha enviado tu invitación');

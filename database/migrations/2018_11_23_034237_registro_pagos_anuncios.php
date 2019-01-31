@@ -22,7 +22,8 @@ class RegistroPagosAnuncios extends Migration
             $table->integer('id_anuncio');
             $table->integer('id_user_compra');  
             $table->string('metodo_pago');  
-            $table->enum('estado_pago',['APROBADA', 'PENDIENTE', 'RECHAZADA','TRAMITE REALIZADO','PAGO A TRAMITADOR','TRANSACCION FINALIZADA'])->default('PENDIENTE');
+            $table->enum('estado_pago',['APROBADA','PENDIENTE','RECHAZADA','TRAMITE REALIZADO','PAGO A TRAMITADOR','TRANSACCION FINALIZADA','PAGO TRAMITADOR CONFIRMADO'])->default('PENDIENTE');
+            $table->decimal('porcentaje_pago');
             $table->string('opinion');  
             $table->integer('comentario');  
             $table->string('metodo_pago');  

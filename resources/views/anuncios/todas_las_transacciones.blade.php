@@ -80,8 +80,29 @@
                                                        
                                                       
                     <td>$ {{number_format($transaccion->transation_value,0,',','.')}}</td>
-                    <td>{{$porcentaje[0]->valor}} %</td>                                     
-                    <td width="15%">$ {{number_format($transaccion->transation_value-($transaccion->transation_value*$porcentaje[0]->valor/100),0,',','.')}}</td>                                     
+
+                    @if($transaccion->estado_pago=="PAGO A TRAMITADOR")  
+                    
+                      <td>{{number_format($transaccion->porcentaje_pago,'0',',','.')}} %</td> 
+                      <td width="15%">$ {{number_format($transaccion->transation_value-($transaccion->transation_value*$transaccion->porcentaje_pago/100),0,',','.')}}</td>
+                    
+                    @elseif($transaccion->estado_pago=='PAGO TRAMITADOR CONFIRMADO')
+                    
+                      <td>{{number_format($transaccion->porcentaje_pago,'0',',','.')}} %</td> 
+                      <td width="15%">$ {{number_format($transaccion->transation_value-($transaccion->transation_value*$transaccion->porcentaje_pago/100),0,',','.')}}</td>  
+                    
+                    @else
+                    
+                      <td>{{$porcentaje[0]->valor}} %</td> 
+                      <td width="15%">$ {{number_format($transaccion->transation_value-($transaccion->transation_value*$porcentaje[0]->valor/100),0,',','.')}}</td>
+
+                    @endif
+
+                    
+
+                    
+
+
                     <td>{{$transaccion->transactionId}}</td>
                     <td>{{$transaccion->updated_at}}</td>
                    

@@ -151,7 +151,7 @@ class NotificationMail extends Mailable
                     break;
             case "NotificarTramitador":
                     return $this->markdown('emials.NotificarTramitador')
-                                ->subject('Tienes un nuevo mensaje de un cliente en '. config('app.name'));
+                                ->subject('Tienes un nuevo mensaje '. config('app.name'));
                     break;  
             case "NotificarTramiteFinalizado":
                     return $this->markdown('emials.NotificarTramiteFinalizado')

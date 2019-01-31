@@ -715,6 +715,7 @@ class UsersController extends Controller
                            'registro_pagos_anuncios.updated_at',
                            'registro_pagos_anuncios.opinion',
                            'registro_pagos_anuncios.calificacion',
+                           'registro_pagos_anuncios.porcentaje_pago',
                            'tramites.nombre_tramite',
                            'anuncios.codigo_anuncio',
                            'anuncios.ciudad',
@@ -733,6 +734,7 @@ class UsersController extends Controller
                     ->get();
       
         return view('anuncios.mis_ventas')
+                ->with('porcentaje',Variable::where('nombre','porcentaje_tramite')->get())  
                 ->with('mis_ventas',$pag);
         
     }
@@ -793,15 +795,17 @@ class UsersController extends Controller
                             "NotificarTramiteFinalizado");
 
       //pendiente envio email a administrador
-      $admin=User::role('admin')->first();  
+      $admin=User::role('admin')->get();  
       
-      NotificacionAnuncio::dispatch($admin,
+      foreach ($admin as $key => $value) {
+        NotificacionAnuncio::dispatch($value,
                             [User::where('id',$ad->id_user)->first(),
                             $ad,
                             ['url'=>config('app.url').'/admin/todas_las_transacciones?id='.$pago->transactionId],
                             ['mensaje'=>""]],
                             0,
                             "NotificarTramiteFinalizadoAdmin");
+      }
                 
       return back()->with('success','Notificación enviada a tu cliente correctamente');
     }
@@ -822,6 +826,7 @@ class UsersController extends Controller
                                    'registro_pagos_anuncios.calificacion',
                                    'registro_pagos_anuncios.created_at',
                                    'registro_pagos_anuncios.updated_at',
+                                   'registro_pagos_anuncios.porcentaje_pago',
                                    'tramites.nombre_tramite',
                                    'anuncios.id', 
                                    'anuncios.codigo_anuncio',
@@ -836,7 +841,7 @@ class UsersController extends Controller
                             ->join('tramites','anuncios.id_tramite','tramites.id')
                             ->orderBy('registro_pagos_anuncios.updated_at','DESC')
                             ->get();
-
+        //dd($transacciones);                    
         return view('anuncios.todas_las_transacciones')
                   ->with('transacciones',$transacciones)
                   ->with('porcentaje',DB::table('variables')->where('nombre','porcentaje_tramite')->get());
@@ -854,9 +859,19 @@ class UsersController extends Controller
      */
     public function notificar_pago_a_tramitador(Request $request){
       //dd($request);
-       $tramitador=User::where('id',$request['id_user_compra'])->first();
-      
-      $pago=DB::table('registro_pagos_anuncios')->where('id',$request['id_pago'])->first();
+      $tramitador=User::where('id',$request['id_user_compra'])->first();
+      $porcentaje_actual=Variable::where('nombre','porcentaje_tramite')->first();
+      //regitro el porcentaje conq ue se realizo el pago al tramitador
+      DB::table('registro_pagos_anuncios')
+                  ->where('id',$request['id_pago'])
+                  ->update([
+                            'porcentaje_pago'=>$porcentaje_actual->valor,
+                            "estado_pago"=>'PAGO A TRAMITADOR'
+                          ]);
+
+      $pago=DB::table('registro_pagos_anuncios')
+                  ->where('id',$request['id_pago'])
+                  ->first();
       //dd($comprador);
       NotificacionAnuncio::dispatch($tramitador,
                             [auth()->user(),
@@ -878,7 +893,7 @@ class UsersController extends Controller
       $tramitador=User::where('id',$request['id_anunciante'])->first();
       DB::table('registro_pagos_anuncios')
               ->where('id',$request['id_pago'])
-              ->update(["estado_pago"=>'PAGO A TRAMITADOR']);
+              ->update(["estado_pago"=>'PAGO TRAMITADOR CONFIRMADO']);
       $pago=DB::table('registro_pagos_anuncios')->where('id',$request['id_pago'])->first();
       $ad=Anuncio::where('anuncios.id',$pago->id_anuncio)
                 ->join('tramites','tramites.id','anuncios.id_tramite')->select('tramites.nombre_tramite','anuncios.ciudad')->first();

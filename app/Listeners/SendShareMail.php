@@ -30,7 +30,7 @@ class SendShareMail
             foreach ($cc as $key => $value) {
                     # code...
                 if(filter_var($value, FILTER_VALIDATE_EMAIL) ){
-                     Mail::to($value)->queue(
+                     Mail::to(trim($value))->queue(
                       //dd($event)  
                       new CompartirMail($event->user,$url)
                     );   

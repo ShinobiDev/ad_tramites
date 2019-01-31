@@ -30,6 +30,7 @@
                 <th>Comprador</th>
                 <th>Email Comprador</th>                
                 <th>Valor vendido</th>
+                <th>Valor a pagar por {{config('app.name')}}</th>
                 <th>Referecia de pago</th>
                 <th>Fecha transacción</th>
                 <th>Calificación</th>
@@ -63,7 +64,15 @@
                     <td>{{$venta->nombre}}</td>
                     <td>{{$venta->email}}</td>
                     
-                    <td>$ {{number_format($venta->transation_value,0,',','.')}}</td>                                    
+                    <td>$ {{number_format($venta->transation_value,0,',','.')}}</td>
+                      @if($venta->estado_pago=="PAGO A TRAMITADOR")  
+                        <td>$ {{number_format($venta->transation_value-($venta->transation_value*$venta->porcentaje_pago/100),0,',','.')}}</td>                                    
+                      @elseif($venta->estado_pago=='PAGO TRAMITADOR CONFIRMADO')  
+                        <td>$ {{number_format($venta->transation_value-($venta->transation_value*$venta->porcentaje_pago/100),0,',','.')}}</td>                                    
+                      @else
+                        <td>$ {{number_format($venta->transation_value-($venta->transation_value*$porcentaje[0]->valor/100),0,',','.')}}</td>                                      
+                      @endif  
+                      
                     <td>{{$venta->transactionId}}</td>                                   
                     <td>{{$venta->updated_at}}</td>
                     <td> @for($i=1;$i<=$venta->calificacion;$i++)
