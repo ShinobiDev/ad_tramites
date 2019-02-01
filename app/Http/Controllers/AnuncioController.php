@@ -266,8 +266,10 @@ class AnuncioController extends Controller
         }
         $dt=$request->get('data');
         $can_ad=0;
+        $last=Anuncio::where('id','>','1')->orderBy('id','DESC')->first();
+        
         foreach ($dt['tramites'] as $key => $value) {
-            Anuncio::insert(["codigo_anuncio"=>"t".time(),
+            Anuncio::insert(["codigo_anuncio"=>"t".time().(string)($can_ad+1),
                              "descripcion_anuncio"=>$dt["descripciones"][$key],
                              "id_user"=>auth()->user()->id,
                              "id_tramite"=>$value,
