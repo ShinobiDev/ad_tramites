@@ -61,13 +61,13 @@
 
                        @guest
                         <li>
-                           <a href="{{route('anuncios.index')}}">Ver anuncios</a>
+                           <a href="{{ url('/') }}">Ver anuncios</a>
                            <input type="hidden" value="0" id="user_id">
                         </li>
                         
                       @else
                         <li>
-                           <a href="{{route('anuncios.index')}}">Ver anuncios</a>
+                           <a href="{{ url('/') }}">Ver anuncios</a>
                             <input type="hidden" value="{{auth::user()->id}}" id="user_id">
                         </li>
                         <li>

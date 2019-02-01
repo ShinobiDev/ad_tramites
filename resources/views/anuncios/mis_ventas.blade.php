@@ -29,8 +29,8 @@
                 <th>Trámite</th>      
                 <th>Comprador</th>
                 <th>Email Comprador</th>                
-                <th>Valor vendido</th>
-                <th>Valor a pagar por {{config('app.name')}}</th>
+                <th class="col-lg-2 col-2 col-md-2 col-sm-3">Valor vendido</th>
+                <th class="col-lg-2 col-2  col-md-2 col-sm-3">Valor a pagar por {{config('app.name')}}</th>
                 <th>Referecia de pago</th>
                 <th>Fecha transacción</th>
                 <th>Calificación</th>
@@ -40,7 +40,7 @@
             <tbody>
               @foreach ($mis_ventas as $venta)
                   {{--dd($venta)--}}
-                  <tr>                   
+                  <tr id="row_{{$venta->id_pago}}">                   
                     <td>venta</td>   
                     <td>
                       @if($venta->estado_pago=="PENDIENTE")
@@ -70,10 +70,10 @@
                       @elseif($venta->estado_pago=='PAGO TRAMITADOR CONFIRMADO')  
                         <td>$ {{number_format($venta->transation_value-($venta->transation_value*$venta->porcentaje_pago/100),0,',','.')}}</td>                                    
                       @else
-                        <td>$ {{number_format($venta->transation_value-($venta->transation_value*$porcentaje[0]->valor/100),0,',','.')}}</td>                                      
+                        <td>${{number_format($venta->transation_value-($venta->transation_value*$porcentaje[0]->valor/100),0,',','.')}}</td>                                      
                       @endif  
                       
-                    <td>{{$venta->transactionId}}</td>                                   
+                    <td><strong>{{$venta->transactionId}}</strong></td>                                   
                     <td>{{$venta->updated_at}}</td>
                     <td> @for($i=1;$i<=$venta->calificacion;$i++)
                           @if($i<=5)
@@ -115,7 +115,7 @@
                        
                         @include('partials.notificar_tramite_finalizado_comprador',['ad'=>$venta])
                       
-                      @elseif($venta->estado_pago=="TRANSACCION FINALIZADA" )  
+                      @elseif($venta->estado_pago=="TRANSACCION FINALIZADA" || $venta->estado_pago=="PAGO A TRAMITADOR")  
                        
                         @include('partials.confirmar_pago_de_tramitador',['ad'=>$venta])
                      

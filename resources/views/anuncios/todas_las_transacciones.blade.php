@@ -46,7 +46,7 @@
             <tbody>
               
               @foreach ($transacciones as $transaccion)
-                  <tr>      
+                  <tr id="row_{{$transaccion->id_pago}}">      
                      
                     <td>{{$transaccion->nombre_tramite}}</td> 
                      <td>
@@ -79,7 +79,7 @@
                                   
                                                        
                                                       
-                    <td>$ {{number_format($transaccion->transation_value,0,',','.')}}</td>
+                    <td>${{number_format($transaccion->transation_value,0,',','.')}}</td>
 
                     @if($transaccion->estado_pago=="PAGO A TRAMITADOR")  
                     
@@ -94,7 +94,7 @@
                     @else
                     
                       <td>{{$porcentaje[0]->valor}} %</td> 
-                      <td width="15%">$ {{number_format($transaccion->transation_value-($transaccion->transation_value*$porcentaje[0]->valor/100),0,',','.')}}</td>
+                      <td width="15%">${{number_format($transaccion->transation_value-($transaccion->transation_value*$porcentaje[0]->valor/100),0,',','.')}}</td>
 
                     @endif
 

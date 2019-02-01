@@ -2,9 +2,9 @@
       <thead>
         <tr>
           <th class="text-center">Trámite</th>
-          <th class="text-center">Descripción</th>
+          <th class="text-center ">Descripción</th>
           <th class="text-center">Ciudad</th>
-          <th class="text-center" style="width:25%">Valor</th>
+          <th class="text-center ">Valor</th>
           <th class="text-center">Calificación</th>
           <th class="text-center">Acciones</th>
         </tr>
@@ -18,13 +18,13 @@
               <strong><h5> {{$ad->nombre_tramite}}</h5></strong>              
             </td>
 
-            <td class="text-center" style="width:30%"><strong><h5 class="text-justify">{{$ad->descripcion}}</h5></strong></td>
+            <td class="text-center" ><strong><h5 class="text-justify">{{$ad->descripcion}}</h5></strong></td>
 
             <td class="text-center"><strong><h5>{{$ad->ciudad}}</h5></strong></td>
 
-            <td class="text-center" style="width:25% padding: 0px">
+            <td >
 
-              <strong style="margin: 0px;padding: 0px"><h5 style="margin: 0px;padding: 0px">$ {{number_format($ad->valor_tramite,0,',','.')}}</h5></strong>
+              <strong ><h5>${{number_format($ad->valor_tramite,0,',','.')}}</h5></strong>
 
             </td>
 

@@ -12,8 +12,8 @@
                 <h4 class="rj">{{$respuesta['reference_pol']}}</h4>
                 <h4 class="rj">Estado de la transacción: {{$estado}}</h4>
                 <h4 class="rj">Entidad: {{$entidad}}</h4>
-                <h5>{{$respuesta['merchant_name']}}</h5>
-                <h5>Teléfono: {{$respuesta['telephone']}}</h5>
+                <h5>{{$empresa[0]->razon_social}}</h5>
+                <h5>Teléfono: {{$empresa[0]->tel_contacto}}</h5>
             </div>
             <div class="rigth">
                 <h4 class="rj">Cliente</h4>

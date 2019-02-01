@@ -32,7 +32,7 @@
                 <th>Vendedor</th>
                 <th>Teléfono tramitador</th>
                 <th>E-mail tramitador</th>
-                <th>Valor comprado</th>
+                <th class="col-lg-2 col-2  col-md-2 col-sm-3" >Valor comprado</th>
                 <th>Referecia de pago</th>
                 <th>Fecha transacción</th>                
                 <th>Acción</th>  
@@ -41,7 +41,7 @@
             <tbody>
               
               @foreach ($mis_compras as $compra)
-                  <tr>      
+                  <tr id="row_{{$compra->id_pago}}">      
                     <td>compra</td>         
                     <td>
                       @if($compra->estado_pago=="PENDIENTE")
@@ -61,7 +61,7 @@
                     <td>{{$compra->telefono}}</td>          
                     <td>{{$compra->email}}</td>        
                     <td>$ {{number_format($compra->transation_value,0,',','.')}}</td>
-                    <td>{{$compra->transactionId}}</td>
+                    <td><strong>{{$compra->transactionId}}</strong></td>
                     <td>{{$compra->updated_at}}</td>
                     <td>
                       @if($compra->estado_pago=="APROBADA")
