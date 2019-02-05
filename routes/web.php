@@ -60,6 +60,10 @@ Route::group(["prefix"=>"admin","middleware"=>"auth"],function(){
   Route::post('notificar_pago_a_tramitador','UsersController@notificar_pago_a_tramitador')->name('notificar_pago_a_tramitador');
   Route::post('notificar_pago_de_tramitador','UsersController@notificar_pago_de_tramitador')->name('notificar_pago_de_tramitador');
   Route::post('actualizar_certificacion_bancaria/{id_user}','UsersController@actualizar_certificacion_bancaria');
+
+  Route::get('campanias','CampaniasController@index')->name('campanias.index');
+   Route::get('ver_campanias','CampaniasController@show')->name('campanias.show');
+   Route::post('crear_campanias','CampaniasController@store')->name('campanias.store');
   
 });
 

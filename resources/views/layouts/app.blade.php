@@ -138,13 +138,19 @@
                                 <ul class="dropdown-menu">
 
 
-
+                                      <li class="dropdown treeview">
+                                        <a href="{{route('campanias.index')}}">Crear Campañas</a>
+                                      </li>
+                                      <li class="dropdown treeview">
+                                        <a href="{{route('campanias.show')}}">Consultar Campañas</a>
+                                      </li>
                                       <li class="dropdown">
                                         @role('Admin') {{-- Laravel-permission blade helper --}}
                                         
                                          <a href="{{route('users.index')}}">Usuarios</a>
                                          <a href="{{route('permissions.index')}}">Permisos</a>
                                          <a href="{{route('roles.index')}}">Roles</a>
+
                                         @endrole
                                         <a href="{{route('users.show', auth()->user())}}">Perfil</a>
                                         <a href="{{ route('logout') }}"

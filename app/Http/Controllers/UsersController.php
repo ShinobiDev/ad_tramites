@@ -82,7 +82,7 @@ class UsersController extends Controller
           'código_referido'=>''
         ]);
         //Generar contrarseña
-       dd($data);
+       //dd($data);
 
 
         //return redirect()->route('users.index')->with('success','Se ha creado el usuario correctamente');
