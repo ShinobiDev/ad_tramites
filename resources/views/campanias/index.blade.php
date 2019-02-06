@@ -6,6 +6,7 @@
 
 
 @section('content')
+
       <body class="server-prod session-anonymous">
         <div class="container">
           <h1 class="text-center">Crea una campaña en <strong>{{config('app.name')}}</strong></h1>
@@ -47,24 +48,30 @@
                   {{csrf_field()}}
                   <div class="form-group col-6 col-md-6">
                     <label for="exampleInputEmail1">Nombre campaña</label>
-                    <input type="text" name="nombre_campania" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ingresa el nombre de la campaña" required>
+                    <input type="text" name="nombre_campania" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ingresa el nombre de la campaña" value="{{old('nombre_campania')}}" required>
                     
                   </div>
                    <div class="form-group col-6 col-md-6">
                     <label for="exampleInputPassword1">Usuario autorizado para canjear</label>
-                    <input type="text" class="form-control" id="exampleInputPassword1" name="usuario" placeholder="Deja en blanco si es una campaña abierta a todos los usuarios">
+                   
+                   <select class="form-control select2" name="usuario" value="{{old('usuario')}}">
+                        <option value="0">No selecciones ningún usuario si es una campaña abierta a todos los usuarios</option>
+                      @foreach($users as $u)
+                        <option value="{{$u->id}}">{{$u->nombre}}</option>
+                      @endforeach  
+                    </select>
                   </div>
                   <div class="form-group col-6 col-md-6">
                     <label for="exampleInputPassword1">Fecha límite vigencia  </label>
-                    <input type="date" name="fecha_vigencia" class="form-control" id="exampleInputPassword1" >
+                    <input type="date" name="fecha_vigencia" class="form-control" id="exampleInputPassword1" value="{{old('fecha_vigencia')}}" >
                   </div>
                    <div class="form-group col-6 col-md-6">
                     <label for="exampleInputPassword1">Número de cupones</label>
-                    <input type="number" name="numero_cupones" class="form-control" id="exampleInputPassword1" value="1" required>
+                    <input type="number" name="numero_cupones" class="form-control" id="exampleInputPassword1" value="{{old('nombre_campania') or 1}}" min="1" required>
                   </div>
                    <div class="form-group col-12 col-md-12">
                     <label for="exampleInputPassword1">Valor de descuento</label>
-                    <input type="text" name="valor_descuento" class="form-control" id="exampleInputPassword1" required>
+                    <input type="number" name="valor_descuento" class="form-control" id="exampleInputPassword1" placeholder="Solo debes ingresar el valor" value="{{old('valor_descuento')}}" min="1" required>
                   </div>
                  
                   <div class="form-group col-12 col-md-12">

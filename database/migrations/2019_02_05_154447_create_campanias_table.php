@@ -17,7 +17,7 @@ class CreateCampaniasTable extends Migration
             $table->increments('id');
             $table->string("nombre_campania");
             $table->enum("tipo",['global','personal']);
-            $table->date("fecha_vigencia");
+            $table->date("fecha_vigencia")->nullable();
             $table->integer("numero_de_cupones");
             $table->integer("id_user")->nullable();
             $table->decimal("porcentaje_de_descuento");

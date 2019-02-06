@@ -62,9 +62,10 @@ Route::group(["prefix"=>"admin","middleware"=>"auth"],function(){
   Route::post('actualizar_certificacion_bancaria/{id_user}','UsersController@actualizar_certificacion_bancaria');
 
   Route::get('campanias','CampaniasController@index')->name('campanias.index');
-   Route::get('ver_campanias','CampaniasController@show')->name('campanias.show');
-   Route::post('crear_campanias','CampaniasController@store')->name('campanias.store');
-  
+  Route::get('ver_campanias','CampaniasController@show')->name('campanias.show');
+  Route::post('crear_campanias','CampaniasController@store')->name('campanias.store');
+  Route::get('ver_cupones/{id}','CampaniasController@ver_cupones');
+  Route::get('eliminar_cupon/{id}/{id_campana}',"CampaniasController@eliminar_cupones");
 });
 
 Route::post("validar_codigo","UsersController@validar_codigo");

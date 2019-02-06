@@ -1,5 +1,6 @@
 <script type="text/javascript">
       var url_global= "{{config('app.url')}}/";
+      
        /*peticion que hace cambio del campo signature*/
       function cambiar_datos_recarga(){
           document.getElementById("btn_recarga").style.display='none';

@@ -15,8 +15,7 @@ class CreateCuponesCampaniasTable extends Migration
     {
         Schema::create('cupones_campanias', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer("id_campania");
-            $table->datetime('fecha_canje');
+            $table->datetime('fecha_canje')->nullable();
             $table->integer("id_campania");
             $table->string("transaccion_donde_se_aplico");
             $table->integer('id_usuario_canje')->unsigned();

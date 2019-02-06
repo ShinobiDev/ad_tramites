@@ -10,8 +10,7 @@ class CuponesCampania extends Model
     //
    
 
-    public static function crear_cupon($length)
-      {
+    public static function crear_cupon($length){
           $chars = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
           $clen   = strlen( $chars )-1;
           $cod  = '';
@@ -25,4 +24,11 @@ class CuponesCampania extends Model
           }
           return ($cod);
       }
+
+    public function campania(){
+        return $this->belongsTo('App\Campania','id_campania');
+    }  
+    public function usuario(){
+        return $this->belongsTo('App\User','id_usuario_canje');
+    }  
 }
