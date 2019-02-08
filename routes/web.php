@@ -28,7 +28,7 @@ Route::group(["prefix"=>"admin","middleware"=>"auth"],function(){
 	Route::get("anuncios_vistos","UsersController@anuncios_vistos_por_mi")->name('anuncios_vistos');
   Route::get('descontar_recargas/{id_anuncio}/{costo}/{id_user}/{tipo}','UsersController@registro_consulta_ad');
 	Route::get("mis_bonificaciones","UsersController@mis_bonificaciones")->name('mis_bonificaciones');
-  Route::get("registrar_recarga/{id}/{val_recarga}/{ref_pago}","UsersController@registrar_recarga");
+  Route::get("registrar_recarga/{id_user}/{val_recarga}/{ref_pago}","UsersController@registrar_recarga");
   Route::post("compartir_mail","AnuncioController@compartir_mail");
   
   Route::get("cambiar_estado_dia/{id}/{estado}","UsersController@cambiar_estado_dia");
@@ -66,6 +66,7 @@ Route::group(["prefix"=>"admin","middleware"=>"auth"],function(){
   Route::post('crear_campanias','CampaniasController@store')->name('campanias.store');
   Route::get('ver_cupones/{id}','CampaniasController@ver_cupones');
   Route::get('eliminar_cupon/{id}/{id_campana}',"CampaniasController@eliminar_cupones");
+  Route::post('canjear_cupon_recarga',"CampaniasController@canjear_cupones_recargas");
 });
 
 Route::post("validar_codigo","UsersController@validar_codigo");

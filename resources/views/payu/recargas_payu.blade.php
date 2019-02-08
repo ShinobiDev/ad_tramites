@@ -3,7 +3,8 @@
 
                                 <div class="form-group">
                                     <label for="valor">Ingresa el valor de la recarga:</label>
-                                    <input id="num_valor_recarga" onchange="cambiar_datos_recarga()" type="number"  value="20000" min="20000" class="form-control" required>
+                                    <input id="num_valor_recarga" onchange="cambiar_datos_recarga(0,false)" type="number"  value="20000" min="20000" class="form-control" required>
+                                    <input id="hd_num_valor_recarga" type="hidden">
                                 </div>
                                 <div>
                                 
@@ -31,15 +32,19 @@
                                      <label id="msnEspera"></label>
                                 </div>
                                 <div>
-                                   <button onclick="acepta_recargar()" type="button" class="btn btn-secondary" >SI</button>
+                                  @include('partials.redimir_cupon_recarga',['c'=>auth()->user()->id])
+                                  
+                                   <button id="btn_acepta_recarga" onclick="acepta_recargar()" type="button" class="btn btn-secondary" >SI</button>
                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
                                 </div>              
-                                <div class="form-group" id="btn_payu" style="display: none">
-                                  <button id="btn_recarga" type="submit" class="btn btn-primary">Ir a Payu</button>
-                                </div> 
+                                
                          
                         
-
+                        <div class="modal-body">
+                          <div class="form-group" >
+                                  <button  style="display: none" id="btn_recarga" type="submit" class="btn btn-success">Ir a Payu</button>
+                          </div> 
+                        </div>          
                         <div class="modal-footer" >
                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
 
@@ -50,11 +55,13 @@
       function acepta_recargar(){
 
         
-        mostrar_cargando("msnEspera",10,"Cargando ...");
-        peticion_ajax("GET","admin/registrar_recarga/"+document.getElementById("hd_id_user").value+"/"+document.getElementById("num_valor_recarga").value+"/"+document.getElementById("refRecarga").value,{},function(rs){
+        mostrar_cargando("msnEspera",10,"Generando código de pago ...");
+        peticion_ajax("GET","admin/registrar_recarga/"+{{auth()->user()->id}}+"/"+document.getElementById("num_valor_recarga").value+"/"+document.getElementById("refRecarga").value,{},function(rs){
             if(rs.respuesta){
-              document.getElementById("btn_payu").style.display='block';
+              document.getElementById("btn_recarga").style.display='block';
               document.getElementById("msnEspera").innerHTML="";
+            }else{
+              document.getElementById("btn_recarga").style.display='none';
             }
         });
         ////AQUI SE DEBE REGISTRAR LA RECARGA 

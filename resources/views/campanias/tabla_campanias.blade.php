@@ -6,6 +6,8 @@
       <th>Fecha validez</th>      
       <th>Valor descuento</th>
       <th>Cantidad de cupones creados</th>
+      <th>Cantidad de cupones canjeados</th>
+      <th>Cantidad de cupones disponibles</th>
       <th>Acciones</th>
     </tr>
   </thead>
@@ -28,6 +30,9 @@
           @endif
           <td class="text-center">{{$c->porcentaje_de_descuento}}%</td>
           <td class="text-center">{{$c->numero_de_cupones}}</td>
+          <td class="text-center">{{$c->cupones_canjeados}}</td>
+          <td class="text-center">{{$c->cupones_disponibles}}</td>
+
           <td>
            <button  class="btn btn-primary" data-toggle="modal" href="#ver_cupones" onclick="ver_campania('{{$c->id}}','{{$c->nombre_campania}}')">Ver campaña</button>
           </td>

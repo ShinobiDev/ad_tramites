@@ -179,8 +179,12 @@
                       @if ($recargas->valor_recarga <= '0')
                           <h4>Actualmente No tienes saldo</h4>
                       @else
-                        <h4>Su saldo actual es: $ {{number_format($recargas->valor_recarga,0,',','.')}} <small> {{$recargas->status_recarga}}</small></h4>
+                        <h4>Su saldo actual es: $ <span id="sp_valor_recarga">{{number_format($recargas->valor_recarga,0,',','.')}}</span> <small> {{$recargas->status_recarga}}</small></h4>
                       @endif
+
+
+
+
                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
                         Recargar
                       </button>
@@ -195,7 +199,9 @@
                               </button>
                             </div>
                             <div class="modal-body">
+
                               @include('payu.recargas_payu')
+                              
                           </div>
                         </div>
                         </div>

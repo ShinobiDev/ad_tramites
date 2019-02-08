@@ -328,7 +328,11 @@ class UsersController extends Controller
      * @return [type]           [description]
      */
     public function cambio_pass(Request $request){
-         User::where("email",$request['email'])->update(['password'=>bcrypt($request['password'])]);
+
+         User::where("email",$request['email'])
+                        ->update([
+                                  'password'=>bcrypt($request['password'])
+                                ]);
          return redirect()->route('login',["id"=>$request['email']])->with('success', 'Se ha cambiado tu contraseña correctamente, debes ingresar con tu nueva contraseña');
     }
     /*
@@ -535,22 +539,8 @@ class UsersController extends Controller
      * @param  [type] $referencia_pago [description]
      * @return [type]                  [description]
      */
-    public function registrar_recarga($id,$valor_recarga,$referencia_pago){
-        $dt=DB::table('detalle_recargas')->where("referencia_pago",$referencia_pago)->get();
-        if(count($dt)==0){
-            DB::table('detalle_recargas')->insert([
-                    'tipo_recarga' => "RECARGA",
-                    'valor_recarga'=>$valor_recarga,
-                    'referencia_pago'=>$referencia_pago,
-                    'id_usuario'=>$id,
-                    'estado_detalle_recarga'=>'SIN REGISTRAR'
-                ]);
-
-        }
-        $pp=new Payu;
-        $hs=$pp->hashear($referencia_pago,$valor_recarga,"COP");
-        //dd($dt);
-        return response()->json(["respuesta"=>true,"valor"=>$hs]);
+    public function registrar_recarga($id_user,$valor_recarga,$referencia_pago){
+        return response()->json(User::generar_registro_recarga_en_bd($id_user,$valor_recarga,$referencia_pago)[0]);
 
     }
     /**

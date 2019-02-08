@@ -12,7 +12,10 @@ class Campania extends Model
 	{
 	    return $this->hasMany('App\CuponesCampania','id_campania','id');
 	}
-	 public function usuario(){
+	public function usuario(){
         return $this->belongsTo('App\User','id_user');
-    }  
+    }
+
+   
+
 }

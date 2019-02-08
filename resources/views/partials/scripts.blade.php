@@ -2,9 +2,15 @@
       var url_global= "{{config('app.url')}}/";
       
        /*peticion que hace cambio del campo signature*/
-      function cambiar_datos_recarga(){
+      function cambiar_datos_recarga(valor,mostrar){
           document.getElementById("btn_recarga").style.display='none';
-          var val=document.getElementById("num_valor_recarga").value;
+          if(valor!=0){
+            var val=valor;
+          }else{
+            var val=document.getElementById("num_valor_recarga").value;  
+          }
+          
+          document.getElementById('hd_num_valor_recarga').value=val;
           var ref=document.getElementById("refRecarga").value.split("-")[0];
 
           var add_ref=Date.now().toString().substr(-2,2);
@@ -18,7 +24,10 @@
 
 
              document.getElementById("hd_signature_recarga").value=rs.valor;
-             document.getElementById("btn_recarga").style.display='';
+             if(mostrar==true){
+              document.getElementById("btn_recarga").style.display='';
+             }
+             
 
           });
         }

@@ -5,12 +5,12 @@
 
 Estimad@ {{$user->nombre}}, se ha realizado una nueva recarga.
 
-Recarga pendiente por valor: $ {{$recarga[1]['valor']}}  {{$recarga[1]['fecha']}}, solo falta que realices el pago.
+Recarga pendiente por valor: $ {{number_format($recarga[1]['valor'],0,',','.')}}, solo falta que realices el pago.
 
 
 ## Resumen Oferta ##
 Anuncio:
-Estado: PENDIENTE DE APROBACION
+Estado: PENDIENTE DE APROBACIÓN
 
 
 

@@ -5,7 +5,7 @@
 
 Estimad@ {{$user->nombre}}, se ha realizado una nueva recarga exitosa.
 
-Recarga Exitosa por valor: $ {{$recarga[1]['valor']}}
+Recarga Exitosa por valor: $ {{number_format($recarga[1]['valor'],0,',','.')}}
 
 
 ## Resumen Oferta ##

@@ -16,9 +16,13 @@ class CreateCampaniasTable extends Migration
         Schema::create('campanias', function (Blueprint $table) {
             $table->increments('id');
             $table->string("nombre_campania");
-            $table->enum("tipo",['global','personal']);
-            $table->date("fecha_vigencia")->nullable();
+            $table->enum("tipo_campania",['global','personal']);
+            $table->enum("tipo_canje",['compra','recarga']);
+            $table->datetime("fecha_inicial_vigencia")->nullable();
+            $table->datetime("fecha_final_vigencia")->nullable();
             $table->integer("numero_de_cupones");
+            $table->integer("cupones_disponibles");
+            $table->integer("cupones_canjeados");
             $table->integer("id_user")->nullable();
             $table->decimal("porcentaje_de_descuento");
             $table->timestamps();

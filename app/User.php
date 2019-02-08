@@ -8,6 +8,7 @@ use Spatie\Permission\Models\Permission;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Anuncio;
+use App\Payu;
 use Carbon\Carbon;
 use App\Events\NotificacionAnuncio;
 use DB;
@@ -110,7 +111,7 @@ class User extends Authenticatable
     }
 
     public function registro_recargas($req){
-    //dd($req);
+        //dd($req);
         switch ($req['transactionState']) {
             case 4:
                 //APROBADA
@@ -286,7 +287,7 @@ class User extends Authenticatable
                     }else{
 
 
-                            $msn="Ya habias registrado esta referencia de pago, una vez realices el pago se registrara tu recarga";
+                            $msn="Esta referencia de pago no parece en neustro sistema";
                             return view('payu.error_payu')->with("mensaje",$msn);
                     }
                     //dd($recarga[0]->valor);
@@ -328,5 +329,43 @@ class User extends Authenticatable
                     return view('payu.error_payu')->with("mensaje",$msn);
                 break;
         }
+    }
+    /**
+     * [generar_registro_recarga_en_bd description]
+     * Aqui se geenra el registro de la recarga antes de ir a la pasarella de pagos de payu
+     * @param  [type] $id              [description]
+     * @param  [type] $valor_recarga   [description]
+     * @param  [type] $referencia_pago [description]
+     * @return [type]                  [description]
+     */
+    public static function generar_registro_recarga_en_bd($id_user,$valor_recarga,$referencia_pago){
+        $dt=DB::table('detalle_recargas')
+                    ->where([
+                          ["id_usuario",$id_user],
+                          ["tipo_recarga",'RECARGA'],
+                          ['estado_detalle_recarga','SIN REGISTRAR']
+                        ])->get();
+        //dd($dt);            
+        if(count($dt)==0){
+            DB::table('detalle_recargas')->insert([
+                    'tipo_recarga' => "RECARGA",
+                    'valor_recarga'=>$valor_recarga,
+                    'referencia_pago'=>$referencia_pago,
+                    'id_usuario'=>$id_user,
+                    'estado_detalle_recarga'=>'SIN REGISTRAR'
+                ]);
+
+        }else{
+          DB::table('detalle_recargas')
+                ->where('id',$dt[0]->id)
+                ->update([
+                    'valor_recarga'=>$valor_recarga,
+                    'referencia_pago'=>$referencia_pago,                    
+                ]);
+        }
+        $pp=new Payu;
+        $hs=$pp->hashear($referencia_pago,$valor_recarga,"COP");
+        //dd($dt);
+        return array(["respuesta"=>true,"valor"=>$hs]);
     }
 }

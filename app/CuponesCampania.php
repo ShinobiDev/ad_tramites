@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Campania;
+use Carbon\Carbon;
 
 class CuponesCampania extends Model
 {
@@ -23,7 +25,7 @@ class CuponesCampania extends Model
           		CuponesCampania::crear_cupon($length);
           }
           return ($cod);
-      }
+    }
 
     public function campania(){
         return $this->belongsTo('App\Campania','id_campania');
@@ -31,4 +33,75 @@ class CuponesCampania extends Model
     public function usuario(){
         return $this->belongsTo('App\User','id_usuario_canje');
     }  
+
+    public static function redimir_cupon($cupon,$fecha_canje,$id_usuario_canje,$transaccion_canje,$tipo_de_campania,$monto_valor_a_redimir){
+      
+      $camp=CuponesCampania::where([
+                                    ['estado','sin canjear'],
+                                    ['codigo_cupon',$cupon]
+                                  ])->first();
+      
+      if($camp!=null){
+        //dd($camp->campania->porcentaje_de_descuento);
+        if($tipo_de_campania!=$camp->campania->tipo_canje){
+          return array(['respuesta'=>false,'mensaje'=>'Error de autorización: Este cupón no es válido para este tipo de transacciones. Deja el espacio vacío o verifícalo con quien te lo suministro']);
+        }
+        if($camp->id_user!=null){
+
+        //valido que el usuario que va registrar el cupon sea el permitido
+            if($id_usuario_canje==$camp->id_user){
+              if($camp->campania->porcentaje_de_descuento==100){
+                $val_dto=$monto_valor_a_redimir;
+              }else{
+                $val_dto=$monto_valor_a_redimir-($monto_valor_a_redimir*($camp->campania->porcentaje_de_descuento)/100);
+              }
+              
+
+              CuponesCampania::registro_canje($camp->id_campania,$cupon,$transaccion_canje,$id_usuario_canje,$val_dto);
+
+
+              return array(['respuesta'=>true,'mensaje'=>'Cupón canjeado','dto'=>$camp->campania->porcentaje_de_descuento]);
+            }else{
+              return array(['respuesta'=>false,'mensaje'=>'Error de autorización: No estas autorizado para canjear este cupón. Deja el espacio vacío o verifícalo con quien te lo suministro']);
+              
+            }
+          }else{
+             if($camp->campania->porcentaje_de_descuento==100){
+                $val_dto=$monto_valor_a_redimir;
+              }else{
+                $val_dto=$monto_valor_a_redimir-($monto_valor_a_redimir*($camp->campania->porcentaje_de_descuento)/100);
+              }
+            CuponesCampania::registro_canje($camp->id_campania,$cupon,$transaccion_canje,$id_usuario_canje,$val_dto);
+            return array(['respuesta'=>true,'mensaje'=>'Cupón canjeado','dto'=>$camp->campania->porcentaje_de_descuento]);
+            
+          }
+        }else{
+
+          return array(['respuesta'=>false,'mensaje'=>'Error Código cupóń: El Código del cupón no existe. Deja el espacio vacío o verifícalo con quien te lo suministro']);
+        }
+      
+    }
+
+    public static function registro_canje($id_campania,$cupon,$transaccion_canje,$id_usuario_canje,$monto_valor_redimido){
+      
+          CuponesCampania::where([
+                             ['id_campania',$id_campania] ,
+                             ['codigo_cupon',$cupon],
+                             ['estado','=','sin canjear'] 
+                          ])
+                          ->take(1)
+                          ->update([
+                              'estado'=>'canjeado', 
+                              'fecha_canje'=>Carbon::now('America/Bogota'),
+                              'transaccion_donde_se_aplico'=>$transaccion_canje,
+                              'monto_valor_redimido'=>$monto_valor_redimido,
+                              'id_usuario_canje'=>$id_usuario_canje,
+                              'updated_at'=>Carbon::now('America/Bogota')
+                            ]);
+          
+          Campania::where('id',$id_campania)->decrement('cupones_disponibles',1);
+          Campania::where('id',$id_campania)->increment('cupones_canjeados',1);
+
+
+    }
 }
