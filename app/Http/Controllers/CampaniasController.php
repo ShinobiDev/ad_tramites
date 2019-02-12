@@ -38,8 +38,11 @@ class CampaniasController extends Controller
           'fecha_inicial_vigencia'=> '',
           'usuario_tramitador'=>'',
           'usuario_cliente'=>'',
+          'limite_por_usuario'=>'',
           'valor_descuento'=>'required|int',
-          'codigo_cupon'=>''
+          'codigo_cupon'=>'',
+          'tipo_dto'=>'',
+          'es_acumulable'=>''
         ]);
         $tipo='personal';
         //dd($data);
@@ -65,6 +68,9 @@ class CampaniasController extends Controller
 
         }
 
+        if (!isset($data['es_acumulable'])) {
+         $data['es_acumulable']=0;  
+        }
         
         
         $id_camp=Campania::insertGetId([
@@ -76,7 +82,10 @@ class CampaniasController extends Controller
         				'numero_de_cupones'=>$data['numero_cupones'],
                 'cupones_disponibles'=>$data['numero_cupones'],
         				'id_user'=>$usuario,
-        				'porcentaje_de_descuento'=>$data['valor_descuento'],
+                'tipo_de_descuento'=>$data['tipo_dto'],
+                'es_acumulable'=>$data['es_acumulable'],
+                'limite_por_usuario'=>$data['limite_por_usuario'],
+        				'valor_de_descuento'=>$data['valor_descuento'],
         				'created_at'=>Carbon::now('America/Bogota'),
         				'updated_at'=>Carbon::now('America/Bogota')
         				]);

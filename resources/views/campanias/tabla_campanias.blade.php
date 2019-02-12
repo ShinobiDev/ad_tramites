@@ -5,6 +5,7 @@
       <th>Usuario</th>
       <th>Fecha validez</th>      
       <th>Valor descuento</th>
+      <th>LImite por usuario</th>
       <th>Cantidad de cupones creados</th>
       <th>Cantidad de cupones canjeados</th>
       <th>Cantidad de cupones disponibles</th>
@@ -28,7 +29,12 @@
           @else
             <td><span class="text-success">{{$c->fecha_vigencia}}</span></td>
           @endif
-          <td class="text-center">{{$c->porcentaje_de_descuento}}%</td>
+          @if($c->tipo_de_descuento=='valor_neto')
+            <td class="text-center">$ {{number_format($c->valor_de_descuento,0,',','.')}}</td>
+          @else
+            <td class="text-center">{{$c->valor_de_descuento}}%</td>
+          @endif
+          <td class="text-center">{{$c->limite_por_usuario}}</td>
           <td class="text-center">{{$c->numero_de_cupones}}</td>
           <td class="text-center">{{$c->cupones_canjeados}}</td>
           <td class="text-center">{{$c->cupones_disponibles}}</td>
@@ -77,8 +83,12 @@
                 @else
                   <span class="text-red">SIN CANJER</span>
                 @endif  
-
-              <td>{{$c->porcentaje_de_descuento}}%</td>
+                @if($c->tipo_de_descuento=='valor_neto')
+                  <td>$ {{number_format($c->valor_de_descuento,0,',','.')}}</td>
+                @else
+                  <td>{{$c->valor_de_descuento}}%</td>
+                @endif  
+              
               <td>
                 @if($cupon->fecha_canje!="")
                   <span class="text-success">CANJEADO</span>

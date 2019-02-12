@@ -40,7 +40,7 @@ class CuponesCampania extends Model
                                     ['estado','sin canjear'],
                                     ['codigo_cupon',$cupon]
                                   ])->first();
-      //dd($camp->campania->id_user,$id_usuario_canje);
+      //dd($camp->campania,$id_usuario_canje);
       if($camp->campania->estado_campania=='ABIERTA'){
         if($camp!=null){
         //dd($camp->campania->porcentaje_de_descuento);
@@ -104,6 +104,7 @@ class CuponesCampania extends Model
                               'updated_at'=>Carbon::now('America/Bogota')
                             ]);
           $c=Campania::where('id',$id_campania)->first();
+          
           if($c->cupones_disponibles < $c->cupones_canjeados){
             Campania::where('id',$id_campania)->decrement('cupones_disponibles',1);
             Campania::where('id',$id_campania)->increment('cupones_canjeados',1);

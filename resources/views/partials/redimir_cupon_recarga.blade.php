@@ -23,14 +23,11 @@
 					document.getElementById('hd_val_recarga').value=e.nuevo_valor;
 					if(e.hash_payu!=false){
 						document.getElementById('hd_signature_recarga').value=e.hash_payu;	
-
-					}
-					
+					}					
 					//cambiar_datos_recarga(e.nuevo_valor,false);
 					if(e.recarga_gratis){
 						document.getElementById('btn_acepta_recarga').disabled=true;
 						document.getElementById('sp_valor_recarga').innerHTML=number_format(e.valor_recarga,0,',','.');
-
 					}
 				}else{
 					document.getElementById('sp_espera_cupon'+id).innerHTML=e.mensaje;
@@ -56,7 +53,5 @@
 			document.getElementById("btn_recarga").style.display='none';
 		}
 		
-	}
-	
-	
+	}	
 </script>
