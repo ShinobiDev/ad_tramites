@@ -25,6 +25,7 @@ class CreateCampaniasTable extends Migration
             $table->integer("cupones_canjeados");
             $table->integer("id_user")->nullable();
             $table->decimal("porcentaje_de_descuento");
+            $table->enum("estado_campania",['ABIERTA','CERRADA'])->default('ABIERTA');
             $table->timestamps();
         });
     }

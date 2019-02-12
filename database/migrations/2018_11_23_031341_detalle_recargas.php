@@ -18,7 +18,8 @@ class DetalleRecargas extends Migration
             $table->increments('id');
             $table->integer('id_usuario')->unsigned();
             $table->enum('tipo_recarga',['BONIFICACION','RECARGA']);
-            $table->decimal('valor_recarga');
+            $table->decimal('valor_recarga',10,2);
+            $table->decimal('valor_pagado',10,2)->nullable();
             $table->string('referencia_pago');
             $table->string('referencia_pago_pay_u')->nullable();
             $table->string('metodo_pago')->nullable();

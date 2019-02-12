@@ -634,7 +634,8 @@ class UsersController extends Controller
                                     'detalle_recargas.valor_recarga',
                                     'detalle_recargas.referencia_pago',
                                     'detalle_recargas.referencia_pago_pay_u',
-                                    'detalle_recargas.created_at')
+                                    'detalle_recargas.updated_at'
+                                    ,'detalle_recargas.created_at')
                             ->join('detalle_recargas','detalle_recargas.id_usuario','users.id')
                             ->orderBy('users.id')       
                             ->where("users.id",$id)    

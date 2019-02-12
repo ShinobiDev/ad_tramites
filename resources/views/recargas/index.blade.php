@@ -212,7 +212,7 @@
 
           
           var td=document.createElement("td");
-          td.innerHTML=rs.datos[f].created_at;
+          td.innerHTML=rs.datos[f].updated_at;
           tr.appendChild(td);
           ls.appendChild(tr);  
         }

@@ -28,13 +28,12 @@
                                 </div>
 
                                 <div class="form-group">
+                                     @include('partials.redimir_cupon_recarga',['c'=>auth()->user()->id])
                                      <label for="valor">¿Estás, seguro de realizar la recarga?</label>
                                      <label id="msnEspera"></label>
                                 </div>
                                 <div>
-                                  @include('partials.redimir_cupon_recarga',['c'=>auth()->user()->id])
-                                  
-                                   <button id="btn_acepta_recarga" onclick="acepta_recargar()" type="button" class="btn btn-secondary" >SI</button>
+                                     <button id="btn_acepta_recarga" onclick="acepta_recargar()" type="button" class="btn btn-secondary" >SI</button>
                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
                                 </div>              
                                 

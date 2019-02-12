@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Events\NotificacionAnuncio;
 use DB;
+use App\Payu;
 use App\Campania;
 use App\User;
 use App\CuponesCampania;
@@ -165,15 +166,19 @@ class CampaniasController extends Controller
                 $user=User::where('id',$request['data']['usuario_que_redime'])->first();
 
                 NotificacionAnuncio::dispatch($user, [],[$user,["valor"=>$request['data']['valor_pago'],"fecha"=>date('Y-m-d')]],"RecargaExitosa");
-                
-                 return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, hemos registrado una recarga completamente gratis','nuevo_valor'=>$request['data']['valor_pago'],'recarga_gratis'=>true,'valor_recarga'=>$user->valor_recarga]);
+                 return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, hemos registrado una recarga completamente gratis.','nuevo_valor'=>$request['data']['valor_pago'],'recarga_gratis'=>true,'valor_recarga'=>$user->valor_recarga,'hash_payu'=>false]);
              
 
             }else{
 
-              $dto=$request['data']['valor_pago']-($request['data']['valor_pago']*($resultado['dto']/100));
+              $dto=$resultado['valor_dto'];
+              
+              $pp = new Payu;
+              $hash=$pp->hashear($request['data']['ref_pago'],$dto,"COP");
+                
+
               User::generar_registro_recarga_en_bd($request['data']['usuario_que_redime'],$dto,$request['data']['ref_pago']);
-              return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, ahora paga '.number_format($dto,0,',','.').' y recibiras '.number_format($request['data']['valor_pago'],0,',','.')." en tu recarga" ,'nuevo_valor'=>$dto,'recarga_gratis'=>false]);    
+              return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, ahora paga $ '.number_format($dto,0,',','.').' y recibiras $ '.number_format($request['data']['valor_pago'],0,',','.')." en tu recarga." ,'nuevo_valor'=>$dto,'recarga_gratis'=>false,'hash_payu'=>$hash]);    
             }
 
         
