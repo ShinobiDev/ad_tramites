@@ -155,39 +155,64 @@ class CampaniasController extends Controller
       $resultado=CuponesCampania::redimir_cupon($request['data']['cupon'],Carbon::now('America/Bogota'),$request['data']['usuario_que_redime'],$request['data']['ref_pago'],'recarga',$request['data']['valor_pago'])[0]; 
       
       if($resultado['respuesta']==true){
-            if($resultado['dto']==100){
-              
-                DB::table("detalle_recargas")->insert([
-                                                              'id_usuario' => $request['data']['usuario_que_redime'],
-                                                              'valor_recarga'=>$request['data']['valor_pago'],
-                                                              "referencia_pago"=>time().$request['data']['usuario_que_redime'],
-                                                               "referencia_pago_pay_u"=>time().$request['data']['usuario_que_redime'],
-                                                               "metodo_pago"=>"RECARGA GRATIS",
-                                                               "tipo_recarga"=>"RECARGA" ,
-                                                               'estado_detalle_recarga'=>'APROBADA',
-                                                               'created_at'=>Carbon::now('America/Bogota'),
-                                                               'updated_at'=>Carbon::now('America/Bogota')
-                                                      ]);
-                
+            
+            $camp=Campania::where('id',$resultado['id_campania'])->first();
+            if($camp->tipo_de_descuento=='porcentaje'){
+                      if($resultado['dto']==100){
+                    
+                      DB::table("detalle_recargas")->insert([
+                                                                    'id_usuario' => $request['data']['usuario_que_redime'],
+                                                                    'valor_recarga'=>$request['data']['valor_pago'],
+                                                                    "referencia_pago"=>time().$request['data']['usuario_que_redime'],
+                                                                     "referencia_pago_pay_u"=>time().$request['data']['usuario_que_redime'],
+                                                                     "metodo_pago"=>"RECARGA GRATIS",
+                                                                     "tipo_recarga"=>"RECARGA" ,
+                                                                     'estado_detalle_recarga'=>'APROBADA',
+                                                                     'created_at'=>Carbon::now('America/Bogota'),
+                                                                     'updated_at'=>Carbon::now('America/Bogota')
+                                                            ]);
+                      
 
-                User::where("id",$request['data']['usuario_que_redime'])->increment("valor_recarga",$request['data']['valor_pago']);
-                
-                $user=User::where('id',$request['data']['usuario_que_redime'])->first();
+                      User::where("id",$request['data']['usuario_que_redime'])->increment("valor_recarga",$request['data']['valor_pago']);
+                      
+                      $user=User::where('id',$request['data']['usuario_que_redime'])->first();
 
-                NotificacionAnuncio::dispatch($user, [],[$user,["valor"=>$request['data']['valor_pago'],"fecha"=>date('Y-m-d')]],"RecargaExitosa");
-                 return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, hemos registrado una recarga completamente gratis.','nuevo_valor'=>$request['data']['valor_pago'],'recarga_gratis'=>true,'valor_recarga'=>$user->valor_recarga,'hash_payu'=>false]);
-             
+                      NotificacionAnuncio::dispatch($user, [],[$user,["valor"=>$request['data']['valor_pago'],"fecha"=>date('Y-m-d')]],"RecargaExitosa");
+                       return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, hemos registrado una recarga completamente gratis.','nuevo_valor'=>$request['data']['valor_pago'],'recarga_gratis'=>true,'valor_recarga'=>$user->valor_recarga,'hash_payu'=>false]);
+                   
 
+                  }else{
+
+                    $dto=$resultado['valor_dto'];
+                    
+                    $pp = new Payu;
+                    $hash=$pp->hashear($request['data']['ref_pago'],$dto,"COP");
+                      
+
+                    User::generar_registro_recarga_en_bd($request['data']['usuario_que_redime'],$dto,$request['data']['ref_pago']);
+                    return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, ahora paga $ '.number_format($dto,0,',','.').' y recibiras $ '.number_format($request['data']['valor_pago'],0,',','.')." en tu recarga." ,'nuevo_valor'=>$dto,'recarga_gratis'=>false,'hash_payu'=>$hash]);    
+                  }
             }else{
+                //pendiente implementacion para valores netos 
+                      DB::table("detalle_recargas")->insert([
+                                                                'id_usuario' => $request['data']['usuario_que_redime'],
+                                                                'valor_recarga'=>$camp->valor_de_descuento,
+                                                                "referencia_pago"=>time().$request['data']['usuario_que_redime'],
+                                                                 "referencia_pago_pay_u"=>time().$request['data']['usuario_que_redime'],
+                                                                 "metodo_pago"=>"RECARGA GRATIS",
+                                                                 "tipo_recarga"=>"RECARGA" ,
+                                                                 'estado_detalle_recarga'=>'APROBADA',
+                                                                 'created_at'=>Carbon::now('America/Bogota'),
+                                                                 'updated_at'=>Carbon::now('America/Bogota')
+                                                            ]);
+                      
 
-              $dto=$resultado['valor_dto'];
-              
-              $pp = new Payu;
-              $hash=$pp->hashear($request['data']['ref_pago'],$dto,"COP");
-                
+                      User::where("id",$request['data']['usuario_que_redime'])->increment("valor_recarga",$camp->valor_de_descuento);
+                      
+                      $user=User::where('id',$request['data']['usuario_que_redime'])->first();
 
-              User::generar_registro_recarga_en_bd($request['data']['usuario_que_redime'],$dto,$request['data']['ref_pago']);
-              return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, ahora paga $ '.number_format($dto,0,',','.').' y recibiras $ '.number_format($request['data']['valor_pago'],0,',','.')." en tu recarga." ,'nuevo_valor'=>$dto,'recarga_gratis'=>false,'hash_payu'=>$hash]);    
+                      NotificacionAnuncio::dispatch($user, [],[$user,["valor"=>$camp->valor_de_descuento,"fecha"=>date('Y-m-d')]],"RecargaExitosa");
+                       return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, hemos registrado una recarga, por la suma de $'.number_format($camp->valor_de_descuento,0,',','.') ,'nuevo_valor'=>$camp->valor_de_descuento,'recarga_gratis'=>true,'valor_recarga'=>$user->valor_recarga,'hash_payu'=>false]);
             }
 
         

@@ -137,6 +137,12 @@ class User extends Authenticatable
                                             if(!empty($cupon)){
                                                 
                                                 $valor_pagado=$cupon->monto_valor_redimido;
+
+                                                //actualizo el estado del cupon a canjeado pagado
+                                                CuponesCampania::where('id',$cupon->id)
+                                                                 ->update([
+                                                                    'estado'=>'canjeado_pagado'
+                                                                 ]);   
                                             }else{
                                                 $valor_pagado=$req['TX_VALUE'];
                                             }
@@ -152,7 +158,7 @@ class User extends Authenticatable
                                                     ]);
 
                                                  
-                                           
+                                                      
                                             
 
                                                 /*
