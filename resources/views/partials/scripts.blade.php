@@ -8,9 +8,13 @@
             var val=valor;
           }else{
             var val=document.getElementById("num_valor_recarga").value;  
+            document.getElementById("hd_num_valor_recarga").value=val;  
+            document.getElementById("hd_val_recarga").value=val;  
+            
+            
           }
           
-          document.getElementById('hd_num_valor_recarga').value=val;
+          
           var ref=document.getElementById("refRecarga").value.split("-")[0];
 
           var add_ref=Date.now().toString().substr(-2,2);
@@ -19,7 +23,7 @@
           document.getElementById("refRecarga").value=ref+"-"+add_ref;
 
 
-          document.getElementById("hd_val_recarga").value=val;
+          
           peticion_ajax("get","admin/hash/"+hs,{},function(rs){
 
 
@@ -464,5 +468,86 @@
 
 
  }      
-  
+  /**
+   * [Funcion para canjear los cupones de compra]
+   * @param  {[type]} e  [description]
+   * @param  {[type]} id [description]
+   * @return {[type]}    [description]
+   */
+  function canjear_cupon_compra(e,id){  
+    
+    if('{{auth()->user()}}'!=null){
+      if(e.value!=""){
+          mostrar_cargando("sp_espera_cupon"+id,5,"Verificando cupón ...");
+          document.getElementById('btn_comprar_'+id).disabled=true;
+          peticion_ajax('POST','admin/canjear_cupon_compra',
+                        {"cupon":e.value,
+                         'usuario_que_redime':document.getElementById('user_id').value,
+                         'ref_pago':document.getElementById("referenceCode"+id).value,
+                         'valor_pago':document.getElementById('hd_valor_venta_'+id).value,
+                         'id_anuncio':id,
+                         'codigo_anuncio':document.getElementById("referenceCode"+id).value,
+                         'validar':document.getElementById("validar_"+id).value
+                       },function(e){
+              //success
+            if(e.respuesta){
+              document.getElementById('div_cupon_menor_'+id).style.display='none';
+              document.getElementById('sp_espera_cupon'+id).innerHTML=e.mensaje;
+              document.getElementById('sp_espera_cupon'+id).classList.remove('text-red'); 
+              document.getElementById('sp_espera_cupon'+id).classList.add('text-success');  
+              
+              
+              document.getElementById('hd_cupon'+id).value=e.nuevo_valor;
+              
+              if(e.hash_payu!=false){
+                document.getElementById('hd_signature_'+id).value=e.hash_payu; 
+                document.getElementById('btn_comprar_'+id).disabled=false;
+              }         
+              
+              document.getElementById('hd_valor_venta_'+id).value=number_format(e.nuevo_valor,0,'','');
+
+              if(e.recarga_gratis){
+                document.getElementById('btn_comprar_'+id).disabled=true;
+                
+              }
+            }else{
+              if(e.mensaje=='valor_tramite_es_mayor'){
+                document.getElementById('div_cupon_menor_'+id).style.display='';
+                document.getElementById('sp_espera_cupon'+id).innerHTML="";
+              }else{
+                document.getElementById('sp_espera_cupon'+id).innerHTML=e.mensaje;
+                document.getElementById('sp_espera_cupon'+id).classList.remove('text-success'); 
+                document.getElementById('sp_espera_cupon'+id).classList.add('text-red');  
+              }
+              
+              
+            }
+            
+
+            },function(e){
+              //error
+            document.getElementById('sp_espera_cupon'+id).innerHTML="Este cuṕón no es válido";
+            document.getElementById('sp_espera_cupon'+id).classList.remove('text-success'); 
+            document.getElementById('sp_espera_cupon'+id).classList.add('text-red');
+            
+            console.log(e)
+          }); 
+        }else{
+          document.getElementById('sp_espera_cupon'+id).innerHTML="";
+          document.getElementById('btn_comprar_'+id).disabled=false;
+          
+        }
+    }
+    
+  }
+
+  function cambiar_validacion(id,validar){
+    document.getElementById('validar_'+id).value=validar;
+    if(validar=='true'){
+      canjear_cupon_compra(document.getElementById('txt_cupon_'+id),id);
+    }else{
+       document.getElementById('txt_cupon_'+id).value=""; 
+    }
+  } 
+
 </script>

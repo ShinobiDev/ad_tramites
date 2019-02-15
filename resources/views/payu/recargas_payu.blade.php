@@ -4,7 +4,7 @@
                                 <div class="form-group">
                                     <label for="valor">Ingresa el valor de la recarga:</label>
                                     <input id="num_valor_recarga" onchange="cambiar_datos_recarga(0,false)" type="number"  value="20000" min="20000" class="form-control" required>
-                                    <input id="hd_num_valor_recarga" type="hidden">
+                                    <input id="hd_num_valor_recarga" value="20000" type="hidden">
                                 </div>
                                 <div>
                                 
@@ -50,19 +50,21 @@
 
                         </div>
     </form>
-    <script type="text/javascript">
+<script type="text/javascript">
       function acepta_recargar(){
 
         
         mostrar_cargando("msnEspera",10,"Generando código de pago ...");
-        peticion_ajax("GET","admin/registrar_recarga/"+{{auth()->user()->id}}+"/"+document.getElementById("num_valor_recarga").value+"/"+document.getElementById("refRecarga").value,{},function(rs){
+        peticion_ajax("GET","admin/registrar_recarga/"+{{auth()->user()->id}}+"/"+document.getElementById("hd_num_valor_recarga").value+"/"+document.getElementById("hd_cupon").value+"/"+document.getElementById("refRecarga").value,{},function(rs){
             if(rs.respuesta){
               document.getElementById("btn_recarga").style.display='block';
               document.getElementById("msnEspera").innerHTML="";
+              document.getElementById("hd_signature_recarga").value=rs.valor;
+              
             }else{
               document.getElementById("btn_recarga").style.display='none';
             }
         });
         ////AQUI SE DEBE REGISTRAR LA RECARGA 
       }
-    </script>
+</script>

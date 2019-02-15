@@ -27,6 +27,7 @@ class CreateCampaniasTable extends Migration
             $table->integer('limite_por_usuario')->default('1');
             $table->enum("tipo_de_descuento",['porcentaje','valor_neto']);
             $table->decimal("valor_de_descuento");
+            $table->decimal("costo_minimo",10,2)->default(0);
             $table->enum("es_acumulable",['0','1'])->default('0');
             $table->enum("estado_campania",['ABIERTA','CERRADA'])->default('ABIERTA');
             $table->timestamps();

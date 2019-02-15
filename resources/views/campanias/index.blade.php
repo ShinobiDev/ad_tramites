@@ -93,6 +93,7 @@
                     <label for="exampleInputPassword1">Fecha límite vigencia de la campaña (opcional) </label>
                     <input type="date" name="fecha_final_vigencia" class="form-control" id="exampleInputPassword1" value="{{old('fecha_vigencia')}}" >
                   </div>
+                  
                   <div class="form-group col-12 col-md-12">
                     <div class="col-3 col-md-3">
                         <label for="exampleInputPassword1">Aplicar descuento</label>
@@ -106,18 +107,22 @@
                     </div>
 
                     <div class="col-9 col-md-9">
-                      <label for="exampleInputPassword1" id="lbl_dto" style="display: none">Porcentaje de descuento (opcional)</label>
-                      <input id="inp_dto" style="display: none" type="number" name="valor_descuento" class="form-control" id="exampleInputPassword1" placeholder="Solo debes ingresar el porcentaje" value="{{old('valor_descuento')}}" min="1" >
+                      <label for="exampleInputPassword1" id="lbl_dto" style="display: none">Porcentaje de descuento </label>
+                      <input id="inp_dto" style="display: none" type="number" name="valor_descuento_por" class="form-control" id="exampleInputPassword1" placeholder="Solo debes ingresar el porcentaje" value="{{old('valor_descuento')}}" min="1" >
 
-                      <label id="lbl_vlr" for="exampleInputPassword1">Valor en pesos del descuento (opcional)</label>
-                      <input id="inp_vlr" type="number" name="valor_descuento" class="form-control" id="exampleInputPassword1" placeholder="Solo debes ingresar el valor" value="{{old('valor_descuento')}}" min="1" >
+                      <label id="lbl_vlr" for="exampleInputPassword1">Valor en pesos del descuento </label>
+                      <input id="inp_vlr" type="number" name="valor_descuento_val" class="form-control" id="exampleInputPassword1" placeholder="Solo debes ingresar el valor" value="{{old('valor_descuento')}}" min="1" >
                     </div>
 
                     
 
                   </div>
+                  <div class="form-group col-6 col-md-6">
+                    <label for="exampleInputPassword1">Valor mínimo para aplicar descuento</label>
+                    <input type="number" name="costo_minimo" class="form-control" id="exampleInputPassword1" value="500" min="500" >
+                  </div>
 
-                   <div class="form-group col-6 col-md-6">
+                  <div class="form-group col-6 col-md-6">
                     <label for="exampleInputPassword1">Número de cupones de la campaña</label>
                     <input type="number" name="numero_cupones" class="form-control" id="exampleInputPassword1" value="{{old('nombre_campania') or 1}}" min="1" required>
                   </div>

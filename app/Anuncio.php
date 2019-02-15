@@ -212,19 +212,31 @@ class Anuncio extends Model
                       }else{
                         $msn="Hemos registrado tu compra";
 
-                        DB::table("registro_pagos_anuncios")->where("id",$p[0]->id)->update(["estado_pago"=>"APROBADA"]);
-
-                      $anuncio=Anuncio::where("anuncios.id",$id_ad)
+                        DB::table("registro_pagos_anuncios")
+                                  ->where("id",$p[0]->id)
+                                    ->update(["estado_pago"=>"APROBADA"]);
+                        //CuponesCampania::where(,$req['referenceCode'])            
+                        $cupon=false;            
+                        $anuncio=Anuncio::where("anuncios.id",$id_ad)
                             ->join('tramites','tramites.id','anuncios.id_tramite')
                             ->select('anuncios.ciudad','anuncios.valor_tramite','anuncios.descripcion_anuncio','tramites.nombre_tramite','anuncios.id_user')
                             ->get();
                       
-                      $anunciante=User::where("id",$anuncio[0]->id_user)->get();
+                        $anunciante=User::where("id",$anuncio[0]->id_user)->get();
                         
                         //aqui debo enviar los datos de confirmación a la cuenta de correo
                         NotificacionAnuncio::dispatch($comprador[0], [$anunciante[0],$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_compras/'.$comprador[0]->id.'?id='.$req['reference_pol']]],[],"CompraExitosa");
                         
-                        NotificacionAnuncio::dispatch($anunciante[0], [$comprador[0],$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_ventas/'.$anunciante[0]->id.'?id='.$req['reference_pol']]],$anunciante[0]->valor_recarga,"CompraExitosaAnunciante");
+                        NotificacionAnuncio::dispatch($anunciante[0], 
+                                                       [
+                                                         $comprador[0],
+                                                         $anuncio[0],
+                                                         ['url'=>config('app.url').'/admin/ver_mis_ventas/'.$anunciante[0]->id.'?id='.$req['reference_pol'],
+                                                          
+                                                         ],
+                                                         ['cupon'=>$cupon]
+                                                       ],
+                                                        $anunciante[0]->valor_recarga,"CompraExitosaAnunciante");
 
                         return view('payu.confirmar_payu')->with("respuesta",$req)
                             ->with("empresa",$empresa)

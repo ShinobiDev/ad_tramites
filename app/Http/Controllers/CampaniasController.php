@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Events\NotificacionAnuncio;
 use DB;
 use App\Payu;
+use App\Anuncio;
 use App\Campania;
 use App\User;
 use App\CuponesCampania;
@@ -28,7 +29,7 @@ class CampaniasController extends Controller
     	return view('campanias.show')->with('campanias',$c);
     }
     public function store(Request $request){
-    	
+    	//dd($request); 
     	$data = $request->validate([
           'nombre_campania' => 'required|string|max:255',
           'numero_cupones' => 'required',
@@ -39,7 +40,9 @@ class CampaniasController extends Controller
           'usuario_tramitador'=>'',
           'usuario_cliente'=>'',
           'limite_por_usuario'=>'',
-          'valor_descuento'=>'required|int',
+          'valor_descuento_por'=>'',
+          'valor_descuento_val'=>'',
+          'costo_minimo'=>'int',
           'codigo_cupon'=>'',
           'tipo_dto'=>'',
           'es_acumulable'=>''
@@ -67,9 +70,18 @@ class CampaniasController extends Controller
           }
 
         }
+        //dd($data);
+        if($data['tipo_dto']=='porcentaje'){
+          $valor_descuento=$data['valor_descuento_por'];
+        }else{
+          $valor_descuento=$data['valor_descuento_val'];
+        }
+
 
         if (!isset($data['es_acumulable'])) {
          $data['es_acumulable']=0;  
+        }else{
+          $data['es_acumulable']=1;  
         }
         
         
@@ -77,7 +89,7 @@ class CampaniasController extends Controller
         				'nombre_campania'=>$data['nombre_campania'],
         				'tipo_campania'=>$tipo,
                 'tipo_canje'=>$data['tipo_canje'],
-        				'fecha_inicial_vigencia'=>$data['fecha_inicial_vigencia'].' 00:00:00',
+                'fecha_inicial_vigencia'=>$data['fecha_inicial_vigencia'].' 00:00:00',
                 'fecha_final_vigencia'=>$data['fecha_final_vigencia'].' 23:59:59',
         				'numero_de_cupones'=>$data['numero_cupones'],
                 'cupones_disponibles'=>$data['numero_cupones'],
@@ -85,7 +97,8 @@ class CampaniasController extends Controller
                 'tipo_de_descuento'=>$data['tipo_dto'],
                 'es_acumulable'=>$data['es_acumulable'],
                 'limite_por_usuario'=>$data['limite_por_usuario'],
-        				'valor_de_descuento'=>$data['valor_descuento'],
+        				'valor_de_descuento'=>$valor_descuento,
+                'costo_minimo'=>$data['costo_minimo'],
         				'created_at'=>Carbon::now('America/Bogota'),
         				'updated_at'=>Carbon::now('America/Bogota')
         				]);
@@ -144,21 +157,25 @@ class CampaniasController extends Controller
    		}
    		return response()->json(['respuesta'=>true,'mensaje'=>'Cupon eliminado correctamente','reload'=>$reload]); 		
     }	
-
+    /**
+     * Funcion para canjear los cupones para recargas
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function canjear_cupones_recargas(Request $request){
       //consultar campañas validas con ese cupon 
       //
       //dd($request['data']['cupon'],$request['data']['usuario_que_redime'],Carbon::now('America/Bogota'));
       
        
-
+      //dd($request['data']['valor_pago']);
       $resultado=CuponesCampania::redimir_cupon($request['data']['cupon'],Carbon::now('America/Bogota'),$request['data']['usuario_que_redime'],$request['data']['ref_pago'],'recarga',$request['data']['valor_pago'])[0]; 
-      
+      //dd($resultado);
       if($resultado['respuesta']==true){
             
             $camp=Campania::where('id',$resultado['id_campania'])->first();
             if($camp->tipo_de_descuento=='porcentaje'){
-                      if($resultado['dto']==100){
+                  if($resultado['dto']==100){
                     
                       DB::table("detalle_recargas")->insert([
                                                                     'id_usuario' => $request['data']['usuario_que_redime'],
@@ -178,41 +195,277 @@ class CampaniasController extends Controller
                       $user=User::where('id',$request['data']['usuario_que_redime'])->first();
 
                       NotificacionAnuncio::dispatch($user, [],[$user,["valor"=>$request['data']['valor_pago'],"fecha"=>date('Y-m-d')]],"RecargaExitosa");
+
                        return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, hemos registrado una recarga completamente gratis.','nuevo_valor'=>$request['data']['valor_pago'],'recarga_gratis'=>true,'valor_recarga'=>$user->valor_recarga,'hash_payu'=>false]);
                    
 
                   }else{
-
                     $dto=$resultado['valor_dto'];
+
+                    
                     
                     $pp = new Payu;
-                    $hash=$pp->hashear($request['data']['ref_pago'],$dto,"COP");
+                    $hash=$pp->hashear($request['data']['ref_pago'],$request['data']['valor_pago'],"COP");
                       
 
-                    User::generar_registro_recarga_en_bd($request['data']['usuario_que_redime'],$dto,$request['data']['ref_pago']);
-                    return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, ahora paga $ '.number_format($dto,0,',','.').' y recibiras $ '.number_format($request['data']['valor_pago'],0,',','.')." en tu recarga." ,'nuevo_valor'=>$dto,'recarga_gratis'=>false,'hash_payu'=>$hash]);    
+                    User::generar_registro_recarga_en_bd($request['data']['usuario_que_redime'],$dto,$request['data']['valor_pago'],$request['data']['ref_pago']);
+                    return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, ahora paga $ '.number_format($dto,0,',','.').' y recibiras $ '.number_format($request['data']['valor_pago'],0,',','.')." en tu recarga." ,'nuevo_valor'=>$dto,'nuevo_valor_recarga'=>number_format($request['data']['valor_pago'],0,'',''),'recarga_gratis'=>false,'hash_payu'=>$hash]);    
                   }
             }else{
                 //pendiente implementacion para valores netos 
+                    $dto=$resultado['valor_dto'];
+                    //dd($dto,$camp->valor_de_descuento);
+                    if($request['data']['valor_pago']==$camp->valor_de_descuento){
+
                       DB::table("detalle_recargas")->insert([
-                                                                'id_usuario' => $request['data']['usuario_que_redime'],
-                                                                'valor_recarga'=>$camp->valor_de_descuento,
-                                                                "referencia_pago"=>time().$request['data']['usuario_que_redime'],
-                                                                 "referencia_pago_pay_u"=>time().$request['data']['usuario_que_redime'],
-                                                                 "metodo_pago"=>"RECARGA GRATIS",
-                                                                 "tipo_recarga"=>"RECARGA" ,
-                                                                 'estado_detalle_recarga'=>'APROBADA',
-                                                                 'created_at'=>Carbon::now('America/Bogota'),
-                                                                 'updated_at'=>Carbon::now('America/Bogota')
+                                                                    'id_usuario' => $request['data']['usuario_que_redime'],
+                                                                    'valor_recarga'=>$dto,
+                                                                    "referencia_pago"=>time().$request['data']['usuario_que_redime'],
+                                                                     "referencia_pago_pay_u"=>time().$request['data']['usuario_que_redime'],
+                                                                     "metodo_pago"=>"RECARGA GRATIS",
+                                                                     "tipo_recarga"=>"RECARGA" ,
+                                                                     'estado_detalle_recarga'=>'APROBADA',
+                                                                     'created_at'=>Carbon::now('America/Bogota'),
+                                                                     'updated_at'=>Carbon::now('America/Bogota')
                                                             ]);
                       
 
-                      User::where("id",$request['data']['usuario_que_redime'])->increment("valor_recarga",$camp->valor_de_descuento);
+                      User::where("id",$request['data']['usuario_que_redime'])->increment("valor_recarga",$dto);
                       
                       $user=User::where('id',$request['data']['usuario_que_redime'])->first();
 
-                      NotificacionAnuncio::dispatch($user, [],[$user,["valor"=>$camp->valor_de_descuento,"fecha"=>date('Y-m-d')]],"RecargaExitosa");
-                       return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, hemos registrado una recarga, por la suma de $'.number_format($camp->valor_de_descuento,0,',','.') ,'nuevo_valor'=>$camp->valor_de_descuento,'recarga_gratis'=>true,'valor_recarga'=>$user->valor_recarga,'hash_payu'=>false]);
+                      NotificacionAnuncio::dispatch($user, [],[$user,["valor"=>$dto+$camp->valor_de_descuento,"fecha"=>date('Y-m-d')]],"RecargaExitosa");
+
+                       return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, hemos registrado una recarga completamente gratis.','nuevo_valor'=>$dto,'recarga_gratis'=>true,'valor_recarga'=>$user->valor_recarga,'nuevo_valor_recarga'=>$dto,'hash_payu'=>false]);
+
+
+                    }else{
+                      $pp = new Payu;
+                      $hash=$pp->hashear($request['data']['ref_pago'],$request['data']['valor_pago'],"COP");
+                        
+
+                      User::generar_registro_recarga_en_bd($request['data']['usuario_que_redime'],$dto,$request['data']['valor_pago']+$dto,$request['data']['ref_pago']);
+
+                      return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, ahora paga $ '.number_format($request['data']['valor_pago']-$dto,0,',','.').' y recibiras $ '.number_format($request['data']['valor_pago'],0,',','.')." en tu recarga." ,'nuevo_valor'=>$request['data']['valor_pago']-$dto,'nuevo_valor_recarga'=>$request['data']['valor_pago'],'recarga_gratis'=>false,'hash_payu'=>$hash]); 
+                    }
+
+                    
+                           
+            }
+
+        
+        
+        
+      }else{
+        return response()->json($resultado);  
+      }  
+      
+    }
+    public function canjear_cupones_compras(Request $request){
+ 
+      $resultado=CuponesCampania::redimir_cupon_compra($request['data']['cupon'],Carbon::now('America/Bogota'),$request['data']['usuario_que_redime'],$request['data']['ref_pago'],'compra',$request['data']['valor_pago'],$request['data']['id_anuncio'],$request['data']['validar'])[0]; 
+      //dd($resultado);
+      if($resultado['respuesta']==true){
+            
+            $camp=Campania::where('id',$resultado['id_campania'])->first();
+            if($camp->tipo_de_descuento=='porcentaje'){
+                  if($resultado['dto']==100){
+                    
+                     
+                      
+                       $cupon="100% de descuento en el valor del trámite";
+                       DB::table('registro_pagos_anuncios')
+                                ->insert(['transactionId'=>$request['data']['codigo_anuncio'],
+                                          'transactionState'=>4,
+                                          'transation_value'=>$request['data']['valor_pago'],
+                                          'id_anuncio'=>$request['data']['id_anuncio'],
+                                          'id_user_compra'=>$request['data']['usuario_que_redime'],
+                                          'metodo_pago'=>'BONO REGALO',
+                                          'estado_pago'=>'APROBADA',
+                                          'created_at'=>Carbon::now('America/Bogota'),
+                                          'updated_at'=>Carbon::now('America/Bogota')
+                                         ]); 
+                       $comprador=User::where('id',$request['data']['usuario_que_redime'])->first();        
+                       $anuncio=Anuncio::where("anuncios.id",$request['data']['id_anuncio'])
+                            ->join('tramites','tramites.id','anuncios.id_tramite')
+                            ->select('anuncios.ciudad','anuncios.valor_tramite','anuncios.descripcion_anuncio','tramites.nombre_tramite','anuncios.id_user')
+                            ->get();
+                       $anunciante=User::where('id',$anuncio[0]->id_user)->first(); 
+
+                       NotificacionAnuncio::dispatch($comprador, [$anunciante,$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_compras/'.$comprador->id.'?id='.$request['data']['codigo_anuncio']]],[],"CompraExitosa");
+                        
+                        NotificacionAnuncio::dispatch($anunciante, 
+                                                       [
+                                                         $comprador,
+                                                         $anuncio[0],
+                                                         ['url'=>config('app.url').'/admin/ver_mis_ventas/'.$anunciante->id.'?id='.$request['data']['codigo_anuncio'],
+                                                          
+                                                         ],
+                                                         ['cupon'=>$cupon]
+                                                       ],
+                                                        $anunciante->valor_recarga,"CompraExitosaAnunciante");
+                                              
+                       return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, hemos registrado una compra completamente gratis.','nuevo_valor'=>$request['data']['valor_pago'],'compra_gratis'=>true,'valor_compra'=>$request['data']['valor_pago'],'hash_payu'=>false]);
+                   
+
+                  }else{
+
+
+
+
+
+
+                      if($request['data']['validar']=='true'){
+
+                       $cupon="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+                       DB::table('registro_pagos_anuncios')
+                                ->insert(['transactionId'=>$request['data']['codigo_anuncio'],
+                                          'transactionState'=>4,
+                                          'transation_value'=>$request['data']['valor_pago'],
+                                          'id_anuncio'=>$request['data']['id_anuncio'],
+                                          'id_user_compra'=>$request['data']['usuario_que_redime'],
+                                          'metodo_pago'=>'BONO REGALO',
+                                          'estado_pago'=>'APROBADA',
+                                          'created_at'=>Carbon::now('America/Bogota'),
+                                          'updated_at'=>Carbon::now('America/Bogota')
+                                         ]); 
+                       $comprador=User::where('id',$request['data']['usuario_que_redime'])->first();        
+                       $anuncio=Anuncio::where("anuncios.id",$request['data']['id_anuncio'])
+                            ->join('tramites','tramites.id','anuncios.id_tramite')
+                            ->select('anuncios.ciudad','anuncios.valor_tramite','anuncios.descripcion_anuncio','tramites.nombre_tramite','anuncios.id_user')
+                            ->get();
+                       $anunciante=User::where('id',$anuncio[0]->id_user)->first(); 
+
+                       NotificacionAnuncio::dispatch($comprador, [$anunciante,$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_compras/'.$comprador->id.'?id='.$request['data']['codigo_anuncio']]],[],"CompraExitosa");
+                        
+                        NotificacionAnuncio::dispatch($anunciante, 
+                                                       [
+                                                         $comprador,
+                                                         $anuncio[0],
+                                                         ['url'=>config('app.url').'/admin/ver_mis_ventas/'.$anunciante->id.'?id='.$request['data']['codigo_anuncio'],
+                                                          
+                                                         ],
+                                                         ['cupon'=>$cupon]
+                                                       ],
+                                                        $anunciante->valor_recarga,"CompraExitosaAnunciante");
+
+
+                        return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, hemos registrado una compra completamente gratis.','nuevo_valor'=>$request['data']['valor_pago'],'compra_gratis'=>true,'valor_compra'=>$request['data']['valor_pago'],'hash_payu'=>false]);
+
+                      }
+
+
+
+
+                    $dto=$resultado['valor_dto'];
+
+                    
+                    
+                    $pp = new Payu;
+                    $hash=$pp->hashear($request['data']['ref_pago'],$resultado['valor_dto'],"COP");
+                      
+
+                    User::generar_registro_recarga_en_bd($request['data']['usuario_que_redime'],$dto,$request['data']['valor_pago'],$request['data']['ref_pago']);
+
+
+                    return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, ahora paga $ '.number_format($dto,0,',','.').' en lugar de $ '.number_format($request['data']['valor_pago'],0,',','.')." por tu trámite." ,'nuevo_valor'=>$dto,'compra_gratis'=>false,'hash_payu'=>$hash]);    
+                  }
+            }else{
+                //pendiente implementacion para valores netos 
+                    $dto=$resultado['dto'];
+                    //dd($dto,$camp->valor_de_descuento);
+                    if($request['data']['valor_pago']==$camp->valor_de_descuento){
+
+                     
+                      $cupon="100% de descuento en el valor del trámite";
+                       DB::table('registro_pagos_anuncios')
+                                ->insert(['transactionId'=>$request['data']['codigo_anuncio'],
+                                          'transactionState'=>4,
+                                          'transation_value'=>$request['data']['valor_pago'],
+                                          'id_anuncio'=>$request['data']['id_anuncio'],
+                                          'id_user_compra'=>$request['data']['usuario_que_redime'],
+                                          'metodo_pago'=>'BONO REGALO',
+                                          'estado_pago'=>'APROBADA',
+                                          'created_at'=>Carbon::now('America/Bogota'),
+                                          'updated_at'=>Carbon::now('America/Bogota')
+                                         ]); 
+                       $comprador=User::where('id',$request['data']['usuario_que_redime'])->first();        
+                       $anuncio=Anuncio::where("anuncios.id",$request['data']['id_anuncio'])
+                            ->join('tramites','tramites.id','anuncios.id_tramite')
+                            ->select('anuncios.ciudad','anuncios.valor_tramite','anuncios.descripcion_anuncio','tramites.nombre_tramite','anuncios.id_user')
+                            ->get();
+                       $anunciante=User::where('id',$anuncio[0]->id_user)->first(); 
+
+                       NotificacionAnuncio::dispatch($comprador, [$anunciante,$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_compras/'.$comprador->id.'?id='.$request['data']['codigo_anuncio']]],[],"CompraExitosa");
+                        
+                        NotificacionAnuncio::dispatch($anunciante, 
+                                                       [
+                                                         $comprador,
+                                                         $anuncio[0],
+                                                         ['url'=>config('app.url').'/admin/ver_mis_ventas/'.$anunciante->id.'?id='.$request['data']['codigo_anuncio'],
+                                                          
+                                                         ],
+                                                         ['cupon'=>$cupon]
+                                                       ],
+                                                        $anunciante->valor_recarga,"CompraExitosaAnunciante");
+
+
+                        return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, hemos registrado una compra completamente gratis.','nuevo_valor'=>$request['data']['valor_pago'],'compra_gratis'=>true,'valor_compra'=>$request['data']['valor_pago'],'hash_payu'=>false]);
+
+
+                    }else{
+
+
+                      if($request['data']['validar']=='true'){
+
+                       $cupon="100% de descuento en el valor del trámite";
+                       DB::table('registro_pagos_anuncios')
+                                ->insert(['transactionId'=>$request['data']['codigo_anuncio'],
+                                          'transactionState'=>4,
+                                          'transation_value'=>$request['data']['valor_pago'],
+                                          'id_anuncio'=>$request['data']['id_anuncio'],
+                                          'id_user_compra'=>$request['data']['usuario_que_redime'],
+                                          'metodo_pago'=>'BONO REGALO',
+                                          'estado_pago'=>'APROBADA',
+                                          'created_at'=>Carbon::now('America/Bogota'),
+                                          'updated_at'=>Carbon::now('America/Bogota')
+                                         ]); 
+                       $comprador=User::where('id',$request['data']['usuario_que_redime'])->first();        
+                       $anuncio=Anuncio::where("anuncios.id",$request['data']['id_anuncio'])
+                            ->join('tramites','tramites.id','anuncios.id_tramite')
+                            ->select('anuncios.ciudad','anuncios.valor_tramite','anuncios.descripcion_anuncio','tramites.nombre_tramite','anuncios.id_user')
+                            ->get();
+                       $anunciante=User::where('id',$anuncio[0]->id_user)->first(); 
+
+                       NotificacionAnuncio::dispatch($comprador, [$anunciante,$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_compras/'.$comprador->id.'?id='.$request['data']['codigo_anuncio']]],[],"CompraExitosa");
+                        
+                        NotificacionAnuncio::dispatch($anunciante, 
+                                                       [
+                                                         $comprador,
+                                                         $anuncio[0],
+                                                         ['url'=>config('app.url').'/admin/ver_mis_ventas/'.$anunciante->id.'?id='.$request['data']['codigo_anuncio'],
+                                                          
+                                                         ],
+                                                         ['cupon'=>$cupon]
+                                                       ],
+                                                        $anunciante->valor_recarga,"CompraExitosaAnunciante");
+
+
+                        return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, hemos registrado una compra completamente gratis.','nuevo_valor'=>$request['data']['valor_pago'],'compra_gratis'=>true,'valor_compra'=>$request['data']['valor_pago'],'hash_payu'=>false]);
+                      }
+
+
+                      $pp = new Payu;
+                      $hash=$pp->hashear($request['data']['ref_pago'],$request['data']['valor_pago']-$resultado['dto'],"COP");
+                        
+
+                      User::generar_registro_recarga_en_bd($request['data']['usuario_que_redime'],$dto,$request['data']['valor_pago']+$dto,$request['data']['ref_pago']);
+                      
+                      return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, ahora paga $ '.number_format($request['data']['valor_pago']-$dto,0,',','.').' en lugar de $ '.number_format($request['data']['valor_pago'],0,',','.')." por tu trámite." ,'nuevo_valor'=>$request['data']['valor_pago']-$dto,'nuevo_valor_compra'=>$request['data']['valor_pago'],'compra_gratis'=>false,'hash_payu'=>$hash]); 
+                    }
+
+                    
+                           
             }
 
         

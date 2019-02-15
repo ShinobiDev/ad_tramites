@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Campania;
+use App\Anuncio;
 use Carbon\Carbon;
 
 class CuponesCampania extends Model
@@ -38,25 +39,33 @@ class CuponesCampania extends Model
       
         $camp=CuponesCampania::where([
                                     ['estado','sin canjear'],
-                                    ['codigo_cupon',$cupon]
+                                    ['codigo_cupon',$cupon],
+                                    //['transaccion_donde_se_aplico',$transaccion_canje]
                                   ])
                               ->orwhere([
                                     ['estado','canjeado'],
-                                    ['codigo_cupon',$cupon]
+                                    ['codigo_cupon',$cupon],
+                                    //['transaccion_donde_se_aplico',$transaccion_canje]
                                     ])
                               ->get();
-        
+        //dd(count($camp),$cupon,$camp);
         if(count($camp)>0){
           //dd($camp[0]->campania);
           //valido estado de la campañas
-          if($camp[0]->campania->estado_campania=='ABIERTA'){
+          if($camp[0]->campania->estado_campania=='ABIERTA' ){
               
                   
 
-              //********
+                //dd($tipo_de_campania,$camp[0]->campania->tipo_canje);
                 if($tipo_de_campania!=$camp[0]->campania->tipo_canje){
                         return array(['respuesta'=>false,'mensaje'=>'Error de autorización: Este cupón no es válido para este tipo de transacciones. Deja el espacio vacío o verifícalo con quien te lo suministro','id_campania'=>$camp[0]->campania->id]);
                 }
+                //dd((float)$monto_valor_a_redimir,(float)$camp[0]->campania->costo_minimo);
+                if((float)$monto_valor_a_redimir < (float)$camp[0]->campania->costo_minimo ){
+                        return array(['respuesta'=>false,'mensaje'=>'Error de valor mínimo: Este cupón es válido solo para '.$camp[0]->campania->tipo_canje.'s, iguales o superiores a $'.number_format($camp[0]->campania->costo_minimo,0,',','.'),'id_campania'=>$camp[0]->campania->id]);
+                }
+
+
                   
               //********
               ///*9999
@@ -74,13 +83,20 @@ class CuponesCampania extends Model
                             }else{
                               $val_dto=$monto_valor_a_redimir-($monto_valor_a_redimir*($camp[0]->campania->valor_de_descuento)/100);
                             }  
-                            $gratis=false;
+
+                            $gratis=false;  
+                            
                         }else{
                           // aqui hago el dto por un valor neto
-                            
+                            if((float)$monto_valor_a_redimir == (float)$camp[0]->campania->valor_de_descuento){
+                              $gratis=true;  
+                            }else{
+                              $gratis=false;  
+                            }
                             $val_dto=$camp[0]->campania->valor_de_descuento;
                             $monto_valor_a_redimir=$camp[0]->campania->valor_de_descuento;  
-                            $gratis=true;
+
+                            
                         }
                         
                         
@@ -103,36 +119,222 @@ class CuponesCampania extends Model
                     }
                     
                   }else{
-                         //NO TIENE USUARIO ASIGNADO
+
+                        //NO TIENE USUARIO ASIGNADO
                         if($camp[0]->campania->tipo_de_descuento=='porcentaje'){
                           if($camp[0]->campania->valor_de_descuento==100){
                             $val_dto=$monto_valor_a_redimir;
                             $gratis=true;
                           }else{
                             $val_dto=$monto_valor_a_redimir-($monto_valor_a_redimir*($camp[0]->campania->valor_de_descuento)/100);
-                            $gratis=false;
+
+                            $gratis=false;  
                           }
                         }else{
-                          //aqui hago el dto por un valor neto
-                           $val_dto=$camp[0]->campania->valor_de_descuento;
+                          //dd((float)$monto_valor_a_redimir , (float)$camp[0]->campania->valor_de_descuento);
+                            if((float)$monto_valor_a_redimir == (float)$camp[0]->campania->valor_de_descuento){
+                              $gratis=true;  
+                            }else{
+                              $gratis=false;  
+                            }
+                            $val_dto=$camp[0]->campania->valor_de_descuento;
                             $monto_valor_a_redimir=$camp[0]->campania->valor_de_descuento; 
-                            $gratis=true; 
+                            
                         }  
-                          $registro=CuponesCampania::registro_canje($camp[0]->campania->id,$cupon,$transaccion_canje,$id_usuario_canje,$monto_valor_a_redimir,$gratis);
-                          //dd($registro[0]['respuesta']);
-                          if($registro[0]['respuesta']){
-                            return array(['respuesta'=>true,'mensaje'=>$registro[0]['mensaje'],'dto'=>$camp[0]->campania->valor_de_descuento,'valor_dto'=>$val_dto,'id_campania'=>$camp[0]->campania->id]);
+                        //dd($gratis);
+                        $registro=CuponesCampania::registro_canje($camp[0]->campania->id,$cupon,$transaccion_canje,$id_usuario_canje,$monto_valor_a_redimir,$gratis);
+                        //dd($registro[0]['respuesta']);
+                        if($registro[0]['respuesta']){
+                          if($camp[0]->campania->tipo_de_descuento=='porcentaje'){
+                            $descuento=$monto_valor_a_redimir;
+
                           }else{
-                            return array(['respuesta'=>false,'mensaje'=>$registro[0]['mensaje'],'dto'=>$camp[0]->campania->valor_de_descuento,'valor_dto'=>$val_dto,'id_campania'=>$camp[0]->campania->id]);
-                          } 
+                            $descuento=$camp[0]->campania->valor_de_descuento; 
+                          }
+
+
+                          
+
+
+                          return array(['respuesta'=>true,'mensaje'=>$registro[0]['mensaje'],'dto'=>$descuento,'valor_dto'=>$val_dto,'id_campania'=>$camp[0]->campania->id]);
+                        }else{
+                          return array(['respuesta'=>false,'mensaje'=>$registro[0]['mensaje'],'dto'=>$camp[0]->campania->valor_de_descuento,'valor_dto'=>$val_dto,'id_campania'=>$camp[0]->campania->id]);
+                        } 
                   } 
+     
+
+            }else{
+                  return array(['respuesta'=>false,'mensaje'=>'Error de canje: no hay más cupones disponibles para esta campaña, esta campaña ha finalizado','id_campania'=>0]);
+            }
+        }else{
+           return array(['respuesta'=>false,'mensaje'=>'Error de canje: este cupón no es valido. Deja el espacio vacío o verifícalo con quien te lo suministro ','id_campania'=>0]);
+        }
+      
+      
+    }
+    /**
+     * [redimir_cupon_compra description]
+     * @param  [type] $cupon                 [description]
+     * @param  [type] $fecha_canje           [description]
+     * @param  [type] $id_usuario_canje      [description]
+     * @param  [type] $transaccion_canje     [description]
+     * @param  [type] $tipo_de_campania      [description]
+     * @param  [type] $monto_valor_a_redimir [description]
+     * @param  [type] $id_anuncio            [description]
+     * @param  [type] $saltar_validacion     [variable que permite saltar la validacion en caso de que el monto del tramite sea menor al del cupon]
+     * @return [type]                        [description]
+     */
+    public static function redimir_cupon_compra($cupon,$fecha_canje,$id_usuario_canje,$transaccion_canje,$tipo_de_campania,$monto_valor_a_redimir,$id_anuncio,$saltar_validacion){
+      
+        $camp=CuponesCampania::where([
+                                    ['estado','sin canjear'],
+                                    ['codigo_cupon',$cupon],
+                                    //['transaccion_donde_se_aplico',$transaccion_canje]
+                                  ])
+                              ->orwhere([
+                                    ['estado','canjeado'],
+                                    ['codigo_cupon',$cupon],
+                                    //['transaccion_donde_se_aplico',$transaccion_canje]
+                                    ])
+                              ->get();
+        //dd(count($camp),$cupon,$camp);
+        if(count($camp)>0){
+          //dd($camp[0]->campania);
+          //valido estado de la campañas
+          if($camp[0]->campania->estado_campania=='ABIERTA' ){
+                 //dd($saltar_validacion); 
+                if('false'==$saltar_validacion){
+                  
+                  $ad=Anuncio::where('id',$id_anuncio)->first();
+                  //dd((float)$camp[0]->campania->valor_de_descuento, (float)$ad->valor_tramite);
+                  if((float)$camp[0]->campania->valor_de_descuento > (float)$ad->valor_tramite){
+                        return array(['respuesta'=>false,'mensaje'=>'valor_tramite_es_mayor','id_campania'=>$camp[0]->campania->id]);
+                  }  
+                } 
                 
-                 
-              ///*9999     
+
+                //dd($tipo_de_campania,$camp[0]->campania->tipo_canje);
+                if($tipo_de_campania!=$camp[0]->campania->tipo_canje){
+                        return array(['respuesta'=>false,'mensaje'=>'Error de autorización: Este cupón no es válido para este tipo de transacciones. Deja el espacio vacío o verifícalo con quien te lo suministro','id_campania'=>$camp[0]->campania->id]);
+                }
+                //dd((float)$monto_valor_a_redimir,(float)$camp[0]->campania->costo_minimo);
+                if((float)$monto_valor_a_redimir < (float)$camp[0]->campania->costo_minimo ){
+                        return array(['respuesta'=>false,'mensaje'=>'Error de valor mínimo: Este cupón es válido solo para '.$camp[0]->campania->tipo_canje.'s, iguales o superiores a $'.number_format($camp[0]->campania->costo_minimo,0,',','.'),'id_campania'=>$camp[0]->campania->id]);
+                }
+
+                
+                  
+              //********
+              ///*9999
+               //valido si la campaña tiene usuario asignado
+                  
+                  if($camp[0]->campania->id_user!=null){
+
+                    //valido que el usuario que va registrar el cupon sea el permitido
+                    if($id_usuario_canje==$camp[0]->campania->id_user){
+
+                        if($camp[0]->campania->tipo_de_descuento=='porcentaje'){
+                            if($camp[0]->campania->valor_de_descuento==100){
+                              $val_dto=$monto_valor_a_redimir;
+                              $gratis=true;
+                            }else{
+                              $val_dto=$monto_valor_a_redimir-($monto_valor_a_redimir*($camp[0]->campania->valor_de_descuento)/100);
+                            }  
+
+                            $gratis=false;  
+                            
+                        }else{
+                          // aqui hago el dto por un valor neto
+                            if($saltar_validacion){
+                              $gratis=true;  
+                              $ad=Anuncio::where('id',$id_anuncio)->first();
+                              $val_dto=$ad->valor_tramite;
+                              $monto_valor_a_redimir=$ad->valor_tramite;
+                            }else{
+                              if((float)$monto_valor_a_redimir == (float)$camp[0]->campania->valor_de_descuento){
+                                $gratis=true;  
+                              }else{
+                                $gratis=false;  
+                              }
+                              $val_dto=$camp[0]->campania->valor_de_descuento;
+                              $monto_valor_a_redimir=$camp[0]->campania->valor_de_descuento;
+                            }
+                              
+
+                            
+                        }
+                        
+                        
+                        
+                        $registro=CuponesCampania::registro_canje($camp[0]->campania->id,$cupon,$transaccion_canje,$id_usuario_canje,$monto_valor_a_redimir,$gratis);  
+                        
+                        if($registro[0]['respuesta']){
+                          
+                          return array(['respuesta'=>true,'mensaje'=>$registro[0]['mensaje'],'dto'=>$camp[0]->campania->valor_de_descuento,'valor_dto'=>$val_dto,'id_campania'=>$camp[0]->campania->id]);
+                        }else{
+                          return array(['respuesta'=>false,'mensaje'=>$registro[0]['mensaje'],'dto'=>$camp[0]->campania->valor_de_descuento,'valor_dto'=>$val_dto,'id_campania'=>$camp[0]->campania->id]);
+                        }
+
+                        
+                    }else{
+                         
+                          return array(['respuesta'=>false,'mensaje'=>'Error de canje: no estas autorizado para cangear este cupón. Deja el espacio vacío o verifícalo con quien te lo suministro','id_campania'=>$camp[0]->campania->id]);
+                         
+                          
+                    }
+                    
+                  }else{
+
+                        //NO TIENE USUARIO ASIGNADO
+                        if($camp[0]->campania->tipo_de_descuento=='porcentaje'){
+                          if($camp[0]->campania->valor_de_descuento==100){
+                            $val_dto=$monto_valor_a_redimir;
+                            $gratis=true;
+                          }else{
+                            $val_dto=$monto_valor_a_redimir-($monto_valor_a_redimir*($camp[0]->campania->valor_de_descuento)/100);
+
+                            $gratis=false;  
+                          }
+                        }else{
+                          //dd((float)$monto_valor_a_redimir , (float)$camp[0]->campania->valor_de_descuento);
+                          if($saltar_validacion){
+                              $gratis=true;  
+                              $ad=Anuncio::where('id',$id_anuncio)->first();
+                              $val_dto=$ad->valor_tramite;
+                              $monto_valor_a_redimir=$ad->valor_tramite;
+                          }else{
+                              if((float)$monto_valor_a_redimir == (float)$camp[0]->campania->valor_de_descuento){
+                              $gratis=true;  
+                            }else{
+                              $gratis=false;  
+                            }
+                            $val_dto=$camp[0]->campania->valor_de_descuento;
+                            $monto_valor_a_redimir=$camp[0]->campania->valor_de_descuento; 
+                          }
+                            
+                            
+                        }  
+                        //dd($gratis);
+                        $registro=CuponesCampania::registro_canje($camp[0]->campania->id,$cupon,$transaccion_canje,$id_usuario_canje,$monto_valor_a_redimir,$gratis);
+                        //dd($registro[0]['respuesta']);
+                        if($registro[0]['respuesta']){
+                          if($camp[0]->campania->tipo_de_descuento=='porcentaje'){
+                            $descuento=$monto_valor_a_redimir;
+
+                          }else{
+                            $descuento=$camp[0]->campania->valor_de_descuento; 
+                          }
 
 
+                          
 
-         
+
+                          return array(['respuesta'=>true,'mensaje'=>$registro[0]['mensaje'],'dto'=>$descuento,'valor_dto'=>$val_dto,'id_campania'=>$camp[0]->campania->id]);
+                        }else{
+                          return array(['respuesta'=>false,'mensaje'=>$registro[0]['mensaje'],'dto'=>$camp[0]->campania->valor_de_descuento,'valor_dto'=>$val_dto,'id_campania'=>$camp[0]->campania->id]);
+                        } 
+                  } 
+     
 
             }else{
                   return array(['respuesta'=>false,'mensaje'=>'Error de canje: no hay más cupones disponibles para esta campaña, esta campaña ha finalizado','id_campania'=>0]);
@@ -179,7 +381,7 @@ class CuponesCampania extends Model
                 Campania::where('id',$id_campania)->decrement('cupones_disponibles',1);
                 Campania::where('id',$id_campania)->increment('cupones_canjeados',1);
                 return array(['respuesta'=>true,'mensaje'=>'Gracias, por redimir este cupón']);
-              }else{
+              }else if($c->cupones_canjeados == $c->numero_de_cupones ){
                 Campania::where("id",$id_campania)->update([
                             'estado_campania'=>'CERRADA'
                           ]);

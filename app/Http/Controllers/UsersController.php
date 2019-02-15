@@ -539,8 +539,8 @@ class UsersController extends Controller
      * @param  [type] $referencia_pago [description]
      * @return [type]                  [description]
      */
-    public function registrar_recarga($id_user,$valor_recarga,$referencia_pago){
-        return response()->json(User::generar_registro_recarga_en_bd($id_user,$valor_recarga,$referencia_pago)[0]);
+    public function registrar_recarga($id_user,$valor_pagado_recarga,$valor_recarga,$referencia_pago){
+        return response()->json(User::generar_registro_recarga_en_bd($id_user,$valor_pagado_recarga,$valor_recarga,$referencia_pago)[0]);
 
     }
     /**

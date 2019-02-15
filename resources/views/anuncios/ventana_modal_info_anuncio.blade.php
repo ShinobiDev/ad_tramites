@@ -28,7 +28,9 @@
               <p>$ {{number_format($ad->valor_tramite,0)}} </p>
               
             </div>
-        
+            <div class="modal-body">
+              @include('partials.redimir_cupon_compra',['c'=>$ad->id]) 
+            </div> 
             <div class="modal-body">
               <h5 class="modal-title" id="exampleModalLabel"></h5>
                 <form method="POST" id="ad-form" action="{{$ad->url_api}}">                          

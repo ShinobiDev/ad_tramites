@@ -246,5 +246,5 @@
 
 
 @endsection
-@include('partials.scripts')
+
 

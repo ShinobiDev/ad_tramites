@@ -72,9 +72,6 @@
 @endsection
 
 @section('scripts')
-  {{-- <script src="{{asset('admin-lte/plugins/datatables/jquery.dataTables.min.js')}}">  </script>
-  <script src="{{asset('admin-lte/plugins/datatables/datatables.bootstrap4.js')}}">  </script> --}}
-
      <script>
           $(function (){
               $('#users-table').DataTable({

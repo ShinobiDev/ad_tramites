@@ -17,7 +17,7 @@
 
 @section('content')
   
-  <div class="container">
+  <div class="container-fluid">
       <div class="col-md-12 col-lg-offset-0">
         <div class="box box-primary">
           <div class="box-header">

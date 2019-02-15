@@ -135,8 +135,8 @@ class User extends Authenticatable
                                             return view('payu.error_payu')->with("mensaje",$msn);
                                         }else{
                                             if(!empty($cupon)){
-                                                
-                                                $valor_pagado=$cupon->monto_valor_redimido;
+                                                $bono=$cupon->campania->valor_de_descuento;
+                                                $valor_pagado=$rp[0]->valor_recarga;
 
                                                 //actualizo el estado del cupon a canjeado pagado
                                                 CuponesCampania::where('id',$cupon->id)
@@ -144,13 +144,14 @@ class User extends Authenticatable
                                                                     'estado'=>'canjeado_pagado'
                                                                  ]);   
                                             }else{
+                                                $bono=0;
                                                 $valor_pagado=$req['TX_VALUE'];
                                             }
 
                                                     DB::table("detalle_recargas")
                                                         ->where("referencia_pago",$req['referenceCode'])
                                                         ->update([
-                                                        "valor_pagado"=>$cupon->campania->monto_valor_redimido,   
+                                                        //"valor_pagado"=>$cupon->campania->monto_valor_redimido,   
                                                         "referencia_pago_pay_u"=>$req['reference_pol'],
                                                         "metodo_pago"=>$req['lapPaymentMethod'],
                                                         "estado_detalle_recarga"=>"APROBADA",
@@ -267,7 +268,7 @@ class User extends Authenticatable
                         
                 }
 
-                NotificacionAnuncio::dispatch($cliente[0], [],[$recarga[0],["valor"=>$req['TX_VALUE'],"fecha"=>date('Y-m-d')]],"RecargaExitosa");
+                NotificacionAnuncio::dispatch($cliente[0], [],[$recarga[0],["valor"=>$req['TX_VALUE']+$bono,"fecha"=>date('Y-m-d')]],"RecargaExitosa");
 
 
                 return view('payu.confirmar_recarga_payu')
@@ -370,7 +371,7 @@ class User extends Authenticatable
      * @param  [type] $referencia_pago [description]
      * @return [type]                  [description]
      */
-    public static function generar_registro_recarga_en_bd($id_user,$valor_recarga,$referencia_pago){
+    public static function generar_registro_recarga_en_bd($id_user,$valor_pagado_recarga,$valor_recarga,$referencia_pago){
         $dt=DB::table('detalle_recargas')
                     ->where([
                           ["id_usuario",$id_user],
@@ -381,6 +382,7 @@ class User extends Authenticatable
         if(count($dt)==0){
             DB::table('detalle_recargas')->insert([
                     'tipo_recarga' => "RECARGA",
+                    'valor_pagado'=>$valor_pagado_recarga,
                     'valor_recarga'=>$valor_recarga,
                     'referencia_pago'=>$referencia_pago,
                     'id_usuario'=>$id_user,
@@ -391,12 +393,13 @@ class User extends Authenticatable
           DB::table('detalle_recargas')
                 ->where('id',$dt[0]->id)
                 ->update([
+                    'valor_pagado'=>$valor_pagado_recarga,
                     'valor_recarga'=>$valor_recarga,
                     'referencia_pago'=>$referencia_pago,                    
                 ]);
         }
         $pp=new Payu;
-        $hs=$pp->hashear($referencia_pago,$valor_recarga,"COP");
+        $hs=$pp->hashear($referencia_pago,$valor_pagado_recarga,"COP");
         //dd($dt);
         return array(["respuesta"=>true,"valor"=>$hs]);
     }

@@ -59,8 +59,12 @@
                     <td>{{$compra->nombre_tramite}}</td>   
                     <td>{{$compra->nombre}}</td>          
                     <td>{{$compra->telefono}}</td>          
-                    <td>{{$compra->email}}</td>        
-                    <td>$ {{number_format($compra->transation_value,0,',','.')}}</td>
+                    <td>{{$compra->email}}</td>   
+                    @if($compra->metodo_pago=='BONO REGALO')  
+                      <td>$ 0</td>
+                    @else
+                      <td>$ {{number_format($compra->transation_value,0,',','.')}}</td>
+                    @endif  
                     <td><strong>{{$compra->transactionId}}</strong></td>
                     <td>{{$compra->updated_at}}</td>
                     <td>

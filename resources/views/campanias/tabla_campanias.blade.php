@@ -3,7 +3,9 @@
     <tr>
       <th>Campaña</th>
       <th>Usuario</th>
+      <th>Tipo de transacción</th>
       <th>Fecha validez</th>      
+      <th>Valor minimo para el descuento</th>
       <th>Valor descuento</th>
       <th>LImite por usuario</th>
       <th>Cantidad de cupones creados</th>
@@ -23,12 +25,14 @@
           @else
             <td><span class="text-success">{{$c->usuario->nombre}}</span></td>
           @endif
+            <td><span class="text-success">{{strtoupper($c->tipo_canje)}}</span></td>
           
           @if($c->fecha_vigencia==NULL)
             <td><span class="text-danger">ABIERTA</span></td>
           @else
             <td><span class="text-success">{{$c->fecha_vigencia}}</span></td>
           @endif
+          <td class="text-center">$ {{number_format($c->costo_minimo,0,',','.')}}</td>
           @if($c->tipo_de_descuento=='valor_neto')
             <td class="text-center">$ {{number_format($c->valor_de_descuento,0,',','.')}}</td>
           @else

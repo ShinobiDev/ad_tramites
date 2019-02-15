@@ -1,6 +1,7 @@
 <div>
 	<label for="valor">Tienes un cupón, puedes redimirlo aquí</label>
 	<input type="text" class="form-control" name="cupon" id="txt_cupon_{{$c}}" onchange="canjear_cupon(this,'{{$c}}')" placeholder="">
+	<input type="hidden" name="valor_descuento_cupon" id="hd_cupon" value="0" >
 	<span id="sp_espera_cupon{{$c}}"></span>
 </div>
 <script type="text/javascript">
@@ -21,10 +22,13 @@
 					document.getElementById('num_valor_recarga').min=e.nuevo_valor;
 					document.getElementById('hd_num_valor_recarga').value=e.nuevo_valor;
 					document.getElementById('hd_val_recarga').value=e.nuevo_valor;
+					
+					document.getElementById('hd_cupon').value=e.nuevo_valor_recarga;
+					
 					if(e.hash_payu!=false){
 						document.getElementById('hd_signature_recarga').value=e.hash_payu;	
 					}					
-					//cambiar_datos_recarga(e.nuevo_valor,false);
+					
 					if(e.recarga_gratis){
 						document.getElementById('btn_acepta_recarga').disabled=true;
 						document.getElementById('sp_valor_recarga').innerHTML=number_format(e.valor_recarga,0,',','.');
