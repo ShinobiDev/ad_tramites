@@ -215,7 +215,7 @@ class CuponesCampania extends Model
                   $ad=Anuncio::where('id',$id_anuncio)->first();
                   //dd((float)$camp[0]->campania->valor_de_descuento, (float)$ad->valor_tramite);
                   if((float)$camp[0]->campania->valor_de_descuento > (float)$ad->valor_tramite){
-                        return array(['respuesta'=>false,'mensaje'=>'valor_tramite_es_mayor','id_campania'=>$camp[0]->campania->id]);
+                        return array(['respuesta'=>false,'mensaje'=>'Error de valor mínimo: Este valor es mayor al valor del bono, y no es posible realizar el canje del cupón, por favor ingresa otro cupon, o redimelo en otro trámite','id_campania'=>$camp[0]->campania->id]);
                   }  
                 } 
                 
