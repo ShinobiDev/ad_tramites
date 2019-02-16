@@ -200,7 +200,7 @@ class CampaniasController extends Controller
 
                       NotificacionAnuncio::dispatch($user, [],[$user,["valor"=>$request['data']['valor_pago'],"fecha"=>date('Y-m-d')]],"RecargaExitosa");
 
-                       return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, hemos registrado una recarga completamente gratis.','nuevo_valor'=>$request['data']['valor_pago'],'recarga_gratis'=>true,'valor_recarga'=>$user->valor_recarga,'hash_payu'=>false]);
+                       return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, hemos registrado una recarga completamente gratis.','nuevo_valor'=>$request['data']['valor_pago'],'recarga_gratis'=>true,'valor_recarga'=>$user->valor_recarga,'hash_payu'=>false,'acumulable'=>$resultado['acumulable']]);
                    
 
                   }else{
@@ -213,7 +213,7 @@ class CampaniasController extends Controller
                       
 
                     User::generar_registro_recarga_en_bd($request['data']['usuario_que_redime'],$dto,$request['data']['valor_pago'],$request['data']['ref_pago']);
-                    return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, ahora paga $ '.number_format($dto,0,',','.').' y recibiras $ '.number_format($request['data']['valor_recarga'],0,',','.')." en tu recarga." ,'nuevo_valor'=>$dto,'nuevo_valor_recarga'=>number_format($request['data']['valor_pago'],0,'',''),'recarga_gratis'=>false,'hash_payu'=>$hash]);    
+                    return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, ahora paga $ '.number_format($dto,0,',','.').' y recibiras $ '.number_format($request['data']['valor_recarga'],0,',','.')." en tu recarga." ,'nuevo_valor'=>$dto,'nuevo_valor_recarga'=>number_format($request['data']['valor_pago'],0,'',''),'recarga_gratis'=>false,'hash_payu'=>$hash,'acumulable'=>$resultado['acumulable']]);    
                   }
             }else{
                 //pendiente implementacion para valores netos 
@@ -240,7 +240,7 @@ class CampaniasController extends Controller
 
                       NotificacionAnuncio::dispatch($user, [],[$user,["valor"=>$dto+$camp->valor_de_descuento,"fecha"=>date('Y-m-d')]],"RecargaExitosa");
 
-                       return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, hemos registrado una recarga completamente gratis.','nuevo_valor'=>$dto,'recarga_gratis'=>true,'valor_recarga'=>$user->valor_recarga,'nuevo_valor_recarga'=>$dto,'hash_payu'=>false]);
+                       return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, hemos registrado una recarga completamente gratis.','nuevo_valor'=>$dto,'recarga_gratis'=>true,'valor_recarga'=>$user->valor_recarga,'nuevo_valor_recarga'=>$dto,'hash_payu'=>false,'acumulable'=>$resultado['acumulable']]);
 
 
                     }else{
@@ -252,7 +252,7 @@ class CampaniasController extends Controller
 
                       User::generar_registro_recarga_en_bd($request['data']['usuario_que_redime'],$dto,$request['data']['valor_pago'],$dto,$request['data']['ref_pago']);
 
-                      return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, ahora paga $ '.number_format($request['data']['valor_pago']-$dto,0,',','.').' y recibiras $ '.number_format($request['data']['valor_recarga'],0,',','.')." en tu recarga." ,'nuevo_valor'=>$request['data']['valor_pago']-$dto,'nuevo_valor_recarga'=>$request['data']['valor_pago'],'recarga_gratis'=>false,'hash_payu'=>$hash]); 
+                      return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, ahora paga $ '.number_format($request['data']['valor_pago']-$dto,0,',','.').' y recibiras $ '.number_format($request['data']['valor_recarga'],0,',','.')." en tu recarga." ,'nuevo_valor'=>$request['data']['valor_pago']-$dto,'nuevo_valor_recarga'=>$request['data']['valor_pago'],'recarga_gratis'=>false,'hash_payu'=>$hash,'acumulable'=>$resultado['acumulable']]); 
                     }
 
                     

@@ -113,7 +113,7 @@ class CuponesCampania extends Model
                         
                         if($registro[0]['respuesta']){
                           
-                          return array(['respuesta'=>true,'mensaje'=>$registro[0]['mensaje'],'dto'=>$camp[0]->campania->valor_de_descuento,'valor_dto'=>$val_dto,'id_campania'=>$camp[0]->campania->id]);
+                          return array(['respuesta'=>true,'mensaje'=>$registro[0]['mensaje'],'dto'=>$camp[0]->campania->valor_de_descuento,'valor_dto'=>$val_dto,'id_campania'=>$camp[0]->campania->id,'acumulable'=>$registro[0]['acumulable']]);
                         }else{
                           return array(['respuesta'=>false,'mensaje'=>$registro[0]['mensaje'],'dto'=>$camp[0]->campania->valor_de_descuento,'valor_dto'=>$val_dto,'id_campania'=>$camp[0]->campania->id]);
                         }
@@ -150,7 +150,7 @@ class CuponesCampania extends Model
                         }  
                         //dd($gratis);
                         $registro=CuponesCampania::registro_canje($camp[0]->campania->id,$cupon,$transaccion_canje,$id_usuario_canje,$monto_valor_a_redimir,$gratis);
-                        //dd($registro[0]['respuesta']);
+                        //dd($registro[0]);
                         if($registro[0]['respuesta']){
                           if($camp[0]->campania->tipo_de_descuento=='porcentaje'){
                             $descuento=$monto_valor_a_redimir;
@@ -163,7 +163,7 @@ class CuponesCampania extends Model
                           
 
 
-                          return array(['respuesta'=>true,'mensaje'=>$registro[0]['mensaje'],'dto'=>$descuento,'valor_dto'=>$val_dto,'id_campania'=>$camp[0]->campania->id]);
+                          return array(['respuesta'=>true,'mensaje'=>$registro[0]['mensaje'],'dto'=>$descuento,'valor_dto'=>$val_dto,'id_campania'=>$camp[0]->campania->id,'acumulable'=>$registro[0]['acumulable']]);
                         }else{
                           return array(['respuesta'=>false,'mensaje'=>$registro[0]['mensaje'],'dto'=>$camp[0]->campania->valor_de_descuento,'valor_dto'=>$val_dto,'id_campania'=>$camp[0]->campania->id]);
                         } 
@@ -396,19 +396,22 @@ class CuponesCampania extends Model
                                                           ->where('transaccion_donde_se_aplico',$transaccion_canje)
                                                           ->select('campanias.id')
                                                           ->get();
+              //dd($transaccion_pendiente);
               if(count($transaccion_pendiente)>0){
-                  if($c->es_acumulable==1){
+                
+                  if($c->es_acumulable=='1'){
                     if($c->cupones_canjeados < $c->numero_de_cupones){
                         Campania::where('id',$id_campania)->decrement('cupones_disponibles',1);
                         Campania::where('id',$id_campania)->increment('cupones_canjeados',1);               
                         
-                        return array(['respuesta'=>true,'mensaje'=>'Gracias, por redimir este cupón, este cupón es acumulable con otros, recuerda que para redimir otros cupones, estos no deben superar el monto del valor total de tu pago']);
+                        return array(['respuesta'=>true,'mensaje'=>'Gracias, por redimir este cupón, este cupón es acumulable con otros, recuerda que para redimir otros cupones, estos no deben superar el monto del valor total de tu pago','acumulable'=>$c->es_acumulable]);
                         
                       }else if($c->cupones_canjeados == $c->numero_de_cupones ){
+                        dd("---");
                         Campania::where("id",$id_campania)->update([
                                     'estado_campania'=>'CERRADA'
                                   ]);
-                        return array(['respuesta'=>true,'mensaje'=>'Gracias, por redimir este cupón, este cupón es acumulable con otros, recuerda que para redimir otros cupones, estos no deben superar el monto del valor total de tu pago']);
+                        return array(['respuesta'=>true,'mensaje'=>'Gracias, por redimir este cupón, este cupón es acumulable con otros, recuerda que para redimir otros cupones, estos no deben superar el monto del valor total de tu pago','acumulable'=>$c->es_acumulable]);
                       }  
 
 
@@ -418,41 +421,41 @@ class CuponesCampania extends Model
                         Campania::where('id',$id_campania)->decrement('cupones_disponibles',1);
                         Campania::where('id',$id_campania)->increment('cupones_canjeados',1);               
                         
-                        return array(['respuesta'=>true,'mensaje'=>'Gracias, por redimir este cupón, este cupón no es acumulable con otros cupones']);
+                        return array(['respuesta'=>true,'mensaje'=>'Gracias, por redimir este cupón, este cupón no es acumulable con otros cupones','acumulable'=>$c->es_acumulable]);
                         
                       }else if($c->cupones_canjeados == $c->numero_de_cupones ){
                         Campania::where("id",$id_campania)->update([
                                     'estado_campania'=>'CERRADA'
                                   ]);
-                        return array(['respuesta'=>true,'mensaje'=>'Gracias, por redimir este cupón, este cupón no es acumulable con otros cupones']);
+                        return array(['respuesta'=>true,'mensaje'=>'Gracias, por redimir este cupón, este cupón no es acumulable con otros cupones','acumulable'=>$c->es_acumulable]);
                       } 
                   }
               }else{
-                if($c->es_acumulable==1){
+                if($c->es_acumulable=='1'){
                   if($c->cupones_canjeados < $c->numero_de_cupones){
                     Campania::where('id',$id_campania)->decrement('cupones_disponibles',1);
                     Campania::where('id',$id_campania)->increment('cupones_canjeados',1);               
                     
-                    return array(['respuesta'=>true,'mensaje'=>'Gracias, por redimir este cupón, este cupón es acumulable con otros, recuerda que para redimir otros cupones, estos no deben superar el monto del valor total de tu pago']);
+                    return array(['respuesta'=>true,'mensaje'=>'Gracias, por redimir este cupón, este cupón es acumulable con otros, recuerda que para redimir otros cupones, estos no deben superar el monto del valor total de tu pago','acumulable'=>$c->es_acumulable]);
                     
                   }else if($c->cupones_canjeados == $c->numero_de_cupones ){
                     Campania::where("id",$id_campania)->update([
                                 'estado_campania'=>'CERRADA'
                               ]);
-                    return array(['respuesta'=>true,'mensaje'=>'Gracias, por redimir este cupón, este cupón es acumulable con otros, recuerda que para redimir otros cupones, estos no deben superar el monto del valor total de tu pago']);
+                    return array(['respuesta'=>true,'mensaje'=>'Gracias, por redimir este cupón, este cupón es acumulable con otros, recuerda que para redimir otros cupones, estos no deben superar el monto del valor total de tu pago','acumulable'=>$c->es_acumulable]);
                   }  
                 }else{
 
                   if($c->cupones_canjeados < $c->numero_de_cupones){
                     Campania::where('id',$id_campania)->decrement('cupones_disponibles',1);
                     Campania::where('id',$id_campania)->increment('cupones_canjeados',1);               
-                    return array(['respuesta'=>true,'mensaje'=>'Gracias, por redimir este cupón, este cupón no es acumulable con otros cupones.']);
+                    return array(['respuesta'=>true,'mensaje'=>'Gracias, por redimir este cupón, este cupón no es acumulable con otros cupones.','acumulable'=>$c->es_acumulable]);
                     
                   }else if($c->cupones_canjeados == $c->numero_de_cupones ){
                     Campania::where("id",$id_campania)->update([
                                 'estado_campania'=>'CERRADA'
                               ]);
-                    return array(['respuesta'=>true,'mensaje'=>'Gracias, por redimir este cupón, este cupón no es acumulable con otros cupones']);
+                    return array(['respuesta'=>true,'mensaje'=>'Gracias, por redimir este cupón, este cupón no es acumulable con otros cupones','acumulable'=>$c->es_acumulable]);
                   }  
                 }
 

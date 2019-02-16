@@ -190,7 +190,7 @@
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <link rel="stylesheet" href="{{asset('css/notas.css')}}">
     <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/recargas.js') }}"></script>
+    
 
     {{-- <script src="{{asset('admin-lte/plugins/datatables/datatables.min.js')}}">  </script> --}}
     <script src="{{asset('admin-lte/plugins/datatables/jquery.dataTables.min.js')}}">  </script>
@@ -212,6 +212,7 @@
     {{-- <script src="{{asset('admin-lte/plugins/datatables/dataTables.bootstrap4.min.js')}}">  </script> --}}
 
     @include('partials.scripts')
+    <script src="{{ asset('js/recargas.js') }}"></script>
     @yield('scripts')
 </body>
 </html>

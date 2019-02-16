@@ -12,6 +12,7 @@
 			document.getElementById('btn_recarga').style.display='none';
 			peticion_ajax('POST','admin/canjear_cupon_recarga',{"cupon":e.value,'usuario_que_redime':'{{auth()->user()->id}}','ref_pago':document.getElementById("refRecarga").value,'valor_pago':document.getElementById('hd_val_recarga').value,'valor_recarga':document.getElementById('num_valor_recarga').value},function(e){
 					//success
+				console.log(e);
 				if(e.respuesta){
 					document.getElementById('sp_espera_cupon'+id).innerHTML=e.mensaje;
 					document.getElementById('sp_espera_cupon'+id).classList.remove('text-red');	
@@ -32,6 +33,11 @@
 					if(e.recarga_gratis){
 						document.getElementById('btn_acepta_recarga').disabled=true;
 						document.getElementById('sp_valor_recarga').innerHTML=number_format(e.valor_recarga,0,',','.');
+					}
+
+					if(e.acumulable=='0'){
+						document.getElementById('txt_cupon_'+id).disabled=true;
+						document.getElementById('sp_espera_cupon'+id).innerHTML+=" Este cupón no es acumulable  con otras promociones"
 					}
 				}else{
 					document.getElementById('sp_espera_cupon'+id).innerHTML=e.mensaje;
