@@ -24,7 +24,9 @@
         <div class="contenedor">
             <div class="descripcion">
                 @if(!empty($campania))
-                    <h5>{{($respuesta["description"])}} paga ${{number_format($respuesta["TX_VALUE"],0,',','.')}} y recibe ${{ number_format($campania->monto_valor_redimido,0,',','.')}}</h5>
+                    <h5>{{($respuesta["description"])}} paga ${{number_format($respuesta["TX_VALUE"],0,',','.')}} y recibe ${{ number_format($recarga,0,',','.')}}</h5>
+
+
                 @else
                     <h5>{{($respuesta["description"])}}</h5>
                 @endif

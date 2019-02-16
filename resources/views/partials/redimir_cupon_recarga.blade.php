@@ -10,7 +10,7 @@
 		if(e.value!=""){
 			mostrar_cargando("sp_espera_cupon"+id,5,"Verificando cupón ...");
 			document.getElementById('btn_recarga').style.display='none';
-			peticion_ajax('POST','admin/canjear_cupon_recarga',{"cupon":e.value,'usuario_que_redime':'{{auth()->user()->id}}','ref_pago':document.getElementById("refRecarga").value,'valor_pago':document.getElementById('num_valor_recarga').value},function(e){
+			peticion_ajax('POST','admin/canjear_cupon_recarga',{"cupon":e.value,'usuario_que_redime':'{{auth()->user()->id}}','ref_pago':document.getElementById("refRecarga").value,'valor_pago':document.getElementById('hd_val_recarga').value,'valor_recarga':document.getElementById('num_valor_recarga').value},function(e){
 					//success
 				if(e.respuesta){
 					document.getElementById('sp_espera_cupon'+id).innerHTML=e.mensaje;
@@ -18,9 +18,9 @@
 					document.getElementById('sp_espera_cupon'+id).classList.add('text-success');	
 					document.getElementById('btn_acepta_recarga').disabled=false;
 					document.getElementById("btn_recarga").style.display='none';
-					document.getElementById('num_valor_recarga').value=e.nuevo_valor;
-					document.getElementById('num_valor_recarga').min=e.nuevo_valor;
-					document.getElementById('hd_num_valor_recarga').value=e.nuevo_valor;
+					//document.getElementById('num_valor_recarga').value=e.nuevo_valor;
+					//document.getElementById('num_valor_recarga').min=e.nuevo_valor;
+					//document.getElementById('hd_num_valor_recarga').value=e.nuevo_valor;
 					document.getElementById('hd_val_recarga').value=e.nuevo_valor;
 					
 					document.getElementById('hd_cupon').value=e.nuevo_valor_recarga;

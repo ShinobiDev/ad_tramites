@@ -273,6 +273,7 @@ class User extends Authenticatable
 
                 return view('payu.confirmar_recarga_payu')
                                         ->with("respuesta",$req)
+                                        ->with("recarga",$valor_pagado)
                                         ->with("campania",CuponesCampania::where('transaccion_donde_se_aplico',$req['referenceCode'])->first())
                                         ->with("empresa",$empresa)
                                         ->with("cliente",$cliente)
@@ -325,6 +326,7 @@ class User extends Authenticatable
 
                     return view('payu.confirmar_recarga_payu')
                                         ->with("campania",CuponesCampania::where('transaccion_donde_se_aplico',$req['referenceCode'])->first())
+                                        ->with("recarga",$rp[0]->valor_recarga)
                                         ->with("respuesta",$req)
                                         ->with("empresa",$empresa)
                                         ->with("cliente",$cliente)
@@ -373,12 +375,15 @@ class User extends Authenticatable
      */
     public static function generar_registro_recarga_en_bd($id_user,$valor_pagado_recarga,$valor_recarga,$referencia_pago){
         $dt=DB::table('detalle_recargas')
-                    ->where([
-                          ["id_usuario",$id_user],
-                          ["tipo_recarga",'RECARGA'],
-                          ['estado_detalle_recarga','SIN REGISTRAR']
-                        ])->get();
+                        ->where([
+                              ["id_usuario",$id_user],
+                              ["tipo_recarga",'RECARGA'],
+                              ['estado_detalle_recarga','SIN REGISTRAR']
+                            ])->get();
         //dd($dt);            
+        $pp=new Payu;
+        $hs=$pp->hashear($referencia_pago,$valor_pagado_recarga,"COP");
+
         if(count($dt)==0){
             DB::table('detalle_recargas')->insert([
                     'tipo_recarga' => "RECARGA",
@@ -398,8 +403,7 @@ class User extends Authenticatable
                     'referencia_pago'=>$referencia_pago,                    
                 ]);
         }
-        $pp=new Payu;
-        $hs=$pp->hashear($referencia_pago,$valor_pagado_recarga,"COP");
+        
         //dd($dt);
         return array(["respuesta"=>true,"valor"=>$hs]);
     }

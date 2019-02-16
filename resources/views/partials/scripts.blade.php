@@ -543,7 +543,7 @@
 
   function cambiar_validacion(id,validar){
     document.getElementById('validar_'+id).value=validar;
-    if(validar=='true'){
+    if(validar=='true'  ){
       canjear_cupon_compra(document.getElementById('txt_cupon_'+id),id);
     }else{
        document.getElementById('txt_cupon_'+id).value=""; 

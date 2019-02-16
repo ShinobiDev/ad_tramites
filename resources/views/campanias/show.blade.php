@@ -18,11 +18,24 @@
 @section('content')
   
   <div class="container-fluid">
-      <div class="col-md-12 col-lg-offset-0">
+      <div class="col-md-12">
         <div class="box box-primary">
-          <div class="box-header">
-              <h3 class="box-title">Tramitadores vistos por mi
-</h3>
+          <div class="col-lg-12 col-12 col-md-12 box-header">
+            <div class="col-lg-4 col-4 col-md-4" >
+              <h3 class="box-title">Campañas</h3>
+            </div>
+            <div class="col-lg-4 col-4 col-md-4" >
+              
+            </div>
+            <div class="col-lg-4 col- col-md-4" >
+                
+                  <a href="{{route('campanias.index')}}" class="btn btn-primary pull-right btn-lg  btn-block" >
+                  <i class="fa fa-user-plus">Crea una campaña</i>
+                  </a>
+                  
+                
+                
+            </div>
           </div>
           <div class="col-12 col-md-12 box-body"> 
             

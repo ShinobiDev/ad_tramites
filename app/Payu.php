@@ -19,7 +19,7 @@ class Payu extends Model
           $tipo="PRODUCTION";
         }
   			$da=$this::Where("type",$tipo)->get();
-        //dd($da[0]->API_KEY."~".$da[0]->merchantId."~".$ref_pago."~".$monto."~".$moneda);
+          //dd($da[0]->API_KEY."~".$da[0]->merchantId."~".$ref_pago."~".$monto."~".$moneda);
         $DATA=trim($da[0]->API_KEY."~".$da[0]->merchantId."~".$ref_pago."~".$monto."~".$moneda);	
   			
         switch ($da[0]->type_encrypt) {

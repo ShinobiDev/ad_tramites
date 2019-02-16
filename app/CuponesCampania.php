@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
 use App\Campania;
 use App\Anuncio;
 use Carbon\Carbon;
@@ -35,8 +36,8 @@ class CuponesCampania extends Model
         return $this->belongsTo('App\User','id_usuario_canje');
     }  
 
-    public static function redimir_cupon($cupon,$fecha_canje,$id_usuario_canje,$transaccion_canje,$tipo_de_campania,$monto_valor_a_redimir){
-      
+    public static function  redimir_cupon_recargas($cupon,$fecha_canje,$id_usuario_canje,$transaccion_canje,$tipo_de_campania,$monto_valor_a_redimir){
+        
         $camp=CuponesCampania::where([
                                     ['estado','sin canjear'],
                                     ['codigo_cupon',$cupon],
@@ -48,13 +49,12 @@ class CuponesCampania extends Model
                                     //['transaccion_donde_se_aplico',$transaccion_canje]
                                     ])
                               ->get();
-        //dd(count($camp),$cupon,$camp);
         if(count($camp)>0){
           //dd($camp[0]->campania);
           //valido estado de la campañas
           if($camp[0]->campania->estado_campania=='ABIERTA' ){
               
-                  
+               
 
                 //dd($tipo_de_campania,$camp[0]->campania->tipo_canje);
                 if($tipo_de_campania!=$camp[0]->campania->tipo_canje){
@@ -64,14 +64,22 @@ class CuponesCampania extends Model
                 if((float)$monto_valor_a_redimir < (float)$camp[0]->campania->costo_minimo ){
                         return array(['respuesta'=>false,'mensaje'=>'Error de valor mínimo: Este cupón es válido solo para '.$camp[0]->campania->tipo_canje.'s, iguales o superiores a $'.number_format($camp[0]->campania->costo_minimo,0,',','.'),'id_campania'=>$camp[0]->campania->id]);
                 }
-
-
+                $dt=DB::table('detalle_recargas')
+                    ->where([
+                          ["id_usuario",$id_usuario_canje],
+                          ["tipo_recarga",'RECARGA'],
+                          ['estado_detalle_recarga','SIN REGISTRAR']
+                        ])->get();
+                if(count($dt)>0){
+                  if((float)$monto_valor_a_redimir < (float)$dt[0]->valor_pagado ){
+                          return array(['respuesta'=>false,'mensaje'=>'Error de valor mínimo: Este valor es mayor al valor del bono','id_campania'=>$camp[0]->campania->id]);
+                  }  
+                }    
+                
                   
-              //********
-              ///*9999
-               //valido si la campaña tiene usuario asignado
+              
                   
-                  if($camp[0]->campania->id_user!=null){
+                if($camp[0]->campania->id_user!=null){
 
                     //valido que el usuario que va registrar el cupon sea el permitido
                     if($id_usuario_canje==$camp[0]->campania->id_user){
@@ -117,8 +125,7 @@ class CuponesCampania extends Model
                          
                           
                     }
-                    
-                  }else{
+                }else{
 
                         //NO TIENE USUARIO ASIGNADO
                         if($camp[0]->campania->tipo_de_descuento=='porcentaje'){
@@ -160,12 +167,12 @@ class CuponesCampania extends Model
                         }else{
                           return array(['respuesta'=>false,'mensaje'=>$registro[0]['mensaje'],'dto'=>$camp[0]->campania->valor_de_descuento,'valor_dto'=>$val_dto,'id_campania'=>$camp[0]->campania->id]);
                         } 
-                  } 
+                }    
      
 
-            }else{
+          }else{
                   return array(['respuesta'=>false,'mensaje'=>'Error de canje: no hay más cupones disponibles para esta campaña, esta campaña ha finalizado','id_campania'=>0]);
-            }
+          }
         }else{
            return array(['respuesta'=>false,'mensaje'=>'Error de canje: este cupón no es valido. Deja el espacio vacío o verifícalo con quien te lo suministro ','id_campania'=>0]);
         }
@@ -350,10 +357,19 @@ class CuponesCampania extends Model
           
           $c=Campania::where('id',$id_campania)->first();
           $redimidos=CuponesCampania::join('campanias','campanias.id','cupones_campanias.id_campania')
-                                    ->where([['campanias.id',$id_campania],['estado','canjeado_pagado'],['id_usuario_canje',$id_usuario_canje]])
+                                    ->where([
+                                      ['campanias.id',$id_campania],
+                                      ['estado','canjeado_pagado'],
+                                      ['id_usuario_canje',$id_usuario_canje]
+                                    ])
+                                    ->orwhere([
+                                      ['campanias.id',$id_campania],
+                                      ['estado','canjeado'],
+                                      ['id_usuario_canje',$id_usuario_canje]
+                                    ])
                                     ->select('campanias.id')
                                     ->get();
-          
+          //dd(count($redimidos),$c->limite_por_usuario);
           if (count($redimidos) < $c->limite_por_usuario  ){
                 if($free){
                   $est='canjeado_pagado';
@@ -375,18 +391,78 @@ class CuponesCampania extends Model
                                   'id_usuario_canje'=>$id_usuario_canje,
                                   'updated_at'=>Carbon::now('America/Bogota')
                                 ]);
+              $transaccion_pendiente=CuponesCampania::join('campanias','campanias.id',
+                                                            'cupones_campanias.id_campania')
+                                                          ->where('transaccion_donde_se_aplico',$transaccion_canje)
+                                                          ->select('campanias.id')
+                                                          ->get();
+              if(count($transaccion_pendiente)>0){
+                  if($c->es_acumulable==1){
+                    if($c->cupones_canjeados < $c->numero_de_cupones){
+                        Campania::where('id',$id_campania)->decrement('cupones_disponibles',1);
+                        Campania::where('id',$id_campania)->increment('cupones_canjeados',1);               
+                        
+                        return array(['respuesta'=>true,'mensaje'=>'Gracias, por redimir este cupón, este cupón es acumulable con otros, recuerda que para redimir otros cupones, estos no deben superar el monto del valor total de tu pago']);
+                        
+                      }else if($c->cupones_canjeados == $c->numero_de_cupones ){
+                        Campania::where("id",$id_campania)->update([
+                                    'estado_campania'=>'CERRADA'
+                                  ]);
+                        return array(['respuesta'=>true,'mensaje'=>'Gracias, por redimir este cupón, este cupón es acumulable con otros, recuerda que para redimir otros cupones, estos no deben superar el monto del valor total de tu pago']);
+                      }  
+
+
+                    
+                  }else{
+                    if($c->cupones_canjeados < $c->numero_de_cupones){
+                        Campania::where('id',$id_campania)->decrement('cupones_disponibles',1);
+                        Campania::where('id',$id_campania)->increment('cupones_canjeados',1);               
+                        
+                        return array(['respuesta'=>true,'mensaje'=>'Gracias, por redimir este cupón, este cupón no es acumulable con otros cupones']);
+                        
+                      }else if($c->cupones_canjeados == $c->numero_de_cupones ){
+                        Campania::where("id",$id_campania)->update([
+                                    'estado_campania'=>'CERRADA'
+                                  ]);
+                        return array(['respuesta'=>true,'mensaje'=>'Gracias, por redimir este cupón, este cupón no es acumulable con otros cupones']);
+                      } 
+                  }
+              }else{
+                if($c->es_acumulable==1){
+                  if($c->cupones_canjeados < $c->numero_de_cupones){
+                    Campania::where('id',$id_campania)->decrement('cupones_disponibles',1);
+                    Campania::where('id',$id_campania)->increment('cupones_canjeados',1);               
+                    
+                    return array(['respuesta'=>true,'mensaje'=>'Gracias, por redimir este cupón, este cupón es acumulable con otros, recuerda que para redimir otros cupones, estos no deben superar el monto del valor total de tu pago']);
+                    
+                  }else if($c->cupones_canjeados == $c->numero_de_cupones ){
+                    Campania::where("id",$id_campania)->update([
+                                'estado_campania'=>'CERRADA'
+                              ]);
+                    return array(['respuesta'=>true,'mensaje'=>'Gracias, por redimir este cupón, este cupón es acumulable con otros, recuerda que para redimir otros cupones, estos no deben superar el monto del valor total de tu pago']);
+                  }  
+                }else{
+
+                  if($c->cupones_canjeados < $c->numero_de_cupones){
+                    Campania::where('id',$id_campania)->decrement('cupones_disponibles',1);
+                    Campania::where('id',$id_campania)->increment('cupones_canjeados',1);               
+                    return array(['respuesta'=>true,'mensaje'=>'Gracias, por redimir este cupón, este cupón no es acumulable con otros cupones.']);
+                    
+                  }else if($c->cupones_canjeados == $c->numero_de_cupones ){
+                    Campania::where("id",$id_campania)->update([
+                                'estado_campania'=>'CERRADA'
+                              ]);
+                    return array(['respuesta'=>true,'mensaje'=>'Gracias, por redimir este cupón, este cupón no es acumulable con otros cupones']);
+                  }  
+                }
+
+                
+
+
+              }                                            
               
               
-              if($c->cupones_canjeados < $c->numero_de_cupones  ){
-                Campania::where('id',$id_campania)->decrement('cupones_disponibles',1);
-                Campania::where('id',$id_campania)->increment('cupones_canjeados',1);
-                return array(['respuesta'=>true,'mensaje'=>'Gracias, por redimir este cupón']);
-              }else if($c->cupones_canjeados == $c->numero_de_cupones ){
-                Campania::where("id",$id_campania)->update([
-                            'estado_campania'=>'CERRADA'
-                          ]);
-                return array(['respuesta'=>true,'mensaje'=>'Campaña finalizada']);
-              }  
+              
           }else{
             return array(['respuesta'=>false,'mensaje'=>'Has supera el límite de tus cupones para redimir']);
             

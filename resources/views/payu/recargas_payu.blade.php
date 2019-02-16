@@ -55,7 +55,7 @@
 
         
         mostrar_cargando("msnEspera",10,"Generando código de pago ...");
-        peticion_ajax("GET","admin/registrar_recarga/"+{{auth()->user()->id}}+"/"+document.getElementById("hd_num_valor_recarga").value+"/"+document.getElementById("hd_cupon").value+"/"+document.getElementById("refRecarga").value,{},function(rs){
+        peticion_ajax("GET","admin/registrar_recarga/"+{{auth()->user()->id}}+"/"+document.getElementById("hd_val_recarga").value+"/"+document.getElementById("hd_num_valor_recarga").value+"/"+document.getElementById("refRecarga").value,{},function(rs){
             if(rs.respuesta){
               document.getElementById("btn_recarga").style.display='block';
               document.getElementById("msnEspera").innerHTML="";
