@@ -307,7 +307,7 @@ class CampaniasController extends Controller
                                                        ],
                                                         $anunciante->valor_recarga,"CompraExitosaAnunciante");
                                               
-                       return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, hemos registrado una compra completamente gratis.','nuevo_valor'=>$request['data']['valor_pago'],'compra_gratis'=>true,'valor_compra'=>$request['data']['valor_pago'],'hash_payu'=>false]);
+                       return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, hemos registrado una compra completamente gratis.','nuevo_valor'=>$request['data']['valor_pago'],'compra_gratis'=>true,'valor_compra'=>$request['data']['valor_pago'],'hash_payu'=>false,'acumulable'=>$resultado['acumulable']]);
                    
 
                   }else{
@@ -319,7 +319,7 @@ class CampaniasController extends Controller
 
                       if($request['data']['validar']=='true'){
 
-                       $cupon="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+                       $cupon="";
                        DB::table('registro_pagos_anuncios')
                                 ->insert(['transactionId'=>$request['data']['codigo_anuncio'],
                                           'transactionState'=>4,
@@ -352,7 +352,7 @@ class CampaniasController extends Controller
                                                         $anunciante->valor_recarga,"CompraExitosaAnunciante");
 
 
-                        return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, hemos registrado una compra completamente gratis.','nuevo_valor'=>$request['data']['valor_pago'],'compra_gratis'=>true,'valor_compra'=>$request['data']['valor_pago'],'hash_payu'=>false]);
+                        return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, hemos registrado una compra completamente gratis.','nuevo_valor'=>$request['data']['valor_pago'],'compra_gratis'=>true,'valor_compra'=>$request['data']['valor_pago'],'hash_payu'=>false,'acumulable'=>$resultado['acumulable']]);
 
                       }
 
@@ -370,7 +370,7 @@ class CampaniasController extends Controller
                     User::generar_registro_recarga_en_bd($request['data']['usuario_que_redime'],$dto,$request['data']['valor_pago'],$request['data']['ref_pago']);
 
 
-                    return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, ahora paga $ '.number_format($dto,0,',','.').' en lugar de $ '.number_format($request['data']['valor_pago'],0,',','.')." por tu trámite." ,'nuevo_valor'=>$dto,'compra_gratis'=>false,'hash_payu'=>$hash]);    
+                    return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, ahora paga $ '.number_format($dto,0,',','.').' en lugar de $ '.number_format($request['data']['valor_pago'],0,',','.')." por tu trámite." ,'nuevo_valor'=>$dto,'compra_gratis'=>false,'hash_payu'=>$hash,'acumulable'=>$resultado['acumulable']]);    
                   }
             }else{
                 //pendiente implementacion para valores netos 
@@ -412,7 +412,7 @@ class CampaniasController extends Controller
                                                         $anunciante->valor_recarga,"CompraExitosaAnunciante");
 
 
-                        return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, hemos registrado una compra completamente gratis.','nuevo_valor'=>$request['data']['valor_pago'],'compra_gratis'=>true,'valor_compra'=>$request['data']['valor_pago'],'hash_payu'=>false]);
+                        return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, hemos registrado una compra completamente gratis.','nuevo_valor'=>$request['data']['valor_pago'],'compra_gratis'=>true,'valor_compra'=>$request['data']['valor_pago'],'hash_payu'=>false,'acumulable'=>$resultado['acumulable']]);
 
 
                     }else{
@@ -453,7 +453,7 @@ class CampaniasController extends Controller
                                                         $anunciante->valor_recarga,"CompraExitosaAnunciante");
 
 
-                        return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, hemos registrado una compra completamente gratis.','nuevo_valor'=>$request['data']['valor_pago'],'compra_gratis'=>true,'valor_compra'=>$request['data']['valor_pago'],'hash_payu'=>false]);
+                        return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, hemos registrado una compra completamente gratis.','nuevo_valor'=>$request['data']['valor_pago'],'compra_gratis'=>true,'valor_compra'=>$request['data']['valor_pago'],'hash_payu'=>false,'acumulable'=>$resultado['acumulable']]);
                       }
 
 
@@ -463,7 +463,7 @@ class CampaniasController extends Controller
 
                       User::generar_registro_recarga_en_bd($request['data']['usuario_que_redime'],$dto,$request['data']['valor_pago']+$dto,$request['data']['ref_pago']);
                       
-                      return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, ahora paga $ '.number_format($request['data']['valor_pago']-$dto,0,',','.').' en lugar de $ '.number_format($request['data']['valor_pago'],0,',','.')." por tu trámite." ,'nuevo_valor'=>$request['data']['valor_pago']-$dto,'nuevo_valor_compra'=>$request['data']['valor_pago'],'compra_gratis'=>false,'hash_payu'=>$hash]); 
+                      return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, ahora paga $ '.number_format($request['data']['valor_pago']-$dto,0,',','.').' en lugar de $ '.number_format($request['data']['valor_pago'],0,',','.')." por tu trámite." ,'nuevo_valor'=>$request['data']['valor_pago']-$dto,'nuevo_valor_compra'=>$request['data']['valor_pago'],'compra_gratis'=>false,'hash_payu'=>$hash,'acumulable'=>$resultado['acumulable']]); 
                     }
 
                     

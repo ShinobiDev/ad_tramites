@@ -60,22 +60,23 @@
                       @endif
                     </td>
                   
+                  
                     <td>{{$venta->nombre_tramite}}</td>   
                     <td>{{$venta->nombre}}</td>
                     <td>{{$venta->email}}</td>
                     @if($venta->metodo_pago=='BONO REGALO')  
                       <td>$ 0</td>
                     @else
-                      <td>$ {{number_format($venta->transation_value,0,',','.')}}</td>
+                      <td>$ {{number_format($venta->valor_tramite,0,',','.')}}</td>
                     @endif  
                     @if($venta->metodo_pago=='BONO REGALO')  
                       <td>$ 0</td>
                     @elseif($venta->estado_pago=="PAGO A TRAMITADOR")  
-                        <td>$ {{number_format($venta->transation_value-($venta->transation_value*$venta->porcentaje_pago/100),0,',','.')}}</td>                                    
+                        <td>$ {{number_format($venta->valor_tramite-($venta->valor_tramite*$venta->porcentaje_pago/100),0,',','.')}}</td>                                    
                     @elseif($venta->estado_pago=='PAGO TRAMITADOR CONFIRMADO')  
-                        <td>$ {{number_format($venta->transation_value-($venta->transation_value*$venta->porcentaje_pago/100),0,',','.')}}</td>                                    
+                        <td>$ {{number_format($venta->valor_tramite-($venta->valor_tramite*$venta->porcentaje_pago/100),0,',','.')}}</td>                                    
                     @else
-                        <td>${{number_format($venta->transation_value-($venta->transation_value*$porcentaje[0]->valor/100),0,',','.')}}</td>                                      
+                        <td>${{number_format($venta->valor_tramite-($venta->valor_tramite*$porcentaje[0]->valor/100),0,',','.')}}</td>                                      
                     @endif  
                       
                     <td><strong>{{$venta->transactionId}}</strong></td>                                   

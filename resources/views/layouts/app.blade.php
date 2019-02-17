@@ -71,19 +71,24 @@
                             <input type="hidden" value="{{auth::user()->id}}" id="user_id">
                         </li>
                         <li>
-                           <a href="{{route('anuncios.create')}}">Publicar anuncios</a>
+                           <!--<a href="{{route('anuncios.create')}}">Publicar anuncios</a>-->
                         </li>                       
                         @role('Admin')
                         <li>
-                           <a href="{{route('anuncios.show',['id'=>Auth::user()->id])}}">Todos los anuncios</a>
+                           <a href="{{route('anuncios.show',['id'=>Auth::user()->id])}}">Anuncios</a>
                         </li>
                         <li>
-                            <a href="{{route('todas_las_transacciones')}}">Todas las transacciones</a>
-                          </li>
+                            <a href="{{route('todas_las_transacciones')}}">Transacciones</a>
+                        </li>
                         <li>
-                          <a href="{{route('recargas.show')}}"> Todas las recargas</a>
+                          <a href="{{route('recargas.show')}}">Recargas</a>
+                        </li>
+                        <li>
+                          <a href="{{route('campanias.show')}}">Campañas</a>
                         </li> 
-                       
+
+                           
+                           
                         @endrole
                         @role('Anunciante')
                           <li>
@@ -141,9 +146,6 @@
                                       
                                       <li class="dropdown">
                                         @role('Admin') {{-- Laravel-permission blade helper --}}
-                                          
-                                        <a href="{{route('campanias.index')}}">Crear Campañas</a>
-                                        <a href="{{route('campanias.show')}}">Consultar Campañas</a>
                                         <a href="{{route('users.index')}}">Usuarios</a>
                                         <a href="{{route('permissions.index')}}">Permisos</a>
                                         <a href="{{route('roles.index')}}">Roles</a>

@@ -228,6 +228,11 @@ class CuponesCampania extends Model
                 if((float)$monto_valor_a_redimir < (float)$camp[0]->campania->costo_minimo ){
                         return array(['respuesta'=>false,'mensaje'=>'Error de valor mínimo: Este cupón es válido solo para '.$camp[0]->campania->tipo_canje.'s, iguales o superiores a $'.number_format($camp[0]->campania->costo_minimo,0,',','.'),'id_campania'=>$camp[0]->campania->id]);
                 }
+                $ad=Anuncio::where('id',$id_anuncio)->first();
+                //dd((float)$camp[0]->campania->valor_de_descuento, (float)$monto_valor_a_redimir);
+                if((float)$camp[0]->campania->valor_de_descuento > (float)$monto_valor_a_redimir){
+                        return array(['respuesta'=>false,'mensaje'=>'Error de valor mínimo: Este valor es mayor al valor del bono, y no es posible realizar el canje del cupón, por favor ingresa otro cupon, o redimelo en otro trámite','id_campania'=>$camp[0]->campania->id]);
+                }  
 
                 
                   
@@ -277,7 +282,7 @@ class CuponesCampania extends Model
                         
                         if($registro[0]['respuesta']){
                           
-                          return array(['respuesta'=>true,'mensaje'=>$registro[0]['mensaje'],'dto'=>$camp[0]->campania->valor_de_descuento,'valor_dto'=>$val_dto,'id_campania'=>$camp[0]->campania->id]);
+                          return array(['respuesta'=>true,'mensaje'=>$registro[0]['mensaje'],'dto'=>$camp[0]->campania->valor_de_descuento,'valor_dto'=>$val_dto,'id_campania'=>$camp[0]->campania->id,'acumulable'=>$registro[0]['acumulable']]);
                         }else{
                           return array(['respuesta'=>false,'mensaje'=>$registro[0]['mensaje'],'dto'=>$camp[0]->campania->valor_de_descuento,'valor_dto'=>$val_dto,'id_campania'=>$camp[0]->campania->id]);
                         }
@@ -323,7 +328,7 @@ class CuponesCampania extends Model
                         }  
                         //dd($gratis);
                         $registro=CuponesCampania::registro_canje($camp[0]->campania->id,$cupon,$transaccion_canje,$id_usuario_canje,$monto_valor_a_redimir,$gratis);
-                        //dd($registro[0]['respuesta']);
+                        //dd($registro[0]);
                         if($registro[0]['respuesta']){
                           if($camp[0]->campania->tipo_de_descuento=='porcentaje'){
                             $descuento=$monto_valor_a_redimir;
@@ -336,7 +341,7 @@ class CuponesCampania extends Model
                           
 
 
-                          return array(['respuesta'=>true,'mensaje'=>$registro[0]['mensaje'],'dto'=>$descuento,'valor_dto'=>$val_dto,'id_campania'=>$camp[0]->campania->id]);
+                          return array(['respuesta'=>true,'mensaje'=>$registro[0]['mensaje'],'dto'=>$descuento,'valor_dto'=>$val_dto,'id_campania'=>$camp[0]->campania->id,'acumulable'=>$registro[0]['acumulable']]);
                         }else{
                           return array(['respuesta'=>false,'mensaje'=>$registro[0]['mensaje'],'dto'=>$camp[0]->campania->valor_de_descuento,'valor_dto'=>$val_dto,'id_campania'=>$camp[0]->campania->id]);
                         } 

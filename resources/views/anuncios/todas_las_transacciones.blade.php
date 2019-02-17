@@ -76,25 +76,26 @@
                           <span class="text-red">Sin registrar</span>
                         @endif
                     </td>          
+                    
                                   
                                                        
                                                       
-                    <td>${{number_format($transaccion->transation_value,0,',','.')}}</td>
+                    <td>${{number_format($transaccion->valor_tramite,0,',','.')}}</td>
 
                     @if($transaccion->estado_pago=="PAGO A TRAMITADOR")  
                     
                       <td>{{number_format($transaccion->porcentaje_pago,'0',',','.')}} %</td> 
-                      <td width="15%">$ {{number_format($transaccion->transation_value-($transaccion->transation_value*$transaccion->porcentaje_pago/100),0,',','.')}}</td>
+                      <td width="15%">$ {{number_format($transaccion->valor_tramite-($transaccion->valor_tramite*$transaccion->porcentaje_pago/100),0,',','.')}}</td>
                     
                     @elseif($transaccion->estado_pago=='PAGO TRAMITADOR CONFIRMADO')
                     
                       <td>{{number_format($transaccion->porcentaje_pago,'0',',','.')}} %</td> 
-                      <td width="15%">$ {{number_format($transaccion->transation_value-($transaccion->transation_value*$transaccion->porcentaje_pago/100),0,',','.')}}</td>  
+                      <td width="15%">$ {{number_format($transaccion->valor_tramite-($transaccion->valor_tramite*$transaccion->porcentaje_pago/100),0,',','.')}}</td>  
                     
                     @else
                     
                       <td>{{$porcentaje[0]->valor}} %</td> 
-                      <td width="15%">${{number_format($transaccion->transation_value-($transaccion->transation_value*$porcentaje[0]->valor/100),0,',','.')}}</td>
+                      <td width="15%">${{number_format($transaccion->valor_tramite-($transaccion->valor_tramite*$porcentaje[0]->valor/100),0,',','.')}}</td>
 
                     @endif
 
@@ -142,7 +143,7 @@
                       @endif
               @endif
                           
-                      @include('partials.confirmar_pago_a_tramitador',['ad'=>$transaccion,'valor'=>number_format($transaccion->transation_value-($transaccion->transation_value*$porcentaje[0]->valor/100),0,',','.')])
+                      @include('partials.confirmar_pago_a_tramitador',['ad'=>$transaccion,'valor'=>number_format($transaccion->valor_tramite-($transaccion->valor_tramite*$porcentaje[0]->valor/100),0,',','.')])
 
                       
               @endforeach

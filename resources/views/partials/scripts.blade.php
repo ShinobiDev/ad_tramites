@@ -510,6 +510,11 @@
                 document.getElementById('btn_comprar_'+id).disabled=true;
                 
               }
+
+              if(e.acumulable=='0'){
+                document.getElementById('txt_cupon_'+id).disabled=true;
+                document.getElementById('sp_espera_cupon'+id).innerHTML+=" Este cupón no es acumulable  con otras promociones"
+              }
             }else{
               if(e.mensaje=='valor_tramite_es_mayor'){
                 document.getElementById('div_cupon_menor_'+id).style.display='';

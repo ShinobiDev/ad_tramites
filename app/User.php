@@ -86,14 +86,17 @@ class User extends Authenticatable
             case '6':
                 $dia_n="SABADO";
                 break;
-            case '7':
+            case '0':
                 $dia_n="DOMINGO";
                 break;
+            default:
+                $dia_n="LUNES";
+                break;    
         }
 
 
         $horarios=DB::table('detalle_horarios')->where([['id_user',$id],['dia',$dia_n]])->get();
-        //dd($horarios);
+        //dd($id,$dia_n,$horarios);
         $hora_actual=Carbon::now('America/Bogota');
         $hora=explode("|",$horarios[0]->horario);
         if($horarios[0]->estado == "Cerrado"){

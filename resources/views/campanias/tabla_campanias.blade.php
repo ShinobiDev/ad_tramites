@@ -8,6 +8,7 @@
       <th>Valor minimo para el descuento</th>
       <th>Valor descuento</th>
       <th>LImite por usuario</th>
+      <th>Acumulable con otras promociones</th>
       <th>Cantidad de cupones creados</th>
       <th>Cantidad de cupones canjeados</th>
       <th>Cantidad de cupones disponibles</th>
@@ -39,6 +40,13 @@
             <td class="text-center">{{$c->valor_de_descuento}}%</td>
           @endif
           <td class="text-center">{{$c->limite_por_usuario}}</td>
+          
+          @if($c->es_acumulable=='1')
+             <td class="text-center text-success">SI</td> 
+          @else
+            <td class="text-center text-danger">NO</td>
+          @endif
+
           <td class="text-center">{{$c->numero_de_cupones}}</td>
           <td class="text-center">{{$c->cupones_canjeados}}</td>
           <td class="text-center">{{$c->cupones_disponibles}}</td>
