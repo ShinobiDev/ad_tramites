@@ -8,7 +8,7 @@
 	 	@endforeach	    
 	</div>
 	<div id="espera_{{$ad->id}}"></div>
-    <button type="button" class="btn btn-default"  onclick="ver_mas_comentarios('{{$ad->id}}')">VER MÁS COMENTARIOS</button>
+    <button type="button" class="btn btn-default"  onclick="ver_mas_comentarios('{{$ad->id}}')"> <i class="fa fa-comments-o"></i>VER MÁS COMENTARIOS</button>
 </div>
 <script type="text/javascript">
 	var limit_min=0;

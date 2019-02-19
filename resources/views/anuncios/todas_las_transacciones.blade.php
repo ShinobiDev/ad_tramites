@@ -28,18 +28,18 @@
               <tr>
                 
                 <th>Trámite</th>
+                <th>Fecha transacción</th>
                 <th>Estado transacción</th>
                 <th>Vendedor</th>
                 <th>Teléfono tramitador</th>
                 <th>E-mail tramitador</th>
                 <th>Cuenta bancaria tramitador</th>
                 
-                <th>Valor transacción</th>
+                <th>Valor trámite</th>
+                <th>Valor pagado por el cliente</th>
                 <th>% tu tramitador</th>
                 <th>Valor a pagar al tramitador</th>
                 <th>Referecia de pago</th>
-                <th>Fecha transacción</th>
-                
                 <th>Acción</th>  
               </tr>
             </thead>
@@ -49,6 +49,7 @@
                   <tr id="row_{{$transaccion->id_pago}}">      
                      
                     <td>{{$transaccion->nombre_tramite}}</td> 
+                    <td>{{$transaccion->updated_at}}</td>
                      <td>
                       @if($transaccion->estado_pago=="PENDIENTE")
                         <span class="text-warning">Pendiente por pago del cliente</span>
@@ -82,6 +83,8 @@
                                                       
                     <td>${{number_format($transaccion->valor_tramite,0,',','.')}}</td>
 
+                    <td>${{number_format($transaccion->transation_value,0,',','.')}}</td>
+
                     @if($transaccion->estado_pago=="PAGO A TRAMITADOR")  
                     
                       <td>{{number_format($transaccion->porcentaje_pago,'0',',','.')}} %</td> 
@@ -105,8 +108,6 @@
 
 
                     <td>{{$transaccion->transactionId}}</td>
-                    <td>{{$transaccion->updated_at}}</td>
-                   
                     <td>
                           
                       @if($transaccion->estado_pago=="TRANSACCION FINALIZADA")    

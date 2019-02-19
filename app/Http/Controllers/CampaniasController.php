@@ -172,7 +172,7 @@ class CampaniasController extends Controller
      */
     public function canjear_cupones_recargas(Request $request){
       
-      $resultado=CuponesCampania::redimir_cupon_recargas($request['data']['cupon'],Carbon::now('America/Bogota'),$request['data']['usuario_que_redime'],$request['data']['ref_pago'],'recarga',$request['data']['valor_pago'])[0]; 
+      $resultado=CuponesCampania::redimir_cupon_recargas($request['data']['cupon'],Carbon::now('America/Bogota'),$request['data']['usuario_que_redime'],$request['data']['ref_pago'],'recarga',$request['data']['valor_pago'],$request['data']['valor_recarga'])[0]; 
       //dd($resultado);
       if($resultado['respuesta']==true){
             

@@ -29,11 +29,11 @@
                            <!--AQUI SE MUESTRA LOS BOTONES PARA LOGIN -->
 
                             <button id="{{'btn_'.$ad->id}}" type="button" class="btn btn-success btn-block" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_login'.$ad->id}}','{{$ad->id}}','0',false)">
-                              Ver info
+                              <i class="fa fa-info-circle"> Ver info</i>
                               </button>
 
                             <button id="{{'btn_'.$ad->id}}" type="button" class="btn btn-default btn-block" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_login'.$ad->id}}','{{$ad->id}}','0',false)">
-                              Comprar
+                              <i class="fas fa-hand-holding-usd"> Comprar</i>
                             </button>
 
 
@@ -42,7 +42,7 @@
                           @if($ad->btn_info)
 
                               <button id="{{'btn_'.$ad->id}}" type="button" class="btn btn-success btn-block" data-toggle="modal" onclick="descontar_recargar('{{ 'infogen'.$ad->id}}','{{$ad->id}}','0','info')">
-                              Ver info
+                              <i class="fa fa-info-circle"> Ver info</i>
                               </button>
 
                               
@@ -51,7 +51,7 @@
 
                           @if($ad->btn_payu)
                             <button id="{{'btn_'.$ad->id}}" type="button" class="btn btn-default btn-block" data-toggle="modal" onclick="descontar_recargar('{{ 'infoventa'.$ad->id}}','{{$ad->id}}','0','compra')" >
-                              Comprar
+                              <i class="fa fa-money"> Comprar</i>
                             </button>
 
                            
@@ -59,7 +59,7 @@
 
                           @if($ad->btn_calificar)
                              <button id="{{'btn_cal_'.$ad->id}}" type="button" class="btn btn-primary btn-block" data-toggle="modal" onclick="descontar_recargar('{{ 'infocalificar'.$ad->id}}','{{$ad->id}}','0',false)" >
-                              Calificar
+                              <i class="fa fa-thermometer-3"> Calificar</i>
                             </button>
                              
                           @endif

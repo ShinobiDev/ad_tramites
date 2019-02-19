@@ -24,15 +24,15 @@
                                 </div>  
                                 <div class="form-group">
                                      <input type="hidden" id="hd_id_user" name="user_id" value="{{Auth::user()->id }}" class="form-control">
-                                     
                                 </div>
-
                                 <div class="form-group">
                                      @include('partials.redimir_cupon_recarga',['c'=>auth()->user()->id])
                                      <label for="valor">¿Estás, seguro de realizar la recarga?</label>
                                      <label id="msnEspera"></label>
+                                     
                                 </div>
                                 <div>
+
                                      <button id="btn_acepta_recarga" onclick="acepta_recargar()" type="button" class="btn btn-secondary" >SI</button>
                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
                                 </div>              
@@ -41,6 +41,9 @@
                         
                         <div class="modal-body">
                           <div class="form-group" >
+                                  <label  class="text-success">Total a pagar $ <span id="msnValorAPagar">20.000</span>
+                                  </label>
+                                  <br>
                                   <button  style="display: none" id="btn_recarga" type="submit" class="btn btn-success">Ir a Payu</button>
                           </div> 
                         </div>          
@@ -51,11 +54,13 @@
                         </div>
     </form>
 <script type="text/javascript">
+      
+
       function acepta_recargar(){
 
         
         mostrar_cargando("msnEspera",10,"Generando código de pago ...");
-        peticion_ajax("GET","admin/registrar_recarga/"+{{auth()->user()->id}}+"/"+document.getElementById("hd_val_recarga").value+"/"+document.getElementById("hd_num_valor_recarga").value+"/"+document.getElementById("refRecarga").value,{},function(rs){
+        peticion_ajax("GET","admin/registrar_recarga/"+'{{auth()->user()->id}}'+"/"+document.getElementById("hd_val_recarga").value+"/"+document.getElementById("hd_num_valor_recarga").value+"/"+document.getElementById("refRecarga").value,{},function(rs){
             if(rs.respuesta){
               document.getElementById("btn_recarga").style.display='block';
               document.getElementById("msnEspera").innerHTML="";
@@ -65,6 +70,8 @@
               document.getElementById("btn_recarga").style.display='none';
             }
         });
-        ////AQUI SE DEBE REGISTRAR LA RECARGA 
+        
       }
+
+
 </script>

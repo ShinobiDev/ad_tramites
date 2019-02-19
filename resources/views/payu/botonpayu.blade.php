@@ -3,12 +3,8 @@
   <input name="accountId"     type="hidden"   value="{{trim($ad->accountId)}}" >
   <input id="hd_description_{{$ad->id}}" name="description"   type="hidden"   value="{{trim($ad->descripcion)}}"  >
   <input id="referenceCode{{$ad->id}}" name="referenceCode" type="hidden"   value="{{$ad->cod_anuncio}}" >
-
-  
-    <input id="hd_valor_venta_{{$ad->id}}" name="amount"        type="hidden"   value="{{$ad->valor_tramite}}" >
-    <input id="currency_{{$ad->id}}" name="currency"     type="hidden"   value="COP" >
-  
-  
+  <input id="hd_valor_venta_{{$ad->id}}" name="amount"        type="hidden"   value="{{$ad->valor_tramite}}" >
+  <input id="currency_{{$ad->id}}" name="currency"     type="hidden"   value="COP" >
   <input name="tax"           type="hidden"   value="0"  >
   <input name="taxReturnBase" type="hidden"   value="0" >
   <input id="hd_signature_{{$ad->id}}" name="signature"     type="hidden"   value="{{trim($ad->hash)}}"  >

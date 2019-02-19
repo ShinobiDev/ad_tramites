@@ -60,7 +60,7 @@
           @include('partials.comentarios')
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="salir_modal('{{'infogen'.$ad->id}}')">SEGUIR VIENDO ANUNCIOS</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="salir_modal('{{'infogen'.$ad->id}}')"><span class="glyphicon glyphicon-log-out"></span>SEGUIR VIENDO ANUNCIOS</button>
         </div>
       </div>
     </div>

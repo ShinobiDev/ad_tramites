@@ -23,6 +23,7 @@
 					//document.getElementById('num_valor_recarga').min=e.nuevo_valor;
 					//document.getElementById('hd_num_valor_recarga').value=e.nuevo_valor;
 					document.getElementById('hd_val_recarga').value=e.nuevo_valor;
+					document.getElementById("msnValorAPagar").innerHTML=number_format(e.nuevo_valor,0,',','.');  
 					
 					document.getElementById('hd_cupon').value=e.nuevo_valor_recarga;
 					

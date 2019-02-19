@@ -36,7 +36,7 @@ class CuponesCampania extends Model
         return $this->belongsTo('App\User','id_usuario_canje');
     }  
 
-    public static function  redimir_cupon_recargas($cupon,$fecha_canje,$id_usuario_canje,$transaccion_canje,$tipo_de_campania,$monto_valor_a_redimir){
+    public static function  redimir_cupon_recargas($cupon,$fecha_canje,$id_usuario_canje,$transaccion_canje,$tipo_de_campania,$monto_valor_a_redimir,$valor_pagado){
         
         $camp=CuponesCampania::where([
                                     ['estado','sin canjear'],
@@ -70,7 +70,27 @@ class CuponesCampania extends Model
                           ["tipo_recarga",'RECARGA'],
                           ['estado_detalle_recarga','SIN REGISTRAR']
                         ])->get();
+
+                DB::table('detalle_recargas')
+                    ->where([
+                          ["id_usuario",$id_usuario_canje],
+                          ["tipo_recarga",'RECARGA'],
+                          ['estado_detalle_recarga','SIN REGISTRAR']
+                        ])
+                    ->take(1)
+                    ->update([
+                              'valor_recarga'=>$monto_valor_a_redimir,
+                              'valor_pagado'=>$valor_pagado,
+                              'referencia_pago'=>$transaccion_canje,
+                              ]);     
+
                 if(count($dt)>0){
+                  $dt=DB::table('detalle_recargas')
+                    ->where([
+                          ["id_usuario",$id_usuario_canje],
+                          ["tipo_recarga",'RECARGA'],
+                          ['estado_detalle_recarga','SIN REGISTRAR']
+                        ])->get();
                   if((float)$monto_valor_a_redimir < (float)$dt[0]->valor_pagado ){
                           return array(['respuesta'=>false,'mensaje'=>'Error de valor mínimo: Este valor es mayor al valor del bono','id_campania'=>$camp[0]->campania->id]);
                   }  

@@ -10,6 +10,7 @@
             var val=document.getElementById("num_valor_recarga").value;  
             document.getElementById("hd_num_valor_recarga").value=val;  
             document.getElementById("hd_val_recarga").value=val;  
+            document.getElementById("msnValorAPagar").innerHTML=number_format(val,0,',','.');  
             
             
           }

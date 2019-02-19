@@ -33,10 +33,7 @@
                         <a class="pull-right" style="margin-right:  20px;" href="{{config('app.url').$user->certificacion_bancaria  }}" target="_blank">Ver</a>
                       @else
                         <a class="pull-right" style="margin-right:  20px;" href="#">Sin registrar</a>
-                        
-
                       @endif
-
                 </li>
                 <li class="list-group-item" style="text-align: center;">
                   <b>Horarios de atención</b>
@@ -181,10 +178,6 @@
                       @else
                         <h4>Su saldo actual es: $ <span id="sp_valor_recarga">{{number_format($recargas->valor_recarga,0,',','.')}}</span> <small> {{$recargas->status_recarga}}</small></h4>
                       @endif
-
-
-
-
                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
                         Recargar
                       </button>
@@ -218,9 +211,7 @@
               </div>
               <div class="box-body"><h4 class="box-title"></h4>
                         <a class="btn btn-primary" href="{{route('anuncios_vistos')}}">VER</a>
-
               </div>
-
           </div>
         </div>
         @role('Admin')
