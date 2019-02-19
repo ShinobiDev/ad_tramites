@@ -57,11 +57,16 @@ class CuponesCampania extends Model
                 /*
                   AQUI VALIDAR FECHA
                  */
-                $hoy=Carbon::now('America/Bogota');
-                
-                if($hoy->between(Carbon::parse($camp[0]->campania->fecha_inicial_vigencia),Carbon::parse($camp[0]->campania->fecha_final_vigencia))==false){
-                        return array(['respuesta'=>false,'mensaje'=>'Error de vigencía: Este cupón no es válido. Deja el espacio vacío o verifícalo con quien te lo suministro.','id_campania'=>$camp[0]->campania->id]);
-                }
+                  //dd($camp[0]->campania->fecha_inicial_vigencia,$camp[0]->campania->fecha_final_vigencia);
+                 if($camp[0]->campania->fecha_inicial_vigencia != '0000-00-00 00:00:00' and $camp[0]->campania->fecha_final_vigencia != '0000-00-00 00:00:00'){
+                  
+                   $hoy=Carbon::now('America/Bogota');
+                  
+                  if($hoy->between(Carbon::parse($camp[0]->campania->fecha_inicial_vigencia),Carbon::parse($camp[0]->campania->fecha_final_vigencia))==false){
+                          return array(['respuesta'=>false,'mensaje'=>'Error de vigencía: Este cupón no es válido. Deja el espacio vacío o verifícalo con quien te lo suministro.','id_campania'=>$camp[0]->campania->id]);
+                  }
+                 }
+
 
                 //dd($tipo_de_campania,$camp[0]->campania->tipo_canje);
                 if($tipo_de_campania!=$camp[0]->campania->tipo_canje){
@@ -249,12 +254,17 @@ class CuponesCampania extends Model
                         return array(['respuesta'=>false,'mensaje'=>'Error de valor mínimo: Este valor es mayor al valor del bono, y no es posible realizar el canje del cupón, por favor ingresa otro cupon, o redimelo en otro trámite','id_campania'=>$camp[0]->campania->id]);
                   }  
                 } 
+                if($camp[0]->campania->fecha_inicial_vigencia != '0000-00-00 00:00:00' and $camp[0]->campania->fecha_final_vigencia != '0000-00-00 00:00:00'){
+
+
+                  $hoy=Carbon::now('America/Bogota');
                 
-                $hoy=Carbon::now('America/Bogota');
-                
-                if($hoy->between(Carbon::parse($camp[0]->campania->fecha_inicial_vigencia),Carbon::parse($camp[0]->campania->fecha_final_vigencia))==false){
-                        return array(['respuesta'=>false,'mensaje'=>'Error de vigencía: Este cupón no es válido. Deja el espacio vacío o verifícalo con quien te lo suministro.','id_campania'=>$camp[0]->campania->id]);
+                  if($hoy->between(Carbon::parse($camp[0]->campania->fecha_inicial_vigencia),Carbon::parse($camp[0]->campania->fecha_final_vigencia))==false){
+                          return array(['respuesta'=>false,'mensaje'=>'Error de vigencía: Este cupón no es válido. Deja el espacio vacío o verifícalo con quien te lo suministro.','id_campania'=>$camp[0]->campania->id]);
+                  }
+
                 }
+                
 
                 //dd($tipo_de_campania,$camp[0]->campania->tipo_canje);
                 if($tipo_de_campania!=$camp[0]->campania->tipo_canje){
