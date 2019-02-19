@@ -1,4 +1,6 @@
+
 <div>
+
   <input   name="merchantId"    type="hidden"   value="{{trim($ad->merchantId)}}"   >
   <input name="accountId"     type="hidden"   value="{{trim($ad->accountId)}}" >
   <input id="hd_description_{{$ad->id}}" name="description"   type="hidden"   value="{{trim($ad->descripcion)}}"  >

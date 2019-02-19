@@ -33,6 +33,7 @@
             </div> 
             <div class="modal-body">
               <h5 class="modal-title" id="exampleModalLabel"></h5>
+              <h5 class="text-green">Total a pagar $ <span id="spTotalPagoTramite_{{$ad->id}}">{{number_format($ad->valor_tramite,0)}}</span></h5>
                 <form method="POST" id="ad-form" action="{{$ad->url_api}}">                          
                         <div class="modal-body">                          
                           @if(Auth::user()->id!=$ad->id_anunciante)

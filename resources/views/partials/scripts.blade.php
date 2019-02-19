@@ -499,17 +499,20 @@
               
               
               document.getElementById('hd_cupon'+id).value=e.nuevo_valor;
+              document.getElementById('hd_valor_venta_'+id).value=number_format(e.nuevo_valor,0,'','');
               
+              document.getElementById('spTotalPagoTramite_'+id).innerHTML=number_format(e.nuevo_valor,0,',','.');
+
               if(e.hash_payu!=false){
                 document.getElementById('hd_signature_'+id).value=e.hash_payu; 
                 document.getElementById('btn_comprar_'+id).disabled=false;
               }         
               
-              document.getElementById('hd_valor_venta_'+id).value=number_format(e.nuevo_valor,0,'','');
+              
 
               if(e.recarga_gratis){
                 document.getElementById('btn_comprar_'+id).disabled=true;
-                
+                document.getElementById('spTotalPagoTramite_'+id).innerHTML=number_format(0,0,',','.');
               }
 
               if(e.acumulable=='0'){
