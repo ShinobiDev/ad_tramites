@@ -309,14 +309,8 @@ class CampaniasController extends Controller
                                                         $anunciante->valor_recarga,"CompraExitosaAnunciante");
                                               
                        return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, hemos registrado una compra completamente gratis.','nuevo_valor'=>$request['data']['valor_pago'],'compra_gratis'=>true,'valor_compra'=>$request['data']['valor_pago'],'hash_payu'=>false,'acumulable'=>$resultado['acumulable']]);
-                   
 
                   }else{
-
-
-
-
-
 
                       if($request['data']['validar']=='true'){
 
