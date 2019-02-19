@@ -24,7 +24,7 @@ class CampaniasController extends Controller
               ->with('users_clientes',$users_clientes);
     }
     public function show(){
-    	$c=Campania::all();
+    	$c=Campania::where('id','>',0)->get();
     	
     	return view('campanias.show')->with('campanias',$c);
     }
@@ -145,7 +145,7 @@ class CampaniasController extends Controller
 
     public function ver_cupones($id){
     	//dd($id);
-    	$c=CuponesCampania::where('id_campania',$id)->get();
+    	$c=CuponesCampania::where([['id_campania',$id],['estado','<>','sin canjear']])->get();
     	return response()->json(['respuesta'=>true,'datos'=>$c]);
     	//$c=Campania::where('id',$id)->get();
     	//return view('campanias.tabla_campañas')->with('campanias',$c);
@@ -213,6 +213,7 @@ class CampaniasController extends Controller
                       
 
                     User::generar_registro_recarga_en_bd($request['data']['usuario_que_redime'],$dto,$request['data']['valor_pago'],$request['data']['ref_pago']);
+
                     return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, ahora paga $ '.number_format($dto,0,',','.').' y recibiras $ '.number_format($request['data']['valor_recarga'],0,',','.')." en tu recarga." ,'nuevo_valor'=>$dto,'nuevo_valor_recarga'=>number_format($request['data']['valor_pago'],0,'',''),'recarga_gratis'=>false,'hash_payu'=>$hash,'acumulable'=>$resultado['acumulable']]);    
                   }
             }else{
