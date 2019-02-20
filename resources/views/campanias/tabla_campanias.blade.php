@@ -8,7 +8,7 @@
       <th>Fecha de cierre</th>      
       <th>Valor minimo para el descuento</th>
       <th>Valor descuento</th>
-      <th>LImite por usuario</th>
+      <th>Limite por usuario</th>
       <th>Acumulable con otras promociones</th>
       <th>Cantidad de cupones creados</th>
       <th>Cantidad de cupones canjeados</th>
