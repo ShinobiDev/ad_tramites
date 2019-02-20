@@ -76,14 +76,15 @@
                         @else
                           <span class="text-red">Sin registrar</span>
                         @endif
-                    </td>          
-                    
-                                  
-                                                       
+                    </td>                              
                                                       
                     <td>${{number_format($transaccion->valor_tramite,0,',','.')}}</td>
-
-                    <td>${{number_format($transaccion->transation_value,0,',','.')}}</td>
+                    @if($transaccion->metodo_pago=='BONO REGALO')
+                      <td>$ 0</td>
+                    @else
+                      <td>${{number_format($transaccion->transation_value,0,',','.')}}</td>
+                    @endif
+                    
 
                     @if($transaccion->estado_pago=="PAGO A TRAMITADOR")  
                     
