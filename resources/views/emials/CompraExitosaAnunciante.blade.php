@@ -23,11 +23,11 @@ Anuncio:
 # Ciudad
  {{$ad[1]->ciudad}}
 # Valor trámite
-	@if($ad[3]['cupon']!=false)
-	 	$ {{number_format($ad[1]->valor_tramite,0,'.','.')}}
-	@else
-		 {{$ad[3]['cupon']}}
-	@endif 
+@if($ad[3]['cupon']==false)
+ $ {{number_format($ad[1]->valor_tramite,0,'.','.')}}
+@else
+  {{$ad[3]['cupon']}}
+@endif 
 # Descripción del anuncio
  {{$ad[1]->descripcion_anuncio}}
 

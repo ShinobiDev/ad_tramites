@@ -239,7 +239,7 @@ class CampaniasController extends Controller
                       
                       $user=User::where('id',$request['data']['usuario_que_redime'])->first();
 
-                      NotificacionAnuncio::dispatch($user, [],[$user,["valor"=>$dto+$camp->valor_de_descuento,"fecha"=>date('Y-m-d')]],"RecargaExitosa");
+                      NotificacionAnuncio::dispatch($user, [],[$user,["valor"=>$dto,"fecha"=>date('Y-m-d')]],"RecargaExitosa");
 
                        return response()->json(['respuesta'=>true,'mensaje'=>'Cupón canjeado, hemos registrado una recarga completamente gratis.','nuevo_valor'=>$dto,'recarga_gratis'=>true,'valor_recarga'=>$user->valor_recarga,'nuevo_valor_recarga'=>$dto,'hash_payu'=>false,'acumulable'=>$resultado['acumulable']]);
 

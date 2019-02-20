@@ -44,7 +44,7 @@
           @if($c->tipo_de_descuento=='valor_neto')
             <td class="text-center">$ {{number_format($c->valor_de_descuento,0,',','.')}}</td>
           @else
-            <td class="text-center">{{$c->valor_de_descuento}}%</td>
+            <td class="text-center">{{number_format($c->valor_de_descuento,0,'','')}} %</td>
           @endif
           <td class="text-center">{{$c->limite_por_usuario}}</td>
           
