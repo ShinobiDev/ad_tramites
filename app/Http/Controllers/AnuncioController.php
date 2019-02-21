@@ -282,9 +282,9 @@ class AnuncioController extends Controller
         }
         //
         if($can_ad==1){
-            $msn=" un nuevo anuncio, una vez sea verificado que cumpla con nuestra política, serás notificado y el anuncio será publicado";
+            $msn=" un nuevo anuncio, una vez sea verificado que cumpla con nuestra política, serás notificado y el anuncio será publicado.";
         }else{
-            $msn=$can_ad." nuevos anuncios, una vez sean verificados que cumplan con nuestra política, serás notificado y los anuncios serán publicados";
+            $msn=$can_ad." nuevos anuncios, una vez sean verificados que cumplan con nuestra política, serás notificado y los anuncios serán publicados.";
         }
 
         NotificacionAnuncio::dispatch(auth()->user(),["Hemos registrado ".$msn],auth()->user()->valor_recarga,"AnuncioCreado");

@@ -31,21 +31,21 @@
 
                 <h4>
                   Para que tus anuncios sean visibles, debes tener saldo en la cuenta de recarga.
-                  Recuerda que cada click de tu anuncio tiene un valor de: $ {{number_format(Auth()->user()->costo_clic,0,"",".")}} COP
+                  Recuerda que cada click de tu anuncio tiene un valor de: $ {{number_format(Auth()->user()->costo_clic,0,"",".")}} COP.
                 </h4>
                 <h4>BALANCE DE RECARGA: $ {{number_format(auth()->user()->valor_recarga,0,"",".")}} COP</h4>
                 <div class="alert alert-info">
 
                     <h3>
                       <i class="fa fa-info-circle"></i>
-                      ¿Quieres aumentar tu visibilidad?, los anuncios son ordenados orgánicamente situando primero a los usuarios que tengan un mayor valor de recarga total
+                      ¿Quieres aumentar tu visibilidad?, los anuncios son ordenados orgánicamente situando primero a los usuarios que tengan un mayor valor de recarga total.
                     </h3>
 
                 </div>
                 <div class="alert alert-warning">
                     <h3>
                       <i class="fa fa-info-circle"></i>
-                      Si tu servicio es comprado directamente en <a href="{{config('app.url')}}">{{config('app.name')}}</a>, el costo de este servicio es del {{$porcentaje[0]->valor}}%
+                      Si tu servicio es comprado directamente en <a href="{{config('app.url')}}">{{config('app.name')}}</a>, el costo de este servicio es del {{$porcentaje[0]->valor}}%.
                     </h3>
                </div>           
               </div>
@@ -141,21 +141,29 @@ $(document).ready(function() {
 
                     var msn="";
                     if(tram.value=="" && des.value==""){
-                      msn="No olvides agregar el valor y la descripción para cada uno de tus tramites";
+                      msn="No olvides agregar el valor y la descripción para cada uno de tus trámites.";
                       tram.style.border="thick solid RED";
                       des.style.border="thick solid RED";
                       window.scrollTo(0, 0);
 
+
                     }else if(tram.value==""){
-                      msn="No ovides agregar el valor para cada uno de tus tramites";
+                      msn="No ovides agregar el valor para cada uno de tus trámites.";
                       tram.style.border="thick solid RED";
                       window.scrollTo(0, 0);
                     }else{
-                      msn="No ovides agregar la descripción para cada uno de tus tramites";
+                      msn="No ovides agregar la descripción para cada uno de tus trámites.";
                       des.style.border="thick solid RED";
                       window.scrollTo(0, 0);
 
                     }
+
+                  if(tram.value < 10000 ){
+                      msn="El valor mínimo de el trámite es de $10.000.";
+                      tram.style.border="thick solid RED";
+                      window.scrollTo(0, 0);
+                  
+                  }
 
 
 
@@ -171,6 +179,13 @@ $(document).ready(function() {
                     window.scrollTo(0, 0);
                     return false;
                   }
+                  if(v[i].value < 10000 ){
+                      msn="El valor mínimo de el trámite es de $10.000.";
+                      tram.style.border="thick solid RED";
+                      window.scrollTo(0, 0);
+                      return false;
+                  }
+
                   valores[e]=v[i].value;
                   tramites[e]=t[i].value;
                   descripciones[e]=d[i].value;
@@ -209,7 +224,7 @@ $(document).ready(function() {
               }
             }else{
 
-              mensaje({mensaje:"Debes seleccionar un tramite al menos",respuesta:false},'Alert');
+              mensaje({mensaje:"Debes seleccionar un trámite al menos.",respuesta:false},'Alert');
               window.scrollTo(0, 0);
               return false;
             }
