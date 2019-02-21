@@ -37,9 +37,11 @@
 
                     
                     
-                     <div class="col-10 col-md-10 col-lg-2 col-sm-4">
+                     <div class="col-12 col-md-12  col-lg-2 col-sm-4">
+                      
                       <h5 class="col-4 col-md-4 col-lg-4 col-sm-4" id="h5_estado_{{$ad->id}}">Activo</h5>  
-                      <input  id="rng_{{$ad->id}}" type="range" min="1" max="2" value="1" onchange="cambiar_estado_admin('{{$ad->id}}')" >  
+                      <input  style="width: 50px"  id="rng_{{$ad->id}}" type="range" min="1" max="2" value="1" onchange="cambiar_estado_admin('{{$ad->id}}')" >  
+                      
                       <label class="col-4 col-md-4 col-lg-4 col-sm-4">Activo-Bloqueado</label>
                     </div>
                   
@@ -49,7 +51,7 @@
                   
                      <div class="col-10 col-md-10 col-lg-2 col-sm-4">
                       <h5 id="h5_estado_{{$ad->id}}" class="col-4 col-md-4 col-lg-4 col-sm-4 text-danger">Bloquedo</h5>
-                      <input id="rng_{{$ad->id}}" type="range" min="1" max="2" value="2" onchange="cambiar_estado_admin('{{$ad->id}}')" >
+                      <input style="width: 50px"  id="rng_{{$ad->id}}" type="range" min="1" max="2" value="2" onchange="cambiar_estado_admin('{{$ad->id}}')" >
                       <label class=" col-4  col-md-4 col-lg-4 col-sm-4">Activo-Bloqueado</label>
                       
                     </div>
@@ -59,8 +61,8 @@
                     
                      <div class="col-10 col-md-10 col-lg-2 col-sm-4">
                       <h5 id="h5_estado_{{$ad->id}}" class="col-4 col-md-4 col-lg-4 col-sm-4 text-danger">Sin publicar</h5>
-                      <input id="rng_{{$ad->id}}" type="range" min="0" max="2" value="0" onchange="activar_anuncio_admin('{{$ad->id}}')">
-                      <label class=" col-4  col-md-4 col-lg-4 col-sm-4">Sin publicar-Actico-Bloqueado</label>                      
+                      <input  style="width: 50px"  id="rng_{{$ad->id}}" type="range" min="0" max="2" value="0" onchange="activar_anuncio_admin('{{$ad->id}}')">
+                      <label class=" col-4  col-md-4 col-lg-4 col-sm-4">Sin publicar-Activo-Bloqueado</label>                      
                       </div>
 
                   @endif
