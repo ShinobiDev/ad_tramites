@@ -159,11 +159,7 @@ class User extends Authenticatable
                                                         "metodo_pago"=>$req['lapPaymentMethod'],
                                                         "estado_detalle_recarga"=>"APROBADA",
                                                         'updated_at'=>Carbon::now('America/Bogota')
-                                                    ]);
-
-                                                 
-                                                      
-                                            
+                                                    ]);                                            
 
                                                 /*
                                                   incremento la recarga al usuario que hace el pago
