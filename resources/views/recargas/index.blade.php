@@ -50,8 +50,8 @@
                     <td>{{ $recarga->status_recarga }}</td>
                     <td>$ {{ number_format($recarga->valor_recarga,0,',','.')}}</td>
                     <td>{{ $recarga->fecha_ultima_recarga }}</td>
-                    <td><input id="rec_{{$recarga->id}}" type="number" value="{{ $recarga->costo_clic }}" onchange='cambiar_valor_clic({{$recarga->id}})  ' /></td>
-                    <td><input id="ver_{{$recarga->id}}" type="button" value="Ver recargas" onclick='ver_recargas({{$recarga->id}})' class="btn btn-primary pull-right" /></td>
+                    <td><input id="rec_{{$recarga->id}}" type="number" value="{{ $recarga->costo_clic }}" onchange="cambiar_valor_clic('{{$recarga->id}}')" /></td>
+                    <td><input id="ver_{{$recarga->id}}" type="button" value="Ver recargas" onclick="ver_recargas('{{$recarga->id}}')" class="btn btn-primary pull-right" /></td>
 
 
                     

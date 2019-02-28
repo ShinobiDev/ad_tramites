@@ -325,7 +325,7 @@ class Anuncio extends Model
 
                 }else{
                   if(count($comprador)==0){
-                    $msn="Los datos de este usuario no corresponde a ninguno que este registrado en MetalBit ";
+                    $msn="Los datos de este usuario no corresponde a ninguno que este registrado en  ".config('app.name');
 
                     return view('payu.error_payu')->with("mensaje",$msn);
                   }else{
