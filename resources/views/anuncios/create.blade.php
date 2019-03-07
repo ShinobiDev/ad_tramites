@@ -158,7 +158,7 @@ $(document).ready(function() {
 
                     }
 
-                  if(tram.value < 10000 ){
+                  if(Number(tram.value) < 10000 ){
                       msn="El valor mínimo de el trámite es de $10.000.";
                       tram.style.border="thick solid RED";
                       window.scrollTo(0, 0);
@@ -179,8 +179,10 @@ $(document).ready(function() {
                     window.scrollTo(0, 0);
                     return false;
                   }
-                  if(v[i].value < 10000 ){
-                      msn="El valor mínimo de el trámite es de $10.000.";
+                  if(Number(v[i].value) < 10000 ){
+                      msn="El valor mínimo del trámite es de $10.000.";
+                      mensaje({mensaje:msn,respuesta:false});
+                      
                       tram.style.border="thick solid RED";
                       window.scrollTo(0, 0);
                       return false;

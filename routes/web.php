@@ -47,6 +47,8 @@ Route::group(["prefix"=>"admin","middleware"=>"auth"],function(){
   Route::get('recargas','UsersController@ver_recargas')->name('recargas.show');
   Route::get('cambiar_costo','UsersController@mostrar_cambiar_costo_clic')->name('cambiar.costo');
   Route::post('cambiar_costo','UsersController@cambiar_costo_clic')->name('cambiar.store');
+  Route::get("cambiar_valor_clic/{id_user}/{costo}","UsersController@cambiar_valor_clic");
+  
   Route::post("editar_variables","UsersController@editar_variables");
   Route::get("hash/{cod_ad}/{monto}/{moneda}","AnuncioController@hash");
   Route::get("ver_recargas_mis_recargas/{id}","UsersController@ver_recargas_mis_recargas");

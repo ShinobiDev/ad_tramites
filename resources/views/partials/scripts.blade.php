@@ -166,18 +166,13 @@
            });
         }
         /*funcion para cambiar el es estado de un anuncio administrador*/
-        function cambiar_estado_admin(id){
-          var rng=document.getElementById("rng_"+id).value;
+        function cambiar_estado_admin(id,e){
+          var rng=e.value;
           mostrar_cargando("h5_estado_"+id,5,"Cambiando...");
            peticion_ajax("get","admin/cambiar_estado_anuncio/"+id+"/"+rng,{},function(rs){
 
-              var es="";
-              if(rs.respuesta[0].validez_anuncio=='Activo'){
-                es='Activo';
-              }else{
-                es='Bloquedo';
-              }
-              document.getElementById("h5_estado_"+id).innerHTML=es;
+              
+              document.getElementById("h5_estado_"+id).innerHTML=rs.estado;
            });
         }
         /*funcion para cambiar el es estado de un anuncio administrador y activarlo luego de su creacion*/

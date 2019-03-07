@@ -925,4 +925,12 @@ class UsersController extends Controller
         
     }
 
+    public function cambiar_valor_clic($id_u,$costo){
+      
+        User::where("id",$id_u)->update(["costo_clic"=>$costo]);
+        return response()->json(["respuesta"=>true,
+                                    "mensaje"=>"Se ha cambiado el costo de el clic"]);
+
+    }
+
 }

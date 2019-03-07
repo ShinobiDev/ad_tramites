@@ -37,33 +37,49 @@
 
                     
                     
-                     <div class="col-12 col-md-12  col-lg-2 col-sm-4">
+                     
                       
-                      <h5 class="col-4 col-md-4 col-lg-4 col-sm-4" id="h5_estado_{{$ad->id}}">Activo</h5>  
-                      <input  style="width: 50px"  id="rng_{{$ad->id}}" type="range" min="1" max="2" value="1" onchange="cambiar_estado_admin('{{$ad->id}}')" >  
-                      
-                      <label class="col-4 col-md-4 col-lg-4 col-sm-4">Activo-Bloqueado</label>
-                    </div>
+                      <h5 id="h5_estado_{{$ad->id}}" class="text-red" style="width: 150px">{{$ad->validez_anuncio}}</h5>
+                      <div>                              
+                              <select class="form-control" onchange="cambiar_estado_admin('{{$ad->id}}',this)">
+                                <option value="2">Bloqueado</option>
+                                <option value="1" selected>Activo</option>
+                              </select>
+                      </div>
+
+                    
                   
                   @elseif($ad->validez_anuncio=="Bloqueado")
                     
+                      
+                      <h5 id="h5_estado_{{$ad->id}}" class="text-red" style="width: 150px">{{$ad->validez_anuncio}}</h5>
+                      <div>                              
+                              <select class="form-control" onchange="cambiar_estado_admin('{{$ad->id}}',this)">      
+                                <option value="2" selected>Bloqueado</option>
+                                <option value="1">Activo</option>                
+                              </select>
+                      </div>
+
+                    
+
                     
                   
-                     <div class="col-10 col-md-10 col-lg-2 col-sm-4">
-                      <h5 id="h5_estado_{{$ad->id}}" class="col-4 col-md-4 col-lg-4 col-sm-4 text-danger">Bloquedo</h5>
-                      <input style="width: 50px"  id="rng_{{$ad->id}}" type="range" min="1" max="2" value="2" onchange="cambiar_estado_admin('{{$ad->id}}')" >
-                      <label class=" col-4  col-md-4 col-lg-4 col-sm-4">Activo-Bloqueado</label>
-                      
-                    </div>
                  
                   @else
                     
                     
-                     <div class="col-10 col-md-10 col-lg-2 col-sm-4">
-                      <h5 id="h5_estado_{{$ad->id}}" class="col-4 col-md-4 col-lg-4 col-sm-4 text-danger">Sin publicar</h5>
-                      <input  style="width: 50px"  id="rng_{{$ad->id}}" type="range" min="0" max="2" value="0" onchange="activar_anuncio_admin('{{$ad->id}}')">
-                      <label class=" col-4  col-md-4 col-lg-4 col-sm-4">Sin publicar-Activo-Bloqueado</label>                      
+                     
+                      
+                      <h5 id="h5_estado_{{$ad->id}}" class="text-red" style="width: 150px">{{$ad->validez_anuncio}}</h5>
+                      <div>                              
+                              <select class="form-control" onchange="cambiar_estado_admin('{{$ad->id}}',this)">
+                                <option value="0" selected>Sin publicar</option>
+                                <option value="2" >Bloqueado</option>
+                                <option value="1">Activo</option>
+                              </select>
                       </div>
+
+                    
 
                   @endif
                  
@@ -75,14 +91,26 @@
               <td>
               @if($ad->validez_anuncio=='Activo')
                   @if($ad->estado_anuncio=="1")
-                    <h5 id="h5_estado_{{$ad->id}}" style="margin-left:25%;">Activo</h5>
 
-                    <input id="rng_{{$ad->id}}" type="range" min="0" max="1" value="1" onchange="cambiar_estado('{{$ad->id}}')" style="width: 50%; margin-left:25%; ">
+
+                    <h5 id="h5_estado_{{$ad->id}}" class="text-red" style="width: 150px">Activo</h5>
+                      <div>                              
+                              <select class="form-control" onchange="cambiar_estado_admin('{{$ad->id}}',this)">
+                                <option value="1" selected>Activo</option>
+                                <option value="0">Inactivo</option>
+                              </select>
+                      </div>
+
                   @else
-                    <h5 id="h5_estado_{{$ad->id}}" style="margin-left:25%;">Inactivo</h5>
-                    <input id="rng_{{$ad->id}}" type="range" min="0" max="1" value="0" onchange="cambiar_estado('{{$ad->id}}')" style="width: 50%; margin-left:25%; ">
+                     <h5 id="h5_estado_{{$ad->id}}" class="text-red" style="width: 150px">Inactivo</h5>
+                      <div>                              
+                              <select class="form-control" onchange="cambiar_estado_admin('{{$ad->id}}',this)">
+                                <option value="1">Activo</option>
+                                <option value="0" selected>Inactivo</option>
+                              </select>
+                      </div>
                   @endif
-                   <div style="margin-left: 100px" class="col-12"><label class="col-5">Inactivo</label><label class="col-1">-</label><label class="col-5">Activo</label></div>
+                   
               @else
                 <h5 id="h5_estado_{{$ad->id}}" style="margin-left:25%;" class="text-danger">{{$ad->validez_anuncio}}</h5>
               @endif

@@ -553,26 +553,32 @@ class AnuncioController extends Controller
             
 
             if($estado=='1'){
+
                 $est='Activo';
                 NotificacionAnuncio::dispatch(User::where('id',$ad[0]->id_user)->first(), [$ad[0]],auth()->user()->valor_recarga,"AnuncioHabilitado");
-
+                $estado_anuncio="Activo";
             }elseif($estado=='2'){
+              
                 $est='Bloqueado';
                 NotificacionAnuncio::dispatch(User::where('id',$ad[0]->id_user)->first(), [$ad[0]],auth()->user()->valor_recarga,"AnuncioBloqueado");
-
+                $estado_anuncio="Bloqueado";
             }
               //dd($est);
             Anuncio::where("id",$id)->update(["validez_anuncio"=>$est]);
-            return response()->json(["respuesta"=>Anuncio::where("id",$id)->select("validez_anuncio")->get()]);
+
+
+            return response()->json(["estado"=>$estado_anuncio]);
+
+
         }else{
             if($estado=="1"){
                 $est='1';
                 NotificacionAnuncio::dispatch(User::where('id',$ad[0]->id_user)->first(), [$ad[0]],auth()->user()->valor_recarga,"AnuncioHabilitado");
-
+                $estado_anuncio="Activo";
             }else{
                 $est='0';
                 NotificacionAnuncio::dispatch(User::where('id',$ad[0]->id_user)->first(), [$ad[0]],auth()->user()->valor_recarga,"AnuncioDeshabilitado");
-
+                $estado_anuncio="Inactivo";
             }
         }
 
@@ -582,7 +588,7 @@ class AnuncioController extends Controller
 
 
 
-        return response()->json(["respuesta"=>Anuncio::where("id",$id)->select("estado_anuncio")->get()]);
+        return response()->json(["estado"=>$estado_anuncio]);
     }
     /**
      * Funcion para cambiar el estado y lo deja publicado

@@ -174,7 +174,7 @@
 @include('partials.scripts')
 <script type="text/javascript">
   function cambiar_valor_clic(id){
-     peticion_ajax("get","cambiar_valor_clic/"+id+"/"+document.getElementById("rec_"+id).value,{},function(rs){
+     peticion_ajax("get","admin/cambiar_valor_clic/"+id+"/"+document.getElementById("rec_"+id).value,{},function(rs){
         console.log(rs);
      });
   }

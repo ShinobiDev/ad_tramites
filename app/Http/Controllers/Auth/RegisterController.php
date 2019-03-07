@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Events\UserWasCreated;
 use Illuminate\Support\Facades\Auth;
 use DB;
+use Carbon\Carbon;
 
 class RegisterController extends Controller
 {
@@ -183,7 +184,8 @@ class RegisterController extends Controller
             //echo "4";
             DB::table("detalle_referidos")->insert([
                                                 'id_cabeza' => $referente[0]->id,
-                                                'id_referido'=>$u->id
+                                                'id_referido'=>$u->id,
+                                                'created_at'=>Carbon::now('America/Bogota')
                                                     ]);
             //echo "6";
             $dt_r=DB::table('detalle_referidos')->where([['id_cabeza',$referente[0]->id],['id_referido',$u->id]])->get();
@@ -192,7 +194,8 @@ class RegisterController extends Controller
             DB::table('bonificaciones')->insert(
                                      ["tipo_bonificacion"=>"REGISTRO",
                                       "fk_id_detalle_referido"=>$dt_r[0]->id,
-                                      "valor_bonificacion"=>100   ]);
+                                      "valor_bonificacion"=>100,
+                                      'created_at'=>Carbon::now('America/Bogota')   ]);
             //echo "8";
             User::where("id",$referente[0]->id)->increment("valor_recarga",100);
             //echo "9";
