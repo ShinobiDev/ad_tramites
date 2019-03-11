@@ -70,6 +70,7 @@ Route::group(["prefix"=>"admin","middleware"=>"auth"],function(){
   Route::get('eliminar_cupon/{id}/{id_campana}',"CampaniasController@eliminar_cupones");
   Route::post('canjear_cupon_recarga',"CampaniasController@canjear_cupones_recargas");
   Route::post('canjear_cupon_compra',"CampaniasController@canjear_cupones_compras");
+  Route::get('consultar_usuarios/{tipo}','UsersController@buscar_usuarios');
 });
 
 Route::post("validar_codigo","UsersController@validar_codigo");
@@ -80,9 +81,12 @@ Route::get('response',function(){
   $r= new App\Anuncio;
   return $r->registro_venta($_REQUEST);
 });
-Route::get('confimation',function(){
+Route::get('confirm',function(){
+
+
   $r= new App\Anuncio;
-  return $r->registro_venta($_REQUEST);
+  $resp=$r->confirmar_venta($_REQUEST); 
+  
 });
 /*respuesta de payu para compras de recargas*/
 Route::get('response_recarga',function(){
@@ -90,9 +94,9 @@ Route::get('response_recarga',function(){
   return $r->registro_recargas($_REQUEST);
 });
 
-Route::get('confirmation_recarga',function(){
+Route::get('confirm_recarga',function(){
   $r=new App\User;
-  return $r->registro_recargas($_REQUEST);
+  $resp=$r->confirmar_recargas($_REQUEST);    
 });
 
 
@@ -111,3 +115,4 @@ Route::get('/clearcache', function(){
  * Ruta para consultar datos que se cargaran desde el formulario principal
  */
 Route::get('datos_filtro','AnuncioController@datos_filtro');
+

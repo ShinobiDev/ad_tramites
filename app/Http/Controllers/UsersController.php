@@ -575,7 +575,9 @@ class UsersController extends Controller
             //->groupBy('users.id')
             //->orderBy('detalle_recargas.updated_at','users.id')
             ->get();
-        $mi_lista=User::select('users.id',
+        $i=0;
+        foreach ($recargas as $key => $value) {
+          $mi_lista[$i]=User::select('users.id',
                                 'users.nombre',
                                 'users.fecha_ultima_recarga',
                                 'detalle_recargas.tipo_recarga',
@@ -586,8 +588,10 @@ class UsersController extends Controller
                                 'detalle_recargas.created_at')
                             ->join('detalle_recargas','detalle_recargas.id_usuario','users.id')
                               ->orderBy('users.id')
-                            ->where("users.id",$recargas[0]->id)
+                            ->where("users.id",$value->id)
                             ->get();
+          $i++;                  
+        }
 
         return view('recargas.index')->with('recargas' , $recargas)->with("mi_lista_recarga",$mi_lista);
 
@@ -931,6 +935,32 @@ class UsersController extends Controller
         return response()->json(["respuesta"=>true,
                                     "mensaje"=>"Se ha cambiado el costo de el clic"]);
 
+    }
+
+    public function buscar_usuarios($tipo){
+      switch ($tipo) {
+        case 'tramitadores':
+          $users=User::role('Anunciante')->get();
+          $json=[];
+          foreach ($users as $key => $value) {
+            $json[$key] = ['id'=>$value->id, 'text'=>$value->nombre];
+          }
+          break;
+        case 'clientes':
+            $users=User::role('usuario')->get();
+            $json=[];
+          foreach ($users as $key => $value) {
+            $json[$key] = ['id'=>$value->id, 'text'=>$value->nombre];
+          }
+          break;
+
+        default:
+          # code...
+          break;
+      }
+
+
+      return response()->json($json);
     }
 
 }

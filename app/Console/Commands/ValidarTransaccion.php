@@ -58,7 +58,7 @@ class ValidarTransaccion extends Command
                 ->where('registro_pagos_anuncios.estado_pago','PAGO A TRAMITADOR')    
                 ->whereDate('registro_pagos_anuncios.updated_at',Carbon::now()->subDays('3')->format('Y-m-d'))
                 ->get();
-        //dd($pagos);        
+        
         foreach ($pagos as $key => $value) {
                 
               
@@ -73,12 +73,12 @@ class ValidarTransaccion extends Command
                 $tramitador=User::where('id',$value->id)->get();
                 foreach ($uadmin as $key => $admin) {
 
-                       NotificacionAnuncio::dispatch($admin, [$tramitador[0],$value,config('app.url').'/admin/todas_las_transacciones?id='.$value->transactionId],0,"TransaccionFinalizadaAutomaticamenteAdministrador");  
+                       NotificacionAnuncio::dispatch($admin, [$tramitador[0],$value,config('app.url').'/admin/todas_las_transacciones?id='.$value->transactionId,$value->transactionId],0,"TransaccionFinalizadaAutomaticamenteAdministrador");  
 
                        
                 } 
                 //notificacion al comerciante
-                NotificacionAnuncio::dispatch($tramitador[0], [$value,config('app.url').'/admin/ver_mis_ventas/'.$value->id.'/?id='.$value->transactionId],0,"TransaccionFinalizadaAutomaticamenteComerciante");       
+                NotificacionAnuncio::dispatch($tramitador[0], [$value,config('app.url').'/admin/ver_mis_ventas/'.$value->id.'/?id='.$value->transactionId,$value->transactionId],0,"TransaccionFinalizadaAutomaticamenteComerciante");       
          
         }       
 

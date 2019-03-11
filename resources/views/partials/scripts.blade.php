@@ -431,7 +431,15 @@
 </script>
 
 <script type="text/javascript">
+ 
+
   window.unload=function(){
+
+
+
+  
+    
+
     var ss=sessionStorage.getItem('fila');
     if(ss!=null){
       document.getElementById("row_"+ss).style.backgroundColor='#d9e3f1'; 
@@ -553,5 +561,5 @@
        document.getElementById('txt_cupon_'+id).value=""; 
     }
   } 
-
+  
 </script>

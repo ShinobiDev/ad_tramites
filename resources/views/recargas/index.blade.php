@@ -76,15 +76,17 @@
                 </tr>
               </thead>
               <tbody id="tbl_mis_lista">
-                 @foreach ($mi_lista_recarga as $mi_recarga)
-                  {{--$mi_recarga--}}
-                   <tr>
-                    <td>{{ $mi_recarga->nombre }}</td>
-                    <td>$ {{ number_format($mi_recarga->valor_recarga,'0','.','.') }}</td>
-                    <td>{{ $mi_recarga->estado_detalle_recarga }}</td>
-                    <td>{{ $mi_recarga->referencia_pago_pay_u }}</td>
-                    <td>{{ $mi_recarga->updated_at }}</td>
-                   </tr> 
+                 @foreach ($mi_lista_recarga as $mi_recargas)
+                  
+                   @foreach($mi_recargas as $mi_recarga)
+                      <tr>
+                      <td>{{ $mi_recarga->nombre }}</td>
+                      <td>$ {{ number_format($mi_recarga->valor_recarga,'0','.','.') }}</td>
+                      <td>{{ $mi_recarga->estado_detalle_recarga }}</td>
+                      <td>{{ $mi_recarga->referencia_pago_pay_u }}</td>
+                      <td>{{ $mi_recarga->updated_at }}</td>
+                     </tr> 
+                   @endforeach
                  @endforeach
               </tbody>
           </table>

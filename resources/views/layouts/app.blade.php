@@ -11,10 +11,12 @@
     <title>{{ config('app.name') }}</title>
 
     <!-- Styles -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <link rel="stylesheet" href="{{asset('font-awesome/css/font-awesome.css')}}">
     <link rel="stylesheet" href="{{asset('admin-lte/plugins/datatables/datatables.min.css')}}">
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    
   <!-- Styles -->
   <style>
       html, body {
@@ -24,10 +26,7 @@
   </style>
   <link rel="icon" type="image/png" sizes="16x16" href="{{asset('favicon.ico')}}">  
   <!--datatable responsive-->
-  <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.1.5/css/fixedHeader.bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">
-  
-  <!--datatable responsive-->
+   <!--datatable responsive-->
   <!--<link rel="stylesheet" type="text/css" href="{{asset('css/dropzone.css')}}">
   <script type="text/javascript" src="{{asset('js/dropzone.js')}}"></script> -->
 
@@ -215,6 +214,19 @@
 
     @include('partials.scripts')
     <script src="{{ asset('js/recargas.js') }}"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.1.5/css/fixedHeader.bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">
+
+    <!--seect 2-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    
+       
     @yield('scripts')
+    <script type="text/javascript">
+      $(document).ready(function() {
+      $('.select2').select2();
+    });
+    </script>
 </body>
 </html>

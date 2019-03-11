@@ -22,7 +22,7 @@ Estimad@ {{$user->nombre}}, se ha registrado el cierre de una transacción en {{
 # Ciudad 
  {{$ad[1]->ciudad}} 
 
-
+# Número de transacción :{{$ad[3]}}
 
 #[Ver trámite][1]
 [1]:{{$ad[2]}}

@@ -59,30 +59,24 @@
                         <option value="recarga">Recargas en {{config('app.name')}}</option>
                     </select>
                   </div>
-                  <div class="form-group col-6 col-md-6">
-                    <label for="exampleInputPassword1">Selecciona para quien aplica la campaña</label>
-                   
-                   <select class="form-control select2" name="tipo_campania" value="{{old('tipo_campania')}}" onchange="cambiarselect(this);">
-                        <option value="clientes">Clientes</option>
-                        <option value="tramitadores">Tramitadores</option>
-                    </select>
-                  </div>
-                  <div class="form-group col-6 col-md-6">
-                   <label for="exampleInputPassword1">Usuario autorizado para canjear</label>
-                   
-                   <select id="sel_usuario_tramitador" class="form-control select2" style="display: none" name="usuario_tramitador" value="{{old('usuario_tramitador')}}">
-                        <option value="0">No selecciones ningún usuario si es una campaña abierta a todos los usuarios</option>
-                      @foreach($users_tramitadores as $u)
-                        <option value="{{$u->id}}">{{$u->nombre}}</option>
-                      @endforeach  
-                    </select>
-
-                    <select id="sel_usuario_cliente" class="form-control select2"  name="usuario_cliente" value="{{old('usuario')}}">
-                        <option value="0">No selecciones ningún usuario si es una campaña abierta a todos los usuarios</option>
-                      @foreach($users_clientes as $u)
-                        <option value="{{$u->id}}">{{$u->nombre}}</option>
-                      @endforeach  
-                    </select>
+                  <div class="col-12 col-md-12">
+                      <div class="form-group col-6 col-md-6">
+                      <label for="exampleInputPassword1">Selecciona para quien aplica la campaña</label>
+                     
+                     <select class="form-control select2" name="tipo_campania" value="{{old('tipo_campania')}}" onchange="cambiarselect(this);">
+                          <option value="clientes">Clientes</option>
+                          <option value="tramitadores">Tramitadores</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-6 col-md-6">
+                     <label for="exampleInputPassword1">Usuario autorizado para canjear</label>
+                      <select id="sel_usuario_cliente" class="form-control select2"  name="usuario" value="{{old('usuario')}}">
+                          <option value="0">No selecciones ningún usuario si es una campaña abierta</option>
+                        @foreach($users_clientes as $u)
+                          <option value="{{$u->id}}">{{$u->nombre}}</option>
+                        @endforeach                       
+                      </select>
+                    </div>
                   </div>
                   
                   <div class="form-group col-6 col-md-6">
@@ -161,17 +155,20 @@
 @section('scripts')
   <script type="text/javascript">
     function cambiarselect(e){
-     switch(e.value){
-        case "tramitadores":
-          document.getElementById('sel_usuario_tramitador').style.display='';
-          document.getElementById('sel_usuario_cliente').style.display='none';
-        break;
-        case "clientes":
-          document.getElementById('sel_usuario_cliente').style.display='';
-          document.getElementById('sel_usuario_tramitador').style.display='none';
-        break;
-      }      
+      tipo=e.value;
+      $.get('{{config("app.url")}}/admin/consultar_usuarios/'+tipo, function(data){
+        $('#sel_usuario_cliente').empty();
+        $('#sel_usuario_cliente').append('<option value="0" disable="true" selected="true">No selecciones ningún usuario si es una campaña abierta</option>');
+        $.each(data, function(index, data){
+            console.log(data);  
+            $('#sel_usuario_cliente').append('<option value="'+data.id+'">'+data.text+'</option>')
+        });
+        
+      });
+
+      
     }
+
     function cambio_dto(e){
       
       switch(e.value){

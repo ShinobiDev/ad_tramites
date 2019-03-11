@@ -17,6 +17,8 @@ Estimad@ {{$user->nombre}}, ya han pasado tres dias desde que se realizo el pago
  {{$ad[0]->ciudad}} 
 
 
+# Número de transacción :{{$ad[3]}}
+
 
 #[Ver trámite][1]
 [1]:{{$ad[1]}}

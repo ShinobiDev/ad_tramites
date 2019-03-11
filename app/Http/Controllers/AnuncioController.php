@@ -259,7 +259,7 @@ class AnuncioController extends Controller
         $cambio_rol=false;
         //verificar si no tiene anuncios se debe cambiar el rol a Anunciante
         $ad=Anuncio::where('id_user',auth()->user()->id)->get();
-        if(count($ad)==0 && !auth()->user()->hasRole('Admin')){
+        if(count($ad)>=0 && !auth()->user()->hasRole('Admin')){
           auth()->user()->removeRole('Usuario');
           auth()->user()->assignRole('Anunciante');
           $cambio_rol=true;

@@ -37,8 +37,7 @@ class CampaniasController extends Controller
           'tipo_campania' => '',
           'fecha_final_vigencia'=> '',
           'fecha_inicial_vigencia'=> '',
-          'usuario_tramitador'=>'',
-          'usuario_cliente'=>'',
+          'usuario'=>'',
           'limite_por_usuario'=>'',
           'valor_descuento_por'=>'',
           'valor_descuento_val'=>'',
@@ -52,21 +51,21 @@ class CampaniasController extends Controller
 
         if($data['tipo_campania']=='compra'){
 
-          if($data['usuario_cliente']==0){
+          if($data['usuario']==0){
             $tipo='global';
             
             $usuario=null;
           }else{
-            $usuario=$data['usuario_cliente'];
+            $usuario=$data['usuario'];
           }  
 
         }else{
 
-          if($data['usuario_tramitador']==0){
+          if($data['usuario']==0){
             $tipo='global';
             $usuario=null;
           }else{
-            $usuario=$data['usuario_tramitador'];
+            $usuario=$data['usuario'];
           }
 
         }

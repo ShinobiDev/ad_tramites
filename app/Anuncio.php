@@ -92,7 +92,12 @@ class Anuncio extends Model
                         $mostrar_payu=false;
 
                 }
-                $cod=$value->codigo_anuncio.'-'.$value->id.'-'.$key;
+                if(auth()->user() == null){
+                  $id_uu="1";
+                }else{
+                  $id_uu=auth()->user()->id."".date('diH');
+                }
+                $cod=$value->codigo_anuncio.$id_uu.'-'.$value->id.'-'.$key;
                 $hs=$pu[0]->hashear($cod,$value->valor_tramite,"COP");
 
                 if(auth()->user()!=null){
@@ -427,7 +432,7 @@ class Anuncio extends Model
                     if(count($pg)>0){
                       $msn="Esta referencia de pago fue rechaza anteriormente, por favor intenta de nuevo para validar que se registre el pago";
                     }else{
-                      $msn="Esta referencia de pago no corresponde a ninguna registrada en nuestro sistema, por favor verifica con tu plataforma de pagos ";
+                      $msn="Esta referencia de pago no corresponde a ninguna registrada en nuestro sistema, por favor verificá con tu plataforma de pagos ";
                     }
 
                 }
@@ -440,5 +445,121 @@ class Anuncio extends Model
                 return view('payu.error_payu')->with("mensaje",$msn);
             break;
     }
+  }
+  /**
+   * Funcion para confirmar una venta por parte de el servicio de payu
+   * @param  [type] $req [description]
+   * @return [type]      [description]
+   */
+  public function confirmar_venta($req){
+    
+    $d=DB::table('registro_pagos_anuncios')
+                ->where([
+                      ['transactionId',$req['reference_pol']],
+                      ['estado_pago','!=','TRAMITE REALIZADO'],
+                      ['estado_pago','!=','TRANSACCION FINALIZADA'],
+                      ['estado_pago','!=','PAGO A TRAMITADOR'],
+                      ['estado_pago','!=','PAGO TRAMITADOR CONFIRMADO'],                  
+                      ['estado_pago','!=','APROBADA'],
+                      ['estado_pago','!=','EXPIRADA']
+                    ])
+                ->get();
+
+    if(count($d)>0){
+        switch ($req['state_pol']) {
+          case '4':
+            //aprobada
+                        
+                        DB::table("registro_pagos_anuncios")
+                                  ->where("id",$d[0]->id)
+                                    ->update(["estado_pago"=>"APROBADA"]);
+                        //CuponesCampania::where(,$req['referenceCode'])            
+                        
+                        $cupon=CuponesCampania::where('transaccion_donde_se_aplico',$req['reference_sale'])->get();
+                        if(count($cupon)>0){
+                            $valor=DB::table("registro_pagos_anuncios")
+                                  ->where("id",$d[0]->id)
+                                  ->get();
+                            if(count($valor)>0){
+                              $cupon=$valor[0]->transation_value;
+                            }      
+                        }else{
+                          $cupon=false;
+                        }            
+
+
+                        $comprador=User::where("email",$req['email_buyer'])->get();
+                        $anuncio=Anuncio::where("anuncios.id",$d[0]->id_anuncio)
+                            ->join('tramites','tramites.id','anuncios.id_tramite')
+                            ->select('anuncios.ciudad','anuncios.valor_tramite','anuncios.descripcion_anuncio','tramites.nombre_tramite','anuncios.id_user')
+                            ->get();
+                      
+                        $anunciante=User::where("id",$anuncio[0]->id_user)->get();
+                        
+                        //aqui debo enviar los datos de confirmación a la cuenta de correo
+                        NotificacionAnuncio::dispatch($comprador[0], [$anunciante[0],$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_compras/'.$comprador[0]->id.'?id='.$req['reference_pol']]],[],"CompraExitosa");
+                        
+                        NotificacionAnuncio::dispatch($anunciante[0], 
+                                                       [
+                                                         $comprador[0],
+                                                         $anuncio[0],
+                                                         ['url'=>config('app.url').'/admin/ver_mis_ventas/'.$anunciante[0]->id.'?id='.$req['reference_pol'],
+                                                          
+                                                         ],
+                                                         ['cupon'=>$cupon]
+                                                       ],
+                                                        $anunciante[0]->valor_recarga,"CompraExitosaAnunciante");
+
+
+            break;
+          case '6':
+            //declinada
+            
+              $comprador=User::where("email",$req['email_buyer'])->get();
+              $anuncio=Anuncio::where("anuncios.id",$d[0]->id_anuncio)
+                            ->join('tramites','tramites.id','anuncios.id_tramite')
+                            ->select('anuncios.ciudad','anuncios.valor_tramite','anuncios.descripcion_anuncio','tramites.nombre_tramite','anuncios.id_user')
+                            ->get();
+             DB::table("registro_pagos_anuncios")
+                       ->where([
+                                ["id_anuncio",$id_ad],
+                                ["id_user_compra",$comprador[0]->id]
+                              ])
+                       ->update([
+                          'transactionId' => $req['reference_pol'],
+                          'transactionState'=>$req['state_pol'],
+                          'transation_value' => $req['value'],
+                          "updated_at"=>Carbon::now('America/Bogota'),
+                          'estado_pago'=>"RECHAZADA" ]);
+                    NotificacionAnuncio::dispatch($comprador[0], [],[],"CompraRechazada");
+            break;
+          case '5':
+            //expirada
+            
+            $comprador=User::where("email",$req['email_buyer'])->get();
+              $anuncio=Anuncio::where("anuncios.id",$d[0]->id_anuncio)
+                            ->join('tramites','tramites.id','anuncios.id_tramite')
+                            ->select('anuncios.ciudad','anuncios.valor_tramite','anuncios.descripcion_anuncio','tramites.nombre_tramite','anuncios.id_user')
+                            ->get();
+             DB::table("registro_pagos_anuncios")
+                       ->where([
+                                ["id_anuncio",$id_ad],
+                                ["id_user_compra",$comprador[0]->id]
+                              ])
+                       ->update([
+                          'transactionId' => $req['reference_pol'],
+                          'transactionState'=>$req['state_pol'],
+                          'transation_value' => $req['value'],
+                          "updated_at"=>Carbon::now('America/Bogota'),
+                          'estado_pago'=>"EXPIRADA" ]);
+
+            break;  
+          
+        }  
+    }else{
+      echo "esta referencia no existe";              
+      return false;
+    }
+    
   }
 }

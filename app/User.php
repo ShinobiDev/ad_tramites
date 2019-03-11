@@ -406,4 +406,178 @@ class User extends Authenticatable
         //dd($dt);
         return array(["respuesta"=>true,"valor"=>$hs]);
     }
+    /**
+     * Funcion para confirmar recargas para servicio de notificacion de payu
+     * @param  [type] $req [description]
+     * @return [type]      [description]
+     */
+    public function confirmar_recargas($req){
+
+            $d=DB::table('detalle_recargas')
+                    ->where([
+                           ['referencia_pago',$req['reference_sale']],
+                           ['estado_detalle_recarga','!=','APROBADA'] ,
+                           ['estado_detalle_recarga','!=','EXPIRADA']  
+                    ])
+                    ->get();
+            //dd($req,$d);
+            if(count($d)>0){
+                switch ($req['state_pol']) {
+                  case '4':
+                    //aprobada
+                    //Es la referencia de la venta o pedido
+                    $cupon=CuponesCampania::where('transaccion_donde_se_aplico',$req['reference_sale'])->first();
+                    $cliente=User::where("email",$req['email_buyer'])->get();
+                    DB::table('detalle_recargas')
+                            ->where('referencia_pago',$req['reference_pol'])
+                            ->update(['estado_detalle_recarga'=>'APROBADA']);
+
+                            if(!empty($cupon)){
+                                $bono=$cupon->campania->valor_de_descuento;
+                                $valor_pagado=$rp[0]->valor_recarga;
+                                //actualizo el estado del cupon a canjeado pagado
+                                CuponesCampania::where('id',$cupon->id)
+                                    ->update([
+                                       'estado'=>'canjeado_pagado'
+                                    ]);   
+                            }else{
+                                $bono=0;
+                                $valor_pagado=$req['value'];
+                            }
+
+                                                    DB::table("detalle_recargas")
+                                                        ->where("referencia_pago",$req['reference_sale'])
+                                                        ->update([
+                                                        //"valor_pagado"=>$cupon->campania->monto_valor_redimido,   
+                                                        "referencia_pago_pay_u"=>$req['reference_pol'],
+                                                        "metodo_pago"=>$req['payment_method_name'],
+                                                        "estado_detalle_recarga"=>"APROBADA",
+                                                        'updated_at'=>Carbon::now('America/Bogota')
+                                                    ]);                                            
+
+                                                /*
+                                                  incremento la recarga al usuario que hace el pago
+                                                 */
+                                                User::where("id",$cliente[0]->id)->increment("valor_recarga",$valor_pagado);
+
+                                                User::where("id",$cliente[0]->id)->update(["status_recarga"=>"ACTIVA",'fecha_ultima_recarga'=>Carbon::now('America/Bogota')]);
+                                                
+                                                /*
+                                                    Aqui le doy el valor de premio al referido
+                                                 */
+                                                //buscar referido
+                                                $id_ref=DB::table('detalle_referidos')
+                                                            ->where("id_referido",$cliente[0]->id)
+                                                            ->get();  
+                                                /*
+                                                REGISTRO LAS BONIFICACIONES
+                                                 */
+                                                //dd($id_ref,$cliente[0]);
+                                                if(count($id_ref)>0){
+                                                    $tot_recargas=DB::table('detalle_recargas')
+                                                                    ->where("id_usuario",$cliente[0]->id)
+                                                                    ->get();
+
+                                                    if(count($tot_recargas)==0){
+                                                        //aunentoo el 10% de la recarga 
+                                                        
+                                                        $val_rec=(float)$valor_pagado*0.10;
+                                                        DB::table("detalle_recargas")->insert([
+                                                                'id_usuario' => $id_ref[0]->id_cabeza,
+                                                                'valor_recarga'=>$val_rec,
+                                                                'valor_pagado'=>$cupon->campania->monto_valor_redimido,
+                                                                "referencia_pago"=>time().$cliente[0]->id,
+                                                                 "referencia_pago_pay_u"=>time().$cliente[0]->id,
+                                                                 "metodo_pago"=>"BONIFICACION RECARGA 10%  ".$cliente[0]->name,
+                                                                 "tipo_recarga"=>"BONIFICACION" ,
+                                                                 'estado_detalle_recarga'=>'APROBADA',
+                                                                 'created_at'=>Carbon::now('America/Bogota'),
+                                                                 'updated_at'=>Carbon::now('America/Bogota')
+                                                                    ]
+                                                            );
+                                                            
+                                                        DB::table("bonificaciones")->insert(
+                                                                    ["tipo_bonificacion"=>"RECARGA",
+                                                                    "fk_id_detalle_referido"=>$id_ref[0]->id,
+                                                                    "valor_bonificacion"=>$val_rec,
+                                                                    'created_at'=>Carbon::now('America/Bogota'),
+                                                                    'updated_at'=>Carbon::now('America/Bogota')   ]);
+                                                        //hago el incremento de la recarga
+                                                        User::where("id",$id_ref[0]->id_cabeza)->increment("valor_recarga",$val_rec);
+
+                                                        
+                                                    }else{
+                                                        //var_dump($id_ref[0]->id_referido);
+                                                        //var_dump($req['TX_VALUE']*0.01);
+                                                        //
+                                                        $val_rec=(float)$valor_pagado*0.01;  
+                                                        
+                                                        DB::table("detalle_recargas")->insert([
+                                                                'id_usuario' => $id_ref[0]->id_cabeza,
+                                                                'valor_recarga'=>$val_rec,
+                                                                'valor_pagado'=>$cupon->campania->monto_valor_redimido,
+                                                                "referencia_pago"=>time().$cliente[0]->id,
+                                                                 "referencia_pago_pay_u"=>time().$cliente[0]->id,
+                                                                 "metodo_pago"=>"BONIFICACION RECARGA 1%  ".$cliente[0]->name,
+                                                                 "tipo_recarga"=>"BONIFICACION",
+                                                                 'estado_detalle_recarga'=>'APROBADA',
+                                                                 'created_at'=>Carbon::now('America/Bogota'),
+                                                                 'updated_at'=>Carbon::now('America/Bogota')
+                                                                    ]
+                                                            );
+                                                        DB::table("bonificaciones")->insert(
+                                                                    ["tipo_bonificacion"=>"RECARGA",
+                                                                    "fk_id_detalle_referido"=>$id_ref[0]->id,
+                                                                    "valor_bonificacion"=>$val_rec,
+                                                                    'created_at'=>Carbon::now('America/Bogota'),
+                                                                    'updated_at'=>Carbon::now('America/Bogota')   ]);
+
+                                                        User::where("id",$id_ref[0]->id_cabeza)->increment("valor_recarga",$val_rec);
+                                                    }
+                                                }
+                                        
+
+
+                                            $recarga = User::where("id",$cliente[0]->id)->get();
+
+
+
+
+                            NotificacionAnuncio::dispatch($cliente[0], [],[$recarga[0],["valor"=>$req['value']+$bono,"fecha"=>date('Y-m-d')]],"RecargaExitosa");
+
+
+                            //ENVIAR NOTIFICACIONES A LOS ADMINSTRADORES Y A EL TRAMITADOR Y comprador
+                    break;
+                  case '6':
+                    //declinada
+                    //Es la referencia de la venta o pedido
+                        $cliente=User::where("email",$req['buyerEmail'])->get();
+                        $recarga = Recargas::where("user_id",$cliente[0]->id)->get();
+                        //rechazada
+                        DB::table("detalle_recargas")->update([
+                                        "referencia_pago_pay_u"=>$req['reference_pol'],
+                                        "estado_detalle_recarga"=>"RECHAZADA",                                       
+                                        'updated_at'=>Carbon::now('America/Bogota')
+                                            ]
+                                    );
+                        
+                        NotificacionAnuncio::dispatch($cliente[0], [],[$recarga[0],["valor"=>$req['value'],"fecha"=>date('Y-m-d')]],"RecargaRechazada");
+
+                    break;
+                  case '5':
+                    //expirada
+                    DB::table("detalle_recargas")->update([
+                                        "referencia_pago_pay_u"=>$req['reference_pol'],
+                                        "estado_detalle_recarga"=>"EXPIRADA",                                       
+                                        'updated_at'=>Carbon::now('America/Bogota')
+                                            ]
+                                    );
+                    break;  
+                  
+                }  
+            }else{
+              echo "esta referencia no existe";
+              return false;
+            }
+    }
 }
