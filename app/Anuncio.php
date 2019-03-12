@@ -452,7 +452,7 @@ class Anuncio extends Model
    * @return [type]      [description]
    */
   public function confirmar_venta($req){
-    
+    //dd($req);
     $d=DB::table('registro_pagos_anuncios')
                 ->where([
                       ['transactionId',$req['reference_pol']],
@@ -521,10 +521,7 @@ class Anuncio extends Model
                             ->select('anuncios.ciudad','anuncios.valor_tramite','anuncios.descripcion_anuncio','tramites.nombre_tramite','anuncios.id_user')
                             ->get();
              DB::table("registro_pagos_anuncios")
-                       ->where([
-                                ["id_anuncio",$id_ad],
-                                ["id_user_compra",$comprador[0]->id]
-                              ])
+                       ->where('id',$d[0]->id)
                        ->update([
                           'transactionId' => $req['reference_pol'],
                           'transactionState'=>$req['state_pol'],
@@ -542,10 +539,7 @@ class Anuncio extends Model
                             ->select('anuncios.ciudad','anuncios.valor_tramite','anuncios.descripcion_anuncio','tramites.nombre_tramite','anuncios.id_user')
                             ->get();
              DB::table("registro_pagos_anuncios")
-                       ->where([
-                                ["id_anuncio",$id_ad],
-                                ["id_user_compra",$comprador[0]->id]
-                              ])
+                       ->where('id',$d[0]->id)
                        ->update([
                           'transactionId' => $req['reference_pol'],
                           'transactionState'=>$req['state_pol'],

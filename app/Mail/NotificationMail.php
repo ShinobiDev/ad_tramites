@@ -123,7 +123,7 @@ class NotificationMail extends Mailable
                 break;
             case 'CompraRechazada':
                 return $this->markdown('emials.CompraRechazada')
-                            ->subject('Hemos registrado una nueva compra, solo falta que la confirmes '. config('app.name'));
+                            ->subject('Tu compra ha sido rechazada '. config('app.name'));
                 # code...
                 break;
             case 'CompraPendienteAnunciante':

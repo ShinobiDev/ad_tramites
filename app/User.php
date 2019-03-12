@@ -412,7 +412,7 @@ class User extends Authenticatable
      * @return [type]      [description]
      */
     public function confirmar_recargas($req){
-
+            //dd($req);
             $d=DB::table('detalle_recargas')
                     ->where([
                            ['referencia_pago',$req['reference_sale']],

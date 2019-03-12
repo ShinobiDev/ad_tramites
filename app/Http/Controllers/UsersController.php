@@ -936,7 +936,11 @@ class UsersController extends Controller
                                     "mensaje"=>"Se ha cambiado el costo de el clic"]);
 
     }
-
+    /**
+     * Funcion para consultar usuarios de acuerdo al tipo
+     * @param  [type] $tipo [description]
+     * @return [type]       [description]
+     */
     public function buscar_usuarios($tipo){
       switch ($tipo) {
         case 'tramitadores':

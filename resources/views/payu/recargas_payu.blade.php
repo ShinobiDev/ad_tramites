@@ -19,7 +19,7 @@
                                   <input id="hd_signature_recarga" name="signature"     type="hidden"  value="{{$hash}}">
                                   <input name="buyerEmail"    type="hidden"  value="{{trim(Auth::user()->email)}}" >
                                   <input name="responseUrl"    type="hidden"  value="{{config('app.url').trim($py->urlResponse)}}_recarga" >
-                                  <input name="confirmationUrl"    type="hidden"  value="{{config('app.url').trim($py->urlConfirm)}}_recarga" >
+                                  <input name="confirmationUrl"    type="hidden"  value="{{config('app.url').'/payu'.trim($py->urlConfirm)}}_recarga" >
                                   
                                 </div>  
                                 <div class="form-group">

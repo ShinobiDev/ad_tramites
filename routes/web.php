@@ -81,7 +81,7 @@ Route::get('response',function(){
   $r= new App\Anuncio;
   return $r->registro_venta($_REQUEST);
 });
-Route::get('confirm',function(){
+Route::post('payu/confirm',function(){
 
 
   $r= new App\Anuncio;
@@ -94,7 +94,7 @@ Route::get('response_recarga',function(){
   return $r->registro_recargas($_REQUEST);
 });
 
-Route::get('confirm_recarga',function(){
+Route::post('payu/confirm_recarga',function(){
   $r=new App\User;
   $resp=$r->confirmar_recargas($_REQUEST);    
 });

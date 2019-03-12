@@ -13,5 +13,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         //
+        'payu/confirm_recarga',
+		'payu/confirm'        
     ];
 }
