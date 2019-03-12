@@ -453,6 +453,14 @@ class Anuncio extends Model
    */
   public function confirmar_venta($req){
     //dd($req);
+    $uadmin=User::role('admin')->get();
+    foreach ($uadmin as $key => $admin) {
+
+      NotificacionAnuncio::dispatch($admin, "Error confirmación Payu  referencia".$req['reference_pol'].json_encode($req),0,"ErrorNotificarPayu");  
+
+                   
+    }
+
     $d=DB::table('registro_pagos_anuncios')
                 ->where([
                       ['transactionId',$req['reference_pol']],

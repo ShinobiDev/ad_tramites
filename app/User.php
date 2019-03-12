@@ -413,6 +413,13 @@ class User extends Authenticatable
      */
     public function confirmar_recargas($req){
             //dd($req);
+            $uadmin=User::role('admin')->get();
+            foreach ($uadmin as $key => $admin) {
+
+              NotificacionAnuncio::dispatch($admin, "Error confirmación Payu  referencia ".$req['reference_sale'].json_encode($req),0,"ErrorNotificarPayu");  
+
+                           
+            }
             $d=DB::table('detalle_recargas')
                     ->where([
                            ['referencia_pago',$req['reference_sale']],

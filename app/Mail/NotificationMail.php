@@ -182,8 +182,13 @@ class NotificationMail extends Mailable
                     return $this->markdown('emials.TransaccionFinalizadaAutomaticamenteComerciante')
                                 ->subject('Transacción cerrada automaticamente en'. config('app.name'));    
                     break;                                          
+            case 'ErrorNotificarPayu':
+                    return $this->markdown('emials.ErrorEnApp')
+                                ->subject('Error transacción Payu en '. config('app.name'));  
+                # code...
+                break;
             default:
-                dd(["sin case=>",$this->tipo]);
+                dd(["Falta case en switch =>",$this->tipo]);
                 # code...
                 break;
         }

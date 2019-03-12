@@ -3,6 +3,8 @@
 namespace App\Exceptions;
 
 use Exception;
+use App\User;
+use App\Events\NotificacionAnuncio;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -48,6 +50,9 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+            
+
         return parent::render($request, $exception);
+
     }
 }
