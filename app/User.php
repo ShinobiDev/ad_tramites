@@ -413,13 +413,8 @@ class User extends Authenticatable
      */
     public function confirmar_recargas($req){
             //dd($req);
-            $uadmin=User::role('admin')->get();
-            foreach ($uadmin as $key => $admin) {
+            
 
-              NotificacionAnuncio::dispatch($admin, "Error confirmación Payu  referencia ".$req['reference_sale'].json_encode($req),0,"ErrorNotificarPayu");  
-
-                           
-            }
             $d=DB::table('detalle_recargas')
                     ->where([
                            ['referencia_pago',$req['reference_sale']],
@@ -438,6 +433,7 @@ class User extends Authenticatable
                     DB::table('detalle_recargas')
                             ->where('referencia_pago',$req['reference_pol'])
                             ->update(['estado_detalle_recarga'=>'APROBADA']);
+                            $rp=DB::table("detalle_recargas")->where("referencia_pago",$req['reference_sale'])->get();
 
                             if(!empty($cupon)){
                                 $bono=$cupon->campania->valor_de_descuento;
@@ -579,6 +575,16 @@ class User extends Authenticatable
                                         'updated_at'=>Carbon::now('America/Bogota')
                                             ]
                                     );
+
+                      $uadmin=User::role('admin')->get();
+                      foreach ($uadmin as $key => $admin) {
+
+                        NotificacionAnuncio::dispatch($admin, "Transacción expirada Payu  referencia".json_encode($req),0,"ErrorNotificarPayu");  
+                        \Log::info(json_encode($req));
+                                     
+                      }
+
+
                     break;  
                   
                 }  

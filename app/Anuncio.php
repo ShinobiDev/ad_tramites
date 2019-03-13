@@ -453,13 +453,9 @@ class Anuncio extends Model
    */
   public function confirmar_venta($req){
     //dd($req);
-    $uadmin=User::role('admin')->get();
-    foreach ($uadmin as $key => $admin) {
+    //
+    
 
-      NotificacionAnuncio::dispatch($admin, "Error confirmación Payu  referencia".$req['reference_pol'].json_encode($req),0,"ErrorNotificarPayu");  
-
-                   
-    }
 
     $d=DB::table('registro_pagos_anuncios')
                 ->where([
@@ -537,6 +533,7 @@ class Anuncio extends Model
                           "updated_at"=>Carbon::now('America/Bogota'),
                           'estado_pago'=>"RECHAZADA" ]);
                     NotificacionAnuncio::dispatch($comprador[0], [],[],"CompraRechazada");
+
             break;
           case '5':
             //expirada
@@ -546,6 +543,18 @@ class Anuncio extends Model
                             ->join('tramites','tramites.id','anuncios.id_tramite')
                             ->select('anuncios.ciudad','anuncios.valor_tramite','anuncios.descripcion_anuncio','tramites.nombre_tramite','anuncios.id_user')
                             ->get();
+
+
+
+                  $uadmin=User::role('admin')->get();
+                  foreach ($uadmin as $key => $admin) {
+
+                    NotificacionAnuncio::dispatch($admin, "Transacción expirada Payu  referencia".json_encode($req),0,"ErrorNotificarPayu");  
+                    \Log::info(json_encode($req));
+                                 
+                  }
+
+
              DB::table("registro_pagos_anuncios")
                        ->where('id',$d[0]->id)
                        ->update([
