@@ -476,7 +476,8 @@ class Anuncio extends Model
                         
                         DB::table("registro_pagos_anuncios")
                                   ->where("id",$d[0]->id)
-                                    ->update(["estado_pago"=>"APROBADA"]);
+                                    ->update(["estado_pago"=>"APROBADA",
+                                              "updated_at"=>Carbon::now('America/Bogota')]);
                         //CuponesCampania::where(,$req['referenceCode'])            
                         
                         $cupon=CuponesCampania::where('transaccion_donde_se_aplico',$req['reference_sale'])->get();
@@ -513,7 +514,7 @@ class Anuncio extends Model
                                                          ['cupon'=>$cupon]
                                                        ],
                                                         $anunciante[0]->valor_recarga,"CompraExitosaAnunciante");
-
+                        \Log::info("Transacción exitosa =>".json_encode($req));
 
             break;
           case '6':
@@ -532,8 +533,8 @@ class Anuncio extends Model
                           'transation_value' => $req['value'],
                           "updated_at"=>Carbon::now('America/Bogota'),
                           'estado_pago'=>"RECHAZADA" ]);
-                    NotificacionAnuncio::dispatch($comprador[0], [],[],"CompraRechazada");
-
+             NotificacionAnuncio::dispatch($comprador[0], [],[],"CompraRechazada");
+             \Log::info("Transacción declinada =>".json_encode($req));
             break;
           case '5':
             //expirada
@@ -550,9 +551,10 @@ class Anuncio extends Model
                   foreach ($uadmin as $key => $admin) {
 
                     NotificacionAnuncio::dispatch($admin, "Transacción expirada Payu  referencia".json_encode($req),0,"ErrorNotificarPayu");  
-                    \Log::info(json_encode($req));
+                    
                                  
                   }
+                  \Log::info("Transacción expirada =>".json_encode($req));
 
 
              DB::table("registro_pagos_anuncios")
@@ -568,6 +570,7 @@ class Anuncio extends Model
           
         }  
     }else{
+      \Log::info("Esta referencia no existe o ya fue registrada Payu => ".$req['reference_pol'].',referencia en '.config('app.name')." => ".$req['reference_sale'].json_encode($req));  
       echo "esta referencia no existe";              
       return false;
     }

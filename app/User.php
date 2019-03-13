@@ -548,7 +548,7 @@ class User extends Authenticatable
 
                             NotificacionAnuncio::dispatch($cliente[0], [],[$recarga[0],["valor"=>$req['value']+$bono,"fecha"=>date('Y-m-d')]],"RecargaExitosa");
 
-
+                            \Log::info("Transacción exitosa =>".json_encode($req));
                             //ENVIAR NOTIFICACIONES A LOS ADMINSTRADORES Y A EL TRAMITADOR Y comprador
                     break;
                   case '6':
@@ -565,7 +565,7 @@ class User extends Authenticatable
                                     );
                         
                         NotificacionAnuncio::dispatch($cliente[0], [],[$recarga[0],["valor"=>$req['value'],"fecha"=>date('Y-m-d')]],"RecargaRechazada");
-
+                        \Log::info("Transacción declinada =>".json_encode($req));
                     break;
                   case '5':
                     //expirada
@@ -580,15 +580,18 @@ class User extends Authenticatable
                       foreach ($uadmin as $key => $admin) {
 
                         NotificacionAnuncio::dispatch($admin, "Transacción expirada Payu  referencia".json_encode($req),0,"ErrorNotificarPayu");  
-                        \Log::info(json_encode($req));
+                        
                                      
                       }
+                      \Log::info("Transacción expirada =>".json_encode($req));
 
 
                     break;  
                   
                 }  
             }else{
+              \Log::info("Esta referencia no existe o ya fue registrada Payu => ".$req['reference_pol'].',referencia en '.config('app.name')." => ".$req['reference_sale'].json_encode($req));  
+
               echo "esta referencia no existe";
               return false;
             }
