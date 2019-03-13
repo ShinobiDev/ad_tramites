@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 02, 2019 at 06:44 PM
--- Server version: 5.7.24-0ubuntu0.18.04.1
--- PHP Version: 7.2.10-0ubuntu0.18.04.1
+-- Generation Time: Mar 13, 2019 at 05:01 PM
+-- Server version: 5.7.25-0ubuntu0.18.04.2
+-- PHP Version: 7.2.15-0ubuntu0.18.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `db_tramitadores`
+-- Database: `db_tramitador_server`
 --
 
 -- --------------------------------------------------------
@@ -30,7 +30,7 @@ CREATE TABLE `anuncios` (
   `id` int(10) UNSIGNED NOT NULL,
   `codigo_anuncio` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `descripcion_anuncio` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `id_user` int(11) NOT NULL,
+  `id_user` int(11) UNSIGNED NOT NULL,
   `id_tramite` int(11) NOT NULL,
   `valor_tramite` decimal(12,2) NOT NULL,
   `estado_anuncio` enum('0','1') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '1',
@@ -45,72 +45,61 @@ CREATE TABLE `anuncios` (
 --
 
 INSERT INTO `anuncios` (`id`, `codigo_anuncio`, `descripcion_anuncio`, `id_user`, `id_tramite`, `valor_tramite`, `estado_anuncio`, `ciudad`, `validez_anuncio`, `created_at`, `updated_at`) VALUES
-(1, 'c1', 'descripcion c1', 1, 1, '20000000.00', '1', 'BOGOTA, D.C.', 'Activo', '2018-12-13 15:12:03', '2018-12-28 01:06:37'),
-(2, 'c2', 'descripion c1', 1, 2, '2000.00', '1', 'Bogotá, Bogota, Colombia', 'Activo', '2018-12-13 15:12:03', '2018-12-13 15:12:03'),
-(3, 'c3', 'descripion c3', 2, 1, '2000.00', '1', 'BOGOTA, D.C.', 'Activo', '2018-12-13 15:12:04', '2018-12-28 01:06:34'),
-(4, 'c4', 'descripion c4', 2, 2, '2000.00', '1', 'SOACHA', 'Activo', '2018-12-13 15:12:04', '2018-12-13 15:12:04'),
-(5, 't1545230479', 'prueba', 1, 1, '32000.00', '1', 'BOGOTA, D.C.', 'Activo', NULL, '2018-12-28 01:06:38'),
-(6, 't1545230479', 'prueba', 1, 2, '56000.00', '1', 'CALI', 'Activo', NULL, NULL),
-(7, 't1545231381', 'prueba', 1, 1, '2000.00', '1', 'CAICEDO', 'Activo', NULL, NULL),
-(8, 't1545958384', 'prueba', 1, 1, '1000.00', '1', 'CAICEDO', 'Activo', NULL, '2018-12-28 14:44:38'),
-(9, 't1545958488', 'prueba maliciosa', 1, 10, '2300.00', '1', 'Bogotá, Bogota, Colombia', 'Bloqueado', NULL, '2018-12-28 14:14:27'),
-(10, 't1545972179', 'ddd', 1, 21, '2300.00', '1', 'MEDELLIN', 'Activo', NULL, NULL),
-(11, 't1546008771', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 1, '2000.00', '1', 'Bogotá, Bogota, Colombia', 'Activo', NULL, '2018-12-28 14:53:27'),
-(12, 't1546008771', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 2, '2000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
-(13, 't1546008771', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 3, '300000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
-(14, 't1546008771', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 4, '50000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
-(15, 't1546008771', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 5, '5200000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
-(16, 't1546008771', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 6, '96500.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
-(17, 't1546008771', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 7, '3200.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
-(18, 't1546008771', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 8, '320000.00', '1', 'Bogotá, Bogota, Colombia', 'Activo', NULL, '2019-01-02 23:13:40'),
-(19, 't1546008771', 'v', 1, 9, '95000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
-(20, 't1546008771', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 10, '98000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
-(21, 't1546008771', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 11, '65000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
-(22, 't1546008771', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 12, '98500.00', '1', 'Bogotá, Bogota, Colombia', 'Activo', NULL, '2019-01-02 23:13:55'),
-(23, 't1546008771', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 13, '9800.00', '1', 'Bogotá, Bogota, Colombia', 'Activo', NULL, '2019-01-02 23:13:55'),
-(24, 't1546008771', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 14, '32000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
-(25, 't1546008772', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 15, '7800.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
-(26, 't1546008772', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 16, '900000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
-(27, 't1546008772', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 17, '1000000.00', '1', 'Bogotá, Bogota, Colombia', 'Activo', NULL, '2019-01-02 23:13:43'),
-(28, 't1546008772', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 18, '125000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
-(29, 't1546008772', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 19, '25000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
-(30, 't1546008772', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 20, '125600.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
-(31, 't1546008772', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 21, '89000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
-(32, 't1546008772', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'', 1, 22, '87000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
-(33, 't1546008772', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 23, '98000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
-(34, 't1546008772', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 1, 24, '108000.00', '1', 'Bogotá, Bogota, Colombia', 'Sin publicar', NULL, NULL),
-(35, 't1546025617', 'here are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in so', 2, 1, '2300.00', '1', 'Edson Queiroz, Fortaleza - State of Ceará, Brazil', 'Activo', NULL, '2019-01-02 23:13:34'),
-(36, 't1546025617', 'here are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in so', 2, 2, '2300.00', '1', 'Edson Queiroz, Fortaleza - State of Ceará, Brazil', 'Sin publicar', NULL, NULL),
-(37, 't1546025617', 'here are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in so', 2, 3, '2300.00', '1', 'Edson Queiroz, Fortaleza - State of Ceará, Brazil', 'Sin publicar', NULL, NULL),
-(38, 't1546025617', 'here are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in so', 2, 4, '77.00', '1', 'Edson Queiroz, Fortaleza - State of Ceará, Brazil', 'Sin publicar', NULL, NULL),
-(39, 't1546037200', 'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10', 4, 1, '2300000.00', '1', 'SOACHA', 'Activo', NULL, '2019-01-02 23:13:35'),
-(40, 't1546037200', 'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10', 4, 12, '32000.00', '1', 'SOACHA', 'Activo', NULL, '2019-01-02 23:13:56'),
-(41, 't1546469012', 'prueba', 7, 22, '23000.00', '1', 'Prueba, Industrial, Mexico City, CDMX, Mexico', 'Sin publicar', NULL, NULL),
-(42, 't1546469368', 'prueba', 7, 2, '212500.00', '1', 'Circuito de Prueba Práctica de Manejo, Calle 5, San José Province, San José, Costa Rica', 'Sin publicar', NULL, NULL),
-(43, 't1546469368', 'prueba', 7, 21, '98500.00', '1', 'Circuito de Prueba Práctica de Manejo, Calle 5, San José Province, San José, Costa Rica', 'Sin publicar', NULL, NULL),
-(44, 't1546469368', 'prueba', 7, 22, '2058000.00', '1', 'Circuito de Prueba Práctica de Manejo, Calle 5, San José Province, San José, Costa Rica', 'Sin publicar', NULL, NULL),
-(45, 't1546469533', 'prueba', 7, 2, '52000.00', '1', 'Pruszków, Poland', 'Sin publicar', NULL, NULL),
-(46, 't1546469973', 'prueba', 7, 1, '2010.00', '1', 'Uruguay', 'Activo', NULL, '2019-01-02 23:13:37'),
-(47, 't1546469973', 'prueba', 7, 2, '50.00', '1', 'Uruguay', 'Sin publicar', NULL, NULL),
-(48, 't1546469973', 'prueba', 7, 11, '5000.00', '1', 'Uruguay', 'Sin publicar', NULL, NULL),
-(49, 't1546469973', 'prueba', 7, 21, '85000.00', '1', 'Uruguay', 'Sin publicar', NULL, NULL),
-(50, 't1546469974', 'prueba', 7, 22, '54100.00', '1', 'Uruguay', 'Sin publicar', NULL, NULL),
-(51, 't1546470017', 'pruena', 7, 11, '822.00', '1', 'Otrokovice, Czechia', 'Sin publicar', NULL, NULL),
-(52, 't1546470222', 'prueba', 7, 22, '12000.00', '1', 'Prueba, Industrial, Mexico City, CDMX, Mexico', 'Sin publicar', NULL, NULL),
-(53, 't1546470247', 'rrrr', 7, 23, '65.00', '1', 'Eddy Avenue, Haymarket NSW, Australia', 'Sin publicar', NULL, NULL),
-(54, 't1546470316', 'rpee', 7, 13, '25000.00', '1', 'Do Dysa, Lublin, Poland', 'Sin publicar', NULL, NULL),
-(55, 't1546470317', 'prueba', 7, 22, '580000.00', '1', 'Do Dysa, Lublin, Poland', 'Sin publicar', NULL, NULL),
-(56, 't1546470317', 'rpee', 7, 13, '25000.00', '1', 'Do Dysa, Lublin, Poland', 'Sin publicar', NULL, NULL),
-(57, 't1546470317', 'prueba', 7, 23, '12500.00', '1', 'Do Dysa, Lublin, Poland', 'Sin publicar', NULL, NULL),
-(58, 't1546470317', 'prueba', 7, 22, '580000.00', '1', 'Do Dysa, Lublin, Poland', 'Sin publicar', NULL, NULL),
-(59, 't1546470317', 'prueba', 7, 23, '12500.00', '1', 'Do Dysa, Lublin, Poland', 'Sin publicar', NULL, NULL),
-(60, 't1546470318', 'rpee', 7, 13, '25000.00', '1', 'Do Dysa, Lublin, Poland', 'Activo', NULL, '2019-01-02 23:13:49'),
-(61, 't1546470318', 'prueba', 7, 22, '580000.00', '1', 'Do Dysa, Lublin, Poland', 'Sin publicar', NULL, NULL),
-(62, 't1546470318', 'prueba', 7, 23, '12500.00', '1', 'Do Dysa, Lublin, Poland', 'Sin publicar', NULL, NULL),
-(63, 't1546470415', 'prueba', 7, 22, '5262.00', '1', 'Aracaju, State of Sergipe, Brazil', 'Sin publicar', NULL, NULL),
-(64, 't1546471416', 'prueba', 7, 1, '25600.00', '1', 'Pretoria, South Africa', 'Sin publicar', NULL, NULL),
-(65, 't1546471416', 'prueba', 7, 21, '5800.00', '1', 'Pretoria, South Africa', 'Sin publicar', NULL, NULL),
-(66, 't1546471608', 'prueba', 7, 22, '8500.00', '1', 'Oceanside, CA, USA', 'Sin publicar', NULL, NULL);
+(429, 't15518937291', 'prueba', 23, 1, '500.00', '0', 'Bogotá, Bogota, Colombia', 'Activo', NULL, '2019-03-06 20:35:05'),
+(430, 't15519020241', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 23, 1, '10000.00', '1', 'Bogotá, Bogota, Colombia', 'Activo', NULL, '2019-03-06 20:21:59'),
+(431, 't15519036251', 'rem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s s', 23, 1, '25600.00', '1', 'Soacha, Cundinamarca, Colombia', 'Activo', NULL, '2019-03-06 20:35:02'),
+(432, 't15519036252', 'rem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s s', 23, 2, '50000.00', '1', 'Soacha, Cundinamarca, Colombia', 'Activo', NULL, '2019-03-06 20:22:26'),
+(433, 't15519036253', 'rem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s s', 23, 3, '30000.00', '1', 'Soacha, Cundinamarca, Colombia', 'Activo', NULL, '2019-03-06 20:22:10'),
+(434, 't15519036254', 'rem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s s', 23, 4, '65000.00', '1', 'Soacha, Cundinamarca, Colombia', 'Bloqueado', NULL, '2019-03-06 20:22:12'),
+(435, 't15519036255', 'rem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s s', 23, 5, '56000.00', '0', 'Soacha, Cundinamarca, Colombia', 'Activo', NULL, '2019-03-06 20:24:29'),
+(436, 't15519036256', 'rem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s s', 23, 6, '65300.00', '1', 'Soacha, Cundinamarca, Colombia', 'Activo', NULL, '2019-03-06 20:22:15'),
+(437, 't15519036257', 'rem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s s', 23, 7, '120000.00', '1', 'Soacha, Cundinamarca, Colombia', 'Activo', NULL, '2019-03-06 20:22:19'),
+(438, 't15519036258', 'rem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s s', 23, 8, '320000.00', '1', 'Soacha, Cundinamarca, Colombia', 'Activo', NULL, '2019-03-06 20:22:17'),
+(439, 't15519036259', 'rem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s s', 23, 9, '65000.00', '1', 'Soacha, Cundinamarca, Colombia', 'Activo', NULL, '2019-03-06 20:22:21'),
+(440, 't155190362510', 'rem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s s', 23, 10, '65000.00', '1', 'Soacha, Cundinamarca, Colombia', 'Bloqueado', NULL, '2019-03-06 20:22:29'),
+(441, 't155190362511', 'rem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s s', 23, 11, '98000.00', '1', 'Soacha, Cundinamarca, Colombia', 'Activo', NULL, '2019-03-06 20:22:28'),
+(442, 't155190362512', 'rem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s s', 23, 12, '98000.00', '1', 'Soacha, Cundinamarca, Colombia', 'Activo', NULL, '2019-03-06 20:22:31'),
+(443, 't155190362513', 'rem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s s', 23, 13, '78000.00', '1', 'Soacha, Cundinamarca, Colombia', 'Activo', NULL, '2019-03-06 20:22:39'),
+(444, 't155190362514', 'rem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s s', 23, 14, '780000.00', '1', 'Soacha, Cundinamarca, Colombia', 'Bloqueado', NULL, '2019-03-06 20:22:43'),
+(445, 't155190362515', 'rem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s s', 23, 15, '45000.00', '1', 'Soacha, Cundinamarca, Colombia', 'Bloqueado', NULL, '2019-03-06 20:22:48'),
+(446, 't155190362516', 'rem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s s', 23, 16, '59000.00', '1', 'Soacha, Cundinamarca, Colombia', 'Bloqueado', NULL, '2019-03-06 20:22:44'),
+(447, 't155190362517', 'rem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s s', 23, 17, '65200.00', '1', 'Soacha, Cundinamarca, Colombia', 'Activo', NULL, '2019-03-06 20:22:40'),
+(448, 't155190362518', 'rem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s s', 23, 18, '98000.00', '1', 'Soacha, Cundinamarca, Colombia', 'Activo', NULL, '2019-03-06 20:22:49'),
+(449, 't155190362519', 'rem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s s', 23, 19, '78000.00', '1', 'Soacha, Cundinamarca, Colombia', 'Activo', NULL, '2019-03-07 18:12:03'),
+(450, 't155190362520', 'rem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s s', 23, 20, '66000.00', '1', 'Soacha, Cundinamarca, Colombia', 'Activo', NULL, '2019-03-06 20:22:33'),
+(451, 't155190362521', 'rem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s s', 23, 21, '653200.00', '1', 'Soacha, Cundinamarca, Colombia', 'Activo', NULL, '2019-03-07 18:12:01'),
+(452, 't155190362522', 'rem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s s', 23, 22, '32000.00', '1', 'Soacha, Cundinamarca, Colombia', 'Bloqueado', NULL, '2019-03-06 20:22:51'),
+(453, 't155190362523', 'rem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s s', 23, 23, '65890.00', '1', 'Soacha, Cundinamarca, Colombia', 'Activo', NULL, '2019-03-06 20:22:53'),
+(454, 't155190362524', 'rem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s s', 23, 24, '320000.00', '1', 'Soacha, Cundinamarca, Colombia', 'Activo', NULL, '2019-03-06 20:22:35'),
+(455, 't15519819871', 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 22, 2, '560000.00', '1', 'Medellín, Medellin, Antioquia, Colombia', 'Activo', NULL, '2019-03-07 18:11:33'),
+(456, 't15519820291', 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 22, 7, '89000.00', '1', 'Girardot, Cundinamarca, Colombia', 'Bloqueado', NULL, '2019-03-07 18:11:25'),
+(457, 't15519820292', 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 22, 8, '78000.00', '1', 'Girardot, Cundinamarca, Colombia', 'Bloqueado', NULL, '2019-03-07 18:11:21'),
+(458, 't15519820293', 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 22, 24, '98000.00', '1', 'Girardot, Cundinamarca, Colombia', 'Activo', NULL, '2019-03-07 18:11:47'),
+(459, 't15519822001', 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 22, 1, '100000.00', '1', 'Neiva, Huila, Colombia', 'Activo', NULL, '2019-03-07 18:10:54'),
+(460, 't15519822002', 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 22, 2, '100000.00', '1', 'Neiva, Huila, Colombia', 'Activo', NULL, '2019-03-07 18:11:35'),
+(461, 't15519822003', 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 22, 3, '100000.00', '1', 'Neiva, Huila, Colombia', 'Activo', NULL, '2019-03-07 18:11:00'),
+(462, 't15519822004', 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 22, 4, '582000.00', '1', 'Neiva, Huila, Colombia', 'Activo', NULL, '2019-03-07 18:11:02'),
+(463, 't15519822005', 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 22, 5, '65000.00', '1', 'Neiva, Huila, Colombia', 'Activo', NULL, '2019-03-07 18:11:05'),
+(464, 't15519822006', 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 22, 6, '23000.00', '1', 'Neiva, Huila, Colombia', 'Activo', NULL, '2019-03-07 18:11:06'),
+(465, 't15519822007', 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 22, 7, '56000.00', '1', 'Neiva, Huila, Colombia', 'Activo', NULL, '2019-03-07 18:11:27'),
+(466, 't15519822008', 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 22, 8, '123000.00', '1', 'Neiva, Huila, Colombia', 'Activo', NULL, '2019-03-07 18:11:23'),
+(467, 't15519822009', 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 22, 9, '320000.00', '1', 'Neiva, Huila, Colombia', 'Bloqueado', NULL, '2019-03-07 18:11:28'),
+(468, 't155198220010', 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 22, 10, '132000.00', '1', 'Neiva, Huila, Colombia', 'Activo', NULL, '2019-03-07 18:11:38'),
+(469, 't155198220011', 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 22, 11, '65000.00', '1', 'Neiva, Huila, Colombia', 'Activo', NULL, '2019-03-07 18:11:36'),
+(470, 't155198220012', 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 22, 12, '653200.00', '1', 'Neiva, Huila, Colombia', 'Activo', NULL, '2019-03-07 18:12:33'),
+(471, 't155198220013', 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 22, 13, '65300.00', '1', 'Neiva, Huila, Colombia', 'Bloqueado', NULL, '2019-03-07 18:11:53'),
+(472, 't155198220014', 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 22, 14, '98000.00', '1', 'Neiva, Huila, Colombia', 'Bloqueado', NULL, '2019-03-07 18:12:13'),
+(473, 't155198220015', 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 22, 15, '78010.00', '1', 'Neiva, Huila, Colombia', 'Activo', NULL, '2019-03-07 18:12:09'),
+(474, 't155198220016', 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 22, 16, '74500.00', '1', 'Neiva, Huila, Colombia', 'Activo', NULL, '2019-03-07 18:12:11'),
+(475, 't155198220017', 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 22, 17, '98500.00', '1', 'Neiva, Huila, Colombia', 'Activo', NULL, '2019-03-07 18:11:55'),
+(476, 't155198220018', 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 22, 18, '89400.00', '1', 'Neiva, Huila, Colombia', 'Activo', NULL, '2019-03-07 18:12:08'),
+(477, 't155198220019', 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 22, 20, '32000.00', '1', 'Neiva, Huila, Colombia', 'Bloqueado', NULL, '2019-03-07 18:11:45'),
+(478, 't155198220020', 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 22, 21, '78000.00', '1', 'Neiva, Huila, Colombia', 'Bloqueado', NULL, '2019-03-07 18:12:00'),
+(479, 't155198220021', 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 22, 22, '784000.00', '1', 'Neiva, Huila, Colombia', 'Activo', NULL, '2019-03-07 18:12:06'),
+(480, 't155198220022', 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 22, 23, '98500.00', '1', 'Neiva, Huila, Colombia', 'Activo', NULL, '2019-03-07 18:12:04'),
+(481, 't155198220023', 'orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s', 22, 24, '23200.00', '1', 'Neiva, Huila, Colombia', 'Activo', NULL, '2019-03-07 18:11:51'),
+(482, 't15519827821', 'prueba', 26, 22, '64998.00', '1', 'Valledupar, Cesar, Colombia', 'Sin publicar', NULL, NULL),
+(483, 't15519828451', 'prueba', 26, 20, '78000.00', '1', 'Arauca, Colombia', 'Sin publicar', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -147,6 +136,57 @@ CREATE TABLE `bonificaciones` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `bonificaciones`
+--
+
+INSERT INTO `bonificaciones` (`id`, `tipo_bonificacion`, `fk_id_detalle_referido`, `valor_bonificacion`, `created_at`, `updated_at`) VALUES
+(13, 'REGISTRO', 8, '100.00', NULL, NULL),
+(14, 'REGISTRO', 9, '100.00', NULL, NULL),
+(15, 'REGISTRO', 10, '100.00', '2019-03-06 17:11:53', NULL),
+(16, 'REGISTRO', 11, '100.00', '2019-03-07 17:17:32', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `campanias`
+--
+
+CREATE TABLE `campanias` (
+  `id` int(11) NOT NULL,
+  `nombre_campania` varchar(256) NOT NULL,
+  `tipo_campania` enum('global','personal') NOT NULL,
+  `tipo_canje` enum('compra','recarga') NOT NULL,
+  `fecha_inicial_vigencia` datetime DEFAULT NULL,
+  `fecha_final_vigencia` datetime NOT NULL,
+  `numero_de_cupones` int(11) NOT NULL,
+  `cupones_disponibles` int(11) NOT NULL,
+  `cupones_canjeados` int(11) NOT NULL DEFAULT '0',
+  `id_user` int(11) DEFAULT NULL,
+  `limite_por_usuario` int(11) NOT NULL DEFAULT '1',
+  `tipo_de_descuento` enum('porcentaje','valor_neto') NOT NULL DEFAULT 'porcentaje',
+  `valor_de_descuento` decimal(10,2) NOT NULL,
+  `costo_minimo` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `es_acumulable` enum('0','1') NOT NULL DEFAULT '0',
+  `estado_campania` enum('ABIERTA','CERRADA') NOT NULL DEFAULT 'ABIERTA',
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `campanias`
+--
+
+INSERT INTO `campanias` (`id`, `nombre_campania`, `tipo_campania`, `tipo_canje`, `fecha_inicial_vigencia`, `fecha_final_vigencia`, `numero_de_cupones`, `cupones_disponibles`, `cupones_canjeados`, `id_user`, `limite_por_usuario`, `tipo_de_descuento`, `valor_de_descuento`, `costo_minimo`, `es_acumulable`, `estado_campania`, `created_at`, `updated_at`) VALUES
+(14, 'PRUEBA RECARGA 20 MIL REGALO', 'global', 'recarga', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 10, 9, 1, NULL, 1, 'valor_neto', '20000.00', '500.00', '0', 'ABIERTA', '2019-03-06 15:27:19', '2019-03-06 15:36:41'),
+(15, 'RECARGA  BONO REGALO 20 %', 'global', 'recarga', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 10, 9, 1, NULL, 1, 'porcentaje', '20.00', '500.00', '0', 'ABIERTA', '2019-03-06 15:28:07', '2019-03-06 15:47:31'),
+(16, 'RECARGA ACUMULABLE', 'global', 'recarga', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 10, 8, 2, NULL, 2, 'valor_neto', '15000.00', '15000.00', '1', 'ABIERTA', '2019-03-06 15:29:14', '2019-03-06 15:50:03'),
+(17, 'MI PRIMER COMPRA 15 MIL DE REGALO', 'global', 'compra', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 10, 9, 1, NULL, 1, 'valor_neto', '15000.00', '50000.00', '0', 'ABIERTA', '2019-03-06 15:30:09', '2019-03-06 16:39:22'),
+(18, 'Compras al 50 % de descuento', 'global', 'compra', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 10, 7, 3, NULL, 1, 'porcentaje', '50.00', '35000.00', '0', 'ABIERTA', '2019-03-06 15:30:50', '2019-03-07 12:38:39'),
+(19, 'COMPRA  ACUMULABLE', 'global', 'compra', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 10, 10, 0, NULL, 2, 'porcentaje', '5.00', '63000.00', '1', 'ABIERTA', '2019-03-06 15:31:30', '2019-03-06 15:31:30'),
+(20, 'RECARGA FREE BONO REGALO 20 MIL', 'personal', 'recarga', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1, 0, 22, 1, 'valor_neto', '29980.00', '500.00', '0', 'ABIERTA', '2019-03-11 11:34:45', '2019-03-11 11:34:45'),
+(21, 'solo andrea', 'personal', 'recarga', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1, 0, 3, 1, 'valor_neto', '20000.00', '500.00', '0', 'ABIERTA', '2019-03-11 11:40:44', '2019-03-11 11:40:44');
 
 -- --------------------------------------------------------
 
@@ -1291,6 +1331,92 @@ INSERT INTO `ciudads` (`id`, `ciudad`, `created_at`, `updated_at`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `cupones_campanias`
+--
+
+CREATE TABLE `cupones_campanias` (
+  `id` int(11) NOT NULL,
+  `codigo_cupon` varchar(100) NOT NULL,
+  `estado` enum('sin canjear','canjeado','canjeado_pagado') NOT NULL DEFAULT 'sin canjear',
+  `fecha_canje` datetime DEFAULT NULL,
+  `id_campania` int(10) UNSIGNED NOT NULL,
+  `transaccion_donde_se_aplico` varchar(256) DEFAULT NULL,
+  `monto_valor_redimido` decimal(10,2) DEFAULT NULL,
+  `id_usuario_canje` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `cupones_campanias`
+--
+
+INSERT INTO `cupones_campanias` (`id`, `codigo_cupon`, `estado`, `fecha_canje`, `id_campania`, `transaccion_donde_se_aplico`, `monto_valor_redimido`, `id_usuario_canje`, `created_at`, `updated_at`) VALUES
+(401, '#MIPRIMERRECARGA20MILREGALO', 'canjeado_pagado', '2019-03-06 15:36:41', 14, 'rec_1551904515-15', '20000.00', 23, '2019-03-06 15:27:19', '2019-03-06 15:36:41'),
+(402, '#MIPRIMERRECARGA20MILREGALO', 'sin canjear', NULL, 14, NULL, NULL, NULL, '2019-03-06 15:27:19', '2019-03-06 15:27:19'),
+(403, '#MIPRIMERRECARGA20MILREGALO', 'sin canjear', NULL, 14, NULL, NULL, NULL, '2019-03-06 15:27:19', '2019-03-06 15:27:19'),
+(404, '#MIPRIMERRECARGA20MILREGALO', 'sin canjear', NULL, 14, NULL, NULL, NULL, '2019-03-06 15:27:19', '2019-03-06 15:27:19'),
+(405, '#MIPRIMERRECARGA20MILREGALO', 'sin canjear', NULL, 14, NULL, NULL, NULL, '2019-03-06 15:27:19', '2019-03-06 15:27:19'),
+(406, '#MIPRIMERRECARGA20MILREGALO', 'sin canjear', NULL, 14, NULL, NULL, NULL, '2019-03-06 15:27:19', '2019-03-06 15:27:19'),
+(407, '#MIPRIMERRECARGA20MILREGALO', 'sin canjear', NULL, 14, NULL, NULL, NULL, '2019-03-06 15:27:19', '2019-03-06 15:27:19'),
+(408, '#MIPRIMERRECARGA20MILREGALO', 'sin canjear', NULL, 14, NULL, NULL, NULL, '2019-03-06 15:27:19', '2019-03-06 15:27:19'),
+(409, '#MIPRIMERRECARGA20MILREGALO', 'sin canjear', NULL, 14, NULL, NULL, NULL, '2019-03-06 15:27:19', '2019-03-06 15:27:19'),
+(410, '#MIPRIMERRECARGA20MILREGALO', 'sin canjear', NULL, 14, NULL, NULL, NULL, '2019-03-06 15:27:19', '2019-03-06 15:27:19'),
+(411, '#MIPRIMERRECARGA20%REGALO', 'canjeado_pagado', '2019-03-06 15:47:31', 15, 'rec_1551905227-07', '20000.00', 23, '2019-03-06 15:28:07', '2019-03-06 15:48:22'),
+(412, '#MIPRIMERRECARGA20%REGALO', 'sin canjear', NULL, 15, NULL, NULL, NULL, '2019-03-06 15:28:07', '2019-03-06 15:28:07'),
+(413, '#MIPRIMERRECARGA20%REGALO', 'sin canjear', NULL, 15, NULL, NULL, NULL, '2019-03-06 15:28:07', '2019-03-06 15:28:07'),
+(414, '#MIPRIMERRECARGA20%REGALO', 'sin canjear', NULL, 15, NULL, NULL, NULL, '2019-03-06 15:28:07', '2019-03-06 15:28:07'),
+(415, '#MIPRIMERRECARGA20%REGALO', 'sin canjear', NULL, 15, NULL, NULL, NULL, '2019-03-06 15:28:07', '2019-03-06 15:28:07'),
+(416, '#MIPRIMERRECARGA20%REGALO', 'sin canjear', NULL, 15, NULL, NULL, NULL, '2019-03-06 15:28:07', '2019-03-06 15:28:07'),
+(417, '#MIPRIMERRECARGA20%REGALO', 'sin canjear', NULL, 15, NULL, NULL, NULL, '2019-03-06 15:28:07', '2019-03-06 15:28:07'),
+(418, '#MIPRIMERRECARGA20%REGALO', 'sin canjear', NULL, 15, NULL, NULL, NULL, '2019-03-06 15:28:07', '2019-03-06 15:28:07'),
+(419, '#MIPRIMERRECARGA20%REGALO', 'sin canjear', NULL, 15, NULL, NULL, NULL, '2019-03-06 15:28:07', '2019-03-06 15:28:07'),
+(420, '#MIPRIMERRECARGA20%REGALO', 'sin canjear', NULL, 15, NULL, NULL, NULL, '2019-03-06 15:28:07', '2019-03-06 15:28:07'),
+(421, '#MIPRIMERRECARGA15MILREGALOACUMULABLE', 'canjeado', '2019-03-06 15:49:10', 16, 'rec_1551905308-28', '15000.00', 23, '2019-03-06 15:29:14', '2019-03-06 15:49:10'),
+(422, '#MIPRIMERRECARGA15MILREGALOACUMULABLE', 'canjeado_pagado', '2019-03-06 15:50:03', 16, 'rec_1551905395-92', '15000.00', 23, '2019-03-06 15:29:14', '2019-03-06 15:51:10'),
+(423, '#MIPRIMERRECARGA15MILREGALOACUMULABLE', 'sin canjear', NULL, 16, NULL, NULL, NULL, '2019-03-06 15:29:14', '2019-03-06 15:29:14'),
+(424, '#MIPRIMERRECARGA15MILREGALOACUMULABLE', 'sin canjear', NULL, 16, NULL, NULL, NULL, '2019-03-06 15:29:14', '2019-03-06 15:29:14'),
+(425, '#MIPRIMERRECARGA15MILREGALOACUMULABLE', 'sin canjear', NULL, 16, NULL, NULL, NULL, '2019-03-06 15:29:14', '2019-03-06 15:29:14'),
+(426, '#MIPRIMERRECARGA15MILREGALOACUMULABLE', 'sin canjear', NULL, 16, NULL, NULL, NULL, '2019-03-06 15:29:14', '2019-03-06 15:29:14'),
+(427, '#MIPRIMERRECARGA15MILREGALOACUMULABLE', 'sin canjear', NULL, 16, NULL, NULL, NULL, '2019-03-06 15:29:14', '2019-03-06 15:29:14'),
+(428, '#MIPRIMERRECARGA15MILREGALOACUMULABLE', 'sin canjear', NULL, 16, NULL, NULL, NULL, '2019-03-06 15:29:14', '2019-03-06 15:29:14'),
+(429, '#MIPRIMERRECARGA15MILREGALOACUMULABLE', 'sin canjear', NULL, 16, NULL, NULL, NULL, '2019-03-06 15:29:14', '2019-03-06 15:29:14'),
+(430, '#MIPRIMERRECARGA15MILREGALOACUMULABLE', 'sin canjear', NULL, 16, NULL, NULL, NULL, '2019-03-06 15:29:14', '2019-03-06 15:29:14'),
+(431, '#MIPRIMERCOMPRADEREGALO15MIL', 'canjeado_pagado', '2019-03-06 16:39:22', 17, 't15519036256-436-11', '65300.00', 22, '2019-03-06 15:30:09', '2019-03-06 16:39:22'),
+(432, '#MIPRIMERCOMPRADEREGALO15MIL', 'sin canjear', NULL, 17, NULL, NULL, NULL, '2019-03-06 15:30:09', '2019-03-06 15:30:09'),
+(433, '#MIPRIMERCOMPRADEREGALO15MIL', 'sin canjear', NULL, 17, NULL, NULL, NULL, '2019-03-06 15:30:09', '2019-03-06 15:30:09'),
+(434, '#MIPRIMERCOMPRADEREGALO15MIL', 'sin canjear', NULL, 17, NULL, NULL, NULL, '2019-03-06 15:30:09', '2019-03-06 15:30:09'),
+(435, '#MIPRIMERCOMPRADEREGALO15MIL', 'sin canjear', NULL, 17, NULL, NULL, NULL, '2019-03-06 15:30:09', '2019-03-06 15:30:09'),
+(436, '#MIPRIMERCOMPRADEREGALO15MIL', 'sin canjear', NULL, 17, NULL, NULL, NULL, '2019-03-06 15:30:09', '2019-03-06 15:30:09'),
+(437, '#MIPRIMERCOMPRADEREGALO15MIL', 'sin canjear', NULL, 17, NULL, NULL, NULL, '2019-03-06 15:30:09', '2019-03-06 15:30:09'),
+(438, '#MIPRIMERCOMPRADEREGALO15MIL', 'sin canjear', NULL, 17, NULL, NULL, NULL, '2019-03-06 15:30:09', '2019-03-06 15:30:09'),
+(439, '#MIPRIMERCOMPRADEREGALO15MIL', 'sin canjear', NULL, 17, NULL, NULL, NULL, '2019-03-06 15:30:09', '2019-03-06 15:30:09'),
+(440, '#MIPRIMERCOMPRADEREGALO15MIL', 'sin canjear', NULL, 17, NULL, NULL, NULL, '2019-03-06 15:30:09', '2019-03-06 15:30:09'),
+(441, '#COMPRACONEL50%DEDTO', 'canjeado', '2019-03-06 16:01:37', 18, 't15519036252-432-13', '50000.00', 22, '2019-03-06 15:30:50', '2019-03-06 16:01:37'),
+(443, '#COMPRACONEL50%DEDTO', 'canjeado', '2019-03-07 12:38:39', 18, 't15519036256107-436-11', '65300.00', 26, '2019-03-06 15:30:50', '2019-03-07 12:38:39'),
+(444, '#COMPRACONEL50%DEDTO', 'sin canjear', NULL, 18, NULL, NULL, NULL, '2019-03-06 15:30:50', '2019-03-06 15:30:50'),
+(445, '#COMPRACONEL50%DEDTO', 'sin canjear', NULL, 18, NULL, NULL, NULL, '2019-03-06 15:30:50', '2019-03-06 15:30:50'),
+(446, '#COMPRACONEL50%DEDTO', 'sin canjear', NULL, 18, NULL, NULL, NULL, '2019-03-06 15:30:50', '2019-03-06 15:30:50'),
+(447, '#COMPRACONEL50%DEDTO', 'sin canjear', NULL, 18, NULL, NULL, NULL, '2019-03-06 15:30:50', '2019-03-06 15:30:50'),
+(448, '#COMPRACONEL50%DEDTO', 'sin canjear', NULL, 18, NULL, NULL, NULL, '2019-03-06 15:30:50', '2019-03-06 15:30:50'),
+(449, '#COMPRACONEL50%DEDTO', 'sin canjear', NULL, 18, NULL, NULL, NULL, '2019-03-06 15:30:50', '2019-03-06 15:30:50'),
+(450, '#COMPRACONEL50%DEDTO', 'sin canjear', NULL, 18, NULL, NULL, NULL, '2019-03-06 15:30:50', '2019-03-06 15:30:50'),
+(451, '#COMPRAACUMULADA5%', 'sin canjear', NULL, 19, NULL, NULL, NULL, '2019-03-06 15:31:31', '2019-03-06 15:31:31'),
+(452, '#COMPRAACUMULADA5%', 'sin canjear', NULL, 19, NULL, NULL, NULL, '2019-03-06 15:31:31', '2019-03-06 15:31:31'),
+(453, '#COMPRAACUMULADA5%', 'sin canjear', NULL, 19, NULL, NULL, NULL, '2019-03-06 15:31:31', '2019-03-06 15:31:31'),
+(454, '#COMPRAACUMULADA5%', 'sin canjear', NULL, 19, NULL, NULL, NULL, '2019-03-06 15:31:31', '2019-03-06 15:31:31'),
+(455, '#COMPRAACUMULADA5%', 'sin canjear', NULL, 19, NULL, NULL, NULL, '2019-03-06 15:31:31', '2019-03-06 15:31:31'),
+(456, '#COMPRAACUMULADA5%', 'sin canjear', NULL, 19, NULL, NULL, NULL, '2019-03-06 15:31:32', '2019-03-06 15:31:32'),
+(457, '#COMPRAACUMULADA5%', 'sin canjear', NULL, 19, NULL, NULL, NULL, '2019-03-06 15:31:32', '2019-03-06 15:31:32'),
+(458, '#COMPRAACUMULADA5%', 'sin canjear', NULL, 19, NULL, NULL, NULL, '2019-03-06 15:31:32', '2019-03-06 15:31:32'),
+(459, '#COMPRAACUMULADA5%', 'sin canjear', NULL, 19, NULL, NULL, NULL, '2019-03-06 15:31:32', '2019-03-06 15:31:32'),
+(460, '#COMPRAACUMULADA5%', 'sin canjear', NULL, 19, NULL, NULL, NULL, '2019-03-06 15:31:32', '2019-03-06 15:31:32'),
+(461, 'TZ8CKN', 'sin canjear', NULL, 20, NULL, NULL, NULL, '2019-03-11 11:34:46', '2019-03-11 11:34:46'),
+(462, 'BEN0ZS', 'sin canjear', NULL, 21, NULL, NULL, NULL, '2019-03-11 11:40:45', '2019-03-11 11:40:45');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `detalle_clic_anuncios`
 --
 
@@ -1312,28 +1438,18 @@ CREATE TABLE `detalle_clic_anuncios` (
 --
 
 INSERT INTO `detalle_clic_anuncios` (`id`, `id_anuncio`, `id_usuario`, `costo`, `num_visitas`, `opinion`, `calificacion`, `comentario`, `created_at`, `updated_at`) VALUES
-(1, 3, 1, '0.00', 13, NULL, 0, NULL, '2018-12-19 20:54:08', '2018-12-28 14:13:41'),
-(2, 4, 1, '5200.00', 3, NULL, 0, NULL, '2018-12-19 20:54:22', '2018-12-28 14:13:58'),
-(3, 7, 3, '50.00', 5, NULL, 0, NULL, '2018-12-27 23:52:55', '2018-12-28 16:33:21'),
-(4, 5, 3, '50.00', 5, NULL, 0, NULL, '2018-12-27 23:53:02', '2018-12-28 16:30:34'),
-(5, 1, 3, '0.00', 13, NULL, 0, NULL, '2018-12-27 23:53:06', '2019-01-02 21:15:05'),
-(6, 6, 3, '0.00', 1, NULL, 0, NULL, '2018-12-27 23:54:04', '2018-12-27 23:54:04'),
-(7, 2, 3, '0.00', 1, NULL, 0, NULL, '2018-12-27 23:55:52', '2018-12-27 23:55:52'),
-(8, 4, 3, '0.00', 9, NULL, 0, NULL, '2018-12-27 23:55:58', '2018-12-27 23:58:10'),
-(9, 3, 3, '0.00', 1, NULL, 0, NULL, '2018-12-27 23:57:27', '2018-12-27 23:57:27'),
-(10, 1, 2, '50.00', 3, NULL, 0, NULL, '2018-12-28 16:30:30', '2018-12-28 17:02:34'),
-(11, 8, 3, '50.00', 1, NULL, 0, NULL, '2018-12-28 16:30:37', '2018-12-28 16:30:37'),
-(12, 11, 3, '0.00', 5, NULL, 0, NULL, '2018-12-28 16:32:25', '2019-01-02 21:15:31'),
-(13, 11, 2, '0.00', 3, NULL, 0, NULL, '2018-12-28 16:51:15', '2018-12-28 19:25:27'),
-(14, 5, 2, '0.00', 9, NULL, 0, NULL, '2018-12-28 17:02:16', '2018-12-28 17:11:15'),
-(15, 7, 2, '0.00', 5, NULL, 0, NULL, '2018-12-28 17:03:37', '2018-12-28 17:06:45'),
-(16, 8, 2, '0.00', 5, NULL, 0, NULL, '2018-12-28 17:04:40', '2018-12-28 17:06:15'),
-(17, 2, 4, '50.00', 1, NULL, 0, NULL, '2018-12-28 21:55:44', '2018-12-28 21:55:44'),
-(18, 1, 4, '50.00', 1, NULL, 0, NULL, '2018-12-28 22:23:36', '2018-12-28 22:23:36'),
-(19, 5, 4, '0.00', 1, NULL, 0, NULL, '2018-12-28 22:23:48', '2018-12-28 22:23:48'),
-(20, 39, 7, '500.00', 1, NULL, 0, NULL, '2019-01-02 23:35:47', '2019-01-02 23:35:47'),
-(21, 7, 7, '500.00', 1, NULL, 0, NULL, '2019-01-02 23:37:24', '2019-01-02 23:37:24'),
-(22, 18, 7, '500.00', 1, NULL, 0, NULL, '2019-01-02 23:37:57', '2019-01-02 23:37:57');
+(140, 431, 22, '500.00', 13, NULL, 0, NULL, '2019-03-06 20:41:29', '2019-03-08 21:00:10'),
+(141, 441, 22, '500.00', 1, NULL, 0, NULL, '2019-03-06 20:43:23', '2019-03-06 20:43:23'),
+(142, 432, 22, '500.00', 3, NULL, 0, NULL, '2019-03-06 20:45:19', '2019-03-06 21:01:35'),
+(143, 454, 22, '500.00', 5, NULL, 0, NULL, '2019-03-06 21:00:08', '2019-03-11 17:07:55'),
+(144, 430, 22, '500.00', 1, NULL, 0, NULL, '2019-03-06 21:01:27', '2019-03-06 21:01:27'),
+(145, 436, 22, '0.00', 1, NULL, 0, NULL, '2019-03-06 21:39:20', '2019-03-06 21:39:20'),
+(146, 431, 26, '650.00', 3, NULL, 0, NULL, '2019-03-07 17:22:32', '2019-03-07 17:23:14'),
+(147, 436, 26, '0.00', 15, NULL, 0, NULL, '2019-03-07 17:23:57', '2019-03-07 17:58:19'),
+(148, 433, 22, '0.00', 1, NULL, 0, NULL, '2019-03-08 21:00:23', '2019-03-08 21:00:23'),
+(149, 442, 22, '0.00', 1, NULL, 0, NULL, '2019-03-08 21:07:12', '2019-03-08 21:07:12'),
+(150, 468, 23, '650.00', 1, NULL, 0, NULL, '2019-03-11 15:06:03', '2019-03-11 15:06:03'),
+(151, 459, 23, '650.00', 7, NULL, 0, NULL, '2019-03-11 15:06:18', '2019-03-11 15:06:32');
 
 -- --------------------------------------------------------
 
@@ -1356,48 +1472,62 @@ CREATE TABLE `detalle_horarios` (
 --
 
 INSERT INTO `detalle_horarios` (`id`, `id_user`, `dia`, `horario`, `estado`, `created_at`, `updated_at`) VALUES
-(1, 1, 'LUNES', '08:00|00:00', 'Abierto', NULL, NULL),
-(2, 1, 'MARTES', '08:00|12:00', 'Abierto', NULL, NULL),
-(3, 1, 'MIERCOLES', '08:00|23:00', 'Abierto', NULL, NULL),
-(4, 1, 'JUEVES', '08:00|23:00', 'Abierto', NULL, NULL),
-(5, 1, 'VIERNES', '08:00|22:00', 'Abierto', NULL, NULL),
-(6, 1, 'SABADO', '08:00|12:00', 'Abierto', NULL, NULL),
-(7, 1, 'DOMINGO', '08:00|12:00', 'Abierto', NULL, NULL),
-(8, 2, 'LUNES', '08:00|00:00', 'Abierto', NULL, NULL),
-(9, 2, 'MARTES', '08:00|00:00', 'Abierto', NULL, NULL),
-(10, 2, 'MIERCOLES', '08:00|00:00', 'Abierto', NULL, NULL),
-(11, 2, 'JUEVES', '08:00|23:00', 'Abierto', NULL, NULL),
-(12, 2, 'VIERNES', '08:00|23:00', 'Abierto', NULL, NULL),
-(13, 2, 'SABADO', '08:00|22:00', 'Abierto', NULL, NULL),
-(14, 2, 'DOMINGO', '08:00|22:00', 'Abierto', NULL, NULL),
-(15, 3, 'LUNES', '08:00|00:00', 'Abierto', NULL, NULL),
-(16, 3, 'MARTES', '08:00|00:00', 'Abierto', NULL, NULL),
-(17, 3, 'MIERCOLES', '08:00|00:00', 'Abierto', NULL, NULL),
-(18, 3, 'JUEVES', '08:00|00:00', 'Abierto', NULL, NULL),
-(19, 3, 'VIERNES', '08:00|00:00', 'Abierto', NULL, NULL),
-(20, 3, 'SABADO', '08:00|00:00', 'Abierto', NULL, NULL),
-(21, 3, 'DOMINGO', '08:00|00:00', 'Abierto', NULL, NULL),
-(22, 4, 'LUNES', '08:00|20:00', 'Abierto', NULL, NULL),
-(23, 4, 'MARTES', '08:00|20:00', 'Abierto', NULL, NULL),
-(24, 4, 'MIERCOLES', '08:00|20:00', 'Abierto', NULL, NULL),
-(25, 4, 'JUEVES', '08:00|20:00', 'Abierto', NULL, NULL),
-(26, 4, 'VIERNES', '08:00|20:00', 'Abierto', NULL, NULL),
-(27, 4, 'SABADO', '08:00|20:00', 'Abierto', NULL, NULL),
-(28, 4, 'DOMINGO', '08:00|20:00', 'Abierto', NULL, NULL),
-(29, 6, 'LUNES', '08:00|17:00', 'Abierto', NULL, NULL),
-(30, 6, 'MARTES', '08:00|17:00', 'Abierto', NULL, NULL),
-(31, 6, 'MIERCOLES', '08:00|17:00', 'Abierto', NULL, NULL),
-(32, 6, 'JUEVES', '08:00|17:00', 'Abierto', NULL, NULL),
-(33, 6, 'VIERNES', '08:00|17:00', 'Abierto', NULL, NULL),
-(34, 6, 'SABADO', '08:00|17:00', 'Cerrado', NULL, NULL),
-(35, 6, 'DOMINGO', '08:00|17:00', 'Cerrado', NULL, NULL),
-(36, 7, 'LUNES', '08:00|17:00', 'Abierto', NULL, NULL),
-(37, 7, 'MARTES', '08:00|17:00', 'Abierto', NULL, NULL),
-(38, 7, 'MIERCOLES', '08:00|17:00', 'Abierto', NULL, NULL),
-(39, 7, 'JUEVES', '08:00|17:00', 'Abierto', NULL, NULL),
-(40, 7, 'VIERNES', '08:00|17:00', 'Abierto', NULL, NULL),
-(41, 7, 'SABADO', '08:00|17:00', 'Cerrado', NULL, NULL),
-(42, 7, 'DOMINGO', '08:00|17:00', 'Cerrado', NULL, NULL);
+(1, 1, 'LUNES', '12:00|00:00', 'Abierto', NULL, NULL),
+(2, 1, 'MARTES', '12:00|00:00', 'Abierto', NULL, NULL),
+(3, 1, 'MIERCOLES', '12:00|00:00', 'Abierto', NULL, NULL),
+(4, 1, 'JUEVES', '12:00|00:00', 'Abierto', NULL, NULL),
+(5, 1, 'VIERNES', '12:00|00:00', 'Abierto', NULL, NULL),
+(6, 1, 'SABADO', '12:00|00:00', 'Abierto', NULL, NULL),
+(7, 1, 'DOMINGO', '12:00|00:00', 'Abierto', NULL, NULL),
+(8, 2, 'LUNES', '12:00|00:00', 'Abierto', NULL, NULL),
+(9, 2, 'MARTES', '12:00|00:00', 'Abierto', NULL, NULL),
+(10, 2, 'MIERCOLES', '12:00|00:00', 'Abierto', NULL, NULL),
+(11, 2, 'JUEVES', '12:00|00:00', 'Abierto', NULL, NULL),
+(12, 2, 'VIERNES', '12:00|00:00', 'Abierto', NULL, NULL),
+(13, 2, 'SABADO', '12:00|00:00', 'Abierto', NULL, NULL),
+(14, 2, 'DOMINGO', '12:00|00:00', 'Abierto', NULL, NULL),
+(15, 3, 'LUNES', '12:00|00:00', 'Abierto', NULL, NULL),
+(16, 3, 'MARTES', '12:00|00:00', 'Abierto', NULL, NULL),
+(17, 3, 'MIERCOLES', '12:00|00:00', 'Abierto', NULL, NULL),
+(18, 3, 'JUEVES', '12:00|00:00', 'Abierto', NULL, NULL),
+(19, 3, 'VIERNES', '12:00|00:00', 'Abierto', NULL, NULL),
+(20, 3, 'SABADO', '12:00|00:00', 'Abierto', NULL, NULL),
+(21, 3, 'DOMINGO', '12:00|00:00', 'Abierto', NULL, NULL),
+(127, 22, 'LUNES', '08:00|17:00', 'Abierto', NULL, NULL),
+(128, 22, 'MARTES', '08:00|17:00', 'Abierto', NULL, NULL),
+(129, 22, 'MIERCOLES', '08:00|17:00', 'Abierto', NULL, NULL),
+(130, 22, 'JUEVES', '08:00|17:00', 'Abierto', NULL, NULL),
+(131, 22, 'VIERNES', '08:00|17:00', 'Abierto', NULL, NULL),
+(132, 22, 'SABADO', '08:00|17:00', 'Cerrado', NULL, NULL),
+(133, 22, 'DOMINGO', '08:00|17:00', 'Cerrado', NULL, NULL),
+(134, 23, 'LUNES', '08:00|17:00', 'Abierto', NULL, NULL),
+(135, 23, 'MARTES', '08:00|17:00', 'Abierto', NULL, NULL),
+(136, 23, 'MIERCOLES', '08:00|13:58', 'Cerrado', NULL, NULL),
+(137, 23, 'JUEVES', '08:00|17:00', 'Abierto', NULL, NULL),
+(138, 23, 'VIERNES', '08:00|17:00', 'Abierto', NULL, NULL),
+(139, 23, 'SABADO', '08:00|17:00', 'Cerrado', NULL, NULL),
+(140, 23, 'DOMINGO', '08:00|17:00', 'Cerrado', NULL, NULL),
+(141, 24, 'LUNES', '08:00|17:00', 'Abierto', NULL, NULL),
+(142, 24, 'MARTES', '08:00|17:00', 'Abierto', NULL, NULL),
+(143, 24, 'MIERCOLES', '08:00|17:00', 'Abierto', NULL, NULL),
+(144, 24, 'JUEVES', '08:00|17:00', 'Abierto', NULL, NULL),
+(145, 24, 'VIERNES', '08:00|17:00', 'Abierto', NULL, NULL),
+(146, 24, 'SABADO', '08:00|17:00', 'Cerrado', NULL, NULL),
+(147, 24, 'DOMINGO', '08:00|17:00', 'Cerrado', NULL, NULL),
+(148, 25, 'LUNES', '08:00|17:00', 'Abierto', NULL, NULL),
+(149, 25, 'MARTES', '08:00|17:00', 'Abierto', NULL, NULL),
+(150, 25, 'MIERCOLES', '08:00|17:00', 'Abierto', NULL, NULL),
+(151, 25, 'JUEVES', '08:00|17:00', 'Abierto', NULL, NULL),
+(152, 25, 'VIERNES', '08:00|17:00', 'Abierto', NULL, NULL),
+(153, 25, 'SABADO', '08:00|17:00', 'Cerrado', NULL, NULL),
+(154, 25, 'DOMINGO', '08:00|17:00', 'Cerrado', NULL, NULL),
+(155, 26, 'LUNES', '08:00|17:00', 'Abierto', NULL, NULL),
+(156, 26, 'MARTES', '08:00|17:00', 'Abierto', NULL, NULL),
+(157, 26, 'MIERCOLES', '08:00|17:00', 'Abierto', NULL, NULL),
+(158, 26, 'JUEVES', '08:00|17:00', 'Abierto', NULL, NULL),
+(159, 26, 'VIERNES', '08:00|17:00', 'Abierto', NULL, NULL),
+(160, 26, 'SABADO', '08:00|17:00', 'Cerrado', NULL, NULL),
+(161, 26, 'DOMINGO', '08:00|17:00', 'Cerrado', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1410,10 +1540,11 @@ CREATE TABLE `detalle_recargas` (
   `id_usuario` int(10) UNSIGNED NOT NULL,
   `tipo_recarga` enum('BONIFICACION','RECARGA') COLLATE utf8mb4_unicode_ci NOT NULL,
   `valor_recarga` decimal(8,2) NOT NULL,
+  `valor_pagado` decimal(10,2) DEFAULT NULL,
   `referencia_pago` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `referencia_pago_pay_u` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `metodo_pago` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `estado_detalle_recarga` enum('APROBADA','PENDIENTE','RECHAZADA','REGISTRADA') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `estado_detalle_recarga` enum('APROBADA','PENDIENTE','RECHAZADA','REGISTRADA','SIN REGISTRAR','EXPIRADA') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'SIN REGISTRAR',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1422,25 +1553,19 @@ CREATE TABLE `detalle_recargas` (
 -- Dumping data for table `detalle_recargas`
 --
 
-INSERT INTO `detalle_recargas` (`id`, `id_usuario`, `tipo_recarga`, `valor_recarga`, `referencia_pago`, `referencia_pago_pay_u`, `metodo_pago`, `estado_detalle_recarga`, `created_at`, `updated_at`) VALUES
-(1, 1, 'RECARGA', '20000.00', 'rec_1545231393-33', NULL, NULL, 'RECHAZADA', NULL, NULL),
-(2, 1, 'RECARGA', '20000.00', 'rec_1545231747-27', NULL, NULL, 'PENDIENTE', NULL, NULL),
-(3, 1, 'RECARGA', '20000.00', 'rec_1545232998-18', NULL, NULL, 'PENDIENTE', NULL, NULL),
-(4, 2, 'RECARGA', '20000.00', 'rec_1545233239-19', NULL, NULL, 'RECHAZADA', NULL, NULL),
-(5, 2, 'RECARGA', '20000.00', 'rec_1545233246-26', NULL, NULL, 'PENDIENTE', NULL, NULL),
-(6, 2, 'RECARGA', '20000.00', 'rec_1545233617-37', '845103046', 'EFECTY', 'PENDIENTE', NULL, NULL),
-(7, 2, 'RECARGA', '20000.00', 'rec_1545234176-56', '845103057', 'BALOTO', 'PENDIENTE', NULL, NULL),
-(8, 2, 'RECARGA', '20000.00', 'rec_1545234252-12', '845103059', 'EFECTY', 'PENDIENTE', NULL, NULL),
-(9, 3, 'RECARGA', '20000.00', 'rec_1545233609-29', '845103064', 'EFECTY', 'PENDIENTE', NULL, NULL),
-(10, 3, 'RECARGA', '20000.00', 'rec_1545234592-52', '845103066', 'EFECTY', 'PENDIENTE', NULL, NULL),
-(11, 1, 'RECARGA', '20000.00', 'rec_1545243743-23', '845103177', 'BALOTO', 'PENDIENTE', NULL, NULL),
-(12, 2, 'RECARGA', '20000.00', 'rec_1545252649-49', '845103896', 'BALOTO', 'PENDIENTE', NULL, NULL),
-(13, 1, 'RECARGA', '20000.00', 'rec_1545256303-43', '845103966', 'EFECTY', 'PENDIENTE', NULL, NULL),
-(14, 1, 'RECARGA', '20000.00', 'rec_1545256429-49', '845103969', 'EFECTY', 'PENDIENTE', NULL, NULL),
-(15, 1, 'RECARGA', '20000.00', 'rec_1545256464-24', '845103970', 'BALOTO', 'PENDIENTE', NULL, NULL),
-(16, 1, 'RECARGA', '20000.00', 'rec_1545256559-59', '845103976', 'EFECTY', 'PENDIENTE', NULL, NULL),
-(17, 1, 'RECARGA', '20000.00', 'rec_1545256631-11', '845103977', 'BALOTO', 'PENDIENTE', NULL, NULL),
-(18, 1, 'RECARGA', '20000.00', 'rec_1545256682-02', '845103978', 'OTHERS_CASH', 'PENDIENTE', NULL, NULL);
+INSERT INTO `detalle_recargas` (`id`, `id_usuario`, `tipo_recarga`, `valor_recarga`, `valor_pagado`, `referencia_pago`, `referencia_pago_pay_u`, `metodo_pago`, `estado_detalle_recarga`, `created_at`, `updated_at`) VALUES
+(171, 1, 'BONIFICACION', '100.00', NULL, '155189119622', '155189119622', 'BONIFICACION REGISTRO REFERIDO ', 'APROBADA', NULL, NULL),
+(172, 23, 'BONIFICACION', '100.00', NULL, '155189126324', '155189126324', 'BONIFICACION REGISTRO REFERIDO ', 'APROBADA', NULL, NULL),
+(173, 23, 'BONIFICACION', '100.00', NULL, '155189231325', '155189231325', 'BONIFICACION REGISTRO REFERIDO ', 'APROBADA', NULL, NULL),
+(174, 23, 'RECARGA', '20000.00', '16000.00', 'rec_1551905227-07', '222098991', 'BALOTO', 'APROBADA', NULL, '2019-03-06 20:48:22'),
+(175, 23, 'RECARGA', '20000.00', NULL, '155190460123', '155190460123', 'RECARGA GRATIS', 'APROBADA', '2019-03-06 20:36:41', '2019-03-06 20:36:41'),
+(176, 23, 'RECARGA', '50000.00', '35000.00', 'rec_1551905395-92', '222099514', 'BALOTO', 'APROBADA', NULL, '2019-03-06 20:51:10'),
+(177, 22, 'RECARGA', '20000.00', '20000.00', 'rec_1552079026-46', '222657826', 'BALOTO', 'PENDIENTE', NULL, '2019-03-08 21:05:37'),
+(178, 22, 'BONIFICACION', '100.00', NULL, '155197905226', '155197905226', 'BONIFICACION REGISTRO REFERIDO ', 'APROBADA', NULL, NULL),
+(179, 26, 'RECARGA', '65300.00', '32650.00', 't15519036256107-436-11', NULL, NULL, 'SIN REGISTRAR', NULL, NULL),
+(180, 22, 'RECARGA', '20000.00', '20000.00', 'rec_1552079269-49', '222658948', 'BALOTO', 'PENDIENTE', NULL, '2019-03-08 21:08:48'),
+(181, 23, 'RECARGA', '20000.00', '20000.00', 'rec_1552082583-03', '222674333', 'BALOTO', 'APROBADA', NULL, '2019-03-08 22:04:48'),
+(182, 23, 'RECARGA', '20000.00', '20000.00', 'rec_1552317748-28', '845418587', 'BALOTO', 'APROBADA', NULL, '2019-03-11 15:32:45');
 
 -- --------------------------------------------------------
 
@@ -1455,6 +1580,16 @@ CREATE TABLE `detalle_referidos` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `detalle_referidos`
+--
+
+INSERT INTO `detalle_referidos` (`id`, `id_cabeza`, `id_referido`, `created_at`, `updated_at`) VALUES
+(8, 1, 22, NULL, NULL),
+(9, 23, 24, NULL, NULL),
+(10, 23, 25, '2019-03-06 17:11:53', NULL),
+(11, 22, 26, '2019-03-07 17:17:32', NULL);
 
 -- --------------------------------------------------------
 
@@ -1517,13 +1652,14 @@ CREATE TABLE `model_has_roles` (
 --
 
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
-(2, 'App\\User', 1),
-(2, 'App\\User', 2),
-(1, 'App\\User', 3),
-(2, 'App\\User', 4),
-(2, 'App\\User', 5),
-(2, 'App\\User', 6),
-(2, 'App\\User', 7);
+(1, 'App\\User', 1),
+(1, 'App\\User', 2),
+(3, 'App\\User', 3),
+(2, 'App\\User', 22),
+(2, 'App\\User', 23),
+(3, 'App\\User', 24),
+(3, 'App\\User', 25),
+(2, 'App\\User', 26);
 
 -- --------------------------------------------------------
 
@@ -1542,7 +1678,8 @@ CREATE TABLE `password_resets` (
 --
 
 INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
-('adrian.vargas.2018@outlook.com', '$2y$10$YSpIQjOf9vorN0l.k8aBfuVGkwYbevCimF8b9f.s1i3bc.3QVJNzC', '2018-12-28 22:44:19');
+('adrian.vargas.2018@hotmail.com', '$2y$10$dz0OGr3YqO.bLWvzhMXj3uftkBnZe/G6v8cgBLzmUOxt.BNyTlWIe', '2019-01-10 18:46:51'),
+('adrian.vargas.2018@outlook.com', '$2y$10$bvB2TgkjGjfrOm1G35jq9ejQROyVc33Ju9HfwGPurqhh6Ab42E0bW', '2019-03-06 17:32:48');
 
 -- --------------------------------------------------------
 
@@ -1563,7 +1700,7 @@ CREATE TABLE `payus` (
   `razon_social` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `nit` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `tel_contacto` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `type` enum('TEST','´PRODUCTION') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` enum('TEST','PRODUCTION') COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1573,7 +1710,8 @@ CREATE TABLE `payus` (
 --
 
 INSERT INTO `payus` (`id`, `API_KEY`, `merchantId`, `accountId`, `urlResponse`, `urlConfirm`, `urlError`, `urlApi`, `type_encrypt`, `razon_social`, `nit`, `tel_contacto`, `type`, `created_at`, `updated_at`) VALUES
-(1, '4Vj8eK4rloUd272L48hsrarnUA', '508029', '512321', '/response', '/confirm', '/error', 'https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu', 'MD5', 'MI EMPRESA', '1234567', '123456', 'TEST', '2018-12-13 15:12:00', '2018-12-13 15:12:00');
+(1, '4Vj8eK4rloUd272L48hsrarnUA', '508029', '512321', '/response', '/confirm', '/error', 'https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu', 'MD5', 'Tu Tramitador', '1234567', '3015355602', 'TEST', '2018-12-13 15:12:00', '2018-12-13 15:12:00'),
+(2, 'vS05fgTaH66DNm6hTbE0CCrqBO', '740783', '746361', '/response', '/confirm', '/error', 'https://checkout.payulatam.com/ppp-web-gateway-payu/', 'MD5', 'Tu Tramitador', '1234567', '3015355602', 'PRODUCTION', '2018-12-13 15:12:00', '2018-12-13 15:12:00');
 
 -- --------------------------------------------------------
 
@@ -1619,10 +1757,26 @@ CREATE TABLE `registro_pagos_anuncios` (
   `id_anuncio` int(11) NOT NULL,
   `id_user_compra` int(11) NOT NULL,
   `metodo_pago` varchar(256) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `estado_pago` enum('APROBADA','PENDIENTE','RECHAZADA') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'PENDIENTE',
+  `estado_pago` enum('APROBADA','PENDIENTE','RECHAZADA','TRAMITE REALIZADO','PAGO A TRAMITADOR','TRANSACCION FINALIZADA','PAGO TRAMITADOR CONFIRMADO','EXPIRADA') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'PENDIENTE',
+  `porcentaje_pago` decimal(10,2) DEFAULT NULL,
+  `opinion` varchar(110) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `calificacion` int(11) DEFAULT NULL,
+  `comentario` varchar(110) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `registro_pagos_anuncios`
+--
+
+INSERT INTO `registro_pagos_anuncios` (`id`, `transactionId`, `transactionState`, `transation_value`, `id_anuncio`, `id_user_compra`, `metodo_pago`, `estado_pago`, `porcentaje_pago`, `opinion`, `calificacion`, `comentario`, `created_at`, `updated_at`) VALUES
+(16, '222102119', '7', '25000.00', 432, 22, 'BALOTO', 'PAGO A TRAMITADOR', '5.00', 'Recomendadísimo', 5, 'Recomendadísimo', '2019-03-06 21:02:03', '2019-02-05 21:09:43'),
+(17, '222111296', '7', '50300.00', 436, 22, 'BALOTO', 'PAGO TRAMITADOR CONFIRMADO', '5.00', 'Excelente atención', 5, 'Excelente atención', '2019-03-06 21:39:54', '2019-03-07 16:38:52'),
+(18, '222312826', '7', '32650.00', 436, 26, 'BALOTO', 'PENDIENTE', NULL, NULL, NULL, NULL, '2019-03-07 17:49:06', '2019-03-07 17:49:06'),
+(21, '222658641', '7', '98000.00', 442, 22, 'BALOTO', 'PENDIENTE', NULL, NULL, NULL, NULL, '2019-03-08 21:07:40', '2019-03-08 21:07:40'),
+(22, '218245017', '4', '2300000.00', 39, 2, 'EFECTY', 'APROBADA', NULL, NULL, NULL, NULL, '2019-03-08 21:58:32', '2019-03-08 21:58:32'),
+(23, '845418577', '7', '100000.00', 459, 23, 'BALOTO', 'APROBADA', NULL, NULL, NULL, NULL, '2019-03-11 15:07:02', '2019-03-11 15:07:02');
 
 -- --------------------------------------------------------
 
@@ -1644,7 +1798,8 @@ CREATE TABLE `roles` (
 
 INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
 (1, 'Admin', 'web', '2018-12-13 15:11:59', '2018-12-13 15:11:59'),
-(2, 'Anunciante', 'web', '2018-12-13 15:11:59', '2018-12-13 15:11:59');
+(2, 'Anunciante', 'web', '2018-12-13 15:11:59', '2018-12-13 15:11:59'),
+(3, 'Usuario', 'web', '2018-12-13 15:11:59', '2018-12-13 15:11:59');
 
 -- --------------------------------------------------------
 
@@ -1656,6 +1811,22 @@ CREATE TABLE `role_has_permissions` (
   `permission_id` int(10) UNSIGNED NOT NULL,
   `role_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `role_has_permissions`
+--
+
+INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
+(1, 2),
+(2, 2),
+(3, 2),
+(4, 2),
+(5, 2),
+(6, 2),
+(7, 2),
+(8, 2),
+(9, 2),
+(10, 2);
 
 -- --------------------------------------------------------
 
@@ -1720,6 +1891,8 @@ CREATE TABLE `users` (
   `num_calificaciones` int(11) NOT NULL DEFAULT '1',
   `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `fecha_ultima_recarga` date DEFAULT NULL,
+  `cuenta_bancaria` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `certificacion_bancaria` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -1729,12 +1902,15 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `nombre`, `email`, `telefono`, `codigo_referido`, `valor_recarga`, `status_recarga`, `costo_clic`, `nota`, `num_calificaciones`, `password`, `fecha_ultima_recarga`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'EDGAR', 'edgar.guzman21@gmail.com', '3158790445', 1, '498700.00', 'ACTIVA', '500.00', 3, 1, '$2y$10$1we.y5.YzHbOzSZAkL6Y5u.HotbSu3RJiWufpPsBwrqIfNVqqKeh6', '2018-12-13', 'b5JPHHXmIJqCQLpQuCURbzSMsf6MGOwlDx0dq5mKMRXUV2UXqbjYcViL7HD0', '2018-12-13 15:12:01', '2019-01-02 23:37:57'),
-(2, 'ADRIAN', 'arian.vargas.2018@outlook.com', '311458956', 2, '479950.00', 'ACTIVA', '500.00', 3, 1, '$2y$10$7AtcXLmT9jJH61O0.szLs.xu8618kZPVq6rUAdI.5nWhc7GB8SdOu', NULL, 'aaosaNwu3L2KEhL5hUCHtn41f1Tkdkzj5BEjErfqLxaYtXe55BG21cGiYldA', '2018-12-13 15:12:01', '2019-01-02 21:14:36'),
-(3, 'Heriberto', 'hvh3valencia@gmail.com', '3148790445', 3, '250000.00', 'ACTIVA', '500.00', 3, 1, '$2y$10$lcKQlMalKBAHYdmwVgrf3eRWBBIXmRWg0cHmW1PZz/odruILu/QVO', NULL, 'C9YwrcUAMbfMqmR0m1Ajv5pL6ff8y7bCrIKnTCI1QB5BIQPpbxDNF6HUSpWw', '2018-12-13 15:12:02', '2019-01-02 21:14:36'),
-(4, 'fernando', 'adrian.vargas.2018@outlook.com', '1234567895', NULL, '10009500.00', 'ACTIVA', '500.00', 3, 1, '$2y$10$kirgwW.mzjACEnkqe9DNROF/QTtNVf4L6AN0afaeC.1j2gqHzVfP.', NULL, 'sgdbc0PDqFba1II4EPk8KQjHW11WDhEA4IN8EGWukbRaXlYFQIonIbzhPejG', '2018-12-28 21:53:40', '2019-01-02 23:35:47'),
-(7, 'Adrian hotmail', 'adrian.vargas.2018@hotmail.com', '3158790447', NULL, '0.00', 'ACTIVA', '50.00', 3, 1, '$2y$10$8M0j7.aMQxnKtfNaW8FACugQr5CYTKfDg8noMrrXGvwz1KoGkaz22', NULL, 'yg7vJmOwgHt7fRMcuPCvFkgR9AnbkZDeStclyqoXNIu3XSIl6b4Cas5vJxEe', '2019-01-02 22:22:36', '2019-01-02 22:22:36');
+INSERT INTO `users` (`id`, `nombre`, `email`, `telefono`, `codigo_referido`, `valor_recarga`, `status_recarga`, `costo_clic`, `nota`, `num_calificaciones`, `password`, `fecha_ultima_recarga`, `cuenta_bancaria`, `certificacion_bancaria`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'Edgar Guzman', 'edgar.guzman21@gmail.com', '3148790445', 3, '10100.00', 'ACTIVA', '0.00', 3, 1, '$2y$10$lcKQlMalKBAHYdmwVgrf3eRWBBIXmRWg0cHmW1PZz/odruILu/QVO', NULL, NULL, NULL, 'UOwACgEa3W8rRY4Q1SEQcw3bsSj7PRAXaWa5ytd6D7Ihx4n9O3T20p5ggdXi', '2018-12-13 15:12:02', '2019-03-06 21:37:21'),
+(2, 'Soporte ', 'soporte@prismaweb.net', '3148790440', 4, '10000.00', 'ACTIVA', '0.00', 3, 1, '$2y$10$0VnT.r9vfspscqUDlej/8OT4HfazflJQ852T5MHWB4yfJt7y4UFRK', NULL, NULL, NULL, 'GUMfySlvpJyawL6oPa9L68wYfvrWCrddOUuWWZ1MUPBDd4Cv77kRWhc1HVbw', '2018-12-13 15:12:02', '2019-03-06 21:37:23'),
+(3, 'Andrea Daniela Mojica', 'andreadmojica@gmail.com', '3002334392', 500, '0.00', 'ACTIVA', '0.00', 3, 1, '$2y$10$bCU3WW3/DXa5OMYT6LAZJ.weXb1TvSooovPC9ONMeQkZ9gQ9k22XG', NULL, NULL, NULL, NULL, '2019-02-25 01:33:46', '2019-03-06 21:37:25'),
+(22, 'edgar gmail', 'edgar.devmohan@gmail.com', '3158790445', 501, '8700.00', 'ACTIVA', '650.00', 3, 1, '$2y$10$V0HpzGXzQtqep4oSUBk6AuYe/P2DkQUAy.s0d9ejx90x2RR.5m1qq', NULL, NULL, NULL, 'L78765jglwo69S5YYX8yR4P6s9MqrdaouQYJceSNAtQnEhAn7jGxx5CyszL8', '2019-03-06 16:53:16', '2019-03-11 15:06:32'),
+(23, 'adrian outlook', 'adrian.vargas.2018@outlook.com', '3158790446', 502, '307050.00', 'ACTIVA', '650.00', 3, 1, '$2y$10$jZImGGFmoR7D2nJsrycHh.ffueGkSbaj1uBbc2OQOwcn3rPrhnnje', '2019-03-11', '021212121', '/archivos/23/certificacion_bancaria.pdf', 'l5fTj3tfktSFkOFXXoG0l3OuJAZMskycRC2pfNOlfbvnYr6IXYRYuejuuYPA', '2019-03-06 16:54:00', '2019-03-11 17:07:54'),
+(24, 'edgar hotmail', 'adrian.vargas.2018@hotmail.com', '3158790448', 503, '0.00', 'ACTIVA', '650.00', 3, 1, '$2y$10$AA.zggvJFYyG0fPQgaMGYuluknlKVe90oy9JOJTTE0vHb14a/roQC', NULL, NULL, NULL, NULL, '2019-03-06 16:54:23', '2019-03-06 21:37:16'),
+(25, 'edgar uandina', 'eguzman30@estudiantes.areandina.edu.co', '3158790449', 504, '0.00', 'ACTIVA', '650.00', 3, 1, '$2y$10$4Oq.ay7uK2KvQabSvUbkMuGH5QPmQoU9L7P871tckSXftG7SFqYMa', NULL, NULL, NULL, 'znoplh0vbbVBivt2abPPBTqEbp4p5AfKm98DMTLTugJd4poOCozabw6INBDE', '2019-03-06 17:11:52', '2019-03-06 21:37:16'),
+(26, 'Edgar 2', 'notificaciones@tutramitador.com', '7323251', 505, '0.00', 'ACTIVA', '500.00', 3, 1, '$2y$10$MMC.CEwO0ojEufUYWoP8d.reb0MPIl7d.sigUNR8jHvlsyN4siNGe', NULL, NULL, NULL, 'w1WD473OUZcu2yDCzJEq6zY2KSHWCA2xAC70CktuBl93FumKCmZulA0xpflU', '2019-03-07 17:17:32', '2019-03-07 17:21:51');
 
 -- --------------------------------------------------------
 
@@ -1755,7 +1931,7 @@ CREATE TABLE `variables` (
 --
 
 INSERT INTO `variables` (`id`, `nombre`, `valor`, `created_at`, `updated_at`) VALUES
-(1, 'porcentaje_tramite', '5', '2018-12-28 01:27:27', '2019-01-02 21:14:05');
+(1, 'porcentaje_tramite', '5', '2018-12-28 01:27:27', '2019-01-31 14:30:47');
 
 --
 -- Indexes for dumped tables
@@ -1765,7 +1941,8 @@ INSERT INTO `variables` (`id`, `nombre`, `valor`, `created_at`, `updated_at`) VA
 -- Indexes for table `anuncios`
 --
 ALTER TABLE `anuncios`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_id_user` (`id_user`);
 
 --
 -- Indexes for table `apis`
@@ -1780,10 +1957,23 @@ ALTER TABLE `bonificaciones`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `campanias`
+--
+ALTER TABLE `campanias`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `ciudads`
 --
 ALTER TABLE `ciudads`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `cupones_campanias`
+--
+ALTER TABLE `cupones_campanias`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_campania` (`id_campania`);
 
 --
 -- Indexes for table `detalle_clic_anuncios`
@@ -1894,7 +2084,7 @@ ALTER TABLE `variables`
 -- AUTO_INCREMENT for table `anuncios`
 --
 ALTER TABLE `anuncios`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=484;
 --
 -- AUTO_INCREMENT for table `apis`
 --
@@ -1904,32 +2094,42 @@ ALTER TABLE `apis`
 -- AUTO_INCREMENT for table `bonificaciones`
 --
 ALTER TABLE `bonificaciones`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+--
+-- AUTO_INCREMENT for table `campanias`
+--
+ALTER TABLE `campanias`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT for table `ciudads`
 --
 ALTER TABLE `ciudads`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1121;
 --
+-- AUTO_INCREMENT for table `cupones_campanias`
+--
+ALTER TABLE `cupones_campanias`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=463;
+--
 -- AUTO_INCREMENT for table `detalle_clic_anuncios`
 --
 ALTER TABLE `detalle_clic_anuncios`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=152;
 --
 -- AUTO_INCREMENT for table `detalle_horarios`
 --
 ALTER TABLE `detalle_horarios`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=162;
 --
 -- AUTO_INCREMENT for table `detalle_recargas`
 --
 ALTER TABLE `detalle_recargas`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=183;
 --
 -- AUTO_INCREMENT for table `detalle_referidos`
 --
 ALTER TABLE `detalle_referidos`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `migrations`
 --
@@ -1939,7 +2139,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `payus`
 --
 ALTER TABLE `payus`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `permissions`
 --
@@ -1949,12 +2149,12 @@ ALTER TABLE `permissions`
 -- AUTO_INCREMENT for table `registro_pagos_anuncios`
 --
 ALTER TABLE `registro_pagos_anuncios`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `tramites`
 --
@@ -1964,7 +2164,7 @@ ALTER TABLE `tramites`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 --
 -- AUTO_INCREMENT for table `variables`
 --
