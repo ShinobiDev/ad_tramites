@@ -34,7 +34,8 @@
               <th>ID</th>
               <th>Nombre</th>
               <th>Email</th>
-              <th>Roles</th>
+              <th>Estado</th>
+              <th>Rol</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -44,6 +45,7 @@
                   <td>{{ $user->id }}</td>
                   <td>{{ $user->nombre }}</td>
                   <td>{{ $user->email }}</td>
+                  <td>{{ $user->estado=='1' ? 'Activo' : 'Deshabilitado' }}</td>
                   <td>{{ $user->getRoleNames()->implode(', ')}}</td>
                   <td>
                     
