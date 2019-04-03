@@ -46,21 +46,27 @@
                                 <input type="file" id="flCertificacionBancaria" name="bancaria" onchange="subir_archivo(this)">     
                                 <label id="msnEspera"></label>                             
                             </div>
-                            <div class="form-group">
-                              <span class="help-block">Dejar en blanco si no
+                            @if($user->estado=="1")
+                                <div class="form-group">
+                                <span class="help-block">Dejar en blanco si no
 
-                                quiere cambiar la contraseña</span>
-                                <label for="password">Contraseña</label>
-                                <input type="password" name="password"  class="form-control" placeholder="Nueva Contraseña">
+                                  quiere cambiar la contraseña</span>
+                                  <label for="password">Contraseña</label>
+                                  <input type="password" name="password"  class="form-control" placeholder="Nueva Contraseña">
 
-                            </div>
+                              </div>
 
-                            <div class="form-group">
-                                <label for="password_confirmation">Confirmar la Contraseña</label>
-                                <input type="password" name="password_confirmation"  class="form-control" placeholder="Confirmar contraseña">
-                            </div>
+                              <div class="form-group">
+                                  <label for="password_confirmation">Confirmar la Contraseña</label>
+                                  <input type="password" name="password_confirmation"  class="form-control" placeholder="Confirmar contraseña">
+                              </div>
+                                 <button class="btn btn-primary btn-block"> <i class="fa fa-refresh"></i> Actualizar Usuario</button>
 
-                            <button class="btn btn-primary btn-block"> <i class="fa fa-refresh"></i> Actualizar Usuario</button>
+                            @else
+                              <h1 class="text-red">Este usuario esta deshabilitado</h1>
+                            @endif
+                            
+                         
 
                   </form>
               </div>

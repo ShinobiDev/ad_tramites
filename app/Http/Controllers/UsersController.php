@@ -248,9 +248,18 @@ class UsersController extends Controller
     public function destroy(User $user)
     {
         $this->authorize('delete',$user);
-        $user->delete();
+        
+        User::where('id',$user->id)->update(['estado'=>'0']);
 
-        return redirect()->route('users.index')->with('success', 'Usuario Eliminado correctamente');
+        return redirect()->route('users.index')->with('success', 'Usuario deshabilitado correctamente');
+    }
+    public function habilitar($user)
+    {
+        $this->authorize('delete',$user);
+        
+        User::where('id',$user)->update(['estado'=>'1']);
+
+        return redirect()->route('users.index')->with('success', 'Usuario deshabilitado correctamente');
     }
     /**
      * Funcion para validar el cambio del correo
