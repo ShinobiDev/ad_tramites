@@ -255,7 +255,7 @@ class UsersController extends Controller
     }
     public function habilitar($user)
     {
-        $this->authorize('delete',$user);
+        
         
         User::where('id',$user)->update(['estado'=>'1']);
 
