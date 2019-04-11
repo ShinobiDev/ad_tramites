@@ -25,11 +25,16 @@ Anuncio:
  {{$ad[1]->ciudad}} 
 # Valor trámite 
  $ {{number_format($ad[1]->valor_tramite,0,'.','.')}}
+@if($ad[3]['valor_venta']!=$ad[1]->valor_tramite)
+# Valor pagado por el trámite 
+	{{$ad[3]['valor_venta']}}
+@endif
+
 # Descripción del anuncio
  {{$ad[1]->descripcion_anuncio}}
 
 
-Estado transacción: APROBADA
+# Estado transacción: APROBADA
 
 #[ir a {{config('app.name')}}][1]
 [1]:{{$ad[2]['url']}}

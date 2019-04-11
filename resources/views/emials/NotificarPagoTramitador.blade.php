@@ -3,7 +3,7 @@
 
 ![logo](http://tutramitador.com/core/img/logolarge.png)
 
-Estimad@ {{$user->nombre}}, tenemos excelentes noticias, tu pago se ha realizado 
+Estimad@ {{$user->nombre}}, tenemos excelentes noticias, tu pago se ha realizado.
 
 
 ## Resumen Oferta ##
@@ -17,7 +17,9 @@ Anuncio:
 ## Mensaje de tu tramitador ##
 {{$ad[3]['mensaje']}}
 
-Recuerda que de no confirmar el pago durante los próximos tres dias, daremos por entendido que recibiste el pago y la transacción sera finalizada
+## ***** Nota importante *****
+
+## Recuerda que de no confirmar el pago durante los próximos tres dias, daremos por entendido que recibiste el pago y la transacción sera finalizada.
 
 
 #[Confirmar pago][1]

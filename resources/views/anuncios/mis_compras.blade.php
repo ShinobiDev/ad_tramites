@@ -32,7 +32,8 @@
                 <th>Vendedor</th>
                 <th>Teléfono tramitador</th>
                 <th>E-mail tramitador</th>
-                <th class="col-lg-2 col-2  col-md-2 col-sm-3" >Valor comprado</th>
+                <th class="col-lg-2 col-2  col-md-2 col-sm-3" >Valor pagado por el trámite</th>
+                <th class="col-lg-2 col-2  col-md-2 col-sm-3" >Valor real trámite</th>
                 <th>Referecia de pago</th>
                 <th>Fecha transacción</th>                
                 <th>Acción</th>  
@@ -61,10 +62,20 @@
                     <td>{{$compra->telefono}}</td>          
                     <td>{{$compra->email}}</td>   
                     @if($compra->metodo_pago=='BONO REGALO')  
-                      <td>$ 0</td>
+                      <td >$ 0
+                        <strong class="text-red">Promoción</strong>
+                      </td>
+
                     @else
-                      <td>$ {{number_format($compra->transation_value,0,',','.')}}</td>
+                      <td> @if($compra->valor_tramite!=$compra->transation_value)
+                            $ {{number_format($compra->transation_value,0,',','.')}} 
+                            <strong class="text-red">Promoción</strong>
+                           @else
+                            $ {{number_format($compra->transation_value,0,',','.')}}
+                           @endif
+                        </td>
                     @endif  
+                    <td>$ {{number_format($compra->valor_tramite,0,',','.')}}</td>
                     <td><strong>{{$compra->transactionId}}</strong></td>
                     <td>{{$compra->updated_at}}</td>
                     <td>
