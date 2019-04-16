@@ -73,6 +73,12 @@
                     <td>
                         @if($transaccion->cuenta_bancaria!="")
                           <span class="text-green">{{$transaccion->cuenta_bancaria}}</span>
+                          @if($transaccion->certificacion_bancaria != "")
+                            <span><a href="{{asset($transaccion->certificacion_bancaria)}}" target="_blank">ver certificación bancaria</a></span>
+                          @else
+                          
+                          @endif
+
                         @else
                           <span class="text-red">Sin registrar</span>
                         @endif
@@ -88,18 +94,20 @@
 
                     @if($transaccion->estado_pago=="PAGO A TRAMITADOR")  
                     
-                      <td>{{number_format($transaccion->porcentaje_pago,'0',',','.')}} %</td> 
-                      <td width="15%">$ {{number_format($transaccion->valor_tramite-($transaccion->valor_tramite*$transaccion->porcentaje_pago/100),0,',','.')}}</td>
+                      <td>{{number_format($transaccion->porcentaje_pago,'2',',','.')}} %</td> 
+                      
+                      <td width="15%">$ {{number_format($transaccion->valor_tramite-($transaccion->valor_tramite*$transaccion->porcentaje_pago/100),2,',','.')}}</td>
                     
                     @elseif($transaccion->estado_pago=='PAGO TRAMITADOR CONFIRMADO')
                     
-                      <td>{{number_format($transaccion->porcentaje_pago,'0',',','.')}} %</td> 
-                      <td width="15%">$ {{number_format($transaccion->valor_tramite-($transaccion->valor_tramite*$transaccion->porcentaje_pago/100),0,',','.')}}</td>  
+                      <td>{{number_format($transaccion->porcentaje_pago,'2',',','.')}} %</td> 
+                      
+                      <td width="15%">$ {{number_format($transaccion->valor_tramite-($transaccion->valor_tramite*$transaccion->porcentaje_pago/100),2,',','.')}}</td>  
                     
                     @else
                     
                       <td>{{$porcentaje[0]->valor}} %</td> 
-                      <td width="15%">${{number_format($transaccion->valor_tramite-($transaccion->valor_tramite*$porcentaje[0]->valor/100),0,',','.')}}</td>
+                      <td width="15%">${{number_format($transaccion->valor_tramite-($transaccion->valor_tramite*$porcentaje[0]->valor/100),2,',','.')}}</td>
 
                     @endif
 

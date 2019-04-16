@@ -175,11 +175,11 @@ class Anuncio extends Model
   public function ver_comentarios($id,$limite){
 
       $comentarios=DB::table('registro_pagos_anuncios')
-                            ->where('id_anuncio',$id)
+                            ->where([['id_anuncio',$id],['comentario','!=','']])
                             ->join('users','users.id','registro_pagos_anuncios.id_user_compra')
                             ->limit($limite)
                             ->get();
-
+     
      return $comentarios;
   }
 
@@ -230,7 +230,7 @@ class Anuncio extends Model
                         $anunciante=User::where("id",$anuncio[0]->id_user)->get();
                         
                         //aqui debo enviar los datos de confirmación a la cuenta de correo
-                        NotificacionAnuncio::dispatch($comprador[0], [$anunciante[0],$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_compras/'.$comprador[0]->id.'?id='.$req['reference_pol']]],[],"CompraExitosa");
+                        NotificacionAnuncio::dispatch($comprador[0], [$anunciante[0],$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_compras/'.$comprador[0]->id.'?id='.$req['reference_pol']],['valor_venta'=>"$ ".number_format($p[0]->transation_value,0,',','')]],[],"CompraExitosa");
                         
                         NotificacionAnuncio::dispatch($anunciante[0], 
                                                        [
@@ -294,7 +294,7 @@ class Anuncio extends Model
                             $anunciante=User::where("id",$anuncio[0]->id_user)->get();
 
                                   //aqui debo enviar los datos de confirmación a la cuenta de correo
-                            NotificacionAnuncio::dispatch($comprador[0], [$anunciante[0],$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_compras/'.$comprador[0]->id.'?id='.$req['reference_pol']]],[],"CompraExitosa");
+                            NotificacionAnuncio::dispatch($comprador[0], [$anunciante[0],$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_compras/'.$comprador[0]->id.'?id='.$req['reference_pol']],['valor_venta'=>"$ ".number_format($req['TX_VALUE'],0,',','.')]],[],"CompraExitosa");
                             NotificacionAnuncio::dispatch($anunciante[0], [$comprador[0],$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_ventas/'.$anunciante[0]->id.'?id='.$req['reference_pol']]],$req['TX_VALUE'],"CompraExitosaAnunciante");
                     }else{
 
@@ -502,7 +502,7 @@ class Anuncio extends Model
                         $anunciante=User::where("id",$anuncio[0]->id_user)->get();
                         
                         //aqui debo enviar los datos de confirmación a la cuenta de correo
-                        NotificacionAnuncio::dispatch($comprador[0], [$anunciante[0],$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_compras/'.$comprador[0]->id.'?id='.$req['reference_pol']]],[],"CompraExitosa");
+                        NotificacionAnuncio::dispatch($comprador[0], [$anunciante[0],$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_compras/'.$comprador[0]->id.'?id='.$req['reference_pol'],['valor_venta'=>"$ ".number_format($valor[0]->transation_value,0,',','.')]]],[],"CompraExitosa");
                         
                         NotificacionAnuncio::dispatch($anunciante[0], 
                                                        [

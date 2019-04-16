@@ -31,7 +31,8 @@ Anuncio:
 # Descripción del anuncio
  {{$ad[1]->descripcion_anuncio}}
 
-Por favor comunicate con tu comprador para solicitarle los correspondientes documentos y de este modo realizar el trámite. 
+## ***** Nota importante *****
+##Por favor comunicate con tu comprador para solicitarle los correspondientes documentos y de este modo realizar el trámite. 
 
 Recuerda que debes tener saldo en la cuenta de recargas para que los usuarios puedan
 ver tus datos de contacto.

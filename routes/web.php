@@ -40,6 +40,7 @@ Route::group(["prefix"=>"admin","middleware"=>"auth"],function(){
   Route::get("cambiar_estado_anuncio/{id_ad}/{estado}","AnuncioController@cambiar_estado_anuncio");
   Route::get("publicar_anuncio/{id_ad}/{estado}","AnuncioController@publicar_anuncio");
   Route::resource('users', 'UsersController');
+  Route::post("habilitar/{id}","UsersController@habilitar")->name('users.habilitar');
   Route::resource('roles', 'Admin\RolesController');
   Route::resource('permissions', 'Admin\PermissionsController');
   Route::middleware('role:Admin')->put('users/{user}/roles', 'Admin\UserRolesController@update')->name('users.roles.update');

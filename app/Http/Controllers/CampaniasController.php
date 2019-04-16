@@ -266,12 +266,13 @@ class CampaniasController extends Controller
     public function canjear_cupones_compras(Request $request){
  
       $resultado=CuponesCampania::redimir_cupon_compra($request['data']['cupon'],Carbon::now('America/Bogota'),$request['data']['usuario_que_redime'],$request['data']['ref_pago'],'compra',$request['data']['valor_pago'],$request['data']['id_anuncio'],$request['data']['validar'])[0]; 
-      //dd($resultado);
+      
       if($resultado['respuesta']==true){
             
             $camp=Campania::where('id',$resultado['id_campania'])->first();
+
             if($camp->tipo_de_descuento=='porcentaje'){
-                  if($resultado['dto']==100){
+                  if($camp->valor_de_descuento==100){
                     
                      
                       
@@ -294,7 +295,7 @@ class CampaniasController extends Controller
                             ->get();
                        $anunciante=User::where('id',$anuncio[0]->id_user)->first(); 
 
-                       NotificacionAnuncio::dispatch($comprador, [$anunciante,$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_compras/'.$comprador->id.'?id='.$request['data']['codigo_anuncio']]],[],"CompraExitosa");
+                       NotificacionAnuncio::dispatch($comprador, [$anunciante,$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_compras/'.$comprador->id.'?id='.$request['data']['codigo_anuncio']],['valor_venta'=>'$ 0.00']],[],"CompraExitosa");
                         
                         NotificacionAnuncio::dispatch($anunciante, 
                                                        [
@@ -332,7 +333,7 @@ class CampaniasController extends Controller
                             ->get();
                        $anunciante=User::where('id',$anuncio[0]->id_user)->first(); 
 
-                       NotificacionAnuncio::dispatch($comprador, [$anunciante,$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_compras/'.$comprador->id.'?id='.$request['data']['codigo_anuncio']]],[],"CompraExitosa");
+                       NotificacionAnuncio::dispatch($comprador, [$anunciante,$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_compras/'.$comprador->id.'?id='.$request['data']['codigo_anuncio']],['valor_venta'=>'$ 0.00']],[],"CompraExitosa");
                         
                         NotificacionAnuncio::dispatch($anunciante, 
                                                        [
@@ -392,7 +393,7 @@ class CampaniasController extends Controller
                             ->get();
                        $anunciante=User::where('id',$anuncio[0]->id_user)->first(); 
 
-                       NotificacionAnuncio::dispatch($comprador, [$anunciante,$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_compras/'.$comprador->id.'?id='.$request['data']['codigo_anuncio']]],[],"CompraExitosa");
+                       NotificacionAnuncio::dispatch($comprador, [$anunciante,$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_compras/'.$comprador->id.'?id='.$request['data']['codigo_anuncio']],['valor_venta'=>'$ 0.00']],[],"CompraExitosa");
                         
                         NotificacionAnuncio::dispatch($anunciante, 
                                                        [
@@ -433,7 +434,7 @@ class CampaniasController extends Controller
                             ->get();
                        $anunciante=User::where('id',$anuncio[0]->id_user)->first(); 
 
-                       NotificacionAnuncio::dispatch($comprador, [$anunciante,$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_compras/'.$comprador->id.'?id='.$request['data']['codigo_anuncio']]],[],"CompraExitosa");
+                       NotificacionAnuncio::dispatch($comprador, [$anunciante,$anuncio[0],['url'=>config('app.url').'/admin/ver_mis_compras/'.$comprador->id.'?id='.$request['data']['codigo_anuncio']],['valor_venta'=>'$ 0.00']],[],"CompraExitosa");
                         
                         NotificacionAnuncio::dispatch($anunciante, 
                                                        [

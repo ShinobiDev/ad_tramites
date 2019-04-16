@@ -22,7 +22,7 @@ Estimad@ {{$user->nombre}}, hemos registrado una compra pendiente falta que la c
 
 ## Resumen Oferta ##
 Anuncio:
-Estado: PENDIENTE
+# Estado: PENDIENTE
 
 #[Ver mis ventas][1]
 [1]:{{$ad[2]['url']}}

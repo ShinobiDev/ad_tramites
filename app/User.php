@@ -191,7 +191,7 @@ class User extends Authenticatable
                                                         DB::table("detalle_recargas")->insert([
                                                                 'id_usuario' => $id_ref[0]->id_cabeza,
                                                                 'valor_recarga'=>$val_rec,
-                                                                'valor_pagado'=>$cupon->campania->monto_valor_redimido,
+                                                                'valor_pagado'=>$val_rec,
                                                                 "referencia_pago"=>time().$cliente[0]->id,
                                                                  "referencia_pago_pay_u"=>time().$cliente[0]->id,
                                                                  "metodo_pago"=>"BONIFICACION RECARGA 10%  ".$cliente[0]->name,
@@ -216,12 +216,13 @@ class User extends Authenticatable
                                                         //var_dump($id_ref[0]->id_referido);
                                                         //var_dump($req['TX_VALUE']*0.01);
                                                         //
+                                                        
                                                         $val_rec=(float)$valor_pagado*0.01;  
                                                         
                                                         DB::table("detalle_recargas")->insert([
                                                                 'id_usuario' => $id_ref[0]->id_cabeza,
                                                                 'valor_recarga'=>$val_rec,
-                                                                'valor_pagado'=>$cupon->campania->monto_valor_redimido,
+                                                                'valor_pagado'=>$val_rec,
                                                                 "referencia_pago"=>time().$cliente[0]->id,
                                                                  "referencia_pago_pay_u"=>time().$cliente[0]->id,
                                                                  "metodo_pago"=>"BONIFICACION RECARGA 1%  ".$cliente[0]->name,
@@ -488,7 +489,7 @@ class User extends Authenticatable
                                                         DB::table("detalle_recargas")->insert([
                                                                 'id_usuario' => $id_ref[0]->id_cabeza,
                                                                 'valor_recarga'=>$val_rec,
-                                                                'valor_pagado'=>$cupon->campania->monto_valor_redimido,
+                                                                'valor_pagado'=>$val_rec,
                                                                 "referencia_pago"=>time().$cliente[0]->id,
                                                                  "referencia_pago_pay_u"=>time().$cliente[0]->id,
                                                                  "metodo_pago"=>"BONIFICACION RECARGA 10%  ".$cliente[0]->name,
@@ -518,7 +519,7 @@ class User extends Authenticatable
                                                         DB::table("detalle_recargas")->insert([
                                                                 'id_usuario' => $id_ref[0]->id_cabeza,
                                                                 'valor_recarga'=>$val_rec,
-                                                                'valor_pagado'=>$cupon->campania->monto_valor_redimido,
+                                                                'valor_pagado'=>$val_rec,
                                                                 "referencia_pago"=>time().$cliente[0]->id,
                                                                  "referencia_pago_pay_u"=>time().$cliente[0]->id,
                                                                  "metodo_pago"=>"BONIFICACION RECARGA 1%  ".$cliente[0]->name,

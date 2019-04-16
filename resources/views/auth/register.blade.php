@@ -112,6 +112,9 @@
                           btn_register.disabled=true;
                     }
               });
+            }else{
+                 p_error_cod.style.display='none';
+                 btn_register.disabled=false;
             }
     }
 </script>

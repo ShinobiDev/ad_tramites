@@ -248,9 +248,18 @@ class UsersController extends Controller
     public function destroy(User $user)
     {
         $this->authorize('delete',$user);
-        $user->delete();
+        
+        User::where('id',$user->id)->update(['estado'=>'0']);
 
-        return redirect()->route('users.index')->with('success', 'Usuario Eliminado correctamente');
+        return redirect()->route('users.index')->with('success', 'Usuario deshabilitado correctamente');
+    }
+    public function habilitar($user)
+    {
+        
+        
+        User::where('id',$user)->update(['estado'=>'1']);
+
+        return redirect()->route('users.index')->with('success', 'Usuario deshabilitado correctamente');
     }
     /**
      * Funcion para validar el cambio del correo
@@ -673,6 +682,7 @@ class UsersController extends Controller
                            'anuncios.id', 
                            'anuncios.codigo_anuncio',
                            'anuncios.ciudad',
+                           'anuncios.valor_tramite',
                            'users.id as id_anunciante',
                            'users.nombre',
                            'users.email',
@@ -832,6 +842,7 @@ class UsersController extends Controller
                                    'users.nombre',
                                    'users.email',
                                    'users.cuenta_bancaria',
+                                   'users.certificacion_bancaria',
                                    'users.telefono')
                             ->join('anuncios','anuncios.id','registro_pagos_anuncios.id_anuncio')
                             ->join('users','users.id','anuncios.id_user')
