@@ -591,7 +591,7 @@ class User extends Authenticatable
                 }  
             }else{
               \Log::info("Esta referencia no existe o ya fue registrada Payu => ".$req['reference_pol'].',referencia en '.config('app.name')." => ".$req['reference_sale'].json_encode($req));  
-
+              
               echo "esta referencia no existe";
               return false;
             }

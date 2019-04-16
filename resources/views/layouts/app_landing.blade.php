@@ -30,7 +30,7 @@
       }
 
   </style>
-   <link rel="icon" type="image/png" sizes="16x16" href="favicon.ico">   
+   <link rel="icon" type="image/png" sizes="16x16" href="{{asset('ico.png')}}">
 </head>
 <body>
     <div id="app">

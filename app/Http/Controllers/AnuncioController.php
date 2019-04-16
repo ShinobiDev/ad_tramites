@@ -653,7 +653,7 @@ class AnuncioController extends Controller
 
 
     public function datos_filtro(){
-          return response()->json(["tramites"=>Tramite::orderBy('nombre_tramite')->get(),"ciudades"=>Anuncio::select('ciudad')->orderBy('ciudad')->groupby('ciudad')->get()]);
+          return response()->json(["tramites"=>Tramite::orderBy('nombre_tramite')->get(),"ciudades"=>Anuncio::select('ciudad')->where([['estado_anuncio',1],['validez_anuncio','Activo']])->orderBy('ciudad')->groupby('ciudad')->get()]);
           //return response()->json(["tramites"=>Tramite::all(),"ciudades"=>Ciudad::all()]);
 
     }

@@ -1,8 +1,21 @@
+<!--SCRIPT PARA CONSULTAR LOS TRAMITES Y CIUDADES DE TRAMITADOR-->
 <script type="text/javascript">
-   window.onload=function(){
-     consultar_datos_formulario();
-   };
-function consultar_datos_formulario() {
+var carpeta="core";
+var dominio="";
+//carga del script al DOM
+window.onload=function(){
+     //consulto el host de la pagina
+     dominio=location.host.split('.')[0];
+     if(dominio!="tutramitador"){
+        
+        carpeta=dominio;  
+      
+     }
+     consultar_datos_formulario(carpeta);
+
+};
+// FUNCION PARA HACER CONSULTA AL SERVIDOR PARA OBTENER LOS TRAMITES Y CIUDADES 
+function consultar_datos_formulario(folder) {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {       
@@ -10,15 +23,17 @@ function consultar_datos_formulario() {
     }
 
   };
-  xhttp.open("GET", "http://tutramitador.com/core/datos_filtro", true);
+  //realizo la consulta al servidor
+  
+  xhttp.open("GET", "http://tutramitador.com/"+folder+"/datos_filtro", true);
   xhttp.send();
 }
-
+//FUNCION PARA CREAR UN SELECT
 function cargar_selects(datos){
   
  var selCiudades= document.getElementById('ciudadID');
  var selTramites= document.getElementById('tramiteID');
-
+ //agregar los tramites al select
  selTramites.innerHTML="";
  var opt  = document.createElement('option');
  opt.value="0";
@@ -30,7 +45,8 @@ function cargar_selects(datos){
    opt.innerHTML=datos.tramites[t].nombre_tramite;
    selTramites.appendChild(opt);
  }
-  selCiudades.innerHTML="";
+ //agregar las ciudades al select
+ selCiudades.innerHTML="";
  var opt  = document.createElement('option');
  opt.value="0";
  opt.innerHTML="Selecciona una ciudad"; 

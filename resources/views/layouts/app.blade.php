@@ -24,7 +24,7 @@
       }
 
   </style>
-  <link rel="icon" type="image/png" sizes="16x16" href="{{asset('favicon.ico')}}">  
+  <link rel="icon" type="image/png" sizes="16x16" href="{{asset('ico.png')}}">
   <!--datatable responsive-->
    <!--datatable responsive-->
   <!--<link rel="stylesheet" type="text/css" href="{{asset('css/dropzone.css')}}">
