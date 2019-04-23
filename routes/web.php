@@ -117,3 +117,4 @@ Route::get('/clearcache', function(){
  */
 Route::get('datos_filtro','AnuncioController@datos_filtro');
 
+Route::get('datos_ciudades/{tramite}','AnuncioController@datos_ciudades');

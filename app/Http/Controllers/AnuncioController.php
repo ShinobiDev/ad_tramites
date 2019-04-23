@@ -52,10 +52,11 @@ class AnuncioController extends Controller
             }
         }
         //dd($arr);
+        
         if(count($arr)>0){
             if(count($_REQUEST)>0){
-                if($_REQUEST['ciudad']!= "0" && $_REQUEST['tramite']!= "0"){
-                   $anuncios_consultados= Anuncio::select('anuncios.id',
+                if($_REQUEST['ciudad']!= "" && $_REQUEST['tramite']!= ""){
+                  $anuncios_consultados= Anuncio::select('anuncios.id',
                                                      'anuncios.codigo_anuncio',
                                                      'anuncios.descripcion_anuncio',
                                                      'anuncios.estado_anuncio',
@@ -82,7 +83,7 @@ class AnuncioController extends Controller
                   ->orderBy('users.valor_recarga','DESC')
                   ->orderBy('anuncios.id','DESC')
                   ->get();       
-                }elseif($_REQUEST['ciudad']!= "" && $_REQUEST['tramite']== "0"){
+                }elseif($_REQUEST['ciudad']!= "" && $_REQUEST['tramite'] == ""){
                   $anuncios_consultados= Anuncio::select('anuncios.id',
                                                      'anuncios.codigo_anuncio',
                                                      'anuncios.descripcion_anuncio',
@@ -110,7 +111,7 @@ class AnuncioController extends Controller
                   ->orderBy('users.valor_recarga','DESC')
                   ->orderBy('anuncios.id','DESC')
                   ->get();
-                }elseif($_REQUEST['ciudad']== "0" && $_REQUEST['tramite']!= ""){
+                }elseif($_REQUEST['ciudad']== "" && $_REQUEST['tramite']!= ""){
                   
                   $anuncios_consultados= Anuncio::select('anuncios.id',
                                                      'anuncios.codigo_anuncio',
@@ -133,6 +134,34 @@ class AnuncioController extends Controller
                               ['anuncios.estado_anuncio','=','1'],
                               ['validez_anuncio','Activo'],
                               ['tramites.nombre_tramite','LIKE',$_REQUEST['tramite']]
+                          ])
+                  ->whereIn('users.id',$arr)
+                  ->orderBy('users.valor_recarga','DESC')
+                  ->orderBy('anuncios.id','DESC')
+                  ->get();
+                }elseif($_REQUEST['ciudad']== "" && $_REQUEST['tramite']== ""){
+                  $anuncios_consultados= Anuncio::select('anuncios.id',
+                                                     'anuncios.codigo_anuncio',
+                                                     'anuncios.descripcion_anuncio',
+                                                     'anuncios.estado_anuncio',
+                                                     'anuncios.validez_anuncio',
+                                                     'anuncios.id_user',
+                                                     'anuncios.ciudad',
+                                                     'anuncios.valor_tramite',
+                                                     'users.nombre',
+                                                     'users.email',
+                                                     'users.telefono',
+                                                     'users.valor_recarga',
+                                                     'users.costo_clic',
+                                                     'tramites.nombre_tramite',
+                                                     DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
+                  ->join('users','users.id','anuncios.id_user')
+                  ->join('tramites','tramites.id','anuncios.id_tramite')
+                  ->where([
+                              ['anuncios.estado_anuncio','1'],
+                              ['validez_anuncio','Activo']
+                              
+                              
                           ])
                   ->whereIn('users.id',$arr)
                   ->orderBy('users.valor_recarga','DESC')
@@ -653,9 +682,12 @@ class AnuncioController extends Controller
 
 
     public function datos_filtro(){
-          return response()->json(["tramites"=>Tramite::orderBy('nombre_tramite')->get(),"ciudades"=>Anuncio::select('ciudad')->where([['estado_anuncio',1],['validez_anuncio','Activo']])->orderBy('ciudad')->groupby('ciudad')->get()]);
+          return response()->json(["tramites"=>Tramite::join('anuncios','anuncios.id_tramite','tramites.id')->where([['anuncios.estado_anuncio','1'],['anuncios.validez_anuncio','Activo']])->groupby('nombre_tramite')->orderBy('nombre_tramite')->get(),"ciudades"=>Anuncio::select('ciudad')->where([['estado_anuncio','1'],['validez_anuncio','Activo']])->orderBy('ciudad')->groupby('ciudad')->get()]);
           //return response()->json(["tramites"=>Tramite::all(),"ciudades"=>Ciudad::all()]);
 
+    }
+    public function datos_ciudades($tramite){
+       return response()->json(["ciudades"=>Anuncio::join('tramites','tramites.id','anuncios.id_tramite')->select('ciudad')->where([['anuncios.estado_anuncio','1'],['anuncios.validez_anuncio','Activo'],['tramites.nombre_tramite',$tramite]])->orderBy('ciudad')->groupby('ciudad')->get()]);
     }
     /**
      * Funcion para crear hash del pago en payu para recargas

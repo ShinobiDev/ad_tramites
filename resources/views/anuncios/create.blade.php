@@ -45,7 +45,7 @@
                 <div class="alert alert-warning">
                     <h3>
                       <i class="fa fa-info-circle"></i>
-                      Si tu servicio es comprado directamente en <a href="{{config('app.url')}}">{{config('app.name')}}</a>, el costo de este servicio es del <span class="text-primary">{{$porcentaje[0]->valor}}</span><span class="text-red">%</span>.
+                      Si tu servicio es comprado directamente en <a href="{{config('app.url')}}"><span class="text-primary">{{config('app.name')}}</span></a>, el costo de este servicio es del <span class="text-primary">{{$porcentaje[0]->valor}}</span><span class="text-red">%</span>.
                     </h3>
                </div>           
               </div>
@@ -54,7 +54,7 @@
             <legend class="text-center text-primary">Crea un anuncio</legend>
             <div class="row " id="">
                 <div id="" class="col-md-2 label-col form-group">
-                  <!--<label for= "" class="control-label requiredField">Deseo...</label>-->
+           
                 </div>
 
            </div>
