@@ -10,42 +10,48 @@
         </div>
         @if($ad->validez_anuncio=="Bloqueado")
           <div class="modal-body">
-            <b class="text-red">Este anuncio se encuentra bloqueado y no lo podra ver la comunidad, por favor comunicate con el administrador de {{config('app.name')}} para hacer la respectiva verificación y activación</b>
+            <b class="text-red">Este anuncio se encuentra bloqueado y no lo podra ver la comunidad, por favor comunicate con el administrador de {{config('app.name')}} para hacer la respectiva verificación y activación.</b>
           </div>
         @endif
         <div class="modal-body">
-          <b>Nombre del ofertante:</b> {{$ad->nombre}}
+          <h4><b class="text-green">Nombre del ofertante:</b> <b>{{$ad->nombre}}</b></h4>
         </div>
          <div class="modal-body">
-          <b>Teléfono del ofertante:</b> {{$ad->telefono}}
+          <h4><b class="text-green">Teléfono del ofertante: </b><b>{{$ad->telefono}}</b></h4> 
         </div>
          <div class="modal-body">
-          <b>Correo del ofertante:</b> {{$ad->correo_ofertante}}
+          <h4><b class="text-green">Correo del ofertante:</b><b> {{$ad->correo_ofertante}}</b></h4>
         </div>
         <div class="modal-body">
-          <b>Horario de atención:  </b> Desde {{explode("|",$ad->horarios->horario)[0]}} hasta  {{explode("|",$ad->horarios->horario)[1]}}
-          {{--<b>Estado: </b>
+          <h4><b class="text-green">Horario de atención:  </b> <b>Desde {{explode("|",$ad->horarios->horario)[0]}} hasta  {{explode("|",$ad->horarios->horario)[1]}}</b></h4>
+          
+          {{--<b class="text-green">Estado: </b>
           @if($ad->estado_dia)
                 {{$ad->horarios->estado}}
           @else
             Cerrado
           @endif--}}
+
         </div>
         <div class="modal-body">
-          <b>Ciudad:</b>
-          {{$ad->ciudad}}
-          <br>
+          <h4><b class="text-green">Ciudad:</b>
+          <b>{{$ad->ciudad}}</b>
+          <br></h4>
         </div>
         <div class="modal-body">
-          <b>Descripción:</b>
-          <p>{{$ad->descripcion}}</p>
+          <h4><b class="text-green">Descripción:</b></h4>
+          <h3><b>{{$ad->descripcion}}</b></h3>
         </div>
         <div class="modal-body">
-            <b>Trámite: </b>
-            <h5><b>{{$ad->nombre_tramite}}</b> $ {{number_format($ad->valor_tramite,0)}}  </h5>
+            <h4><b class="text-green">Trámite: </b></h4>
+
+            <h4><b class="text-red">{{$ad->nombre_tramite}}</b>   </h4>
+               <h4><span
+               class="text-red">$</span><span class="text-primary">{{number_format($ad->valor_tramite,0)}}</span></h4>
+
         </div>
         <div class="modal-body">
-            <h4>Calificación del anunciante: </h4>
+            <h4 class="text-green">Calificación del anunciante: </h4>
             @for($i=1;$i<=$ad->calificacion;$i++)
               @if($i<=5)
                 <img  class="star" src="{{asset('img/star.png')}}">
@@ -53,10 +59,10 @@
             @endfor
          </div>
          <div class="modal-body">
-          <h6>Visto por última vez {{$ad->visto}}</h6>
+          <h6 class="text-info">Visto por última vez {{$ad->visto}}</h6>
         </div>
         <div class="modal-body" >
-          <h4>Comentarios de otros usuarios: </h4>
+          <h4 class="text-success">Comentarios de otros usuarios: </h4>
           @include('partials.comentarios')
         </div>
         <div class="modal-footer">

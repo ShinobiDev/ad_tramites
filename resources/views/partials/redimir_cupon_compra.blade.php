@@ -1,5 +1,5 @@
 <div>
-	<label for="valor">Tienes un cupón, puedes redimirlo aquí</label>
+	<label for="valor" class="text-red">Tienes un cupón, puedes redimirlo aquí</label>
 	<input type="text" class="form-control" name="cupon" id="txt_cupon_{{$c}}" onchange="canjear_cupon_compra(this,'{{$c}}')" placeholder="Ingresa aquí tu cupón">
 	<input type="hidden" name="valor_descuento_cupon" id="hd_cupon{{$c}}" value="0" >
 	<input type="hidden"  id="validar_{{$c}}" value="false" >

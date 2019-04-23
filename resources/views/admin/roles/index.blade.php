@@ -27,7 +27,7 @@
     <div class="box-body">
         <table id="roles-table"class="table table-bordered table-striped">
           <thead>
-            <tr>
+            <tr class="bg-primary">
               <th>ID</th>
               <th>Identificador</th>
               <th>Permisos</th>
@@ -38,10 +38,10 @@
             @foreach ($roles as $role)
                 {{--var_dump($role->permissions->pluck('name')->implode(', '))--}}
                 <tr>
-                  <td>{{ $role->id }}</td>
-                  <td>{{ $role->name }}</td>
+                  <td class="bg-success">{{ $role->id }}</td>
+                  <td >{{ $role->name }}</td>
                   
-                  <td>{{ $role->permissions->pluck('name')->implode(', ')}}</td>
+                  <td class="bg-danger">{{ $role->permissions->pluck('name')->implode(', ')}}</td>
                   <td>
                   @can ('update', new Spatie\Permission\Models\Role)
                       <a href="{{route('roles.edit', $role)}}" class="btn btn btn-primary"><i class="fa fa-edit"></i></a>

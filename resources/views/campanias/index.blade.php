@@ -36,7 +36,7 @@
               </div>
             </div>
 
-            <legend class="text-center">Crea una campaña</legend>
+            <legend class="text-center text-primary">Crea una campaña</legend>
             <div class="row " id="">
                 <div id="" class="col-md-2 label-col form-group">
                   <!--<label for= "" class="control-label requiredField">Deseo...</label>-->
@@ -133,7 +133,7 @@
                   <div class="form-group col-6 col-md-6">
                     <br>
                     <input type="checkbox" class="form-check-input" id="exampleCheck1" name="es_acumulable">
-                    <label class="form-check-label" for="exampleCheck1">¿Es acumulable con otras campañas o cupones?</label>
+                    <label class="form-check-label text-red" for="exampleCheck1">¿Es acumulable con otras campañas o cupones?</label>
                   </div>               
                   <div class="form-group col-12 col-md-12">
                     <button type="submit" class="btn btn-success">Crear campaña</button>                 

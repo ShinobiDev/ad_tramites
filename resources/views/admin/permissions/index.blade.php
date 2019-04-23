@@ -21,7 +21,7 @@
     <div class="box-body">
         <table id="permission-table"class="table table-bordered table-striped">
           <thead>
-            <tr>
+            <tr class="bg-primary">
               <th>ID</th>
               <th>Identificador</th>
               <th>Nombre</th>

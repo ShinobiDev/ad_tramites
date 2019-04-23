@@ -21,7 +21,7 @@
       <div class="col-md-12 col-lg-offset-0">
         <div class="box box-primary">
           <div class="box-header">
-              <h3 class="box-title">Tramitadores vistos por mi
+              <h3 class="box-title text-primary">Tramitadores vistos por mi
 </h3>
           </div>
           <div class="col-12 col-md-12 box-body"> 

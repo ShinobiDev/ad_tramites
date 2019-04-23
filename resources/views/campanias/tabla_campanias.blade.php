@@ -1,6 +1,6 @@
 <table id="users-table" class="table table-striped table-codensed table-hover table-resposive">
   <thead>
-    <tr>
+    <tr class="bg-primary">
       <th>Campaña</th>
       <th>Usuario</th>
       <th>Tipo de transacción</th>
@@ -22,36 +22,38 @@
          
         @foreach($campanias as $c)
         <tr>
-          <td>{{$c->nombre_campania}}</td>
+          <td class="bg-warning">{{$c->nombre_campania}}</td>
+          
           @if($c->id_user==NULL)
             <td><span class="text-danger">ABIERTA</span></td>
           @else
             <td><span class="text-success">{{$c->usuario->nombre}}</span></td>
           @endif
-            <td><span class="text-success">{{strtoupper($c->tipo_canje)}}</span></td>
+            <td class="bg-info"><span class="text-success">{{strtoupper($c->tipo_canje)}}</span></td>
           
           @if($c->fecha_inicial_vigencia=='0000-00-00 00:00:00')
             <td><span class="text-danger">ABIERTA</span></td>
           @else
             <td><span class="text-success">{{$c->fecha_inicial_vigencia}}</span></td>
           @endif
+          
           @if($c->fecha_final_vigencia=='0000-00-00 00:00:00')
-            <td><span class="text-danger">ABIERTA</span></td>
+            <td class="bg-danger"><span class="text-danger">ABIERTA</span></td>
           @else
-            <td><span class="text-success">{{$c->fecha_final_vigencia}}</span></td>
+            <td class="bg-danger"><span class="text-success">{{$c->fecha_final_vigencia}}</span></td>
           @endif
           <td class="text-center">$ {{number_format($c->costo_minimo,0,',','.')}}</td>
           @if($c->tipo_de_descuento=='valor_neto')
-            <td class="text-center">$ {{number_format($c->valor_de_descuento,0,',','.')}}</td>
+            <td class="text-center bg-warning">$ {{number_format($c->valor_de_descuento,0,',','.')}}</td>
           @else
-            <td class="text-center">{{number_format($c->valor_de_descuento,0,'','')}} %</td>
+            <td class="text-center bg-warning">{{number_format($c->valor_de_descuento,0,'','')}} %</td>
           @endif
           <td class="text-center">{{$c->limite_por_usuario}}</td>
           
           @if($c->es_acumulable=='1')
-             <td class="text-center text-success">SI</td> 
+             <td class="text-center text-success bg-success">SI</td> 
           @else
-            <td class="text-center text-danger">NO</td>
+            <td class="text-center text-danger bg-success">NO</td>
           @endif
 
           <td class="text-center">{{$c->numero_de_cupones}}</td>
@@ -71,11 +73,11 @@
   </tbody>
 </table>
 
-<h3>Listado de cupones</h3>
+<h3 class="text-primary">Listado de cupones</h3>
 <div id="div_cupones">
   <table id="cupones-table" class="table table-striped table-codensed table-hover table-resposive">
   <thead>
-    <tr>
+    <tr class="bg-success">
       <th>Campaña</th>
       <th>Código cupon</th>
       <th>Fecha de canje</th>
@@ -92,30 +94,31 @@
           @foreach($c->cupones as $cupon)
            @if($cupon->estado!='sin canjear')
                <tr>
-                <td>{{$c->nombre_campania}}</td>
-                <td>{{$cupon->codigo_cupon}}</td>
+                <td class="text-success">{{$c->nombre_campania}}</td>
+                <td class="text-red bg-info">{{$cupon->codigo_cupon}}</td>
                 <td>
                   @if($cupon->fecha_canje!="")
                     {{$cupon->fecha_canje}}</td>
                   @else
                     <span class="text-red">SIN CANJER</span>
                   @endif  
-                <td>
+                <td class="text-primary bg-success">
                   @if($cupon->fecha_canje!="")
                     {{$cupon->usuario->nombre}}</td>
                   @else
                     <span class="text-red">SIN CANJER</span>
                   @endif  
+                  
                   @if($c->tipo_de_descuento=='valor_neto')
-                    <td>$ {{number_format($c->valor_de_descuento,0,',','.')}}</td>
+                    <td class="text-primary"><span class="text-red">$</span> {{number_format($c->valor_de_descuento,0,',','.')}}</td>
                   @else
-                    <td>{{number_format($c->valor_de_descuento,0,',','.')}}%</td>
+                    <td class="text-primary">{{number_format($c->valor_de_descuento,0,',','.')}}<span class="text-red">%</span></td>
                   @endif  
                 
-                <td>
+                <td class="bg-danger">
 
                   @if($cupon->fecha_canje!="")
-                    <span class="text-success">CANJEADO</span>
+                    <span class="text-success ">CANJEADO</span>
                   @else
 
                     <button  class="btn btn-danger" data-toggle="modal"  onclick="eliminar_cupones('{{$cupon->id}}','{{$c->nombre_campania}}','{{$c->id}}')" >Eliminar cupon</button>

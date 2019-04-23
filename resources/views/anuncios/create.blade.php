@@ -17,7 +17,7 @@
 
 
               <div id="identification_hint" class="col-md-12 display-none">
-                <h2 class="text-center">Normas y requisitos de los anuncios</h2>
+                <h2 class="text-center text-red">Normas y requisitos de los anuncios</h2>
 
                   <noscript>
                       <div class="row">
@@ -31,27 +31,27 @@
 
                 <h4>
                   Para que tus anuncios sean visibles, debes tener saldo en la cuenta de recarga.
-                  Recuerda que cada click de tu anuncio tiene un valor de: $ {{number_format(Auth()->user()->costo_clic,0,"",".")}} COP.
+                  Recuerda que cada click de tu anuncio tiene un valor de: <span class="text-red">$</span> <span class="text-primary">{{number_format(Auth()->user()->costo_clic,0,"",".")}} COP.</span> 
                 </h4>
-                <h4>BALANCE DE RECARGA: $ {{number_format(auth()->user()->valor_recarga,0,"",".")}} COP</h4>
+                <h4>BALANCE DE RECARGA: <span class="text-red">$</span> <span class="text-primary"> {{number_format(auth()->user()->valor_recarga,0,"",".")}} COP</span> </h4>
                 <div class="alert alert-info">
 
                     <h3>
                       <i class="fa fa-info-circle"></i>
-                      ¿Quieres aumentar tu visibilidad?, los anuncios son ordenados orgánicamente situando primero a los usuarios que tengan un mayor valor de recarga total.
+                      <span class="text-red">¿Quieres aumentar tu visibilidad?</span>, los anuncios son ordenados orgánicamente situando primero a los usuarios que tengan un mayor valor de recarga total.
                     </h3>
 
                 </div>
                 <div class="alert alert-warning">
                     <h3>
                       <i class="fa fa-info-circle"></i>
-                      Si tu servicio es comprado directamente en <a href="{{config('app.url')}}">{{config('app.name')}}</a>, el costo de este servicio es del {{$porcentaje[0]->valor}}%.
+                      Si tu servicio es comprado directamente en <a href="{{config('app.url')}}">{{config('app.name')}}</a>, el costo de este servicio es del <span class="text-primary">{{$porcentaje[0]->valor}}</span><span class="text-red">%</span>.
                     </h3>
                </div>           
               </div>
             </div>
 
-            <legend class="text-center">Crea un anuncio</legend>
+            <legend class="text-center text-primary">Crea un anuncio</legend>
             <div class="row " id="">
                 <div id="" class="col-md-2 label-col form-group">
                   <!--<label for= "" class="control-label requiredField">Deseo...</label>-->

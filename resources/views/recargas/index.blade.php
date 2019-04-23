@@ -3,15 +3,13 @@
 
 @endsection
 @section('header')
-    <h1>
-        Vehiculos Recargas
-    </h1>
+    
     <small>Listado</small>
 
     <ol class="breadcrumb">
       <li><a href="{{route('welcome')}}"><i class="fa fa-dashboard">  Inicio</i></a></li>
       <li class="active">Ingresos</li>
-    </0l>
+    </ol>
 
 @endsection
 
@@ -20,7 +18,7 @@
   <div class="container">
     <div class="box box-primary">
       <div class="box-header">
-          <h3 class="box-title">Listado de usuarios</h3>
+          <h3 class="box-title text-primary">Listado de usuarios</h3>
             
               <a href="{{route('cambiar.costo')}}" class="btn btn-primary pull-right" >
                   <i class="fa fa-car"> Cambiar costo del clic</i>
@@ -30,7 +28,7 @@
       <div class="box-body">
           <table id="recargas-table"class="table table-bordered table-striped">
             <thead>
-              <tr>
+              <tr class="bg-primary">
                 <th>Items</th>
                 <th>Usuario</th>
                 <th>Estado</th>
@@ -45,13 +43,13 @@
 
               @foreach ($recargas as $recarga)
                   <tr>
-                    <td>{{ $recarga->id }}</td>
-                    <td>{{ $recarga->nombre }}</td>
-                    <td>{{ $recarga->status_recarga }}</td>
-                    <td>$ {{ number_format($recarga->valor_recarga,0,',','.')}}</td>
-                    <td>{{ $recarga->fecha_ultima_recarga }}</td>
-                    <td><input id="rec_{{$recarga->id}}" type="number" value="{{ $recarga->costo_clic }}" onchange="cambiar_valor_clic('{{$recarga->id}}')" /></td>
-                    <td><input id="ver_{{$recarga->id}}" type="button" value="Ver recargas" onclick="ver_recargas('{{$recarga->id}}')" class="btn btn-primary pull-right" /></td>
+                    <td class="text-info">{{ $recarga->id }}</td>
+                    <td class="bg-info">{{ $recarga->nombre }}</td>
+                    <td class="text-red">{{ $recarga->status_recarga }}</td>
+                    <td class="bg-success"><span class="text-red">$</span> <span class="text-primary">{{ number_format($recarga->valor_recarga,0,',','.')}}</span></td>
+                    <td class="text-primary">{{ $recarga->fecha_ultima_recarga }}</td>
+                    <td class="bg-danger"><input id="rec_{{$recarga->id}}" type="number" value="{{ $recarga->costo_clic }}" onchange="cambiar_valor_clic('{{$recarga->id}}')" /></td>
+                    <td><input id="ver_{{$recarga->id}}" type="button" value="Ver recargas" onclick="ver_recargas('{{$recarga->id}}')" class="btn btn-success pull-right" /></td>
 
 
                     
@@ -66,7 +64,7 @@
           <h3 class="box-title">Recargas</h3>
           <table id="mis_recargas-table"class="table table-bordered table-striped">
                <thead>
-                <tr>
+                <tr class="bg-primary">
                   
                   <th>Usuario</th>
                   <th>Valor recarga</th>
@@ -80,11 +78,11 @@
                   
                    @foreach($mi_recargas as $mi_recarga)
                       <tr>
-                      <td>{{ $mi_recarga->nombre }}</td>
-                      <td>$ {{ number_format($mi_recarga->valor_recarga,'0','.','.') }}</td>
-                      <td>{{ $mi_recarga->estado_detalle_recarga }}</td>
-                      <td>{{ $mi_recarga->referencia_pago_pay_u }}</td>
-                      <td>{{ $mi_recarga->updated_at }}</td>
+                      <td class="text-success">{{ $mi_recarga->nombre }}</td>
+                      <td><span class="text-red">$</span> <span class="text-primary">{{ number_format($mi_recarga->valor_recarga,'0','.','.') }}</span></td>
+                      <td class="text-red">{{ $mi_recarga->estado_detalle_recarga }}</td>
+                      <td class="text-success">{{ $mi_recarga->referencia_pago_pay_u }}</td>
+                      <td class="text-info">{{ $mi_recarga->updated_at }}</td>
                      </tr> 
                    @endforeach
                  @endforeach

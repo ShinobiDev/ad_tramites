@@ -3,7 +3,7 @@
 
 @endsection
 @section('header')
-    <h1>
+    <h1 class="text-primary">
         Todas las transacciones
     </h1>
     <small>Listado</small>
@@ -20,12 +20,12 @@
   <div class="container-fluid">
     <div class="box box-primary">
       <div class="box-header">
-          <h3 class="box-title">Listado de transacciones realizadas</h3>
+          <h3 class="box-title text-primary">Listado de transacciones realizadas</h3>
       </div>
       <div class="box-body">
           <table id="transacciones-table" class="table table-bordered table-striped">
             <thead>
-              <tr>
+              <tr class="bg-primary">
                 
                 <th>Trámite</th>
                 <th>Fecha transacción</th>
@@ -34,7 +34,6 @@
                 <th>Teléfono tramitador</th>
                 <th>E-mail tramitador</th>
                 <th>Cuenta bancaria tramitador</th>
-                
                 <th>Valor trámite</th>
                 <th>Valor pagado por el cliente</th>
                 <th>% tu tramitador</th>
@@ -48,9 +47,9 @@
               @foreach ($transacciones as $transaccion)
                   <tr id="row_{{$transaccion->id_pago}}">      
                      
-                    <td>{{$transaccion->nombre_tramite}}</td> 
+                    <td class="bg-danger">{{$transaccion->nombre_tramite}}</td> 
                     <td>{{$transaccion->updated_at}}</td>
-                     <td>
+                     <td class="bg-success">
                       @if($transaccion->estado_pago=="PENDIENTE")
                         <span class="text-warning">Pendiente por pago del cliente</span>
                       @elseif($transaccion->estado_pago=="APROBADA")
@@ -68,9 +67,9 @@
                       @endif
                     </td>         
                     <td>{{$transaccion->nombre}}</td>          
-                    <td>{{$transaccion->telefono}}</td>          
+                    <td class="bg-info">{{$transaccion->telefono}}</td>          
                     <td>{{$transaccion->email}}</td>          
-                    <td>
+                    <td class="bg-warning">
                         @if($transaccion->cuenta_bancaria!="")
                           <span class="text-green">{{$transaccion->cuenta_bancaria}}</span>
                           @if($transaccion->certificacion_bancaria != "")
@@ -84,30 +83,32 @@
                         @endif
                     </td>                              
                                                       
-                    <td>${{number_format($transaccion->valor_tramite,0,',','.')}}</td>
+                    <td class="text-primary"><span class="text-red">$</span>{{number_format($transaccion->valor_tramite,0,',','.')}}</td>
+
                     @if($transaccion->metodo_pago=='BONO REGALO')
-                      <td>$ 0</td>
+                      <td class="text-primary"><span class="text-red">$</span> 0</td>
                     @else
-                      <td>${{number_format($transaccion->transation_value,0,',','.')}}</td>
+                      <td class="text-primary"><span class="text-red">$</span>
+                        {{number_format($transaccion->transation_value,0,',','.')}}</td>
                     @endif
                     
 
                     @if($transaccion->estado_pago=="PAGO A TRAMITADOR")  
                     
-                      <td>{{number_format($transaccion->porcentaje_pago,'2',',','.')}} %</td> 
+                      <td ><span class="text-primary"></span>{{number_format($transaccion->porcentaje_pago,'2',',','.')}} <span class="text-red">%</span></td> 
                       
-                      <td width="15%">$ {{number_format($transaccion->valor_tramite-($transaccion->valor_tramite*$transaccion->porcentaje_pago/100),2,',','.')}}</td>
+                      <td width="15%" ><span class="text-red">$</span><span class="text-primary">{{number_format($transaccion->valor_tramite-($transaccion->valor_tramite*$transaccion->porcentaje_pago/100),2,',','.')}}</span></td>
                     
                     @elseif($transaccion->estado_pago=='PAGO TRAMITADOR CONFIRMADO')
                     
-                      <td>{{number_format($transaccion->porcentaje_pago,'2',',','.')}} %</td> 
+                      <td class="text-primary">{{number_format($transaccion->porcentaje_pago,'2',',','.')}} <span class="text-red">%</span></td> 
                       
-                      <td width="15%">$ {{number_format($transaccion->valor_tramite-($transaccion->valor_tramite*$transaccion->porcentaje_pago/100),2,',','.')}}</td>  
+                      <td width="15%"><span class="text-red">$</span> <span class="text-primary">{{number_format($transaccion->valor_tramite-($transaccion->valor_tramite*$transaccion->porcentaje_pago/100),2,',','.')}}</span></td>  
                     
                     @else
                     
-                      <td>{{$porcentaje[0]->valor}} %</td> 
-                      <td width="15%">${{number_format($transaccion->valor_tramite-($transaccion->valor_tramite*$porcentaje[0]->valor/100),2,',','.')}}</td>
+                      <td class="text-primary">{{$porcentaje[0]->valor}} <span class="text-red">%</span></td> 
+                      <td width="15%" ><span class="text-red">$</span><span class="text-primary">{{number_format($transaccion->valor_tramite-($transaccion->valor_tramite*$porcentaje[0]->valor/100),2,',','.')}}</span></td>
 
                     @endif
 
@@ -116,7 +117,7 @@
                     
 
 
-                    <td>{{$transaccion->transactionId}}</td>
+                    <td class="bg-success">{{$transaccion->transactionId}}</td>
                     <td>
                           
                       @if($transaccion->estado_pago=="TRANSACCION FINALIZADA")    
@@ -182,12 +183,12 @@
                     language:
                       {
                         "sProcessing":     "Procesando...",
-                        "sLengthMenu":     "Mostrar _MENU_ registros",
+                        "sLengthMenu":     "Mostrar _MENU_ transacciones",
                         "sZeroRecords":    "No se encontraron resultados",
                         "sEmptyTable":     "Ningún dato disponible en esta tabla",
-                        "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                        "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-                        "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                        "sInfo":           "Mostrando transacciones de la _START_ a la _END_ de un total de _TOTAL_ transacciones",
+                        "sInfoEmpty":      "Mostrando transacciones de la 0 a la 0 de un total de 0 transacciones",
+                        "sInfoFiltered":   "(filtrado de un total de _MAX_ transacciones)",
                         "sInfoPostFix":    "",
                         "sSearch":         "Buscar:",
                         "sUrl":            "",

@@ -9,8 +9,8 @@
                 <span aria-hidden="true" >&times;</span>
               </button>
             </div>
-            <div class="modal-header">
-              <h4 style="text-align: center;" class="modal-title" id="exampleModalLabel"><b>Información de trámite</b></h4>
+            <div class="modal-header bg-info">
+              <h4 style="text-align: center;" class="modal-title" id="exampleModalLabel"><b class="text-primary">Información de trámite</b></h4>
             </div>
             @if($ad->validez_anuncio=="0")  
               <div class="modal-body">
@@ -18,14 +18,13 @@
               </div>        
             @endif
              <div class="modal-body">
-              <b>Trámite: </b>
-              <p>{{$ad->nombre_tramite}}</p>
-              <b>Descripción:</b>
-              <p>{{$ad->descripcion}}</p>
-              <b>Ciudad:</b>
-              <p>{{$ad->ciudad}} </p>
-              <b>Valor:</b>
-              <p>$ {{number_format($ad->valor_tramite,0)}} </p>
+              <h4><b class="text-green">Trámite: </b></h4>
+              <h4><b>{{$ad->nombre_tramite}}</b></h4>
+              <h4 class="text-green"><b>Descripción:</b></h4>
+              <h4><b>{{$ad->descripcion}}</b></h4>
+              <h4><b  class="text-green">Ciudad: </b><b>{{$ad->ciudad}}</b> </h4>
+              <h4><b class="text-green">Valor:</b>
+              <span class="text-red">$</span> <span class="text-primary">{{number_format($ad->valor_tramite,0)}}</span> </h4>
               
             </div>
             <div class="modal-body">
@@ -33,7 +32,7 @@
             </div> 
             <div class="modal-body">
               <h5 class="modal-title" id="exampleModalLabel"></h5>
-              <h5 class="text-green">Total a pagar $ <span id="spTotalPagoTramite_{{$ad->id}}">{{number_format($ad->valor_tramite,0)}}</span></h5>
+              <h3 class="text-green">Total a pagar: <span class="text-red">$</span> <span class="text-primary" id="spTotalPagoTramite_{{$ad->id}}">{{number_format($ad->valor_tramite,0)}}</span></h3>
                 <form method="POST" id="ad-form" action="{{$ad->url_api}}">                          
                         <div class="modal-body">                          
                           @if(Auth::user()->id!=$ad->id_anunciante)
@@ -43,7 +42,7 @@
                 </form>    
             </div> 
             <div class="modal-body">
-              <b>horarios de atención:  </b> Desde {{explode("|",$ad->horarios->horario)[0]}} hasta  {{explode("|",$ad->horarios->horario)[1]}}
+              <h4><b class="text-green">horarios de atención:  </b> Desde {{explode("|",$ad->horarios->horario)[0]}} hasta  {{explode("|",$ad->horarios->horario)[1]}}</h4>
               {{--<b>Estado: </b> 
               @if($ad->estado_dia)
                 {{$ad->horarios->estado}}
@@ -52,7 +51,7 @@
               @endif--}}  
             </div>
            <div class="modal-body">
-                <h4>Calificación del anunciante: </h4>
+                <h4 class="text-green">Calificación del anunciante: </h4>
                 @for($i=1;$i<=$ad->calificacion;$i++)
                   @if($i<=5)
                     <img  class="star" src="{{asset('img/star.png')}}">
@@ -60,11 +59,11 @@
                 @endfor
            </div>
           <div class="modal-body" >
-              <h4>Comentarios de otros usuarios: </h4>
+              <h4 class="text-green">Comentarios de otros usuarios: </h4>
               @include('partials.comentarios')
           </div>
           <div class="modal-body">
-            <h6>Visto por última vez {{$ad->visto}}</h6>
+            <h6 class="text-info">Visto por última vez {{$ad->visto}}</h6>
           </div>
           <div class="modal-footer">
               

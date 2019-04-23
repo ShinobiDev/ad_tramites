@@ -1,6 +1,6 @@
  <table id="users-table" class="table table-striped table-codensed table-hover table-resposive">
   <thead>
-    <tr>
+    <tr class="bg-primary">
       <th>Trámite</th>
       <th>Descripción   </th>
       <th>Ciudad</th>
@@ -17,20 +17,20 @@
     @foreach ($anuncios as $ad)
 
          <tr>
-          <td class="text-green text-center" style="width: 10%">
+          <td class="text-green text-center bg-success" style="width: 10%">
             <strong>
               <h4>{{$ad->nombre_tramite}}</h4>
             </strong>
           </td>
           <td class=" text-center" style="width:20%"><strong><h5 class="text-justify">{{$ad->descripcion}}</h5></strong></td>
-          <td class=" text-center" style="width:15%"><strong><h5>{{$ad->ciudad}}</h5></strong></td>
+          <td class=" text-center bg-info" style="width:15%"><h5><strong>{{$ad->ciudad}}</strong></h5></td>
           <td class="text-center" style="width:25% padding: 0px">
 
-            <strong style="margin: 0px;padding: 0px"><h5 style="margin: 0px;padding: 0px">${{number_format($ad->valor_tramite,0,',','.')}}</h5></strong>
+            <h5 class="text-primary" style="margin: 0px;padding: 0px"><strong style="margin: 0px;padding: 0px"><label class="text-red">$</label>{{number_format($ad->valor_tramite,0,',','.')}}</strong></h5>
 
           </td>
           @role('Admin')
-              <td class=" text-center"><strong><h5> {{$ad->nombre}}</h5></strong></td>
+              <td class=" text-center bg-danger"><strong><h5> {{$ad->nombre}}</h5></strong></td>
               <td>
                   @if($ad->validez_anuncio=="Activo")
                     
@@ -88,7 +88,7 @@
           @endrole
           @role('Anunciante')
             
-              <td>
+              <td class="bg-danger">
               @if($ad->validez_anuncio=='Activo')
                   @if($ad->estado_anuncio=="1")
 

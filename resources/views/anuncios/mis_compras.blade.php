@@ -25,7 +25,7 @@
       <div class="col-12 col-md-12 box-body"> 
           <table id="compras-table" class="table table-bordered table-striped">
             <thead>
-              <tr>
+              <tr class="bg-primary">
                 <th>Tipo</th>
                 <th>Estado compra</th>
                 <th>Trámite</th>
@@ -43,8 +43,8 @@
               
               @foreach ($mis_compras as $compra)
                   <tr id="row_{{$compra->id_pago}}">      
-                    <td>compra</td>         
-                    <td>
+                    <td class="text-success">compra</td>         
+                    <td class="bg-info">
                       @if($compra->estado_pago=="PENDIENTE")
                         <span class="text-warning">Pendiente por pago del cliente</span>
                       @elseif($compra->estado_pago=="APROBADA")
@@ -58,9 +58,9 @@
                       @endif
                     </td>        
                     <td>{{$compra->nombre_tramite}}</td>   
-                    <td>{{$compra->nombre}}</td>          
+                    <td class="bg-success">{{$compra->nombre}}</td>          
                     <td>{{$compra->telefono}}</td>          
-                    <td>{{$compra->email}}</td>   
+                    <td class="bg-warning">{{$compra->email}}</td>   
                     @if($compra->metodo_pago=='BONO REGALO')  
                       <td >$ 0
                         <strong class="text-red">Promoción</strong>
@@ -68,16 +68,18 @@
 
                     @else
                       <td> @if($compra->valor_tramite!=$compra->transation_value)
-                            $ {{number_format($compra->transation_value,0,',','.')}} 
+                            <span class="text-red">$</span><span class="text-primary">{{number_format($compra->transation_value,0,',','.')}}</span> 
                             <strong class="text-red">Promoción</strong>
                            @else
-                            $ {{number_format($compra->transation_value,0,',','.')}}
+                            <span class="text-red">$</span><span class="text-primary">
+                            {{number_format($compra->transation_value,0,',','.')}}
+                            </span>
                            @endif
                         </td>
                     @endif  
-                    <td>$ {{number_format($compra->valor_tramite,0,',','.')}}</td>
+                    <td class="bg-danger"><span class="text-red">$</span><span class="text-primary">{{number_format($compra->valor_tramite,0,',','.')}}</span></td>
                     <td><strong>{{$compra->transactionId}}</strong></td>
-                    <td>{{$compra->updated_at}}</td>
+                    <td class="bg-success">{{$compra->updated_at}}</td>
                     <td>
                       @if($compra->estado_pago=="APROBADA")
                         <button id="{{'btn_cal_'.$compra->id_pago}}" type="button" class="btn btn-primary btn-block" data-toggle="modal" onclick="descontar_recargar('{{ 'ventana_notificar_tramitador'.$compra->id_pago}}','{{$compra->id_pago}}','0',false)" >

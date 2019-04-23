@@ -1,6 +1,6 @@
 <table id="users-table" class="table table-striped table-codensed table-hover table-resposive">
         <thead>
-          <tr>
+          <tr class="bg-primary">
             <th class="text-center col-1 col-md-1  col-sm-1 col-xs-1" >ID</th>
             <th class="text-center">Trámite</th>
             <th class="text-center">Descripción</th>
@@ -16,11 +16,11 @@
               {{--dd($ad)--}}
               @if($ad->validez_anuncio=='Activo')
                   <tr>
-                  <td class="text-green text-center"><strong><h5>{{$ad->id}}-</h5></strong></td>  
+                  <td class="text-green text-center bg-info"><strong><h5>{{$ad->id}}-</h5></strong></td>  
                   <td class="text-green text-center"><strong><h4>{{$ad->nombre_tramite}}</h4></strong></td>
-                  <td class="text-center"><strong><h5 class="text-justify">{{$ad->descripcion}}</h5></strong></td>
-                  <td class="text-center"><strong><h5>{{$ad->ciudad}}</h5></strong></td>
-                  <td class="text-center"><strong><h5>${{number_format($ad->valor_tramite,0,',','.')}}</h5></strong></td>
+                  <td class="text-center bg-warning"><strong><h5 class="text-justify">{{$ad->descripcion}}</h5></strong></td>
+                  <td class="text-center"><h5><strong>{{$ad->ciudad}}</strong></h5></td>
+                  <td class=" bg-danger text-center"><strong><h5 class="text-primary"><span class="text-red">$</span>{{number_format($ad->valor_tramite,0,',','.')}}</h5></strong></td>
                   <td>
                    <strong><h5>{{$ad->nombre}}</h5></strong>
                   </td>

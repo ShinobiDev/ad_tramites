@@ -18,12 +18,12 @@
   <div class="container">
     <div class="box box-primary">
       <div class="box-header">
-          <h3 class="box-title">Listado de ventas realizadas</h3>
+          <h3 class="box-title text-primary">Listado de ventas realizadas</h3>
       </div>
       <div class="col-12 col-md-12 box-body"> 
           <table id="ventas-table" class="table table-bordered table-striped">
             <thead>
-              <tr>
+              <tr class="bg-primary">
                 <th>Tipo</th>    
                 <th>Estado venta</th>
                 <th>Trámite</th>      
@@ -41,7 +41,7 @@
               @foreach ($mis_ventas as $venta)
                   {{--dd($venta)--}}
                   <tr id="row_{{$venta->id_pago}}">                   
-                    <td>venta</td>   
+                    <td class="text-success bg-danger">venta</td>   
                     <td>
                       @if($venta->estado_pago=="PENDIENTE")
                         <span class="text-warning">Pendiente por pago</span>
@@ -61,22 +61,22 @@
                     </td>
                   
                   
-                    <td>{{$venta->nombre_tramite}}</td>   
-                    <td>{{$venta->nombre}}</td>
-                    <td>{{$venta->email}}</td>
+                    <td class="bg-success">{{$venta->nombre_tramite}}</td>   
+                    <td><b>{{$venta->nombre}}</b></td>
+                    <td class="bg-danger">{{$venta->email}}</td>
                     @if($venta->metodo_pago=='BONO REGALO')  
-                      <td>$ 0</td>
+                      <td class="text-primary"><span class="text-red">$</span>0</td>
                     @else
-                      <td>$ {{number_format($venta->valor_tramite,0,',','.')}}</td>
+                      <td class="text-primary"><span class="text-red">$</span>{{number_format($venta->valor_tramite,0,',','.')}}</td>
                     @endif  
                     @if($venta->metodo_pago=='BONO REGALO')  
-                      <td>$ 0</td>
+                        <td class="bg-info text-primary"><span class="text-red">$</span>0</td>
                     @elseif($venta->estado_pago=="PAGO A TRAMITADOR")  
-                        <td>$ {{number_format($venta->valor_tramite-($venta->valor_tramite*$venta->porcentaje_pago/100),0,',','.')}}</td>                                    
+                        <td class="bg-info text-primary"><span class="text-red">$</span>{{number_format($venta->valor_tramite-($venta->valor_tramite*$venta->porcentaje_pago/100),0,',','.')}}</td>                                    
                     @elseif($venta->estado_pago=='PAGO TRAMITADOR CONFIRMADO')  
-                        <td>$ {{number_format($venta->valor_tramite-($venta->valor_tramite*$venta->porcentaje_pago/100),0,',','.')}}</td>                                    
+                        <td class="bg-info text-primary"><span class="text-red">$</span>{{number_format($venta->valor_tramite-($venta->valor_tramite*$venta->porcentaje_pago/100),0,',','.')}}</td>                                    
                     @else
-                        <td>${{number_format($venta->valor_tramite-($venta->valor_tramite*$porcentaje[0]->valor/100),0,',','.')}}</td>                                      
+                        <td class="bg-info text-primary"><span class="text-red">$</span>{{number_format($venta->valor_tramite-($venta->valor_tramite*$porcentaje[0]->valor/100),0,',','.')}}</td>                                      
                     @endif  
                       
                     <td><strong>{{$venta->transactionId}}</strong></td>                                   

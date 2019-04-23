@@ -30,7 +30,7 @@
     <div class="box-body">
         <table id="users-table" class="table table-bordered table-striped">
           <thead>
-            <tr>
+            <tr class="bg-primary">
               <th>ID</th>
               <th>Nombre</th>
               <th>Email</th>
@@ -43,10 +43,10 @@
             @foreach ($users as $user)
                 <tr>
                   <td>{{ $user->id }}</td>
-                  <td>{{ $user->nombre }}</td>
-                  <td>{{ $user->email }}</td>
-                  <td>{{ $user->estado=='1' ? 'Activo' : 'Deshabilitado' }}</td>
-                  <td>{{ $user->getRoleNames()->implode(', ')}}</td>
+                  <td class="text-success">{{ $user->nombre }}</td>
+                  <td class="text-primary">{{ $user->email }}</td>
+                  <td class="text-red">{{ $user->estado=='1' ? 'Activo' : 'Deshabilitado' }}</td>
+                  <td class="text-success">{{ $user->getRoleNames()->implode(', ')}}</td>
                   <td>
                     
                     @can ('view', $user)

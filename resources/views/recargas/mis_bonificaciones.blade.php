@@ -11,7 +11,7 @@
     <ol class="breadcrumb">
       <li><a href="{{route('welcome')}}"><i class="fa fa-dashboard">  Inicio</i></a></li>
       <li class="active">Ingresos</li>
-    </0l>
+    </ol>
 
 @endsection
 
@@ -20,7 +20,7 @@
   <div class="container">
     <div class="box box-primary">
       <div class="box-header">
-          <h3 class="box-title">Listado de usuarios</h3>
+          <h3 class="box-title text-primary">Listado de usuarios</h3>
             
             
 
@@ -28,8 +28,8 @@
       <div class="box-body">
           <table id="bonificaciones-table" class="table table-bordered table-striped">
             <thead>
-              <tr>
-                <
+              <tr class="bg-primary">
+                
                 <th>Referido</th>
                 <th>Tipo bonificación</th>
                 <th>Valor bonificación</th>
@@ -42,10 +42,10 @@
               @foreach ($bonificaciones as $bonificacion)
                   <tr>
                     
-                    <td>{{ $bonificacion->nombre }}</td>
-                    <td>{{ $bonificacion->tipo_bonificacion }}</td>
-                    <td>$ {{ number_format($bonificacion->valor_bonificacion,0,',','.')}}</td>
-                    <td>{{ $bonificacion->created_at }}</td>                  
+                    <td class="text-primary">{{ $bonificacion->nombre }}</td>
+                    <td class="text-red">{{ $bonificacion->tipo_bonificacion }}</td>
+                    <td><span class="text-red">$</span> <span class="text-primary">{{ number_format($bonificacion->valor_bonificacion,0,',','.')}}</td>
+                    <td>{{ $bonificacion->created_at }}</span></td>                  
                   </tr>
               @endforeach
             </tbody>

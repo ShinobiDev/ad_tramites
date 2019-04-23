@@ -2,7 +2,7 @@
                             {{csrf_field()}}
 
                                 <div class="form-group">
-                                    <label for="valor">Ingresa el valor de la recarga:</label>
+                                    <label for="valor" class="text-success">Ingresa el valor de la recarga:</label>
                                     <input id="num_valor_recarga" onchange="cambiar_datos_recarga(0,false)" type="number"  value="20000" min="20000" class="form-control" required>
                                     <input id="hd_num_valor_recarga" value="20000" type="hidden">
                                 </div>
@@ -27,22 +27,22 @@
                                 </div>
                                 <div class="form-group">
                                      @include('partials.redimir_cupon_recarga',['c'=>auth()->user()->id])
-                                     <label for="valor">¿Estás, seguro de realizar la recarga?</label>
+                                     <label for="valor" class="text-red">¿Estás, seguro de realizar la recarga?</label>
                                      <label id="msnEspera"></label>
                                      
                                 </div>
                                 <div>
 
-                                     <button id="btn_acepta_recarga" onclick="acepta_recargar()" type="button" class="btn btn-secondary" >SI</button>
-                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+                                     <button id="btn_acepta_recarga" onclick="acepta_recargar()" type="button" class="btn btn-primary" >SI</button>
+                                     <button type="button" class="btn btn-danger" data-dismiss="modal">NO</button>
                                 </div>              
                                 
                          
                         
                         <div class="modal-body">
                           <div class="form-group" >
-                                  <label  class="text-success">Total a pagar $ <span id="msnValorAPagar">20.000</span>
-                                  </label>
+                                  <h4  class="text-success">Total a pagar <span class="text-red">$</span> <span class="text-primary" id="msnValorAPagar">20.000</span>
+                                  </h4>
                                   <br>
                                   <button  style="display: none" id="btn_recarga" type="submit" class="btn btn-success">Ir a Payu</button>
                           </div> 

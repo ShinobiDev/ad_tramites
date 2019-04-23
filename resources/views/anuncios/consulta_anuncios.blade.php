@@ -5,8 +5,8 @@
  <div class="col-lg-12 col-12 col-md-12">
     <div class="box box-primary">
       <div class="col-lg-12 col-12 col-md-12 box-header">
-              <div class="col-lg-4 col-4 col-md-2" >
-                  <h3 class="box-title">Encuentra tu Tramitador</h3>
+              <div class="col-lg-4 col-4 col-md-2 text-center" >
+                  <h2 class="box-title text-primary">Encuentra tu Tramitador</h2>
               </div>
             @guest
               

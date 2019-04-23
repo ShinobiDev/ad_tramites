@@ -1,7 +1,7 @@
 <table id="users-table" class="table table-striped table-codensed table-hover table-resposive">
       <thead>
-        <tr>
-          <th class="text-center">Trámite</th>
+        <tr class="bg-primary">
+          <th class="text-center ">Trámite</th>
           <th class="text-center ">Descripción</th>
           <th class="text-center">Ciudad</th>
           <th class="text-center ">Valor</th>
@@ -14,21 +14,21 @@
         @foreach ($anuncios as $ad)
 
          <tr id="row_{{$ad->id}}">
-            <td class="text-green text-center">
-              <strong><h5> {{$ad->nombre_tramite}}</h5></strong>              
+            <td class="text-green text-center bg-success">
+              <strong><h4> {{$ad->nombre_tramite}}</h4></strong>              
             </td>
 
             <td class="text-center" ><strong><h5 class="text-justify">{{$ad->descripcion}}</h5></strong></td>
 
-            <td class="text-center"><strong><h5>{{$ad->ciudad}}</h5></strong></td>
+            <td class="text-center  bg-info"><h5><b>{{$ad->ciudad}}</b></h5></td>
 
-            <td >
+            <td class="bg-warning">
 
-              <strong ><h5>${{number_format($ad->valor_tramite,0,',','.')}}</h5></strong>
+              <h5 class="text-info "><span class="text-red">$</span><b>{{number_format($ad->valor_tramite,0,',','.')}}</b></h5>
 
             </td>
 
-            <td style="width:10%">
+            <td style="width:10%" >
               @include('partials.stars')
             </td>
             <td>

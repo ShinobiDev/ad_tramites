@@ -3,7 +3,7 @@
 
 @endsection
 @section('header')
-    <h1>
+    <h1 class="text-primary">
         Tramitadores vistos por mi
     </h1>
     <small>Listado</small>
@@ -22,7 +22,7 @@
         <div class="box box-primary">
           <div class="col-lg-12 col-12 col-md-12 box-header">
             <div class="col-lg-4 col-4 col-md-4" >
-              <h3 class="box-title">Campañas</h3>
+              <h3 class="box-title text-primary">Campañas</h3>
             </div>
             <div class="col-lg-4 col-4 col-md-4" >
               

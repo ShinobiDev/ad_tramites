@@ -5,7 +5,7 @@
     <div class="col-md-18" style="margin: 5px">
       <div class="input-group-text" style="margin: 10px">
         <input id="ch_{{$t->id}}" type="checkbox" name="tramites" value="{{$t->id}}">
-      	<label name="lbl_tramite" id="lbl_{{$t->id}}" class="label-col small text-center">{{$t->nombre_tramite}}</label>
+      	<label name="lbl_tramite" id="lbl_{{$t->id}}" class="label-col small text-center text-danger">{{$t->nombre_tramite}}</label>
       </div>
 
         <div id="div_tra_{{$t->id}}" class="controls" style=" margin-left: 10px; display: none;">
