@@ -55,119 +55,269 @@ class AnuncioController extends Controller
         
         if(count($arr)>0){
             if(count($_REQUEST)>0){
-                if($_REQUEST['ciudad']!= "" && $_REQUEST['tramite']!= ""){
-                  $anuncios_consultados= Anuncio::select('anuncios.id',
-                                                     'anuncios.codigo_anuncio',
-                                                     'anuncios.descripcion_anuncio',
-                                                     'anuncios.estado_anuncio',
-                                                     'anuncios.validez_anuncio',
-                                                     'anuncios.id_user',
-                                                     'anuncios.ciudad',
-                                                     'anuncios.valor_tramite',
-                                                     'users.nombre',
-                                                     'users.email',
-                                                     'users.telefono',
-                                                     'users.valor_recarga',
-                                                     'users.costo_clic',
-                                                     'tramites.nombre_tramite',
-                                                     DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
-                  ->join('users','users.id','anuncios.id_user')
-                  ->join('tramites','tramites.id','anuncios.id_tramite')
-                  ->where([
-                              ['anuncios.estado_anuncio','1'],
-                              ['validez_anuncio','Activo'],
-                              ['ciudad','LIKE','%'.$_REQUEST['ciudad']."%"],
-                              ['tramites.nombre_tramite','LIKE',$_REQUEST['tramite']]
-                          ])
-                  ->whereIn('users.id',$arr)
-                  ->orderBy('users.valor_recarga','DESC')
-                  ->orderBy('anuncios.id','DESC')
-                  ->get();       
-                }elseif($_REQUEST['ciudad']!= "" && $_REQUEST['tramite'] == ""){
-                  $anuncios_consultados= Anuncio::select('anuncios.id',
-                                                     'anuncios.codigo_anuncio',
-                                                     'anuncios.descripcion_anuncio',
-                                                     'anuncios.estado_anuncio',
-                                                     'anuncios.validez_anuncio',
-                                                     'anuncios.id_user',
-                                                     'anuncios.ciudad',
-                                                     'anuncios.valor_tramite',
-                                                     'users.nombre',
-                                                     'users.email',
-                                                     'users.telefono',
-                                                     'users.valor_recarga',
-                                                     'users.costo_clic',
-                                                     'tramites.nombre_tramite',
-                                                     DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
-                  ->join('users','users.id','anuncios.id_user')
-                  ->join('tramites','tramites.id','anuncios.id_tramite')
-                  ->where([
-                              ['anuncios.estado_anuncio','1'],
-                              ['validez_anuncio','Activo'],
-                              ['ciudad','LIKE','%'.$_REQUEST['ciudad']."%"],
-                              
-                          ])
-                  ->whereIn('users.id',$arr)
-                  ->orderBy('users.valor_recarga','DESC')
-                  ->orderBy('anuncios.id','DESC')
-                  ->get();
-                }elseif($_REQUEST['ciudad']== "" && $_REQUEST['tramite']!= ""){
+
+                if(isset($_REQUEST['ciudad']) && isset($_REQUEST['tramite'])){
+                    if($_REQUEST['ciudad']!= "" && $_REQUEST['tramite']!= ""){
+                      $anuncios_consultados= Anuncio::select('anuncios.id',
+                                                         'anuncios.codigo_anuncio',
+                                                         'anuncios.descripcion_anuncio',
+                                                         'anuncios.estado_anuncio',
+                                                         'anuncios.validez_anuncio',
+                                                         'anuncios.id_user',
+                                                         'anuncios.ciudad',
+                                                         'anuncios.valor_tramite',
+                                                         'users.nombre',
+                                                         'users.email',
+                                                         'users.telefono',
+                                                         'users.valor_recarga',
+                                                         'users.costo_clic',
+                                                         'tramites.nombre_tramite',
+                                                         DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
+                      ->join('users','users.id','anuncios.id_user')
+                      ->join('tramites','tramites.id','anuncios.id_tramite')
+                      ->where([
+                                  ['anuncios.estado_anuncio','1'],
+                                  ['validez_anuncio','Activo'],
+                                  ['ciudad','LIKE','%'.$_REQUEST['ciudad']."%"],
+                                  ['tramites.nombre_tramite','LIKE',$_REQUEST['tramite']]
+                              ])
+                      ->whereIn('users.id',$arr)
+                      ->orderBy('users.valor_recarga','DESC')
+                      ->orderBy('anuncios.id','DESC')
+                      ->get();       
+                    }elseif($_REQUEST['ciudad']!= "" && $_REQUEST['tramite'] == ""){
+                      $anuncios_consultados= Anuncio::select('anuncios.id',
+                                                         'anuncios.codigo_anuncio',
+                                                         'anuncios.descripcion_anuncio',
+                                                         'anuncios.estado_anuncio',
+                                                         'anuncios.validez_anuncio',
+                                                         'anuncios.id_user',
+                                                         'anuncios.ciudad',
+                                                         'anuncios.valor_tramite',
+                                                         'users.nombre',
+                                                         'users.email',
+                                                         'users.telefono',
+                                                         'users.valor_recarga',
+                                                         'users.costo_clic',
+                                                         'tramites.nombre_tramite',
+                                                         DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
+                      ->join('users','users.id','anuncios.id_user')
+                      ->join('tramites','tramites.id','anuncios.id_tramite')
+                      ->where([
+                                  ['anuncios.estado_anuncio','1'],
+                                  ['validez_anuncio','Activo'],
+                                  ['ciudad','LIKE','%'.$_REQUEST['ciudad']."%"],
+                                  
+                              ])
+                      ->whereIn('users.id',$arr)
+                      ->orderBy('users.valor_recarga','DESC')
+                      ->orderBy('anuncios.id','DESC')
+                      ->get();
+                    }elseif($_REQUEST['ciudad']== "" && $_REQUEST['tramite']!= ""){
+                      
+                      $anuncios_consultados= Anuncio::select('anuncios.id',
+                                                         'anuncios.codigo_anuncio',
+                                                         'anuncios.descripcion_anuncio',
+                                                         'anuncios.estado_anuncio',
+                                                         'anuncios.validez_anuncio',
+                                                         'anuncios.id_user',
+                                                         'anuncios.ciudad',
+                                                         'anuncios.valor_tramite',
+                                                         'users.nombre',
+                                                         'users.email',
+                                                         'users.telefono',
+                                                         'users.valor_recarga',
+                                                         'users.costo_clic',
+                                                         'tramites.nombre_tramite',
+                                                         DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
+                      ->join('users','users.id','anuncios.id_user')
+                      ->join('tramites','tramites.id','anuncios.id_tramite')
+                      ->where([
+                                  ['anuncios.estado_anuncio','=','1'],
+                                  ['validez_anuncio','Activo'],
+                                  ['tramites.nombre_tramite','LIKE',$_REQUEST['tramite']]
+                              ])
+                      ->whereIn('users.id',$arr)
+                      ->orderBy('users.valor_recarga','DESC')
+                      ->orderBy('anuncios.id','DESC')
+                      ->get();
+                    }elseif($_REQUEST['ciudad']== "" && $_REQUEST['tramite']== ""){
+                      $anuncios_consultados= Anuncio::select('anuncios.id',
+                                                         'anuncios.codigo_anuncio',
+                                                         'anuncios.descripcion_anuncio',
+                                                         'anuncios.estado_anuncio',
+                                                         'anuncios.validez_anuncio',
+                                                         'anuncios.id_user',
+                                                         'anuncios.ciudad',
+                                                         'anuncios.valor_tramite',
+                                                         'users.nombre',
+                                                         'users.email',
+                                                         'users.telefono',
+                                                         'users.valor_recarga',
+                                                         'users.costo_clic',
+                                                         'tramites.nombre_tramite',
+                                                         DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
+                      ->join('users','users.id','anuncios.id_user')
+                      ->join('tramites','tramites.id','anuncios.id_tramite')
+                      ->where([
+                                  ['anuncios.estado_anuncio','1'],
+                                  ['validez_anuncio','Activo']
+                                  
+                                  
+                              ])
+                      ->whereIn('users.id',$arr)
+                      ->orderBy('users.valor_recarga','DESC')
+                      ->orderBy('anuncios.id','DESC')
+                      ->get();
+                    }
+                }elseif (isset($_REQUEST['ciudad']) == true && isset($_REQUEST['tramite']) == false) {
+                    if($_REQUEST['ciudad']!= ""){
+                      $anuncios_consultados= Anuncio::select('anuncios.id',
+                                                         'anuncios.codigo_anuncio',
+                                                         'anuncios.descripcion_anuncio',
+                                                         'anuncios.estado_anuncio',
+                                                         'anuncios.validez_anuncio',
+                                                         'anuncios.id_user',
+                                                         'anuncios.ciudad',
+                                                         'anuncios.valor_tramite',
+                                                         'users.nombre',
+                                                         'users.email',
+                                                         'users.telefono',
+                                                         'users.valor_recarga',
+                                                         'users.costo_clic',
+                                                         'tramites.nombre_tramite',
+                                                         DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
+                      ->join('users','users.id','anuncios.id_user')
+                      ->join('tramites','tramites.id','anuncios.id_tramite')
+                      ->where([
+                                  ['anuncios.estado_anuncio','1'],
+                                  ['validez_anuncio','Activo'],
+                                  ['ciudad','LIKE','%'.$_REQUEST['ciudad']."%"]
+                                  
+                              ])
+                      ->whereIn('users.id',$arr)
+                      ->orderBy('users.valor_recarga','DESC')
+                      ->orderBy('anuncios.id','DESC')
+                      ->get();       
+                    }else{
+                      $msn="No hemos encontrado coincidencias, por favor filtra en la casilla Buscar.";
+                      $no_tiene=true;
+                      $anuncios_consultados= Anuncio::select('anuncios.id',
+                                                         'anuncios.codigo_anuncio',
+                                                         'anuncios.descripcion_anuncio',
+                                                         'anuncios.estado_anuncio',
+                                                         'anuncios.validez_anuncio',
+                                                         'anuncios.id_user',
+                                                         'anuncios.ciudad',
+                                                         'anuncios.valor_tramite',
+                                                         'users.nombre',
+                                                         'users.email',
+                                                         'users.telefono',
+                                                         'users.valor_recarga',
+                                                         'users.costo_clic',
+                                                         'tramites.nombre_tramite',
+                                                         DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
+                      ->join('users','users.id','anuncios.id_user')
+                      ->join('tramites','tramites.id','anuncios.id_tramite')
+                      ->where([
+                                  ['anuncios.estado_anuncio','=','1'],
+                                  ['validez_anuncio','Activo']
+                                  
+                              ])
+                      ->whereIn('users.id',$arr)
+                      ->orderBy('users.valor_recarga','DESC')
+                      ->orderBy('anuncios.id','DESC')
+                      ->get();
+                    }
+                }elseif (isset($_REQUEST['ciudad']) == false && isset($_REQUEST['tramite']) == true) {
+
+                  if($_REQUEST['tramite']!= ""){
+                     $anuncios_consultados= Anuncio::select('anuncios.id',
+                                                         'anuncios.codigo_anuncio',
+                                                         'anuncios.descripcion_anuncio',
+                                                         'anuncios.estado_anuncio',
+                                                         'anuncios.validez_anuncio',
+                                                         'anuncios.id_user',
+                                                         'anuncios.ciudad',
+                                                         'anuncios.valor_tramite',
+                                                         'users.nombre',
+                                                         'users.email',
+                                                         'users.telefono',
+                                                         'users.valor_recarga',
+                                                         'users.costo_clic',
+                                                         'tramites.nombre_tramite',
+                                                         DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
+                      ->join('users','users.id','anuncios.id_user')
+                      ->join('tramites','tramites.id','anuncios.id_tramite')
+                      ->where([
+                                  ['anuncios.estado_anuncio','=','1'],
+                                  ['validez_anuncio','Activo'],
+                                  ['tramites.nombre_tramite','LIKE',$_REQUEST['tramite']]
+                              ])
+                      ->whereIn('users.id',$arr)
+                      ->orderBy('users.valor_recarga','DESC')
+                      ->orderBy('anuncios.id','DESC')
+                      ->get();   
+                  }else{
+                    $msn="No hemos encontrado coincidencias, por favor filtra en la casilla Buscar.";
+                    $no_tiene=true;
+                     $anuncios_consultados= Anuncio::select('anuncios.id',
+                                                         'anuncios.codigo_anuncio',
+                                                         'anuncios.descripcion_anuncio',
+                                                         'anuncios.estado_anuncio',
+                                                         'anuncios.validez_anuncio',
+                                                         'anuncios.id_user',
+                                                         'anuncios.ciudad',
+                                                         'anuncios.valor_tramite',
+                                                         'users.nombre',
+                                                         'users.email',
+                                                         'users.telefono',
+                                                         'users.valor_recarga',
+                                                         'users.costo_clic',
+                                                         'tramites.nombre_tramite',
+                                                         DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
+                      ->join('users','users.id','anuncios.id_user')
+                      ->join('tramites','tramites.id','anuncios.id_tramite')
+                      ->where([
+                                  ['anuncios.estado_anuncio','=','1'],
+                                  ['validez_anuncio','Activo']
+                              ])
+                      ->whereIn('users.id',$arr)
+                      ->orderBy('users.valor_recarga','DESC')
+                      ->orderBy('anuncios.id','DESC')
+                      ->get(); 
+                  }
                   
-                  $anuncios_consultados= Anuncio::select('anuncios.id',
-                                                     'anuncios.codigo_anuncio',
-                                                     'anuncios.descripcion_anuncio',
-                                                     'anuncios.estado_anuncio',
-                                                     'anuncios.validez_anuncio',
-                                                     'anuncios.id_user',
-                                                     'anuncios.ciudad',
-                                                     'anuncios.valor_tramite',
-                                                     'users.nombre',
-                                                     'users.email',
-                                                     'users.telefono',
-                                                     'users.valor_recarga',
-                                                     'users.costo_clic',
-                                                     'tramites.nombre_tramite',
-                                                     DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
-                  ->join('users','users.id','anuncios.id_user')
-                  ->join('tramites','tramites.id','anuncios.id_tramite')
-                  ->where([
-                              ['anuncios.estado_anuncio','=','1'],
-                              ['validez_anuncio','Activo'],
-                              ['tramites.nombre_tramite','LIKE',$_REQUEST['tramite']]
-                          ])
-                  ->whereIn('users.id',$arr)
-                  ->orderBy('users.valor_recarga','DESC')
-                  ->orderBy('anuncios.id','DESC')
-                  ->get();
-                }elseif($_REQUEST['ciudad']== "" && $_REQUEST['tramite']== ""){
-                  $anuncios_consultados= Anuncio::select('anuncios.id',
-                                                     'anuncios.codigo_anuncio',
-                                                     'anuncios.descripcion_anuncio',
-                                                     'anuncios.estado_anuncio',
-                                                     'anuncios.validez_anuncio',
-                                                     'anuncios.id_user',
-                                                     'anuncios.ciudad',
-                                                     'anuncios.valor_tramite',
-                                                     'users.nombre',
-                                                     'users.email',
-                                                     'users.telefono',
-                                                     'users.valor_recarga',
-                                                     'users.costo_clic',
-                                                     'tramites.nombre_tramite',
-                                                     DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
-                  ->join('users','users.id','anuncios.id_user')
-                  ->join('tramites','tramites.id','anuncios.id_tramite')
-                  ->where([
-                              ['anuncios.estado_anuncio','1'],
-                              ['validez_anuncio','Activo']
-                              
-                              
-                          ])
-                  ->whereIn('users.id',$arr)
-                  ->orderBy('users.valor_recarga','DESC')
-                  ->orderBy('anuncios.id','DESC')
-                  ->get();
-                }
+                }else{
+                   $msn="No hemos encontrado coincidencias, por favor filtra en la casilla Buscar.";
+                   $no_tiene=true;
+                   $anuncios_consultados= Anuncio::select('anuncios.id',
+                                                         'anuncios.codigo_anuncio',
+                                                         'anuncios.descripcion_anuncio',
+                                                         'anuncios.estado_anuncio',
+                                                         'anuncios.validez_anuncio',
+                                                         'anuncios.id_user',
+                                                         'anuncios.ciudad',
+                                                         'anuncios.valor_tramite',
+                                                         'users.nombre',
+                                                         'users.email',
+                                                         'users.telefono',
+                                                         'users.valor_recarga',
+                                                         'users.costo_clic',
+                                                         'tramites.nombre_tramite',
+                                                         DB::Raw("FORMAT(users.nota/users.num_calificaciones,1) as calificacion"))
+                      ->join('users','users.id','anuncios.id_user')
+                      ->join('tramites','tramites.id','anuncios.id_tramite')
+                      ->where([
+                                  ['anuncios.estado_anuncio','=','1'],
+                                  ['validez_anuncio','Activo']
+                              ])
+                      ->whereIn('users.id',$arr)
+                      ->orderBy('users.valor_recarga','DESC')
+                      ->orderBy('anuncios.id','DESC')
+                      ->get(); 
+                }             
+                
 
 
 
@@ -175,7 +325,7 @@ class AnuncioController extends Controller
                 
                 //dd($anuncios_consultados);
                 if(count($anuncios_consultados)==0){
-                    $msn="Error en Búsqueda. Filtra en la casilla Buscar.";
+                    $msn="No hemos encontrado coincidencias, por favor filtra en la casilla Buscar.";
                     $no_tiene=true;
                     $anuncios_consultados=Anuncio::select('anuncios.id',
                                                    'anuncios.codigo_anuncio',
@@ -200,7 +350,7 @@ class AnuncioController extends Controller
                     ->orderBy('anuncios.id','DESC')
                     ->get();
                 }else{
-                    $msn="Gracias por usar ".config('app.name');
+                    $msn="No hemos encontrado coincidencias, por favor filtra en la casilla Buscar.";
                 }
 
             }else{
