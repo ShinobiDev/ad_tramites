@@ -6,11 +6,23 @@
 
 Este sistema tiene como fin publicar anuncios de trátamites de transito, esta desarrollado bajo la version de [laravel 5.5](https://laravel.com/docs/5.5). 
 
-## Recomendaciones
+## Recomendaciones para instalación en servidor local
 
-Una vez clonado el sistema se recomienda para los equipos linux dar permisos a las carpetas de storage y storage/logs, ademas de usar el comando php artisan cache:clear para limpiar el cace de la aplicación.
+Una vez clonado el sistema se recomienda 
+## Paso 1 dar permisos a las carpetas de storage y storage/logs (linux)
+   sudo chmod  777 -R storage
+   cd storage
+   sudo chmod 777 -R logs
+## Paso 2 limpiar el cache de la aplicación, dbe hacerlo desde la raiz
+   cd .. <ejecute solo si no ha regresado a la raiz del proyecto>
+   php artisan cache:clear 
+## Paso 3
+   NO ejecute la migración, el script de la base de datos (db_tramitador_para_pruebas.sql)  se encuentra en la carpeta base_de_datos, los usuarios allí registrados tiene como defecto la clave '123456', para, si usted desea replicar el ambiente de producción, debe importar la base de datos (db_tramitador_para_producccion.sql).
+## Paso 4 
+   Cambie los valores de el archivo .env que usted requiera.
 
-NO ejecute la migración, el script de la base de datos se encuentra en la carpeta base_de_datos, los usuarios allí registrados tiene como defecto la clave '123456'.
+
+
 
 
 
