@@ -21,7 +21,7 @@ Una vez clonado el sistema se recomienda
    php artisan cache:clear 
 
 ## Paso 3
-   NO ejecute la migración, el script de la base de datos (db_tramitador_para_pruebas.sql)  se encuentra en la carpeta base_de_datos, los usuarios allí registrados tiene como defecto la clave '123456', para, si usted desea replicar el ambiente de producción, debe importar la base de datos (db_tramitador_para_producccion.sql).
+   NO ejecute la migración, el script de la base de datos (db_tramitador_para_pruebas.sql)  se encuentra en la carpeta base_de_datos, los usuarios allí registrados tiene como defecto la clave '123456', para, si usted desea replicar el ambiente de producción, debe importar la base de datos (db_tramitador_para_producccion.sql), en este caso las contraseñas debe ser recuperadas.
 
 ## Paso 4 
    Cambie los valores de el archivo .env que usted requiera.
